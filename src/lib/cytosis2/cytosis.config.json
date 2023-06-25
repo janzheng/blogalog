@@ -1,0 +1,16 @@
+{
+  "flat": true,
+  "sources": [
+    {
+      "name": "jz_posts",
+      "type": "cfnotion",
+      "key": "_id",
+      "inputs": {
+        "url": "https://notion-cloudflare-worker.yawnxyz.workers.dev",
+        "ids": [
+          "/collection/c94e18d29ab54bdc8318d6a41f683e92"
+        ]
+      }
+    }
+  ]
+}

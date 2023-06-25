@@ -1,11 +1,11 @@
 
 
-<div class="font-serif text-3xl pb-4 antialiased">Previous clients</div>
+<div class="font-serif text-3xl pb-4 antialiased">Previous client work</div>
 
 <p>I’ve worked with various tech companies and large brands to build products and landing pages over the years. Some brands and companies I’ve previously worked with include:
 </p>
 
-<div class="company-grid | grid grid-cols-3 align-center gap-4 ">
+<div class="company-grid | grid grid-cols-2 md:grid-cols-3 align-center gap-4 ">
   <div>{@html Microsoft}</div>
   <div>{@html Lockheed}</div>
   <div>{@html CocaCola}</div>
@@ -33,6 +33,6 @@
 
 <style lang="scss">
   .company-grid div {
-    @apply h-24 bg-slate-50 text-center;
+    @apply h-24 bg-slate-50 text-center w-full p-4;
   }
 </style>

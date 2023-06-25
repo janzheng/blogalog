@@ -1,7 +1,7 @@
 <div class="Home">
 
   <div class="Hero | content-pad | bg-slate-100 | overflow-hidden ">
-    <div class="_content-wide | grid grid-cols-3-2">
+    <div class="relative container max-w-7xl mx-auto w-full h-full; | md:grid grid-cols-3-2">
       <div>
         <h2 class="antialiased pt-4 pb-8">Hey hey,</h2>
         <h2 class="pt-0 leading-12 antialiased ">I’m Jan, a product designer who combines code, user research, and lean startup methods to tackle complex issues and difficult projects.</h2>
@@ -60,7 +60,7 @@ So, the next time you savor a warm slice of pizza, take a moment to appreciate t
   import Companies from '$lib/components/Companies.svelte';
 
 
-  let image;
+  let image, popup=false;
 
   // onMount(() => {
   //   setTimeout(() => {
@@ -69,7 +69,12 @@ So, the next time you savor a warm slice of pizza, take a moment to appreciate t
   // });
 
   function handleClick() {
-    image.style.bottom = '0';
+    if(!popup)
+      image.style.bottom = '0';
+    else
+      image.style.bottom = '';
+      
+    popup=!popup
   }
 
 </script>
@@ -91,7 +96,7 @@ So, the next time you savor a warm slice of pizza, take a moment to appreciate t
     width: 200px;
     // overflow: hidden;
 
-    @apply bottom-32 md:-bottom-12;
+    @apply -bottom-0 md:-bottom-0 -mb-8;
   }
 
   #slideImage {

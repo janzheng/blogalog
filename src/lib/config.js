@@ -17,7 +17,7 @@ export const siteDescription = "somea this, lotsa that"
 export const siteURL = "janzheng.com" // no protocol
 export const siteLink = "https://" + siteURL // 'https://github.com/josh-collinsworth/sveltekit-blog-starter'
 // export const siteCard = "https://evergreen.phage.directory/evg23_card.jpg"
-export const siteCard = "https://f2.phage.directory/airscripts/-evergreen-2023-live/content/rectaUjlWh18lEZzG/evg23_card.jpg"
+export const siteCard = "https://janzheng.com/jan-zheng-card.png"
 export const siteAuthor = 'Jan Zheng'
 export const siteTwitter = '@yawnxyz'
 
