@@ -8,7 +8,7 @@
 
 
 
-<footer class="Footer | mt-32 | pl-32 py-8 | bg-slate-100 ">
+<footer class="Footer | mt-32 | content-pad | bg-slate-100 ">
   <div class=" ">
     <div class="">
       <span class="inline mx-2"><a class="_margin-right" href="https://github.com/janzheng">Github</a></span>
