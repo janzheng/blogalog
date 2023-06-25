@@ -4,7 +4,7 @@
 </script>
 
 
-<div class="_content">
+<div class="_content | content-pad">
 
   <h1>Error: {$page?.status}</h1>
 

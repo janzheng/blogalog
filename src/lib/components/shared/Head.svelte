@@ -23,8 +23,9 @@
 />
 
 <svelte:head>
-  <!-- <meta property="og:image:url" content={'https://f2.phage.directory/airscripts/-evergreen-2023-live/content/rectaUjlWh18lEZzG/evg23_card.jpg'}>
-  <meta property="og:image" content={'https://f2.phage.directory/airscripts/-evergreen-2023-live/content/rectaUjlWh18lEZzG/evg23_card.jpg'}> -->
+  <!-- this is wrong; has to be served from ssr, but too lazy -->
+  <meta property="og:image:url" content={'https://janzheng.com/janzheng-card-sm.jpg'}>
+  <meta property="og:image" content={'https://janzheng.com/janzheng-card-sm.jpg'}>
 	{#if head }
 		{#if head?.meta}
 			{#each head?.meta as meta}
