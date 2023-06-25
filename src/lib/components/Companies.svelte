@@ -31,8 +31,12 @@
 
 </script>
 
-<style lang="scss">
+<style lang="scss" global>
   .company-grid div {
     @apply h-24 bg-slate-50 text-center w-full p-4;
+
+  }
+  .company-grid svg {
+    max-width: 100% !important;
   }
 </style>
