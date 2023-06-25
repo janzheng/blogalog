@@ -1,0 +1,95 @@
+@font-face {
+  font-family: 'phagedir';
+  src: url('../font/phagedir.eot?28327311');
+  src: url('../font/phagedir.eot?28327311#iefix') format('embedded-opentype'),
+       url('../font/phagedir.woff2?28327311') format('woff2'),
+       url('../font/phagedir.woff?28327311') format('woff'),
+       url('../font/phagedir.ttf?28327311') format('truetype'),
+       url('../font/phagedir.svg?28327311#phagedir') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'phagedir';
+    src: url('../font/phagedir.svg?28327311#phagedir') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "phagedir";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-mail:before { content: '\e800'; } /* '' */
+.icon-bookmark:before { content: '\e803'; } /* '' */
+.icon-tag:before { content: '\e804'; } /* '' */
+.icon-down-open:before { content: '\e805'; } /* '' */
+.icon-left-open:before { content: '\e806'; } /* '' */
+.icon-right-open:before { content: '\e807'; } /* '' */
+.icon-up-open:before { content: '\e808'; } /* '' */
+.icon-cc:before { content: '\e809'; } /* '' */
+.icon-cc-by:before { content: '\e80a'; } /* '' */
+.icon-cc-nc:before { content: '\e80b'; } /* '' */
+.icon-cc-sa:before { content: '\e80c'; } /* '' */
+.icon-cancel:before { content: '\e80d'; } /* '' */
+.icon-search:before { content: '\e80e'; } /* '' */
+.icon-researcherid:before { content: '\e91a'; } /* '' */
+.icon-publons:before { content: '\e937'; } /* '' */
+.icon-open-access:before { content: '\e939'; } /* '' */
+.icon-researchgate:before { content: '\e95e'; } /* '' */
+.icon-doi:before { content: '\e97e'; } /* '' */
+.icon-figshare:before { content: '\e981'; } /* '' */
+.icon-pubmed:before { content: '\e99f'; } /* '' */
+.icon-biorxiv:before { content: '\e9a2'; } /* '' */
+.icon-cv:before { content: '\e9a5'; } /* '' */
+.icon-academia:before { content: '\e9af'; } /* '' */
+.icon-google-scholar:before { content: '\e9d4'; } /* '' */
+.icon-orcid:before { content: '\e9d9'; } /* '' */
+.icon-bookmark-empty:before { content: '\f097'; } /* '' */
+.icon-twitter:before { content: '\f099'; } /* '' */
+.icon-github-circled:before { content: '\f09b'; } /* '' */
+.icon-rss:before { content: '\f09e'; } /* '' */
+.icon-mail-alt:before { content: '\f0e0'; } /* '' */
+.icon-linkedin:before { content: '\f0e1'; } /* '' */
+.icon-lightbulb:before { content: '\f0eb'; } /* '' */
+.icon-code:before { content: '\f121'; } /* '' */
+.icon-rss-squared:before { content: '\f143'; } /* '' */
+.icon-youtube-play:before { content: '\f16a'; } /* '' */
+.icon-mail-squared:before { content: '\f199'; } /* '' */
+.icon-paypal:before { content: '\f1ed'; } /* '' */
+.icon-linkedin-squared:before { content: '\f30c'; } /* '' */

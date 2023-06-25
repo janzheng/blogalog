@@ -1,0 +1,748 @@
+@use 'sass:math';
+
+
+
+
+
+.__border {
+  border: 2px solid usetheme(brand-active)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+.Form-body {
+	// awful override :)
+	padding: 0;
+}
+
+._loader.__circle {
+	top: -4px;
+	&:before {
+		background-color: white;
+	}
+}
+
+
+
+
+._pd-bg-color-ltgray {
+	background-color: #eef5fb
+}
+
+
+ 
+
+.ScheduleItem {
+
+	.date {
+		// font-weight: bold;
+		font-size: $size;
+		padding-bottom: $size;
+	}
+
+	._tag.open { 
+		background-color: usetheme(brand-active);
+		color: white;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+input.__text, button.__text, ._button.__text {
+	border: 2px solid usetheme(brand);
+	background-color: usetheme(brand);
+	color: usetheme(brand);
+	font-weight: normal;
+
+	&:hover {
+		background-color: white !important;
+		border-color: usetheme(brand) !important;
+		color: usetheme(brand) !important; 
+	}
+	&:active, &:focus {
+		background-color: usetheme(brand-soft) !important; // darken(usetheme(brand-active), 0.2);
+		color: usetheme(brand) !important;
+	}
+}
+
+
+ 
+input.__action, button.__action, ._button.__action {
+	border: 2px solid usetheme(brand);
+	background-color: usetheme(brand);
+	color: white;
+	font-weight: normal;
+
+	&:hover {
+		background-color: white !important;
+		border-color: usetheme(brand) !important;
+		color: usetheme(brand) !important; 
+	}
+	&:active, &:focus {
+		background-color: usetheme(brand-soft) !important; // darken(usetheme(brand-active), 0.2);
+		color: usetheme(brand) !important;
+	}
+}
+
+input.__action-outline, button.__action-outline, ._button.__action-outline {
+	border: 2px solid usetheme(brand);
+	background-color: white;
+	color: usetheme(brand);
+	font-weight: normal;
+
+	&:hover {
+		background-color: usetheme(brand) !important;
+		border-color: usetheme(brand) !important;
+		color: white !important; 
+	}
+	&:active, &:focus {
+		background-color: usetheme(brand-soft) !important; // darken(usetheme(brand-active), 0.2);
+		color: usetheme(brand) !important;
+	}
+}
+
+input.__massive, button.__massive, ._button.__massive {
+	padding: $size-3 $size-3;
+	font-size: $size-3;
+  line-height: $size-3 * 1.1;
+	border-radius: $radius;
+  border: solid $border-thin;
+  @extend ._font-display;
+
+  &:focus {
+    border-color: usetheme(brand);
+    background-color: usetheme(brand-soft);
+    color: usetheme(brand) !important;
+  }
+  &:hover {
+    border-color: usetheme(brand) !important;
+    background-color: usetheme(background-light) !important;
+    color: usetheme(brand) !important;
+  }
+}
+
+
+
+
+@media (min-width: 768px) {
+	._section-article {
+		max-width: 32rem;
+	}
+}
+
+
+._section-wide { 
+  max-width: 88rem;
+}
+
+
+._section-superwide { 
+  max-width: 96rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// diamonds
+
+
+	.Separator {
+		position: relative;
+    height: 67px;
+    background-color: #DBF4E9;
+	}
+	.diamondsvg {
+		position: absolute;
+		width: 100%;
+		height: 300px;
+    min-width: 600px;
+    text-align: center;;
+
+		image {
+			width: 100%;
+		}
+	}
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.notion-list-todo {
+  input {
+    vertical-align: middle;
+    margin-right: 0.25rem;
+    margin-bottom: 0.01rem;
+  }
+}
+
+
+
+
+$notion-page-icon: $size-7;
+
+
+
+.whimsy {
+  position: relative;
+}
+
+
+.whimsy-cover-profile {
+  position: relative;
+  height: 550px;
+
+  .whimsy-cover img {
+    max-height: 400px !important;
+    width: 100%;
+  }
+}
+
+// cover for profiles AND pages
+$whimsy-cover-minheight: 300px;
+$whimsy-cover-height: 450px;
+.whimsy-cover {
+  // position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  // height: $whimsy-cover-height;
+  min-height: $whimsy-cover-minheight;
+  max-height: $whimsy-cover-height;
+
+  img {
+    // width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+}
+  .whimsy-cover-container {
+    // height: $whimsy-cover-height;
+    min-height: $whimsy-cover-minheight;
+    max-height: $whimsy-cover-height;
+  }
+
+.whimsy-profile { 
+  // for emoji placement
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    border: $border-thick solid usetheme(bg-white);
+    border-radius: 100%;
+  }
+  ._emoji {
+    font-size: $size-12;
+  }
+}
+  .whimsy-profile-container {
+      position: relative;
+      top: -100px;
+      left: $size;
+      width: 200px;
+      height: 200px;
+  }
+
+
+.whimsy-social {
+  a {
+    font-weight: normal;
+  }
+}
+
+.notion-collection {
+  figure {
+    width: 100%;
+    max-width: 100%; 
+    overflow-x: auto;
+    position: relative;
+  }
+  .notion-collection-table {
+
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 10px;
+    
+    .__stack-xs td {
+      padding-left: 1rem !important;
+    }
+
+    *, & {
+      font-size: 0.875rem;
+    }
+    
+    // @extend ._table;
+    // @extend .__stack-xs;
+
+    .notion-tag {
+      padding: 1px 4px;
+    }
+
+    th {
+      color: var(--color-text-default-light);
+      padding: 1px 2px;
+      height: $size*2;
+      text-align: start;
+    }
+
+    td {
+      height: $size*2;
+      vertical-align: top;
+      padding: 6px 8px;
+      border: 1px solid var(--color-border-default);
+      overflow: hidden;
+      word-break: break-word;
+    }
+
+    tr td:first-of-type {
+      border-left-color: transparent;
+    }
+    tr td:last-of-type {
+      border-right-color: transparent;
+    }
+  }
+  .notion-tag {
+    padding: 0 6px;
+    border-radius: 3px;
+    font-size: $size * math.div(6,7);
+    line-height: $size;
+    white-space: nowrap;
+    display: inline-block;
+    margin: 3px 0;
+    margin-inline-end: 6px;
+    font-weight: normal; // other things like <a> might turn it bold
+  }
+}
+
+
+
+
+.notion-inline-title {
+  font-weight: 600;
+}
+a.notion-link {
+  word-break: break-word; // might break w/ long links, but this helps pre-line wrapped text blocks
+  &,* {
+    font-weight: normal;
+  }
+}
+
+.notion-text, .notion-callout-text {
+  white-space: pre-line;
+  // padding-left: $size;
+  max-width: 100%; // prevents blowout
+}
+  .notion-callout-children {
+    max-width: 100%; // prevents blowout
+  }
+
+.notion-callout {
+  align-items: center; 
+//   display: block !important; // temporary
+
+  // callouts w/ children look better with icon and stuff aligned at top
+  &.notion-children {
+    align-items: start
+  }
+
+  .notion-page-icon {
+    min-width: $notion-page-icon;
+    min-height: $notion-page-icon;
+    height: $notion-page-icon;
+    width: $notion-page-icon;
+    // margin-right: $size-half;
+    object-fit: contain;
+
+    // useful for icon spans
+    font-size: $size-4;
+    display: inline-block;
+    text-align: center;;
+  }
+  // span.notion-page-icon {
+  // }
+
+}
+.notion-callout-billboard {
+  display: block; // easier to manage children from blowout
+}
+.notion-callout-billboard .notion-callout-children {
+  & > *:first-child {
+    margin-top: 0;
+  }
+}
+
+
+.notion-toggle {  
+  summary {
+    white-space: inherit;
+  }
+}
+
+
+.notion-image {
+  // align-self: center;
+  // mimic notion's centered images
+  margin-left: auto;
+  margin-right: auto;
+
+}
+// if image width > the container, make it widest
+.notion-image-fullwidth {
+  max-width: 100% !important;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+
+  .notion-row > *,
+  .notion-column > * {
+      width: inherit !important;
+  }
+}
+
+.notion-url {
+  word-break: break-all;
+}
+
+
+// .notion-collection-gallery {
+//   // @extend ._grid-3;
+//   // @extend ._grid-gap;
+// }
+  .notion-galleryboard-small {
+    @extend ._grid-4;
+    .notion-galleryboard-cover {
+      min-height: 120px;
+      // max-height: 120px;
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: repeat(2, 1fr) !important;
+      .notion-galleryboard-cover {
+        min-height: 90px;
+        max-height: 90px;
+      }
+    }
+  }
+
+  .notion-galleryboard-medium {
+    @extend ._grid-3;
+    .notion-galleryboard-cover {
+      min-height: 200px;
+      // max-height: 200px; 
+    }
+    @media (max-width: 640px) {
+      grid-template-columns: repeat(1, 1fr) !important;
+      .notion-galleryboard-cover {
+        min-height: 130px;
+        max-height: 130px;
+      }
+    }
+  }
+
+  .notion-galleryboard-large {
+    @extend ._grid-2;
+    .notion-galleryboard-cover {
+      min-height: 280px;
+      // max-height: 280px;
+    }
+    @media (max-width: 640px) {
+      grid-template-columns: repeat(1, 1fr) !important;
+    }
+  }
+
+
+
+
+  
+
+  .notion-galleryboard-flex {
+    display: flex;
+    gap: 1rem;
+    
+    .notion-galleryboard-cover {
+      min-height: auto;
+    }
+  }
+    .notion-galleryboard-flex.notion-galleryboard-small .notion-galleryboard-column{
+      min-width: 190px;
+    }
+    .notion-galleryboard-flex.notion-galleryboard-medium .notion-galleryboard-column {
+      min-width: 260px;
+    }
+    .notion-galleryboard-flex.notion-galleryboard-large .notion-galleryboard-column {
+      min-width: 320px;
+    }
+
+
+  // boards
+  .notion-galleryboard-header {
+    height: 2.4em;
+  }
+  .notion-galleryboard-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+  .notion-galleryboard-empty {
+    font-size: 85%;
+    line-height: 180%;
+  }
+
+  
+
+
+
+
+
+.notion-galleryboard-item {
+  display: flex;
+  flex-direction: column;
+  // align-items: center; // left-right centers text and images
+  // justify-content: center;
+
+  border-radius: 5px;
+  border: 2px solid var(--color-border-default);
+
+  .notion-galleryboard-cover {
+    display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    justify-content: center;
+
+    // min-height: 200px;
+    // max-height: 200px;
+    border-bottom: 2px solid var(--color-border-default);
+    img {
+      // display: block;
+      height: 100%;
+      // width: 100%;
+      object-position: left;
+    }
+  }
+  .notion-galleryboard-props {
+    flex: 1;
+    padding: $size-half $size;
+
+
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: flex-end;
+  }
+
+
+  &.notion-galleryboard-imagelinks {
+    &,* { // reset border widths
+      border-width: 0;
+    }
+  }
+}
+.notion-galleryboard-profile { 
+  padding: 0.5rem;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 1rem;
+
+  border-radius: 5px;
+  border: 2px solid var(--color-border-default);
+
+  .notion-galleryboard-cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    min-height: unset;
+
+    img {
+      // display: block;
+      // height: 100%;
+      width: 100%;
+    }
+  }
+  .notion-galleryboard-name {
+    padding-bottom: $size-half;
+    font-weight: 600;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// for embedded widgets in two-column notion pages
+
+// .notion-row > .notion-render {
+//   min-width: 100; // prevents blowout
+// }
+
+// .notion-row .notion-render {
+
+//   flex-grow: 1;
+//   display: flex;
+
+//   // padding-left: $size;
+//   // &:first-child {
+//   //   // flex-grow: 1; // for columns to split equally
+//   //   flex-grow: 2;
+//   //   flex-basis: 0;
+//   // }
+//   // &:last-child {
+//   //   flex-grow: 1; // 2-1 split
+//   //   flex-basis: 0;
+//   // }
+
+//   .notion-column {
+//     flex-grow: 1;
+//     // width: 100% !important; 
+//     // padding-right: $size;
+
+//     figure {
+//       // flex-grow: 1; // this makes assets fit columns, but you can't resize them anymore as they blow out
+//     }
+//     .notion-image {
+//       margin-left: initial;
+//       margin-right: initial;
+//     }
+//   }
+
+//   .notion-asset-wrapper {
+//     // width: 100% !important;
+//   }
+
+// }
+
+.notion-row {
+  // gap: $size * 2; // new css; adds gap to side-by-side columns
+  // flex-wrap: wrap;
+  // notion native gap is 46px (??)
+
+  .notion-row > * {
+    display: flex;
+    flex-direction: column;
+    word-break: break-word;
+  }
+}
+
+.notion-collection {
+  ul {
+    padding-bottom: 0; // override other ul padding
+  }
+}
+
+// this enlarges embedded notion assets, suitable for embedded widgets
+.notion-embed {
+  width: 100% !important;
+}
+._section-notion {
+  max-width: 900px; // notion standard
+  position: relative
+}
+
+
+
+
+
+
+
+
+
+._emoji {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
+  line-height: $size;
+}
+
+

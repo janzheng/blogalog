@@ -1,0 +1,131 @@
+
+
+.Profile {
+  max-width: 100%;
+  padding-right: $size;
+  padding-left: $size;
+  margin: 0 auto;
+
+  @include screen-sm {
+    padding-top: $size-4;
+    padding-bottom: $size-4;
+  }
+
+  @include screen-md {
+    max-width: $width-lg-max;
+  }
+  @include screen-lg {
+    max-width: $width-lg-max; 
+  }
+} 
+
+
+.Profile-aside {
+  position: relative;
+  
+  @include screen-xs {
+    margin-bottom: $size-6;
+  }
+
+  .Profile-aside--slot {
+    background-color: rgba(#ffffff,0.8);
+    z-index: 10;
+  }
+
+}
+
+
+  .SocialBox {
+    // position: sticky;
+    // @include screen-sm {
+    //   padding: $size-2x;
+    // }
+    // top: 518px; // size of the profile
+    // margin-left: 4px;
+
+    // @media only screen and (max-height: 750px) {
+    //   position: relative !important;
+    // }
+  }
+
+.Profile-main {
+  // @include screen-xs { 
+  //   padding: $size-2;
+  // }
+} 
+
+.Profile-image {
+  object-fit: cover; //contain;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+
+}
+
+.Profile-pitch {
+	* {
+		@extend ._font-2;
+    font-weight: bold;
+	}
+}
+
+
+
+
+
+
+
+a {
+  text-decoration: underline;
+  @extend %ease;
+  border: 0;
+}
+
+// h1 {
+//   line-height: $size-5;
+// }
+
+
+// h1, h2 {
+//   padding-bottom: 0;
+// }
+
+// h3 {
+//   font-weight: normal;
+//   color: usetheme(gray-dark);
+//   @extend ._font-2;
+//   padding-top: 0;
+//   padding-top: $size-3;
+
+//   // &:first-of-type {
+//   //   padding-top: 0;
+//   // }
+// }
+
+h4 {
+  @extend ._font-1;
+  padding-bottom: 0;
+  font-weight: 0;
+
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+h5 {
+  @extend ._font--1;
+  padding: 0;
+  padding-bottom: $size;
+  font-weight: 400;
+}
+
+h6 {
+  font-weight: normal;
+  @extend ._font--2;
+  font-style: italic;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  @extend %font-serif;
+}
+
+

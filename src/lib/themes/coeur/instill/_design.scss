@@ -1,0 +1,310 @@
+@use 'sass:math';
+
+
+%md-sans_serif, .MD {
+  // fixing markdown
+  &, *, p {
+    @extend %font-sans;
+    // font-size: 15px;
+    // line-height: 22px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+h1, h2, h3, h4, h5, h6 {
+  color: usetheme(header-color);
+
+  &.--roomy {
+    padding-bottom: $size-2x;
+  }
+  &.--title, &.--ceiling {
+    padding-top: 0 !important;
+  }
+  &.--floor {
+    padding-bottom: 0 !important;
+  }
+  &.--normal {
+    font-weight: normal;
+  }
+  &.--inline {
+    padding-bottom: $size-half !important;
+  }
+}
+
+
+// semantically used to introduce a page, not meant to surround content
+h1 {
+  padding-top: $size-4;
+  padding-bottom: $size-2x;
+  font-size: $size-7;
+  line-height: 1;
+  color: usetheme(brand);
+  
+  @extend %font-display;
+}
+
+h2 {
+// used to separate sections, and is largest element
+// lots of room up to, some at bottom to separate content
+  padding-top: $size-5;
+  color: usetheme(brand);
+
+  font-size: $size-4;
+  line-height: $size-5;
+  @extend %font-display;
+
+  &.__large {
+    font-size: $size-6 !important;
+    padding-bottom: $size-4;
+  }
+}
+
+h3 {
+// used to introduce subtopics, hugs content but still needs to breathe
+  font-size: $size-3;
+  line-height: $size-4;
+
+  padding-top: $size-2;
+  // line-height: $size-2 * 1.33;
+  @extend %font-display;
+  color: usetheme(brand);
+
+  &.__large {
+    font-size: $font-h2 !important;
+    line-height: $lineheight-h2;
+    font-weight: normal;
+  }
+}
+
+h4 {
+// used to introduce subtopics, hugs content but still needs to breathe
+  padding-top: $size;
+  // line-height: $size-3;
+  font-size: $font-h4;
+  line-height: $font-h4 * math.div(3,2);
+
+  &.__large {
+    font-size: $font-h3;
+    line-height: $lineheight-h3;
+  }
+}
+
+h5 {
+  font-size: $size + 2px;
+}
+
+h6.__tight, %tight {
+  font-size: usetheme(font--2);
+  line-height: usetheme(font--2-lh);
+  letter-spacing: 1px;
+}
+
+
+
+// h1 {
+//   font-size: $font-h1;
+//   line-height: $font-h1 * 1.2;
+//   padding-bottom: $size-2x;
+// }
+
+// h2 {
+//   // font-size: $size-2x;
+//   line-height: $font-h2 * 1.2;
+//   // padding-top:0;
+//   // padding-bottom: 0;
+// }
+
+// h3 {
+//   font-size: $size-2x;
+//   line-height: $size-3;
+//   // padding-top:0;
+//   // padding-bottom: 0;
+// }
+
+
+// template / layout 
+.ContentFrame {
+  position: relative;
+
+  // prevent scrolling the page when mobile nav is open
+  &.__open {
+    @include screen-xs {
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+    }
+  }
+}
+
+blockquote {
+  // border-left: $border-medium solid;
+  border-color: usetheme(border-color); //$color-tertiary;
+  padding-left: $size-2;
+  padding-right: $size-2;
+
+  &, p {
+    font-size: $font-large;
+    line-height: $font-large-lineheight * 1;
+    @extend %font-serif;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: unset;
+    font-style: italic;
+    color: usetheme(brand-copy);
+    // @extend .--antialias;
+  }
+  cite, .source {
+    @extend %font-sans;
+    color: usetheme(copy); //$color-gray;
+    font-size: $size;
+    font-style: normal;
+    color: usetheme(copy);
+  }
+}
+
+
+
+%copy-large {
+  font-size: usetheme(copy-large);
+  line-height: usetheme(copy-large-lh);
+  margin-bottom: $size-3;
+}
+.Copy-large {
+  p, ul, li, table {
+    @extend %copy-large;
+  }
+}
+
+p, ul, li, {
+  // font-size: $font-size-base;
+  // line-height: $font-lineheight;
+  @extend %md-sans_serif;
+
+  padding-left: 0;
+  // @extend %font-serif;
+
+  a { // in-paragraph links
+    // font-weight: 700;
+    &+a {
+    }
+  }
+}
+
+.__underline {
+  text-decoration: underline;
+  &-i {
+    text-decoration: underline !important;
+  }
+}
+
+.ContentFrame-body a {
+  font-weight: bold;
+}
+
+// body links
+a, ._link {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: usetheme(links-decoration); //$color-links;
+  color: usetheme(links); //$color-links;
+  border: 0;
+  position: relative;
+  // color: $color-green;
+  // @extend ._pointer-no_events;
+  // @extend %ease-fast;
+
+  &:visited {
+    color: usetheme(links);
+  };
+
+  &:hover, &:active {
+    color: usetheme(hover) !important; //$color-links;
+    text-decoration-color: usetheme(hover) !important; //$color-links;
+
+    * { // allows for nesting h1 in a etc. and retain colors
+      color: usetheme(hover) !important; //$color-links;
+    }
+  }
+
+  &._button {
+    text-decoration: none;
+  }
+
+  &.__disabled {
+    color: usetheme(disabled);
+  }
+
+  &.__quiet {
+    // color: usetheme(pink-active);
+    padding-bottom: $size;
+    font-size: $size--1;
+
+    &:hover {
+    }
+
+  }
+
+  &.__nolink {
+    font-weight: normal;
+    text-decoration: none;
+    color: usetheme(copy);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+._font-small-i {
+  * {
+    font-size: usetheme(font-small) !important;
+    line-height: usetheme(lineheight-small) !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

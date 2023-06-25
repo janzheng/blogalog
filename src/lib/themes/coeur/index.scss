@@ -1,0 +1,83 @@
+@use 'sass:math';
+
+
+// Basics: Imports, fonts, special units etc.
+
+
+@import '@modules/coeur/styles/_head-reset.scss';
+
+@import './instill/settings';   // vars, project imports
+@import './instill/design';     // project design styles
+
+// Starter Kit
+@import '@modules/coeur/styles/_body-starter.scss';
+
+
+// Derived Units
+$unit: $size;
+$line-height: $unit * 1.6;
+$radius: math.div($unit, 4);
+
+ 
+
+// // 
+// // Components 
+// // 
+@import './templates/index'; // notion, forms
+@import './instill/profile';
+
+
+
+// // 
+// // Project Layouts
+// // 
+@import './instill/layout';
+
+  
+
+// 
+// Custom Code, Project Code, Overrides, Code Dump
+// 
+@import './instill/custom';
+  
+
+@import './instill/whimsy';
+  
+
+ 
+
+.__highlight {
+	border: #065fb1 2px solid;
+}
+ 
+
+
+ 
+img {
+  max-width: 100%; 
+}
+
+
+
+.Content-box {
+  padding: $size-4 $size-4;
+  border-radius: $size-2;
+  background-color: usetheme(brand-green);
+}
+
+
+
+
+._padder-top {
+  padding-top: $size-10;
+}
+._padder-bottom {
+  padding-bottom: $size-10;
+}
+._padder-top-half {
+  padding-top: $size-6;
+}
+._padder-bottom-half {
+  padding-bottom: $size-6;
+}
+

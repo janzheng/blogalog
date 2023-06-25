@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "$src": ["src/*"],
+      "$lib": ["src/lib"],
+      "$lib/*": ["src/lib/*"],
+      "$routes": ["src/routes/*"],
+      "$instill": ["src/routes/instill/*"],
+    }
+  },
+  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte", "src/routes/gen/api/blurbarizer"],
+  "extends": "./.svelte-kit/tsconfig.json"
+}

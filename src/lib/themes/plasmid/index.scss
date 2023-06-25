@@ -1,0 +1,32 @@
+
+// default starter styles
+
+/* 
+
+For custom design systems, remember to define either here or in tailwind.config.js
+  - colors
+  - buttons
+  - elevations
+  - grids
+  - spacing
+  - typography
+
+Extra component definitions: https://tailwind-elements.com/   
+
+Reference:
+- https://medium.holographik.co/our-tried-and-tested-approach-to-design-systems-3cc0340c06a9  
+
+*/
+
+// https://tailwindcss.com/docs/customizing-colors#naming-your-colors
+.theme-plasmid {
+  --color-primary: 2 82 204;
+  --color-secondary: 255 196 2;
+  /* ... */
+}
+
+._card {
+  h1 {
+    color: green;
+  }
+}

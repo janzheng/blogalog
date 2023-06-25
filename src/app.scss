@@ -1,0 +1,283 @@
+
+
+/* this file overrides default Tailwind styling ??
+
+  - this file is watched and converted by PostCSS
+
+  Tailwind tends to override some things like link styling:
+  https://stackoverflow.com/questions/63883580/tailwind-css-how-to-style-a-href-links-in-react 
+
+*/
+// @font-face {
+//   font-family: 'Fraunces';
+//   src: url('/fraunces/Fraunces-9ptBlack.woff2') format('woff2'),
+//     url('/fraunces/Fraunces-9ptBlack.woff') format('woff');
+//   font-weight: 900;
+//   font-style: normal;
+//   font-display: swap;
+// }
+// @font-face {
+//   font-family: 'Fraunces';
+//   src: url('/fraunces/Fraunces_72pt_SuperSoft-Light.woff') format('woff2'),
+//     url('/fraunces/Fraunces-9ptBlack.woff') format('woff');
+//   font-weight: light;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// @import '@fontsource/inter';
+// @import '@fontsource/inter/300';
+// @import '@fontsource/inter/400';
+// @import '@fontsource/inter/700';
+/* @import '@fontsource/fira-mono'; */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+// 
+//    MAIN PROJECT THEMES / STYLES
+// 
+//    base :root styles are in /baseline
+@import './lib/themes/baseline';
+
+// social fonts
+// @import "$plasmid/themes/templates/social";
+@import "./lib/themes/social";
+// @import "./lib/themes/prism";
+
+// include coeur templates if needed; treated as a separate theme
+// @import './lib/themes/coeur';
+// @import './lib/themes/elements';
+
+// Additional project styling
+@import "$plasmid/themes/tw";
+
+
+
+/* 
+
+  Base themes
+
+*/
+
+
+.notion {
+  font-family: Inter, sans-serif !important;
+}
+
+.headline {
+  @apply font-display;
+  text-rendering: geometricprecision;
+}
+
+// for narrative pages / longform
+.Narrative {
+  img {
+    @apply rounded-md;
+  }
+}
+
+h1 {
+  @apply font-serif leading-tight text-5xl  lg:text-5xl lg:leading-tight pb-8 font-semibold;
+}
+  h1.article-title  {
+    @apply text-6xl md:text-5xl font-display font-bold leading-tight pb-8
+  }
+h2 {
+  @apply font-serif text-2xl leading-12 pb-6 ;
+
+  &.--extra {
+    @apply text-4xl pb-2 tracking-tight;
+  }
+
+  // &~h3 { messes with faq pages; only do this for nearest neighb
+  &+h3 {
+    padding-top: 0;
+  }
+}
+  *>h1,*>h2,*>h3,*>h5,*>h6 { 
+    @apply pt-12
+  }
+h3 {
+  // @apply text-xl pb-6
+  @apply font-serif text-xl pt-8 pb-2 text-jan;
+}
+h4 {
+  @apply text-lg pb-4;
+}
+h5 {
+  @apply font-bold pb-4;
+}
+h6 {
+  @apply text-xs tracking-wide uppercase pb-2;
+}
+
+p {
+  @apply pb-4;
+}
+
+.text-light {
+  @apply text-slate-600;
+}
+
+a, ._link {
+  @apply no-underline text-jan cursor-pointer;
+
+}
+  a:hover {
+    @apply underline text-jan;
+  }
+
+  ._link-reset {
+    @apply no-underline hover:no-underline text-inherit;
+    text-decoration: none !important;
+    color: var(--color-base);
+  }
+  
+// preloaded global tw styles for airtable/notion classes
+.tw-border-blue-600 {
+  @apply border-blue-600;
+}
+
+.code {
+  position: relative;
+}
+
+
+code {
+  display: inline-block;
+  padding: 0.4em;
+  font-size: 14px;
+  line-height: 14px * 1.4;
+  font-family: "fira-mono", monospace;
+  background: #333;
+  color: #fdce93;
+}
+
+
+
+
+.snug, .psnug, .pfix, .paraWrap {
+  // removes padding of last paragraph of a rendered markdown block
+  // to create snug-ness
+  p:last-child {
+    padding-bottom: 0;
+  }
+  &--i {
+    padding-bottom: 0 !important;
+  }
+}
+.inlinep, .pinline {
+  p { display: inline; }
+}
+
+
+
+/* 
+
+  Custom Evergreen overrides + colors
+
+*/
+
+
+
+
+.Content-box {
+  @apply p-1 md:p-8 rounded-2xl bg-evg-green;
+
+  h2 {
+    @apply pt-1 text-3xl;
+  }
+}
+  .Content-square {
+    // padding needs to be added manually for flexibility
+    @apply rounded-sm bg-evg-green;
+
+    h2 {
+      @apply pt-1 text-3xl;
+    }
+  }
+
+  .Content-round {
+    // padding needs to be added manually for flexibility
+    @apply rounded-lg bg-evg-green;
+
+    h2 {
+      @apply pt-1 text-3xl;
+    }
+  }
+
+
+
+
+%btn-evergreen {
+  @apply text-evergreen hover:text-white bg-evg-green-dark border-evg-green-dark hover:bg-green-700 hover:bg-green-700 active:bg-green-800 active:ring-green-400 active:ring-2 focus:ring-green-100 focus:ring-2 focus:ring-inset;
+}
+%btn-outline-evergreen, .--btn-outline-evergreen {
+  @apply
+    text-evg-green-dark
+    border-evg-green-dark
+    hover:border-evg-green-dark hover:bg-evg-green-dark/10 hover:text-evg-green-dark
+    active:bg-green-100 active:ring-green-200 active:ring-2
+    focus:ring-green-100 focus:ring-4 focus:ring-inset 
+  ;
+}
+%btn-outline-evg-active,
+.--btn-outline-evg-active {
+  @apply text-evg-active-green border-evg-active-green hover:border-evg-green-dark hover:bg-evg-green-dark/10 hover:text-evg-green-dark active:bg-green-100 active:ring-green-200 active:ring-2 focus:ring-green-100 focus:ring-4 focus:ring-inset;
+}
+
+%card-outline-evergreen, .--card-outline-evergreen {
+  @apply border-evg-green-dark/60 text-evg-green-dark bg-evg-green-lighter/40;
+}
+
+
+
+// form + interactive stuff
+.Btn,
+.btn {
+  @extend %btn;
+  &.--evergreen {
+    @extend %btn-evergreen;
+  }
+}
+
+.Btn-link, .btn-link {
+  @extend %btn-link;
+  // &.--evergreen {
+    @apply no-underline text-evg-green-dark cursor-pointer hover:underline hover:text-evg-active-green;
+  // }
+}
+
+.input-borders {
+  @apply rounded-md bg-white border-evg-green-lightest focus:border-evg-active-green border-2 focus:bg-white focus:ring-0 hover:border-evg-active-green hover:transition-all ease-in-out;
+}
+
+.input-formlet-outline {
+  // no hover styles
+  @apply rounded-md bg-white border-evg-green focus:border-evg-active-green border-2 focus:bg-white focus:ring-0;
+}
+  .input-formlet-outline-hover {
+    // no hover styles
+    @extend .input-formlet-outline;
+    @apply hover:border-evg-active-green hover:transition-all ease-in-out cursor-pointer;
+  }
+
+
+.form-input.--evergreen {
+  @apply rounded-md bg-white border-evergreen focus:border-evg-green-dark border-2 focus:bg-white focus:ring-0 hover:border-evg-green-dark hover:transition-all ease-in-out;
+}
+
+
+
+
+
+.text-jan-i {
+  color: #971f1f !important;
+}
+
+.content-pad {
+  @apply px-8 md:px-32 py-8;
+}

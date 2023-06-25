@@ -1,0 +1,107 @@
+
+
+/* 
+
+  Profiles and Profile-related components
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+
+  Profile Components appearing in other places
+
+*/
+
+.Profile-thumb {
+  // preview image of a profile image
+  
+  &,* { img {
+    border-radius: 100%;
+  }}
+  
+  display:inline-block;
+  margin-right: $size-half;
+  
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+$size-profile: $size-8;
+
+
+
+.Profile-img {
+  margin-right: $size-half;
+  object-fit: cover;
+  border: $border-thin solid usetheme("background-light");
+
+  min-height: $size-profile;
+  max-height: $size-profile;
+
+  min-width: $size-profile;
+  max-width: $size-profile;
+}
+
+.Profile-thumb {
+  position: relative;
+  z-index: 1000;
+}
+
+  .Profile-thumb-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    // vertical-align: middle;
+    vertical-align: bottom;
+  }
+
+.Profile-name {
+  // font-weight: 700;
+  @extend .__antialias;
+  @extend ._font-large;
+
+  a, a:visited {
+    text-decoration: none;
+    color: usetheme("brand-active");
+    &:hover {
+      color: usetheme("hover");
+    }
+    &:focus {
+      color: usetheme("focus");
+    }
+  }
+}
+
+.Profile-lede, .Profile-details {
+  min-width: 0; // prevents grid blow-out
+}
+
+.Profile-social {
+  position: relative;
+  top: -2px; // slight size adj
+
+  a {
+    text-decoration: none;
+  }
+}

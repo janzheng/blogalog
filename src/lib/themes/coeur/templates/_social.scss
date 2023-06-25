@@ -1,0 +1,95 @@
+
+
+// fontello-generated font icons for academics 
+
+// uses:
+// - academicons (https://jpswalsh.github.io/academicons/)
+// - font awesome (https://fontawesome.com/icons/)
+@font-face {
+  font-family: 'phagedir';
+  src: url('/fonts/fontello/font/phagedir.eot');
+  src: url('/fonts/fontello/font/phagedir.eot#iefix') format('embedded-opentype'),
+       url('/fonts/fontello/font/phagedir.woff') format('woff'),
+       url('/fonts/fontello/font/phagedir.ttf') format('truetype'),
+       url('/fonts/fontello/font/phagedir.svg#phagedir') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+._font-phage {
+  font-family: "phagedir";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .05em;
+  padding-right: 1em;
+  text-align: center;    
+  font-variant: normal;  
+  text-transform: none; 
+  // line-height: 1em;  
+  line-height: $size; 
+  
+  position: relative;
+  bottom: -.1rem;
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  vertical-align: text-top; 
+  font-size: 120% !important;
+  padding-right: $size-4;
+
+  &.icon-mail { 					font-size: 110% !important; position: relative; bottom: -1px; left: -3px; }
+  &.icon-linkedin { 			font-size: 110% !important; position: relative; bottom: -2px; left: -1px; color: #0077b5; }
+  &.icon-twitter { 				font-size: 123% !important; position: relative; bottom: -1px; left: -3px; color: #26C4F1; }
+  &.icon-orcid { 					font-size: 126% !important; position: relative; bottom: -1px; left: -4px; color: #a6ce39; }
+  &.icon-researchgate { 	font-size: 120% !important; position: relative; bottom: 0px; left: -2px; color: #00CCBB; }
+  &.icon-google-scholar { font-size: 120% !important; position: relative; bottom: -3px; left: -3px; color: #3F47CC; }
+  &.icon-github-circled { font-size: 116% !important; position: relative; bottom: -3px; left: -2px; color: #333333; }
+  &.icon-facebook { font-size: 110% !important; position: relative; bottom: -4px; left: 1px; color: #3b5998; }
+}
+ 
+
+.icon-mail:before { content: '\e800'; } /* '' */
+.icon-bookmark:before { content: '\e803'; } /* '' */
+.icon-tag:before { content: '\e804'; } /* '' */
+.icon-down-open:before { content: '\e805'; } /* '' */
+.icon-left-open:before { content: '\e806'; } /* '' */
+.icon-right-open:before { content: '\e807'; } /* '' */
+.icon-up-open:before { content: '\e808'; } /* '' */
+.icon-cc:before { content: '\e809'; } /* '' */
+.icon-cc-by:before { content: '\e80a'; } /* '' */
+.icon-cc-nc:before { content: '\e80b'; } /* '' */
+.icon-cc-sa:before { content: '\e80c'; } /* '' */
+.icon-cancel:before { content: '\e80d'; } /* '' */
+.icon-search:before { content: '\e80e'; } /* '' */
+.icon-researcherid:before { content: '\e91a'; } /* '' */
+.icon-publons:before { content: '\e937'; } /* '' */
+.icon-open-access:before { content: '\e939'; } /* '' */
+.icon-researchgate:before { content: '\e95e'; } /* '' */
+.icon-doi:before { content: '\e97e'; } /* '' */
+.icon-figshare:before { content: '\e981'; } /* '' */
+.icon-pubmed:before { content: '\e99f'; } /* '' */
+.icon-biorxiv:before { content: '\e9a2'; } /* '' */
+.icon-cv:before { content: '\e9a5'; } /* '' */
+.icon-academia:before { content: '\e9af'; } /* '' */
+.icon-google-scholar:before { content: '\e9d4'; } /* '' */
+.icon-orcid:before { content: '\e9d9'; } /* '' */
+.icon-bookmark-empty:before { content: '\f097'; } /* '' */
+.icon-twitter:before { content: '\f099'; } /* '' */
+.icon-github-circled:before { content: '\f09b'; } /* '' */
+.icon-rss:before { content: '\f09e'; } /* '' */
+.icon-mail-alt:before { content: '\f0e0'; } /* '' */
+.icon-linkedin:before { content: '\f0e1'; } /* '' */
+.icon-lightbulb:before { content: '\f0eb'; } /* '' */
+.icon-code:before { content: '\f121'; } /* '' */
+.icon-rss-squared:before { content: '\f143'; } /* '' */
+.icon-youtube-play:before { content: '\f16a'; } /* '' */
+.icon-mail-squared:before { content: '\f199'; } /* '' */
+.icon-paypal:before { content: '\f1ed'; } /* '' */
+.icon-linkedin-squared:before { content: '\f30c'; } /* '' */
+.icon-facebook:before { content: '\f09a'; } /* '' */
+

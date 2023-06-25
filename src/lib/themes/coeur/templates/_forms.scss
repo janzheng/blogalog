@@ -1,0 +1,566 @@
+
+
+$forms: (
+  btn-bg: usetheme(pink-50),
+  border-brand: usetheme(mono-40),
+);
+
+
+
+
+
+// Phage Directory form design standards
+
+.Input {
+    
+  input, .input, %input {
+    border-radius: $radius;
+    // line-height: $size-8; // prevents cutoff on 'g's
+    line-height: inherit;
+    background-color: usetheme(purewhite); // purewhite stands out w/ colored bg
+    @extend %font-sans;
+
+    &,
+    &[type="email"],
+    &[type="text"],
+    &[type="number"],
+    &[type="password"],
+    &[type="date"],
+    &[type="url"],
+    &[type="file"] {
+      // border: solid $border-thin usetheme(border-brand, $forms);
+      // border-top-color: transparent;
+      // border-left-color: transparent;
+      // border-right-color: transparent;
+
+      // &:focus, &:active, &:hover, &:hover:focus {
+      //   border: solid $border-thin usetheme(border-brand, $forms);
+      //   background-color: usetheme(purewhite);
+      // }
+
+      border-radius: $radius;
+      border: $border-thin solid usetheme(brand-soft) !important;
+      // border-color: usetheme(brand-light);
+
+      &:hover {
+        border-color: usetheme(brand-soft) !important;
+      }
+
+      &:focus {
+        border-color: usetheme(brand-active-green) !important;
+      }
+    }
+
+  }
+}
+
+
+
+
+textarea, .textarea { 
+  border-radius: $radius;
+  border: $border-thin solid usetheme(brand-soft);
+  // border-color: usetheme(brand-light);
+
+  &:hover {
+    border-color: usetheme(brand-light);
+  }
+
+  &:focus {
+    border-color: usetheme(brand-active-green);
+  }
+  // border-radius: $radius;
+  // background-color: usetheme(purewhite); // purewhite stands out w/ colored bg
+  // // border-color: usetheme(brand-10); // grabs attention w/ border color
+  // // border-bottom-color: usetheme(border-brand, $forms);
+  
+  // border: solid $border-thin usetheme(border-brand, $forms);
+  // border-top-color: transparent;
+  // border-left-color: transparent;
+  // border-right-color: transparent;
+
+  // @extend %font-sans;
+
+  // &:focus, &:active, &:hover {
+  //   border-color: usetheme(border-brand, $forms);
+  //   background-color: usetheme(purewhite);
+  // }
+  // &:hover {
+  //   background-color: usetheme(purewhite);
+  // }
+}
+
+
+
+// dynamic form
+.Form {
+  .Form-btn {
+    background-color: usetheme(btn-bg, $forms);
+    border-color: usetheme(btn-bg, $forms);
+    color: usetheme(white); //$color-bg;
+
+    &:hover {
+      background-color: usetheme(hover); // (btn-active); //$color-links;
+      color: usetheme(white); //$color-bg;
+      border-color: usetheme(hover); // (btn-active); //$color-links;
+    }
+    &:active, &:focus {
+      background-color: usetheme(pink-active); //$color-links;
+      color: usetheme(white); //$color-bg;
+      border-color: usetheme(pink-active); //$color-gray;
+    }
+
+    // &.__loading {
+    //   cursor: progress;
+    //   &, &:active, &:hover, &:focus {
+    //     &, * {
+    //       color: usetheme(brand-copy) !important;
+    //     }
+    //     border-color: usetheme(brand-border);
+    //     background-color: usetheme(brand-background);
+    //   }
+    // }
+
+  }
+
+  &.__simple {
+    ._form-control {
+      margin-bottom: 0; // $size-quart;
+    }
+    .item--field + .item--field {
+      margin-top: $size;
+    }
+  }
+
+  // broken in coeur
+  ._form-checkbox {
+    input:focus {
+      & + span {
+        // border-color: $color-links;
+        border-bottom: $border-thin solid usetheme(links);
+      }
+    }
+  }
+
+  // .Form-body {
+  //   // padding-top: $size;
+  // }
+}
+
+
+
+// cards in forms, as quick questions (e.g. contact page)
+// wraps Node-Form
+.FormCard {
+	@extend ._card;
+	// padding: $size $size-2x;
+  padding: $size-2x $size;
+  color: usetheme(copy);
+
+  background-color: usetheme(brand-background); 
+  border-color: usetheme(brand-border); 
+  border-width: $border-thin;
+
+  @include screen-xs {
+    padding: $size;
+  }
+
+  @extend ._shadow-4;
+
+
+
+  // tighter, compact form
+  &.__compact {
+    padding-top: $size;
+    padding-bottom: $size;
+
+    .Form-body {
+      padding: 0;
+    }
+    ._form-label p {
+      font-size: usetheme(size);
+      line-height: usetheme(size-lh);
+      // font-weight: normal;
+      padding: 0;
+    }
+    ._form-control {
+      margin-bottom: $size;
+    }
+  }
+}
+
+
+// standardized form template
+.Formlet {
+  h1, h2, h3, h4, h5, h6 {
+    padding-bottom: 0;
+  }
+  // p {
+  //   &:last-child {
+  //     // changed later in forms, custom to abport (2020)
+  //     // margin-bottom: 0;
+  //   }
+  // }
+
+  ._form-control {
+    margin-bottom: $size-2x;
+  }
+  ._form-label {
+    &, p {
+      // font-size: $size;
+      // @extend h5;
+      padding-top: 0;
+      padding-bottom: $size-quart;
+      font-weight: bold;
+    }
+  }
+  ._form-desc {
+    &, p {
+      font-size: $size;
+      padding-bottom: $size-quart;
+    }
+  }
+
+  ._action {
+    ._button {
+      @include screen-xs {
+        margin-top: $size-half;
+        width: 100%;
+      }
+    }
+  }
+
+  ._success {
+    @extend ._card;
+    padding: $size-half $size;
+    margin-top: $size-half;
+    border: $border-thin solid usetheme(success);
+    background-color: lighten(usetheme(success), 40%);
+  }
+
+  ._error {
+    @extend ._card;
+    padding: $size-half $size;
+    margin-top: $size-half;
+    border: $border-thin solid usetheme(danger);
+    color: usetheme(danger);
+    // background-color: usetheme(danger);
+  }
+
+  ._errortext {
+    // @extend ._card;
+    // padding: $size-half $size;
+    // margin-top: $size-half;
+    // border: $border-thin solid usetheme(danger);
+    color: usetheme(danger);
+    // background-color: usetheme(danger);
+  }
+}
+
+
+/* special forms */
+
+// for the feed and quick entry / submits
+
+.Form-Quick {
+  ._form-control {
+    margin-bottom: $size-half;
+  }
+  .Form-privacy {
+    display: none;
+  }
+  .Form-cta {
+    text-align: right;
+  }
+  .Form-btn {
+    @extend .__short;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+// special sessions radio label
+.__radiomark {
+  display: block;
+  position: relative;
+
+  // crazy sessions selector
+  input { // hide the radio circles
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .__boxy .radiomark {
+
+    background: brown !important;
+    &:before {
+      border-radius: 4px !important;
+    };
+    &:after {
+      // border-radius: 2px  !important;
+      content: '✓';
+    };
+  }
+
+
+  .radiomark {
+    margin-bottom: $size-quart;
+    position: relative;
+    $outerCheck: var(--radiomarkOuter, 19px);
+    $innerCheck: var(--radiomarkInner, 11px);
+
+    border: $border-thin solid usetheme(brand-soft);
+    border-radius: $radius;
+    
+    // border-color: usetheme(brand-light);
+    &:hover {
+      border-color: usetheme(brand-light);
+    }
+    &:focus {
+      border-color: usetheme(brand-active);
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: $outerCheck;
+      height: $outerCheck;
+      // background: transparent;
+      background-color: transparent; // usetheme(mono-20);
+      border: solid $border-thin usetheme(brand-active-green);
+      border-radius: 100%;
+      // top: 28px;
+      top: calc(50% - #{$outerCheck}/2);
+      @extend %ease;
+    };
+    &:after {
+      content: '';
+      position: absolute;
+      width: $innerCheck;
+      height: $innerCheck;
+      // background: transparent;
+      background-color: transparent; // usetheme(brand-active-green);
+      border-radius: 100px;
+      top: calc(50% - #{$innerCheck}/2);
+      left: calc(var(--radiomarkOuter, 19px) + 1px); //$outerCheck + 1px;
+      @extend %ease;
+    };
+  }
+
+  .radiomark-content {
+    line-height: initial
+  }
+
+
+  /* On mouse-over, add a grey background color */
+  &:hover input ~ .radiomark {
+    cursor: pointer;
+    border-color: usetheme(brand-active-green);
+  }
+
+  input:active ~ .radiomark,
+  input:focus ~ .radiomark {
+    cursor: pointer;
+    border-color: usetheme(brand-active-green);
+    background-color: usetheme(brand-lightest);
+  }
+  /* When the radio button is checked, add a blue background */
+  input:checked ~ .radiomark {
+    // border-color: usetheme(brand-active); // too loud
+
+    &:before {
+      background: usetheme(brand-active-green);
+      @extend %ease;
+    };
+    &:after {
+      background: usetheme(mono-0);
+      @extend %ease;
+    };
+  }
+} 
+
+
+
+
+._form-checkbox input:focus + span {
+  border-color: usetheme(brand-bright);
+}
+._form-checkbox input:checked + span {
+  color: usetheme(brand-bright);
+}
+
+
+// special sessions radio label
+.__checkbox {
+  display: block;
+
+  // crazy sessions selector
+  input { // hide the radio circles
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+ 
+  .checkbox {
+    margin-bottom: $size-quart;
+    position: relative;
+    $outerCheck: var(--checkboxOuter, 18px);
+    $innerCheck: var(--checkboxInner, 11px);
+
+
+	  border: $border-thin solid usetheme(brand-soft);
+    border-radius: $radius;
+
+	  // border-color: usetheme(brand-light);
+	  &:hover {
+	    border-color: usetheme(brand-light);
+	  }
+	  &:focus {
+	    border-color: usetheme(brand-active);
+	  }
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: $outerCheck;
+      height: $outerCheck;
+      background-color: transparent; // usetheme(mono-20);
+      border: solid $border-thin usetheme(brand-active-green);
+      // border: solid $border-thin transparent;
+      border-radius: 4px !important;
+      // top: 28px;
+      top: calc(50% - #{$outerCheck}/2);
+      @extend %ease;
+    };
+    &:after {
+      content: '✓';
+      position: absolute;
+      width: $innerCheck;
+      height: $innerCheck;
+
+      background: transparent;
+      color: usetheme(mono-0);
+
+      background: transparent;
+      // make checkmark look less checked
+      // color: usetheme(purewhite);
+      color: usetheme(mono-20);
+      border-radius: 2px  !important;
+      top: calc(50% - #{$innerCheck} - 1px);
+      left: $outerCheck;
+      font-weight: 600;
+      @extend %ease;
+
+      font-size: 16px;
+    };
+  }
+
+
+
+
+  /* On mouse-over, add a grey background color */
+  &:hover input ~ .checkbox {
+    cursor: pointer;
+    border-color: usetheme(brand-active-green);
+  }
+
+  input:active ~ .checkbox,
+  input:focus ~ .checkbox {
+    cursor: pointer;
+    border-color: usetheme(brand-active-green);
+    background-color: usetheme(brand-lightest);
+  }
+  /* When the radio button is checked, add a blue background */
+  input:checked ~ .checkbox {
+  	// this is too loud
+    // border-color: usetheme(brand-active);
+
+    &:before {
+      background: usetheme(brand-active-green);
+      @extend %ease;
+    };
+    &:after {
+      // background: usetheme(purewhite);
+      @extend %ease;
+    };
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.Formlet-select, .Formlet-quant {
+  // vars used by svelte-select
+  position: relative; 
+  z-index: 100;
+
+  .selectContainer {
+    input {
+      // cancles the input focus box shadow for all inputs
+      box-shadow: none;
+    }
+    input + div {
+      left: -2px !important; // needed if input has a 2px border
+    }
+  }
+
+  // this div offset gets screwed up with thick borders
+  .clearSelect ~ div {
+    left: -2px !important;
+  }
+
+  --border: #{$border-thin solid usetheme(brand-soft)};
+  --inputFontSize: #{$size};
+  --borderHoverColor: #{usetheme(brand-active)};
+  --itemHoverBG: #{usetheme(brand-lightest)};
+  --height: #{$height-input};
+  --listMaxHeight: #{$height-input * 6.52};
+  --inputPadding: #{$size};
+  --multiItemBorderRadius: #{$radius};
+  --multiItemMargin: #{$size-half + 1px $size-half + 1px $size-half + 1px 0};
+}
+
+  .Formlet-label {
+    position: relative;
+  }
+  .__required {
+    &:after {
+      font-size: $font-small;
+      content: ' (required)';
+    }
+    @include screen-sm{
+      &:after {
+        font-size: $font-small;
+        content: ' (required)';
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+
+
+
+
+
