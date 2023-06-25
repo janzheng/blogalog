@@ -1,6 +1,6 @@
 
 
-import { csv } from 'csvtojson' 
+import csv from 'csvtojson'
 import { Client } from '@notionhq/client'
 import Cytosis from 'cytosis'
 
