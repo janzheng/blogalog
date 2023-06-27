@@ -9,14 +9,14 @@ export const mapKeys = (fn, obj) => {
 }
 
 
-export const applyTransformers = (results, transformers) => {
+export const applyTransformers = (results, transformers, config) => {
   if(!transformers || !Array.isArray(transformers))
     return results
 
   for (const transformer of transformers) {
     const transformerFunction = transformerMap[transformer.function];
-    results = transformerFunction(results, transformer.settings);
-    console.log('[applyTransformers] ----->', results, transformer.function, transformer.settings)
+    results = transformerFunction(results, transformer.settings, config);
+    // console.log('[applyTransformers] ----->', results, transformer.function, transformer.settings)
   }
 
   return results
@@ -71,6 +71,50 @@ export const transformArrayToObjectByKey = (results, {objectKey}) => {
 
 
 
+// 
+//  Cytosis-specific transformers
+// 
+
+
+
+/*
+
+  outut
+
+  original:
+  { 
+    key1: { ... k1data },
+    key2: { ... k2data }
+  }
+
+  flat: {
+    ...k1data,
+    ...k2data,
+  }
+ 
+  if prefix turned on: {
+    ...key1_k1data,
+    ...key2_k2data,
+  }
+
+*/
+export const outputObject = (sourceData, { flatten, usePrefix, divider = "_" } ={}, config) => {
+  let sources = config.sources
+  let data = {}
+  sources.map((src, i) => {
+    if (flatten) {
+      if(usePrefix) {
+        Object.keys(sourceData[i]).forEach((k) => {
+          sourceData[i][`${src.name}${divider}${k}`] = sourceData[i][k]
+          delete sourceData[i][k]
+        })
+      }
+      data = { ...data, ...sourceData[i] }
+    } else
+      data[src.name] = sourceData[i]
+  })
+  return data
+}
 
 
 
@@ -78,7 +122,13 @@ export const transformArrayToObjectByKey = (results, {objectKey}) => {
 
 
 
-const transformerMap = {
+
+
+
+
+
+export const transformerMap = {
   transformRemap,
-  transformArrayToObjectByKey
+  transformArrayToObjectByKey,
+  outputObject,
 };

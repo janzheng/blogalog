@@ -14,6 +14,7 @@ import { csvLoader } from './loaders/csv-loader.js'
 import { apiLoader } from './loaders/api-loader.js'
 import { linksLoader } from './loaders/links-loader.js'
 
+import { applyTransformers } from './transformers/index.js'
 
 
 export const endo = async (config, {
@@ -24,8 +25,8 @@ export const endo = async (config, {
     config.sources = config.sources.filter(src => sourceNames.includes(src.name))
   }
 
-  if (config.settings.sourceData) {
-    let data = await import(config.settings.sourceData /* @vite-ignore */) 
+  if (config?.loaders?.sourceFile) {
+    let data = await import(config?.loaders?.sourceFile /* @vite-ignore */) 
     if(data && data.default) {
       return data.default
     }
@@ -75,25 +76,22 @@ export const endo = async (config, {
 
 
     return asyncData // 
-
-
-
   }))
 
 
 
 
   let data = {}
-  console.log('[endo] Done fetching. Results >>> ', sources)
-  sources.map((src, i) => {
-    // console.log('--->', src.name, sourceData[i])
-    if (config.settings?.mode == "flat")
-      data = { ...data, ...sourceData[i] }
-    else
-      data[src.name] = sourceData[i]
-  })
-  
+  console.log('[endo] Done fetching!')
+
+  // set the base transformer if not set in config
+  if(!config.transformers) {
+    config.transformers = [{"function": "outputObject"}]
+  }
+
+  data = applyTransformers(sourceData, config.transformers, config)
+
   // await saveJson(data) // only on build time
-  console.log('[endo] Done fetching. Final Data >>> ', data)
+  // console.log('[endo] Done fetching. Final Data >>> ', data)
   return data
 }
