@@ -9,13 +9,13 @@ export const mapKeys = (fn, obj) => {
 }
 
 
-export const applyTransformers = (results, transformers, config) => {
+export const applyTransformers = (results, transformers, sources) => {
   if(!transformers || !Array.isArray(transformers))
     return results
 
   for (const transformer of transformers) {
     const transformerFunction = transformerMap[transformer.function];
-    results = transformerFunction(results, transformer.settings, config);
+    results = transformerFunction(results, transformer.settings, sources);
     // console.log('[applyTransformers] ----->', results, transformer.function, transformer.settings)
   }
 
@@ -98,8 +98,7 @@ export const transformArrayToObjectByKey = (results, {objectKey}) => {
   }
 
 */
-export const outputObject = (sourceData, { flatten, usePrefix, divider = "_" } ={}, config) => {
-  let sources = config.sources
+export const outputObject = (sourceData, { flatten, usePrefix, divider = "_" } = {}, sources) => {
   let data = {}
   sources.map((src, i) => {
     if (flatten) {

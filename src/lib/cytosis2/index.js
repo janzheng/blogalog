@@ -21,8 +21,10 @@ export const endo = async (config, {
   sourceNames, // = ['jz-data'],
 }={}) => {
 
+  let sources = [...config.sources] // prevents issues when running multiple endos
+
   if (sourceNames && sourceNames.length>0) {
-    config.sources = config.sources.filter(src => sourceNames.includes(src.name))
+    sources = sources.filter(src => sourceNames.includes(src.name))
   }
 
   if (config?.loaders?.sourceFile) {
@@ -32,8 +34,7 @@ export const endo = async (config, {
     }
   }
 
-  console.log('[endo] Fetching data sources')
-  let sources = config.sources
+  console.log('[endo] Fetching data sources:', sources)
   let sourceData = await Promise.all(sources.map((src, i) => {
     console.log('[endo] >> item:', src.name, src.type)
     // cytosis2 versions
@@ -89,9 +90,9 @@ export const endo = async (config, {
     config.transformers = [{"function": "outputObject"}]
   }
 
-  data = applyTransformers(sourceData, config.transformers, config)
+  data = applyTransformers(sourceData, config.transformers, sources)
 
   // await saveJson(data) // only on build time
-  // console.log('[endo] Done fetching. Final Data >>> ', data)
+  console.log('[endo] Done fetching. Final Data >>> ', data)
   return data
 }

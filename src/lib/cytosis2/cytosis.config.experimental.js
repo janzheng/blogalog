@@ -1,6 +1,6 @@
 export const config = {
-  // "settings": {
-  //   // "sourceData": "../../../cytosis-data.json", // pull from this preloaded json file instad of fetching
+  // "loaders": {
+  //   // "sourceFile": "../../../cytosis-data.json", // pull from this preloaded json file instad of fetching
   // },
   "transformers": [
     {
@@ -80,8 +80,8 @@ export const config = {
     //   "name": "airfetch-test",
     //   "type": "airfetch",
     //   "settings": {
-    //     "apiKeyName": "AIRTABLE_TEST_API",
-    //     "baseIdName": "AIRTABLE_TEST_BASE",
+    //     "apiKeyName": "AIRTABLE_LINKS_API",
+    //     "baseIdName": "AIRTABLE_LINKS_BASE",
     //   },
     //   "bases": [{
     //     "tables": ["Books [Entities]"],
