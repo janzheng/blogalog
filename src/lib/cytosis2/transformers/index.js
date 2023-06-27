@@ -37,26 +37,15 @@ export const transformRemap = (results, {remap, oneKeyDeep}) => {
     return results
   } else {
     // remap each key of results, if object
-    // this does NOT yet work for array-key-transformed objects or Airtable(todo)
-
     // go one key deep into the object, e.g. Cytosis results or array-transformed object { key1: [...], key2: {...}}
     if (oneKeyDeep) {
       let obj = {}
       Object.keys(results).forEach((key) => {
-        console.log('*** item -- ----> transformRemap', key, results[key])
         obj[key] = transformRemap(results[key], {remap})
       })
-      console.log('*** ----> Finished transformRemap Deep Object', obj)
       results = obj
     } else {
-      // so make sure the remapping happens BEFORE object-key transform
-      // this means the objectKey needs to point to the new remapped name
       let obj = (remap ? mapKeys((key) => remap[key] || key, results) : results)
-      // Object.keys(results).forEach((resultKey) => {
-      //   console.log('fffff *** ----> transformRemap Object Init', results, remap, resultKey, results[resultKey])
-      //   obj[resultKey] = (remap ? mapKeys((key) => remap[key] || key, results[resultKey]) : results[resultKey])
-      // })
-      console.log('*** ----> transformRemap Object Result', obj)
       results = obj
     }
 

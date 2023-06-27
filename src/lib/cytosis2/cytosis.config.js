@@ -82,9 +82,6 @@ export const config = {
     //       "view": "Grid view"
     //     }
     //   }]
-    //   // map: {
-    //   //   Name: "Fruit"
-    //   // }
     // },
     // {
     //   "name": "bacteria",
