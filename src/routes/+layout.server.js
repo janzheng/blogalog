@@ -3,7 +3,8 @@ import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
 // import { getContent } from '$routes/api/content/+server.js'
 import { head, seo } from '$lib/config.js'
 
-import config  from '$lib/cytosis2/cytosis.config.json';
+// import config  from '$lib/cytosis2/cytosis.config.json';
+import { config }  from '$lib/cytosis2/cytosis.config.js';
 import { endo } from '$lib/cytosis2';
 
 
@@ -13,13 +14,17 @@ export const load = async ({params, locals}) => {
 
     // console.log('[+layout.server.js] params', params)
 
-    let cytosisData = await endo(config)
-    console.log('--->>>> cytosisData:', cytosisData)
+    // let cytosis = await endo(config)
+    // console.log('--->>>> cytosisData:', cytosis)
+    // console.log('--->>>> cytosisData:', JSON.stringify(cytosis, 0, 2))
 
     return {
       head, seo,
       user: locals?.user,
-      // content,
+      // ... await endo(config, {sourceNames: ['jz-data']}),
+      streamed: {
+        cytosis: endo(config), // streamed await
+      }
     }
   }
   catch (err) {

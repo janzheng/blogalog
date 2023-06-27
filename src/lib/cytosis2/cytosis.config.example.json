@@ -1,5 +1,7 @@
 {
-  "flat": true,
+  "settings": {
+    "datamode": "flat"
+  },
   "sources": [
     {
       "name": "json_example",

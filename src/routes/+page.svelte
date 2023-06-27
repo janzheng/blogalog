@@ -3,8 +3,12 @@
   <div class="Hero | content-pad | bg-slate-100 | overflow-hidden ">
     <div class="relative container max-w-7xl mx-auto w-full h-full; | md:grid grid-cols-3-2">
       <div>
-        <h2 class="antialiased pt-4 pb-8">Hey hey,</h2>
-        <h2 class="pt-0 leading-12 antialiased ">I’m Jan, a product designer who combines code, user research, and lean startup methods to tackle complex issues and difficult projects.</h2>
+        {#if $page.data?.['jz-data']?.['hero'].Content}
+          {@html marked($page.data?.['jz-data']?.['hero'].Content || '')}
+        {:else}
+          <h2 class="antialiased pt-4 pb-8">Hey hey,</h2>
+          <h2 class="pt-0 leading-12 antialiased ">I’m Jan, a product designer who combines code, user research, and lean startup methods to tackle complex issues and difficult projects.</h2>
+        {/if}
       </div>
       <div class="relative">
         <div id="me-container" on:click={handleClick} on:keypress={handleClick}>
@@ -23,16 +27,18 @@
       <Companies ></Companies>
     </div>
 
+    {#if cytosis && cytosis['jz-posts']}
+      {#each cytosis['jz-posts'] as post}
+        <div class="post | mb-32">
+          <Notion blocks={post.pageBlocks}></Notion>
+        </div>
+      {/each}
+    {/if}
     
   </div>
 
 </div>
 
-
-
-<!-- <div class="Content-box _content-narrow my-16 mx-auto">
-  <LiveNotion blockId={"3934dd0203ae4f96888b835183702c99"} />
-</div>  -->
 
 <script>
 
@@ -40,15 +46,29 @@
 	import { onMount } from 'svelte';
   // import LiveNotion from '$lib/components/shared/LiveNotion.svelte';
   import Companies from '$lib/components/Companies.svelte';
+  import { page } from '$app/stores'
+  import { browser } from '$app/environment'; 
+  import Notion from '@yawnxyz/sveltekit-notion'
+
+
+  let cytosis // await streamed cytosis, and set it here
+
+  if(browser) {
+    (async () => {
+      cytosis = await $page.data.streamed?.cytosis
+      console.log('----> cytosis:', cytosis)
+    })()
+  }
+
+  $: if(browser && $page.data.streamed?.cytosis) {
+    console.log('streamed.cytosis:', $page.data.streamed?.cytosis)
+  }
+
+
+
 
 
   let image, popup=false;
-
-  // onMount(() => {
-  //   setTimeout(() => {
-  //     image.style.bottom = '0';
-  //   }, 100);
-  // });
 
   function handleClick() {
     if(!popup)
