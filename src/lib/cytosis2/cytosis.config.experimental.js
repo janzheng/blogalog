@@ -4,7 +4,7 @@ export const config = {
   // },
   "transformers": [
     {
-      "function": "outputObject",
+      "function": "outputObject", // default transformer that maps an array of sources to a keyed object
       // "settings": {
       //   "flatten": true,
       //   "usePrefix": true,
@@ -13,37 +13,37 @@ export const config = {
     },
   ],
   "sources": [
-    {
-      "name": "jz-data",
-      "type": "cfnotion",
-      "path": "/collection/cccaab5d7ee04ebd9a42dbf2227c1cdb",
-      // "url": "https://notion-cloudflare-worker.yawnxyz.workers.dev",
-      // in-place transformation config
-      // "transformer": {
-      //   "remap": {
-      //     "Name": "Fruit"
-      //   },
-      //   "objectKey": "Fruit", // --> use the new remapped name as the object key
-      // },
-      // array-based transformation config
-      "transformers": [
-        {
-          "function": "transformArrayToObjectByKey",
-          "settings": {
-            "objectKey": "Name"
-          }
-        },
-        {
-          "function": "transformRemap",
-          "settings": {
-            "oneKeyDeep": true, // required when given an object w/ named keys like Airtable or ArrayToObject { key1: { ...data }}
-            "remap": {
-              "Name": "Fruit",
-            }
-          }
-        },
-      ]
-    },
+  //   {
+  //     "name": "jz-data",
+  //     "type": "cfnotion",
+  //     "path": "/collection/cccaab5d7ee04ebd9a42dbf2227c1cdb",
+  //     // "url": "https://notion-cloudflare-worker.yawnxyz.workers.dev",
+  //     // in-place transformation config
+  //     // "transformer": {
+  //     //   "remap": {
+  //     //     "Name": "Fruit"
+  //     //   },
+  //     //   "objectKey": "Fruit", // --> use the new remapped name as the object key
+  //     // },
+  //     // array-based transformation config
+  //     "transformers": [
+  //       {
+  //         "function": "transformArrayToObjectByKey",
+  //         "settings": {
+  //           "objectKey": "Name"
+  //         }
+  //       },
+  //       {
+  //         "function": "transformRemap",
+  //         "settings": {
+  //           "oneKeyDeep": true, // required when given an object w/ named keys like Airtable or ArrayToObject { key1: { ...data }}
+  //           "remap": {
+  //             "Name": "Fruit",
+  //           }
+  //         }
+  //       },
+  //     ]
+  //   },
     {
       "name": "jz-posts",
       "type": "cfnotion",
@@ -52,16 +52,37 @@ export const config = {
       "loaders": {
         "notionPageId": "id" // loads the page data as well; this takes a lot of time + memory
       },
-      // "transformers": [
-      //   {
-      //     "function": "transformRemap",
-      //     "settings": {
-      //       "remap": {
-      //         "Description": "Lede"
-      //       }
-      //     }
-      //   },
-      // ]
+      "transformers": [
+        {
+          "function": "transformRemap",
+          "settings": {
+            "remap": {
+              "Description": "Lede"
+            }
+          }
+        },
+        {
+          "function": "transformUnstructuredTextKeyArray",
+          "settings": {
+            "key": "Lede",
+            "outputKey": "LedeSchema",
+            "schema": "{foodItem, fruitItem}. Use Null if none found for foodItem or fruitItem."
+          }
+        },
+        // {
+        //   "function": "llmArrayPrompt",
+        //   "settings": {
+        //     "key": "Lede",
+        //     "outputKey": "PirateSummary",
+        //     "prompt": "Content to Summarize content:",
+        //     "llm": {
+        //       "apiKeyName": "OPENAI_API_KEY",
+        //       "system": "You are a helpful pirate assistant, who always speaks like a pirate. Instructions: Please summarize the lede like a pirate. Arr! Add a lot of ARrs because that's what pirates do. but with variations of capital and lowercase Rrs and a mix of AaaAAaArRrRrrrsS for fun. Also add pirate jokes and puns. Pirate jokes and puns are fun!",
+        //       "modelName": "gpt-3.5-turbo"
+        //     }
+        //   }
+        // },
+      ]
     },
     // {
     //   "name": "jz-post-page",
@@ -84,40 +105,70 @@ export const config = {
     //     "baseIdName": "AIRTABLE_LINKS_BASE",
     //   },
     //   "bases": [{
-    //     "tables": ["Books [Entities]"],
+    //     "tables": ["Books [Entities]", "Attributes"],
     //     "options": {
     //       "view": "Grid view"
     //     }
-    //   }]
+    //   }],
+    //   "transformers": [
+    //     {
+    //       "function": "transformFlattenKeyedObject",
+    //     }
+    //   ]
     // },
-    {
-      "name": "bacteria",
-      "type": "gsheet",
-      "transformers": [
-        {
-          "function": "transformRemap",
-          "settings": {
-            "remap": {
-              "Name": "Strain"
-            }
-          }
-        },
-        {
-          "function": "transformArrayToObjectByKey",
-          "settings": {
-            "objectKey": "Strain"
-          }
-        }
-      ],
-      "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuYa2r5lzHYSrU88gC4xnJyQzl9YA1VvUKvzmyvRJOA8PcEMfN085uWFvBsDzvZYeq-vOeJ_cZMGvm/pub?gid=281070310&single=true&output=csv"
-    },
+    // {
+    //   "name": "airfetch-events-rollup-test",
+    //   "type": "airfetch",
+    //   "settings": {
+    //     "apiKeyName": "AIRTABLE_LINKS_API",
+    //     "baseIdName": "AIRTABLE_LINKS_BASE",
+    //   },
+    //   "bases": [{
+    //     "tables": ["Events [Values]"],
+    //     "options": {
+    //       "view": "Grid view"
+    //     }
+    //   }],
+    //   "transformers": [
+    //     "transformFlattenKeyedObject", 
+    //     "rollupEventsArrayToObjectByKey",
+    //     "customLibraryEventTransformer"
+    //   ]
+    // },
+    // {
+    //   "name": "bacteria",
+    //   "type": "gsheet",
+    //   "transformers": [
+    //     {
+    //       "function": "transformRemap",
+    //       "settings": {
+    //         "remap": {
+    //           "Name": "Strain"
+    //         }
+    //       }
+    //     },
+    //     {
+    //       "function": "transformArrayToObjectByKey",
+    //       "settings": {
+    //         "objectKey": "Strain"
+    //       }
+    //     }
+    //   ],
+    //   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuYa2r5lzHYSrU88gC4xnJyQzl9YA1VvUKvzmyvRJOA8PcEMfN085uWFvBsDzvZYeq-vOeJ_cZMGvm/pub?gid=281070310&single=true&output=csv"
+    // },
     {
       "name": "links-test",
       "type": "links",
       "paths": [
         "https://janzheng.com/",
-        "https://wikipedia.com",
+        // "https://wikipedia.com",
       ],
+      // "scrapingbee": {
+      //   apiKeyName: "SCRAPING_BEE",
+      //   premium_proxy: false,
+      //   render_js: false,
+      //   // extract_rules: `{"text":"body"}` // all text, no html
+      // }
     },
   ]
 }

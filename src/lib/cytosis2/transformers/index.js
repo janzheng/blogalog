@@ -1,12 +1,17 @@
 
 
+
 import * as R from 'ramda'; 
 
-export const mapKeys = (fn, obj) => {
-  return R.reduce((acc, key) =>
-    R.assoc(fn(key), obj[key], acc),
-    {}, R.keys(obj));
-}
+import { llmKeyPrompt, llmArrayPrompt } from './llm'
+import { transformDataBySchema } from './transformDataBySchema'
+import { transformUnstructuredTextKey, transformUnstructuredTextKeyArray } from './transformUnstructuredText'
+
+
+import { mapKeys } from './utils'
+
+
+
 
 
 export const applyTransformers = (results, transformers, sources) => {
@@ -14,7 +19,8 @@ export const applyTransformers = (results, transformers, sources) => {
     return results
 
   for (const transformer of transformers) {
-    const transformerFunction = transformerMap[transformer.function];
+    const transformerFunction = transformerMap[transformer.function || transformer]; 
+    // transformer could look like a single string, e.g. "outputObject" if no settings given
     results = transformerFunction(results, transformer.settings, sources);
     // console.log('[applyTransformers] ----->', results, transformer.function, transformer.settings)
   }
@@ -24,8 +30,27 @@ export const applyTransformers = (results, transformers, sources) => {
 
 
 
+
+
+export const addTransformers = (transformers) => {
+  // "transformers" is an array of custom transformer functions
+  // refer to these custom functions in the config like normal
+  transformers.forEach(tr => {
+    transformerMap[tr.name] = tr
+  })
+}
+
+
+
+
+
+// 
+//  Data Transformers
+// 
+
+
 // returns an array remapTransformResults
-export const transformRemap = (results, {remap, oneKeyDeep}) => {
+export const transformRemap = (results, {remap, oneKeyDeep}={}) => {
   // remap each row of results, if array
   if (Array.isArray(results)) {
     let arr = []
@@ -56,7 +81,7 @@ export const transformRemap = (results, {remap, oneKeyDeep}) => {
 
 
 // returns an object
-export const transformArrayToObjectByKey = (results, {objectKey}) => {
+export const transformArrayToObjectByKey = (results, {objectKey="Name"}={}) => {
   let resultObject = {}
   if (objectKey) {
     results.forEach((item) => {
@@ -70,6 +95,109 @@ export const transformArrayToObjectByKey = (results, {objectKey}) => {
 }
 
 
+/* 
+
+  Turns a keyed object:
+    { key1: { data1 }, key2: { data2 } ...} 
+  or
+    { key1: [ data1 ], key2: [ data2 ] ...}
+
+  into 
+    { ...data1, ...data2, ... }
+  or 
+    [ ...data1, ...data2, ... ]
+
+*/
+export const transformFlattenKeyedObject = (results) => {
+  if (Array.isArray(Object.values(results)?.[0])) {
+    let data = []
+    Object.keys(results).forEach((k) => {
+      data = [ ...data, ...results[k] ]
+    })
+    return data
+  } else {
+    // console.log('objectFlatten:', results)
+    let data = {}
+    Object.keys(results).forEach((k) => {
+      data = {...data, ...results[k]}
+    })
+    return data
+  }
+}
+
+
+
+
+
+
+
+
+// 
+//  Event Rollups + Calculators
+// 
+
+export const rollupEventsArrayToObjectByKey = (eventsArray, {objectKey="Name"} = {}) => {
+  let resultObject = {
+  }
+  
+  // for each event in the array, create a new object w/ the objectKey as name,
+  // then add the event to the object's list of events
+  eventsArray.forEach((event) => {
+    if (!resultObject[event[objectKey]]) { resultObject[event[objectKey]] = { events: []} }
+    resultObject[event[objectKey]].events = [...resultObject[event[objectKey]].events, event]
+  })
+
+
+  // now we process each column into a keyed object of arrays, for each column, e.g. 
+  // Date: [date1, date2, ...], JSON, [...json1, ...json2]
+  Object.keys(resultObject).forEach((objKey) => {
+    let value = resultObject[objKey] // e.g. "The Catcher in the Rye"
+    let events = value.events // e.g. [event1, event2, ...]
+    /* 
+      Note that dbs like Airtable drops columns that have no data
+      We don't want to add empty cells of data as that will cause bloat, since we deal with a lot of sparse data
+      This just means that either the data source needs to have 0's, or we can't always rely on columnMap for numerical ops
+    */
+    let columnMap = {} // array of each event's column by name; e.g. column-indexed object
+    events.forEach((event) => {
+      Object.keys(event).forEach((colName) => {
+        columnMap[colName] = columnMap[colName] || []
+        columnMap[colName].push(event[colName])
+      })
+    })
+    resultObject[objKey]['columnMap'] = columnMap
+  })
+
+
+  // then calculate data for the object based on event data in the list of events
+  // Object.keys(resultObject).forEach((key) => {
+  //   let value = resultObject[key]
+  // })
+
+
+  return resultObject
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // 
 //  Cytosis-specific transformers
@@ -79,7 +207,8 @@ export const transformArrayToObjectByKey = (results, {objectKey}) => {
 
 /*
 
-  outut
+  Transforms results of Cytosis (Array) to a keyed object (based on config),
+  or into a flat object similar to [transformFlattenKeyedObject], but is cytosis specific;
 
   original:
   { 
@@ -129,5 +258,20 @@ export const outputObject = (sourceData, { flatten, usePrefix, divider = "_" } =
 export const transformerMap = {
   transformRemap,
   transformArrayToObjectByKey,
+  transformFlattenKeyedObject,
+
+  // Ramda / Polymerase transformers
+  transformDataBySchema,
+  transformUnstructuredTextKey, 
+  transformUnstructuredTextKeyArray,
+
+  // event rollups / calculators
+  rollupEventsArrayToObjectByKey,
+
+  // llm prompts
+  llmKeyPrompt,
+  llmArrayPrompt,
+
+  // cytosis transformers
   outputObject,
 };

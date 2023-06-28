@@ -3,6 +3,21 @@
 
   Grabs a list of Notion page paths, and loads both metadata and page data
 
+  This is used by the cfnotion-loader to load sub-pages
+
+    {
+      "name": "jz-post-page",
+      "type": "cfnotion-pages",
+      "path": "/page/adca4e5e5f2149b2be34c9087906407c",
+    },
+    {
+      "name": "jz-post-pages",
+      "type": "cfnotion-pages",
+      "paths": [
+        "/page/a8307b3892704898b42816e5f86cb349",
+        "/page/7bfd7ca39fce47cea724b7beb09ab33f"
+      ],
+    },
 */
 
 export const cfnotionPagesLoader = async (src) => {

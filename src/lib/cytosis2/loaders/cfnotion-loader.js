@@ -3,6 +3,58 @@
 
   Turns a Notion Collection into an array. For collections > posts
 
+    {
+      "name": "jz-data",
+      "type": "cfnotion",
+      "path": "/collection/cccaab5d7ee04ebd9a42dbf2227c1cdb",
+      // "url": "https://notion-cloudflare-worker.yawnxyz.workers.dev",
+      // in-place transformation config
+      // "transformer": {
+      //   "remap": {
+      //     "Name": "Fruit"
+      //   },
+      //   "objectKey": "Fruit", // --> use the new remapped name as the object key
+      // },
+      // array-based transformation config
+      "transformers": [
+        {
+          "function": "transformArrayToObjectByKey",
+          "settings": {
+            "objectKey": "Name"
+          }
+        },
+        {
+          "function": "transformRemap",
+          "settings": {
+            "oneKeyDeep": true, // required when given an object w/ named keys like Airtable or ArrayToObject { key1: { ...data }}
+            "remap": {
+              "Name": "Fruit",
+            }
+          }
+        },
+      ]
+    },
+
+    {
+      "name": "jz-posts",
+      "type": "cfnotion",
+      "path": "/collection/c94e18d29ab54bdc8318d6a41f683e92",
+      // "url": "https://notion-cloudflare-worker.yawnxyz.workers.dev",
+      "loaders": {
+        "notionPageId": "id" // loads the page data as well; this takes a lot of time + memory
+      },
+      // "transformers": [
+      //   {
+      //     "function": "transformRemap",
+      //     "settings": {
+      //       "remap": {
+      //         "Description": "Lede"
+      //       }
+      //     }
+      //   },
+      // ]
+    },
+
 */
 
 import { cfnotionPagesLoader } from './cfnotion-pages-loader.js'

@@ -14,11 +14,12 @@ import { csvLoader } from './loaders/csv-loader.js'
 import { apiLoader } from './loaders/api-loader.js'
 import { linksLoader } from './loaders/links-loader.js'
 
-import { applyTransformers } from './transformers/index.js'
+import { applyTransformers, addTransformers } from './transformers/index.js'
 
 
 export const endo = async (config, {
   sourceNames, // = ['jz-data'],
+  transformers,
 }={}) => {
 
   let sources = [...config.sources] // prevents issues when running multiple endos
@@ -32,6 +33,11 @@ export const endo = async (config, {
     if(data && data.default) {
       return data.default
     }
+  }
+
+  // add new transformers into the transformerMap
+  if (transformers && Array.isArray(transformers) && transformers.length > 0) {
+    addTransformers(transformers)
   }
 
   console.log('[endo] Fetching data sources:', sources)
@@ -93,6 +99,6 @@ export const endo = async (config, {
   data = applyTransformers(sourceData, config.transformers, sources)
 
   // await saveJson(data) // only on build time
-  console.log('[endo] Done fetching. Final Data >>> ', data)
+  // console.log('[endo] Done fetching. Final Data >>> ', data)
   return data
 }
