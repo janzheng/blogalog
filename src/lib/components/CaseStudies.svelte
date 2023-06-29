@@ -18,7 +18,9 @@
         <div class="font-serif text-xl">
           <a href="/{caseStudy.Path}">
             {#if caseStudy.Cover}
-              <img class="Cover-image" src="{caseStudy.Cover}" alt="Cover"/>
+              <div class="Cover-image-container">
+                <img class="Cover-image" src="{caseStudy.Cover}" alt="Cover"/>
+              </div>
             {/if}
             {caseStudy.Name}
           </a></div>
@@ -36,9 +38,14 @@
 </script>
 
 <style lang="scss" global>
-  .Cover-image {
-    height: 130px;
-    width: 100%;
-    object-fit: cover;
+  @media (min-width: 1024px) {
+    //   .Cover-image {
+    //     height: 130px;
+    //     width: 100%;
+    //     object-fit: cover;
+    //   }
+    .Cover-image-container {
+      height: 170px;
+    }
   }
 </style>

@@ -1,7 +1,7 @@
-import adapter from '@sveltejs/adapter-auto'
+// import adapter from '@sveltejs/adapter-auto'
 // import adapter_static from '@sveltejs/adapter-static'
 import adapter_vercel from '@sveltejs/adapter-vercel'
-import adapter_node from '@sveltejs/adapter-node'
+// import adapter_node from '@sveltejs/adapter-node'
 import preprocess from 'svelte-preprocess'
 
 // import { mdsvex } from 'mdsvex'
