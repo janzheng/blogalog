@@ -1,7 +1,7 @@
 export const config = {
-  // "loaders": {
-  //   // "sourceFile": "../../../cytosis-data.json", // pull from this preloaded json file instad of fetching
-  // },
+  "loaders": {
+    // "sourceFile": "../../../prod.json", // pull from this preloaded json
+  },
   "transformers": ["outputObject"],
   "sources": [
     {

@@ -6,11 +6,8 @@ import { endo } from '$lib/cytosis2';
 
 export const load = async (settings) => {
   try {
-    let content = await endo(config, {sourceNames: ['jz-pages']})
-    console.log('catch-all path param:', settings.params.path, content)
-    
-    let pageContent = content['jz-pages'].find(page => page.Path == settings.params.path)
-
+    // let content = await endo(config, {sourceNames: ['jz-pages']})
+    // let pageContent = content['jz-pages'].find(page => page.Path == settings.params.path)
     
     // dynamic page loading
     // const page = await import(`../${params.page}.svelte`)
@@ -21,7 +18,7 @@ export const load = async (settings) => {
 
     return {
       path: settings.params.path,
-      pageContent,
+      // pageContent, // just use whatever the layout passes down
     }
   } catch (err) {
     console.error('[page] router error', err.message)

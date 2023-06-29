@@ -3,11 +3,11 @@
   <div class="Hero | content-pad | bg-slate-100 | overflow-hidden ">
     <div class="relative container max-w-7xl mx-auto w-full h-full; | md:grid grid-cols-3-2">
       <div>
-        {#if $page.data?.['jz-data']?.['hero'].Content}
-          {@html marked($page.data?.['jz-data']?.['hero'].Content || '')}
+        {#if false && cytosis['jz-data']?.['hero'].Content}
+          {@html marked(cytosis['jz-data']?.['hero'].Content || '')}
         {:else}
           <h2 class="antialiased pt-4 pb-8">Hey hey,</h2>
-          <h2 class="pt-0 leading-12 antialiased ">I’m Jan, a product designer who combines code, user research, and lean startup methods to tackle complex issues and difficult projects.</h2>
+          <h2 class="pt-0 leading-12 antialiased ">I’m Jan, a product designer who uses code and good product design practices to tackle challenging, data-centric problems.</h2>
         {/if}
       </div>
       <div class="relative">
@@ -28,11 +28,15 @@
     </div>
 
     {#if cytosis && cytosis['jz-pages']}
-      {#each cytosis['jz-pages'] as post}
+      <div class="my-16">
+        <CaseStudies caseStudies={cytosis['jz-pages'].filter(page => page.Type == "Case Study")} ></CaseStudies>
+      </div>
+
+      <!-- {#each cytosis['jz-pages'] as post}
         <div class="post | mb-32">
           <Notion blocks={post.pageBlocks}></Notion>
         </div>
-      {/each}
+      {/each} -->
     {/if}
     
   </div>
@@ -44,20 +48,22 @@
 
   import { marked } from 'marked'
 	import { onMount } from 'svelte';
-  import Companies from '$lib/components/Companies.svelte';
   import { page } from '$app/stores'
   import { browser } from '$app/environment'; 
   import Notion from '@yawnxyz/sveltekit-notion'
+  
+  import Companies from '$lib/components/Companies.svelte';
+  import CaseStudies from '$lib/components/CaseStudies.svelte';
 
+  let cytosis = $page.data.cytosis // doesn't wait
 
-  let cytosis // await streamed cytosis, and set it here
-
-  if(browser) {
-    (async () => {
-      cytosis = await $page.data.streamed?.cytosis
-      console.log('----> cytosis:', cytosis)
-    })()
-  }
+  // streamed cytosis (loads in after page loads)
+  // if(browser) {
+  //   (async () => {
+  //     cytosis = await $page.data.streamed?.cytosis
+  //     console.log('----> cytosis:', cytosis)
+  //   })()
+  // }
 
   $: if(browser && $page.data.streamed?.cytosis) {
     console.log('streamed.cytosis:', $page.data.streamed?.cytosis)

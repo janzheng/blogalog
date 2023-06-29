@@ -86,7 +86,10 @@ svg {
 }
 
 // prevents annoying blue border on main section on focus
-main:focus:not(:focus-visible), main ._content:focus-visible {
+main:focus:not(:focus-visible),
+main ._content:focus-visible,
+.ContentBody:focus-visible 
+{
   outline: none !important
 }
 

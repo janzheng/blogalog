@@ -20,6 +20,9 @@
     },
 */
 
+
+import fetch from "node-fetch"
+
 export const cfnotionPagesLoader = async (src) => {
   let cfNotionUrl = src.url || "https://notion-cloudflare-worker.yawnxyz.workers.dev"
   let obj = {}, arr = []

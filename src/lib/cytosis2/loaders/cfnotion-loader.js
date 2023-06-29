@@ -57,6 +57,7 @@
 
 */
 
+import fetch from "node-fetch"
 import { cfnotionPagesLoader } from './cfnotion-pages-loader.js'
 import { applyTransformers } from '../transformers/index.js'
 // import { mapKeys } from '../transformers/helpers.js'

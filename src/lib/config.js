@@ -11,8 +11,8 @@ import { writable, get } from 'svelte/store';
  **/
 
 export const siteIcon = "/icon.png"
-export const siteCardTitle = "janz: product, eng, llm, and bio stuff"
-export const siteTitle = "janz: product, eng, llm, and bio stuff"
+export const siteCardTitle = "janz: designing with code"
+export const siteTitle = siteCardTitle // "janz: design with code"
 export const siteDescription = "somea this, lotsa that"
 export const siteURL = "janzheng.com" // no protocol
 export const siteLink = "https://" + siteURL // 'https://github.com/josh-collinsworth/sveltekit-blog-starter'

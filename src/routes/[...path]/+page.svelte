@@ -4,12 +4,22 @@
 {#if pageContent}
   <div class="PageContent content-pad _content-wide">
 
+    {#if pageContent.Cover}
+      <div class="CoverImage">
+        <img alt="CoverImage header" src="{pageContent.Cover}" />
+      </div>
+    {/if}
+
     {#if pageContent.Name}
-      <h1 class="mb-0 pb-2">{@html marked(pageContent.Name || 'woof')}</h1>
+      <h1 class="mb-0 pb-2">{@html marked(pageContent.Name || '')}</h1>
     {/if}
 
     {#if pageContent.Description}
       <div class="text-xl">{pageContent.Description}</div>
+    {/if}
+
+    {#if pageContent.Link}
+      <div class="my-4">Project Link: <a href="{pageContent.Link}">{pageContent.Link}</a></div>
     {/if}
 
     {#if pageContent.pageBlocks}
@@ -32,7 +42,8 @@
   import Notion from '@yawnxyz/sveltekit-notion'
 
   let cytosis; // await streamed cytosis, and set it here
-  let pageContent = $page.data.pageContent;
+  // let pageContent = $page.data.pageContent;
+  let pageContent = $page.data.cytosis['jz-pages'].find(item => item.Path === $page.data.path);
 
   // if(browser) {
   //   (async () => {

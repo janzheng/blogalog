@@ -1,15 +1,11 @@
-
-
-
 import * as R from 'ramda'; 
 
-import { llmKeyPrompt, llmArrayPrompt } from './llm-transformers'
-import { transformDataBySchema } from './transformDataBySchema'
-import { transformUnstructuredTextKey, transformUnstructuredTextKeyArray } from './transformUnstructuredText'
-import { scrapeKey, scrapeArray } from './scrapingbee-transformer'
+import { llmKeyPrompt, llmArrayPrompt } from './llm-transformers.js'
+import { transformDataBySchema } from './transformDataBySchema.js'
+import { transformUnstructuredTextKey, transformUnstructuredTextKeyArray } from './transformUnstructuredText.js'
+import { scrapeKey, scrapeArray } from './scrapingbee-transformer.js'
 
-
-import { mapKeys } from './utils'
+import { mapKeys } from './utils.js'
 
 
 
@@ -28,9 +24,6 @@ export const applyTransformers = (results, transformers, sources) => {
 
   return results
 }
-
-
-
 
 
 export const addTransformers = (transformers) => {

@@ -80,7 +80,7 @@
 }
 
 h1 {
-  @apply font-serif leading-tight text-3xl lg:leading-tight pb-8 font-semibold;
+  @apply font-serif leading-tight text-4xl lg:leading-tight pb-8 font-light;
 }
   h1.article-title  {
     @apply text-6xl md:text-5xl font-display font-bold leading-tight pb-8
@@ -175,100 +175,9 @@ code {
 
 
 
-/* 
-
-  Custom Evergreen overrides + colors
-
-*/
 
 
 
-
-.Content-box {
-  @apply p-1 md:p-8 rounded-2xl bg-evg-green;
-
-  h2 {
-    @apply pt-1 text-3xl;
-  }
-}
-  .Content-square {
-    // padding needs to be added manually for flexibility
-    @apply rounded-sm bg-evg-green;
-
-    h2 {
-      @apply pt-1 text-3xl;
-    }
-  }
-
-  .Content-round {
-    // padding needs to be added manually for flexibility
-    @apply rounded-lg bg-evg-green;
-
-    h2 {
-      @apply pt-1 text-3xl;
-    }
-  }
-
-
-
-
-%btn-evergreen {
-  @apply text-evergreen hover:text-white bg-evg-green-dark border-evg-green-dark hover:bg-green-700 hover:bg-green-700 active:bg-green-800 active:ring-green-400 active:ring-2 focus:ring-green-100 focus:ring-2 focus:ring-inset;
-}
-%btn-outline-evergreen, .--btn-outline-evergreen {
-  @apply
-    text-evg-green-dark
-    border-evg-green-dark
-    hover:border-evg-green-dark hover:bg-evg-green-dark/10 hover:text-evg-green-dark
-    active:bg-green-100 active:ring-green-200 active:ring-2
-    focus:ring-green-100 focus:ring-4 focus:ring-inset 
-  ;
-}
-%btn-outline-evg-active,
-.--btn-outline-evg-active {
-  @apply text-evg-active-green border-evg-active-green hover:border-evg-green-dark hover:bg-evg-green-dark/10 hover:text-evg-green-dark active:bg-green-100 active:ring-green-200 active:ring-2 focus:ring-green-100 focus:ring-4 focus:ring-inset;
-}
-
-%card-outline-evergreen, .--card-outline-evergreen {
-  @apply border-evg-green-dark/60 text-evg-green-dark bg-evg-green-lighter/40;
-}
-
-
-
-// form + interactive stuff
-.Btn,
-.btn {
-  @extend %btn;
-  &.--evergreen {
-    @extend %btn-evergreen;
-  }
-}
-
-.Btn-link, .btn-link {
-  @extend %btn-link;
-  // &.--evergreen {
-    @apply no-underline text-evg-green-dark cursor-pointer hover:underline hover:text-evg-active-green;
-  // }
-}
-
-.input-borders {
-  @apply rounded-md bg-white border-evg-green-lightest focus:border-evg-active-green border-2 focus:bg-white focus:ring-0 hover:border-evg-active-green hover:transition-all ease-in-out;
-}
-
-.input-formlet-outline {
-  // no hover styles
-  @apply rounded-md bg-white border-evg-green focus:border-evg-active-green border-2 focus:bg-white focus:ring-0;
-}
-  .input-formlet-outline-hover {
-    // no hover styles
-    @extend .input-formlet-outline;
-    @apply hover:border-evg-active-green hover:transition-all ease-in-out cursor-pointer;
-  }
-
-
-.form-input.--evergreen {
-  @apply rounded-md bg-white border-evergreen focus:border-evg-green-dark border-2 focus:bg-white focus:ring-0 hover:border-evg-green-dark hover:transition-all ease-in-out;
-}
 
 
 
@@ -287,4 +196,14 @@ code {
 // Blogs, Case studies / dynamic routed stuff from Notion
 .PageContent .notion-page {
   margin-left: 0; // left-align
+}
+
+
+.notion-list, .notion-list-disc {
+  ul {
+    padding-inline-start: 0;
+  }
+  li {
+    list-style-position: outside;
+  }
 }

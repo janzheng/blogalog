@@ -5,6 +5,7 @@
   "scripts": {
     "notes": "yarn install necessary to include any yarn linked components",
     "dev": "vite dev --port 3055",
+    "devo": "yarn output; vite dev --port 3055",
     "devopen": "vite dev --open",
     "package": "vite package",
     "preview": "vite preview",
@@ -13,6 +14,7 @@
     "commit": "git add . -A ; git commit ; git push origin main ",
     "commitprod": "git add . -A ; git commit ; git push origin prod ",
     "prod": "link vercel directly to prod branch; don't push to prod",
+    "output": "node ./src/lib/cytosis2/output.js ./cytosis.config.prod.js ./prod.json",
     "stage": "yarn install; vercel",
     "plasmid": "yarn add --dev git+https://github.com/janzheng/plasmid.git",
     "ln-plasmid": "ln -s ../../../plasmid/",

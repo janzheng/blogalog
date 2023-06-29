@@ -21,7 +21,9 @@ import { applyTransformers, addTransformers } from './transformers/index.js'
 export const endo = async (config, {
   sourceNames, // = ['jz-data'],
   transformers,
-}={}) => {
+} = {} ) => {
+
+  console.log('[endo] Init load ---------')
 
   let sources = [...config.sources] // prevents issues when running multiple endos
 
@@ -30,9 +32,14 @@ export const endo = async (config, {
   }
 
   if (config?.loaders?.sourceFile) {
-    let data = await import(config?.loaders?.sourceFile /* @vite-ignore */) 
-    if(data && data.default) {
-      return data.default
+    try {
+      let data = await import(config?.loaders?.sourceFile /* @vite-ignore */) 
+      if (data && data.default) {
+        console.log('[endo] Using build file: ', config?.loaders?.sourceFile)
+        return data.default
+      }
+    } catch(e) {
+      console.log('[endo] File does not exist; loading from APIs.')
     }
   }
 
@@ -44,7 +51,7 @@ export const endo = async (config, {
   console.log('[endo] Fetching data sources:', sources)
   // let loaderData = [] // for storing recursive, nested async data
   let sourceData = await Promise.all(sources.map((src, i) => {
-    console.log('[endo] >> item:', src.name, src.type)
+    console.log('[endo] >> loading item:', src.name, src.type)
     // cytosis2 versions
     // get notion from cloudflare-notion endpoint
     let asyncData

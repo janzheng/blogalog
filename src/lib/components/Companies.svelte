@@ -1,8 +1,8 @@
 
 
-<div class="font-serif text-3xl pb-4 antialiased">Previous client work</div>
+<div class="font-serif text-2xl pb-4 antialiased">Previous work</div>
 
-<p>I’ve worked with various tech companies and large brands to build products and landing pages over the years. Some brands and companies I’ve previously worked with include:
+<p>I’ve worked for and built products and landing pages for various companies and brands, from small to large to build. Previously I’ve worked for:
 </p>
 
 <div class="company-grid | grid grid-cols-2 md:grid-cols-3 align-center gap-4 ">
