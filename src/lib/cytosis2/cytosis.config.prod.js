@@ -18,7 +18,7 @@ export const config = {
       ]
     },
     {
-      "name": "jz-posts",
+      "name": "jz-pages",
       "type": "cfnotion",
       "path": "/collection/c94e18d29ab54bdc8318d6a41f683e92",
       "loaders": {

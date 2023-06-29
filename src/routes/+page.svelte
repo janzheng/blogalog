@@ -27,8 +27,8 @@
       <Companies ></Companies>
     </div>
 
-    {#if cytosis && cytosis['jz-posts']}
-      {#each cytosis['jz-posts'] as post}
+    {#if cytosis && cytosis['jz-pages']}
+      {#each cytosis['jz-pages'] as post}
         <div class="post | mb-32">
           <Notion blocks={post.pageBlocks}></Notion>
         </div>
@@ -44,7 +44,6 @@
 
   import { marked } from 'marked'
 	import { onMount } from 'svelte';
-  // import LiveNotion from '$lib/components/shared/LiveNotion.svelte';
   import Companies from '$lib/components/Companies.svelte';
   import { page } from '$app/stores'
   import { browser } from '$app/environment'; 
@@ -63,8 +62,6 @@
   $: if(browser && $page.data.streamed?.cytosis) {
     console.log('streamed.cytosis:', $page.data.streamed?.cytosis)
   }
-
-
 
 
 

@@ -58,7 +58,7 @@
 */
 
 import { cfnotionPagesLoader } from './cfnotion-pages-loader.js'
-import { applyTransformers, transformArrayToObjectByKey, transformRemap } from '../transformers/index.js'
+import { applyTransformers } from '../transformers/index.js'
 // import { mapKeys } from '../transformers/helpers.js'
 
 const getPageBlockValues = (page) => {

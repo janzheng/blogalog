@@ -24,6 +24,7 @@
 */
 
 import { JSDOM } from 'jsdom';
+import { applyTransformers } from '../transformers/index.js'
 
 export const linksLoader = async (src) => {
   // todo
@@ -43,21 +44,10 @@ export const linksLoader = async (src) => {
           favicon,
           link
         }
-      }).then(async result => {
-        let bee
-        if (src.scrapingbee) {
-          bee = await getBee({
-            api_key: process.env[src.scrapingbee.apiKeyName],
-            url: link,
-            ...src.scrapingbee,
-          })
-
-          result['content'] = bee
-        }
-        return result
       })
     })
   )
+  results = applyTransformers(results, src.transformers)
   return results
 }
 

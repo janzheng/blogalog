@@ -80,7 +80,7 @@
 }
 
 h1 {
-  @apply font-serif leading-tight text-5xl  lg:text-5xl lg:leading-tight pb-8 font-semibold;
+  @apply font-serif leading-tight text-3xl lg:leading-tight pb-8 font-semibold;
 }
   h1.article-title  {
     @apply text-6xl md:text-5xl font-display font-bold leading-tight pb-8
@@ -280,4 +280,11 @@ code {
 
 .content-pad {
   @apply px-8 md:px-32 py-8;
+}
+
+
+
+// Blogs, Case studies / dynamic routed stuff from Notion
+.PageContent .notion-page {
+  margin-left: 0; // left-align
 }

@@ -49,7 +49,7 @@ export const load = async ({params, locals}) => {
       }), // testing all
       // ... await endo(config, {sourceNames: ['jz-data']}),
       streamed: {
-        // cytosis: endo(config, {sourceNames: ['jz-posts']}) // streamed await
+        // cytosis: endo(config, {sourceNames: ['jz-pages']}) // streamed await
       }
     }
   }

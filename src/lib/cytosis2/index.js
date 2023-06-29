@@ -4,6 +4,7 @@ import csv from 'csvtojson'
 import { Client } from '@notionhq/client'
 import Cytosis from 'cytosis'
 
+import { dataLoader } from './loaders/data-loader.js'
 import { cfnotionLoader } from './loaders/cfnotion-loader.js'
 import { cfnotionPagesLoader } from './loaders/cfnotion-pages-loader.js'
 import { notionLoader } from './loaders/notion-loader.js'
@@ -41,11 +42,15 @@ export const endo = async (config, {
   }
 
   console.log('[endo] Fetching data sources:', sources)
+  // let loaderData = [] // for storing recursive, nested async data
   let sourceData = await Promise.all(sources.map((src, i) => {
     console.log('[endo] >> item:', src.name, src.type)
     // cytosis2 versions
     // get notion from cloudflare-notion endpoint
     let asyncData
+    if (src.type == 'data') {
+      asyncData = dataLoader(src)
+    }
     if (src.type == 'cfnotion') {
       asyncData = cfnotionLoader(src)
     }
@@ -76,17 +81,27 @@ export const endo = async (config, {
       asyncData = linksLoader(src)
     }
 
-    // todo
-    // if (src.type == 'fuzzyface') {
-    //   asyncData = fuzzyfaceLoader(src)
+    // future: support nested data
+    // if (src.loader) {
+    //   let endoData
+    //   (async () => {
+    //     endoData = await endo(src.loader, {
+    //       sourceNames, // = ['jz-data'],
+    //       transformers,
+    //     })
+    //     console.log('asyncfn endoData:', endoData)
+    //   })()
+      
+    //   console.log('^^^^^^^^^^ endoData:', endoData)
+    //   if(Array.isArray(asyncData)) {
+    //     asyncData.push(endoData)
+    //   } else {
+    //     asyncData['loader'] = endoData
+    //   }
     // }
 
-
-    return asyncData // 
+    return asyncData
   }))
-
-
-
 
   let data = {}
   console.log('[endo] Done fetching!')
@@ -95,10 +110,6 @@ export const endo = async (config, {
   if(!config.transformers) {
     config.transformers = [{"function": "outputObject"}]
   }
-
   data = applyTransformers(sourceData, config.transformers, sources)
-
-  // await saveJson(data) // only on build time
-  // console.log('[endo] Done fetching. Final Data >>> ', data)
   return data
 }

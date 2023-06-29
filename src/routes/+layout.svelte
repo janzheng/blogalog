@@ -82,6 +82,9 @@
 
 <style lang="scss" global>
 
+  .ContentBody {
+    min-height: calc(100vh - 250px);
+  }
 
   .color-palette {
     position: absolute;

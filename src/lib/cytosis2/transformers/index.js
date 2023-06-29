@@ -3,9 +3,10 @@
 
 import * as R from 'ramda'; 
 
-import { llmKeyPrompt, llmArrayPrompt } from './llm'
+import { llmKeyPrompt, llmArrayPrompt } from './llm-transformers'
 import { transformDataBySchema } from './transformDataBySchema'
 import { transformUnstructuredTextKey, transformUnstructuredTextKeyArray } from './transformUnstructuredText'
+import { scrapeKey, scrapeArray } from './scrapingbee-transformer'
 
 
 import { mapKeys } from './utils'
@@ -257,20 +258,18 @@ export const outputObject = (sourceData, { flatten, usePrefix, divider = "_" } =
 
 export const transformerMap = {
   transformRemap,
-  transformArrayToObjectByKey,
-  transformFlattenKeyedObject,
+  transformArrayToObjectByKey, transformFlattenKeyedObject,
+  scrapeKey, scrapeArray,
 
   // Ramda / Polymerase transformers
   transformDataBySchema,
-  transformUnstructuredTextKey, 
-  transformUnstructuredTextKeyArray,
+  transformUnstructuredTextKey, transformUnstructuredTextKeyArray,
 
   // event rollups / calculators
   rollupEventsArrayToObjectByKey,
 
   // llm prompts
-  llmKeyPrompt,
-  llmArrayPrompt,
+  llmKeyPrompt, llmArrayPrompt,
 
   // cytosis transformers
   outputObject,

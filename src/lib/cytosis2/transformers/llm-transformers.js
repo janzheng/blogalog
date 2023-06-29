@@ -41,7 +41,10 @@ export const llmArrayPrompt = async (results, settings = {}) => {
 
 
 
-// Very basic LLM 
+// Very basic LLM interface; needs to be updated to be simpler
+// also support function calling and conversations better
+// FOCUS ON THE DX OF CALLING THE METHODS FIRST
+// Abstract langchain, which is too confusing
 
 import { ChatOpenAI } from "langchain/chat_models";
 import { LLMChain } from "langchain/chains";

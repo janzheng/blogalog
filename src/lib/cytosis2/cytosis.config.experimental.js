@@ -13,6 +13,36 @@ export const config = {
     },
   ],
   "sources": [
+    {
+      "name": "data-example-text",
+      "type": "data",
+      "data": `{ \"text\": \"Sample JSON-lines string data here\" }
+      { \"text\": \"Sample JSON-lines string data 2 here\" }`,
+      "metadata": {
+        "type": "text", // optionally add anything here
+        "description": "just an example of json-lines"
+      }
+    },
+    {
+      "name": "data-example-object",
+      "type": "data",
+      "flat": true, // don't return with "data:"; removes metadata
+      "data": {
+        text: "Sample string data here"
+      },
+    },
+    {
+      "name": "data-example-array",
+      "type": "data",
+      "data": [
+        "name, description",
+        "str1, sample string 1",
+        "str2, sample string 1",
+      ],
+      "metadata": {
+        "description": "example of handling an array of csv text"
+      } 
+    },
   //   {
   //     "name": "jz-data",
   //     "type": "cfnotion",
@@ -44,46 +74,46 @@ export const config = {
   //       },
   //     ]
   //   },
-    {
-      "name": "jz-posts",
-      "type": "cfnotion",
-      "path": "/collection/c94e18d29ab54bdc8318d6a41f683e92",
-      // "url": "https://notion-cloudflare-worker.yawnxyz.workers.dev",
-      "loaders": {
-        "notionPageId": "id" // loads the page data as well; this takes a lot of time + memory
-      },
-      "transformers": [
-        {
-          "function": "transformRemap",
-          "settings": {
-            "remap": {
-              "Description": "Lede"
-            }
-          }
-        },
-        {
-          "function": "transformUnstructuredTextKeyArray",
-          "settings": {
-            "key": "Lede",
-            "outputKey": "LedeSchema",
-            "schema": "{foodItem, fruitItem}. Use Null if none found for foodItem or fruitItem."
-          }
-        },
-        // {
-        //   "function": "llmArrayPrompt",
-        //   "settings": {
-        //     "key": "Lede",
-        //     "outputKey": "PirateSummary",
-        //     "prompt": "Content to Summarize content:",
-        //     "llm": {
-        //       "apiKeyName": "OPENAI_API_KEY",
-        //       "system": "You are a helpful pirate assistant, who always speaks like a pirate. Instructions: Please summarize the lede like a pirate. Arr! Add a lot of ARrs because that's what pirates do. but with variations of capital and lowercase Rrs and a mix of AaaAAaArRrRrrrsS for fun. Also add pirate jokes and puns. Pirate jokes and puns are fun!",
-        //       "modelName": "gpt-3.5-turbo"
-        //     }
-        //   }
-        // },
-      ]
-    },
+    // {
+    //   "name": "jz-pages",
+    //   "type": "cfnotion",
+    //   "path": "/collection/c94e18d29ab54bdc8318d6a41f683e92",
+    //   // "url": "https://notion-cloudflare-worker.yawnxyz.workers.dev",
+    //   "loaders": {
+    //     "notionPageId": "id" // loads the page data as well; this takes a lot of time + memory
+    //   },
+    //   "transformers": [
+    //     {
+    //       "function": "transformRemap",
+    //       "settings": {
+    //         "remap": {
+    //           "Description": "Lede"
+    //         }
+    //       }
+    //     },
+    //     // {
+    //     //   "function": "transformUnstructuredTextKeyArray",
+    //     //   "settings": {
+    //     //     "key": "Lede",
+    //     //     "outputKey": "LedeSchema",
+    //     //     "schema": "{foodItem, fruitItem}. Use Null if none found for foodItem or fruitItem."
+    //     //   }
+    //     // },
+    //     // {
+    //     //   "function": "llmArrayPrompt",
+    //     //   "settings": {
+    //     //     "key": "Lede",
+    //     //     "outputKey": "PirateSummary",
+    //     //     "prompt": "Content to Summarize content:",
+    //     //     "llm": {
+    //     //       "apiKeyName": "OPENAI_API_KEY",
+    //     //       "system": "You are a helpful pirate assistant, who always speaks like a pirate. Instructions: Please summarize the lede like a pirate. Arr! Add a lot of ARrs because that's what pirates do. but with variations of capital and lowercase Rrs and a mix of AaaAAaArRrRrrrsS for fun. Also add pirate jokes and puns. Pirate jokes and puns are fun!",
+    //     //       "modelName": "gpt-3.5-turbo"
+    //     //     }
+    //     //   }
+    //     // },
+    //   ]
+    // },
     // {
     //   "name": "jz-post-page",
     //   "type": "cfnotion-pages",
@@ -156,19 +186,28 @@ export const config = {
     //   ],
     //   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuYa2r5lzHYSrU88gC4xnJyQzl9YA1VvUKvzmyvRJOA8PcEMfN085uWFvBsDzvZYeq-vOeJ_cZMGvm/pub?gid=281070310&single=true&output=csv"
     // },
-    {
-      "name": "links-test",
-      "type": "links",
-      "paths": [
-        "https://janzheng.com/",
-        // "https://wikipedia.com",
-      ],
-      // "scrapingbee": {
-      //   apiKeyName: "SCRAPING_BEE",
-      //   premium_proxy: false,
-      //   render_js: false,
-      //   // extract_rules: `{"text":"body"}` // all text, no html
-      // }
-    },
+    // {
+    //   "name": "links-test",
+    //   "type": "links",
+    //   "paths": [
+    //     "https://janzheng.com/",
+    //     // "https://wikipedia.com",
+    //   ],
+    //   // "transformers": [
+    //   //   {
+    //   //     "function": "scrapeArray",
+    //   //     "settings": {
+    //   //       "key": "link",
+    //   //       "outputKey": "content",
+    //   //       "apiKeyName": "SCRAPING_BEE",
+    //   //       "beeSettings": {
+    //   //         //   premium_proxy: false,
+    //   //         //   render_js: false,
+    //   //         //   // extract_rules: `{"text":"body"}` // all text, no html
+    //   //       }
+    //   //     }
+    //   //   },
+    //   // ]
+    // },
   ]
 }
