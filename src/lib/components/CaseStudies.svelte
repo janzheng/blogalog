@@ -45,7 +45,8 @@
     //     object-fit: cover;
     //   }
     .Cover-image-container {
-      height: 170px;
+      max-height: 190px;
+      overflow: hidden;
     }
   }
 </style>
