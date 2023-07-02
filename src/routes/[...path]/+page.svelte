@@ -2,44 +2,44 @@
 
 <svelte:head>
   <!-- this is wrong; has to be served from ssr, but too lazy -->
-  <title>{pageContent.Name}</title>
+  <title>{pageContent?.Name}</title>
 </svelte:head>
 
 
 {#if pageContent}
   <div class="PageContent content-pad _content-wide">
 
-    {#if pageContent.Cover}
+    {#if pageContent?.Cover}
       <div class="CoverImage">
-        <img alt="CoverImage header" src="{pageContent.Cover}" />
+        <img alt="CoverImage header" src="{pageContent?.Cover}" />
       </div>
     {/if}
 
-    {#if pageContent.Name}
-      <h1 class="mb-0 pb-2">{@html marked(pageContent.Name || '')}</h1>
+    {#if pageContent?.Name}
+      <h1 class="mb-0 pb-2">{@html marked(pageContent?.Name || '')}</h1>
     {/if}
 
-    {#if pageContent.Description}
-      <div class="text-xl">{pageContent.Description}</div>
+    {#if pageContent?.Description}
+      <div class="text-xl">{pageContent?.Description}</div>
     {/if}
 
-    {#if pageContent.Link}
-      <div class="my-4">Project Link: <a href="{pageContent.Link}">{pageContent.Link}</a></div>
+    {#if pageContent?.Link}
+      <div class="my-4">Project Link: <a href="{pageContent?.Link}">{pageContent?.Link}</a></div>
     {/if}
 
-    {#if pageContent.pageBlocks}
+    {#if pageContent?.pageBlocks}
         <div class="post | mt-16 mb-32">
-          <Notion blocks={pageContent.pageBlocks}></Notion>
+          <Notion blocks={pageContent?.pageBlocks}></Notion>
         </div>
     {/if}
 
 
     <!-- create an html details / summary example here -->
-    {#if pageContent.versions}
+    {#if pageContent?.versions}
       <div class="mt-16 mb-32">
         <details>
           <summary>Versions</summary>
-          {#each pageContent.versions as version}
+          {#each pageContent?.versions as version}
             <div class="post-version | mt-4 pl-8">
               <details>
                 <summary>
