@@ -23,6 +23,18 @@
 
   <div class="content-pad _content-wide">
 
+    {#if cytosis && cytosis['jz-pages']}
+      <div class="my-16">
+        <Posts posts={cytosis['jz-pages'].filter(page => page.Type == "Post")} ></Posts>
+      </div>
+
+      <!-- {#each cytosis['jz-pages'] as post}
+        <div class="post | mb-32">
+          <Notion blocks={post.pageBlocks}></Notion>
+        </div>
+      {/each} -->
+    {/if}
+
     <div class="my-16">
       <Companies ></Companies>
     </div>
@@ -57,6 +69,7 @@
   
   import Companies from '$lib/components/Companies.svelte';
   import CaseStudies from '$lib/components/CaseStudies.svelte';
+  import Posts from '$lib/components/Posts.svelte';
 
   let cytosis = $page.data.cytosis // doesn't wait
 

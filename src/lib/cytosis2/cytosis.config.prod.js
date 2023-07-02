@@ -1,6 +1,6 @@
 export const config = {
   "loaders": {
-    "sourceFile": "../../../prod.json", // pull from this preloaded json
+    // "sourceFile": "../../../prod.json", // pull from this preloaded json
   },
   "transformers": ["outputObject"],
   "sources": [
@@ -23,7 +23,16 @@ export const config = {
       "path": "/collection/c94e18d29ab54bdc8318d6a41f683e92",
       "loaders": {
         "notionPageId": "id"
-      }
+      },
+      "transformers": [
+        {
+          "function": "transformArrayVersionedObjects",
+          "settings": {
+            "uniqueKey": "Path", // unique field to track versions against
+            "versionKey": "Version", // version name / number field  
+          }
+        }
+      ]
     },
   ]
 }

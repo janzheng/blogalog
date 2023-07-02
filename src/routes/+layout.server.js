@@ -48,9 +48,9 @@ export const load = async ({params, locals}) => {
         transformers: [customLibraryEventTransformer],
       }), // testing all
       // ... await endo(config, {sourceNames: ['jz-data']}),
-      streamed: {
-        // cytosis: endo(config, {sourceNames: ['jz-pages']}) // streamed await
-      }
+      // streamed: {
+      //   // cytosis: endo(config, {sourceNames: ['jz-pages']}) // streamed await
+      // }
     }
   }
   catch (err) {

@@ -5,7 +5,7 @@ import { transformDataBySchema } from './transformDataBySchema.js'
 import { transformUnstructuredTextKey, transformUnstructuredTextKeyArray } from './transformUnstructuredText.js'
 import { scrapeKey, scrapeArray } from './scrapingbee-transformer.js'
 
-import { mapKeys } from './utils.js'
+import { mapKeys, compareVersions } from './utils.js'
 
 
 
@@ -117,6 +117,67 @@ export const transformFlattenKeyedObject = (results) => {
     })
     return data
   }
+}
+
+
+
+/* 
+
+  Take an array of objects: if they have repeated unique keys, add collate the previous versions into the arrayed object
+
+  - If a record doesn't have a version number, it's treated as version "1"
+  - All versioned data posts are stored an array called "versions"
+
+  [
+    { blogName: "blog1", version: "1", ... },
+    { blogName: "blog1", version: "2", ... },
+  ]
+
+  ->
+
+  [
+    { blogName: "blog1", versions: [{ blogName: "blog1", version: "1" }, {v2, ...}]},
+  ]
+
+  "transformers": [
+    {
+      "function": "transformArrayVersionedObjects",
+      "settings": {
+        "uniqueKey": "Path", // unique field to track versions against
+        "versionKey": "Version", // version name / number field  
+      }
+    }
+  ]
+*/
+export const transformArrayVersionedObjects = (results, { uniqueKey="Name", versionKey="Version" } = {}) => {
+  if (!Array.isArray(results)) return results
+  let postObject = {} // instead of sorting / shuffling things around, we just add them to the object by key
+
+  // first pass: add all empties and v1s to posts
+  results.forEach((post) => {
+    post[versionKey] = post[versionKey] || "1"
+    postObject[post[uniqueKey]] = postObject[post[uniqueKey]] || { versions: [] }
+    postObject[post[uniqueKey]]['versions'].push(post)
+  })
+  // console.log('----> postObject', postObject)
+
+  // sort post versions
+  // transform keyed object back into array
+  let posts = []
+  Object.keys(postObject).forEach(postKey => {
+    let sortedVersions = postObject[postKey]['versions'].sort((a, b) => {
+      return compareVersions(a[versionKey], b[versionKey])
+    })
+    sortedVersions.reverse() // reverse so that the latest version is first; mutates array
+    posts.push({
+      [uniqueKey]: postKey,
+      versions: sortedVersions,
+      ...sortedVersions[0] // add the latest version's data back into the object
+    })
+  })
+
+  // console.log('----> posts array', posts)
+  return posts 
 }
 
 
@@ -253,6 +314,7 @@ export const transformerMap = {
   transformRemap,
   transformArrayToObjectByKey, transformFlattenKeyedObject,
   scrapeKey, scrapeArray,
+  transformArrayVersionedObjects,
 
   // Ramda / Polymerase transformers
   transformDataBySchema,

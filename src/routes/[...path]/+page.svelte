@@ -28,8 +28,34 @@
         </div>
     {/if}
 
-  </div>  
 
+    <!-- create an html details / summary example here -->
+    {#if pageContent.versions}
+      <div class="mt-16 mb-32">
+        <details>
+          <summary>Versions</summary>
+          {#each pageContent.versions as version}
+            <div class="post-version | mt-4 pl-8">
+              <details>
+                <summary>
+                  {#if version.Version}<span class="text-sm">{version.Version}</span> {/if}
+                  {#if version.VersionNotes}<span class="text-sm">{version.VersionNotes}</span>
+                  {/if}
+                  {#if version.Description}
+                    <span class=""> — {version.Description}</span>
+                  {/if}
+                </summary>
+                <div class="pl-8">
+                  <Notion blocks={version.pageBlocks}></Notion>
+                </div>
+              </details>  
+            </div>
+          {/each}
+        </details>
+      </div>
+    {/if}
+
+  </div>
 {/if}
 
 
