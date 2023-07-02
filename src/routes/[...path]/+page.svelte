@@ -1,5 +1,10 @@
 
 
+<svelte:head>
+  <!-- this is wrong; has to be served from ssr, but too lazy -->
+  <title>{pageContent.Name}</title>
+</svelte:head>
+
 
 {#if pageContent}
   <div class="PageContent content-pad _content-wide">
