@@ -1,5 +1,7 @@
 import { error } from '@sveltejs/kit'
 import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
+import { PUBLIC_CY_TYPE } from '$env/static/public';
+
 // import { getContent } from '$routes/api/content/+server.js'
 import { head, seo } from '$lib/config.js'
 
@@ -41,15 +43,42 @@ export const load = async ({params, locals}) => {
     // console.log('--->>>> cytosisData:', cytosis)
     // console.log('--->>>> cytosisData:', JSON.stringify(cytosis, 0, 2)))
 
+    let cytosis = await endo(config, {
+      transformers: [customLibraryEventTransformer],
+    })
+
+    let _head = PUBLIC_CY_TYPE !== "janzheng" ? {
+      title:  cytosis?.['site-data']?.['SiteTitle'].Content,
+      author:  cytosis?.['site-data']?.['Author'].Content,
+      description:  cytosis?.['site-data']?.['SiteDescription'].Content,
+      url:  cytosis?.['site-data']?.['URL'].Content,
+      canonical: cytosis?.['site-data']?.['URL'].Content,
+      title: cytosis?.['site-data']?.['SiteTitle'].Content,
+      ico: cytosis?.['site-data']?.['IconImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url,
+      image: {
+        url: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url,
+        width: 850,
+        height: 650,
+      },
+      meta: [
+        { property: "og:image:url", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
+        { property: "og:image", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
+      ],
+      links: [
+        { rel: 'icon', type: 'image/png', href: cytosis?.['site-data']?.['IconImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url }
+      ]
+    } : head
+
+    console.log('HEAD lol what:', _head)
+
     return {
-      head, seo,
+      head: _head,
+      seo,
       user: locals?.user,
-      cytosis: endo(config, {
-        transformers: [customLibraryEventTransformer],
-      }), // testing all
-      // ... await endo(config, {sourceNames: ['jz-data']}),
+      cytosis: cytosis, // testing all
+      // ... await endo(config, {sourceNames: ['site-data']}),
       // streamed: {
-      //   // cytosis: endo(config, {sourceNames: ['jz-pages']}) // streamed await
+      //   // cytosis: endo(config, {sourceNames: ['site-pages']}) // streamed await
       // }
     }
   }

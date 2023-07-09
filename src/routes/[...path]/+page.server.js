@@ -6,8 +6,8 @@ import { endo } from '$lib/cytosis2';
 
 export const load = async (settings) => {
   try {
-    // let content = await endo(config, {sourceNames: ['jz-pages']})
-    // let pageContent = content['jz-pages'].find(page => page.Path == settings.params.path)
+    // let content = await endo(config, {sourceNames: ['site-pages']})
+    // let pageContent = content['site-pages'].find(page => page.Path == settings.params.path)
     
     // dynamic page loading
     // const page = await import(`../${params.page}.svelte`)

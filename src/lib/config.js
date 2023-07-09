@@ -10,7 +10,7 @@ import { writable, get } from 'svelte/store';
  * PLEASE BE SURE TO UPDATE THEM ALL! Thank you!
  **/
 
-export const siteIcon = "/icon.png"
+export const siteIcon = "/bananaicon.png"
 export const siteCardTitle = "janz: designing with code"
 export const siteTitle = siteCardTitle // "janz: design with code"
 export const siteDescription = "somea this, lotsa that"
@@ -63,15 +63,17 @@ export let head = {
     alt: siteCardTitle,
   },
   meta: [
+    { property: "og:image:url", content: siteCard },
+    { property: "og:image", content: siteCard },
     // { hid: 'google-site-verification', name: 'google-site-verification', content: "FV3L35TjM9haadbuZvHLDz2n-I1KUbN_gYqM3cIH0Wk" },
   ],
 }
 head = {
   ...head,
   links: [
-    { rel: 'icon', type: 'image/png', href: head.ico }, // <link rel="icon" sizes="192x192" href="/path/to/icon.png">
-    { rel: 'apple-touch-icon', href: head.ico }, // default resolution is 192x192 <link rel="apple-touch-icon" href="/path/to/apple-touch-icon.png">
-    { rel: 'mask-icon', href: head.ico, color: head.color }, // <link rel="mask-icon" href="/path/to/icon.svg" color="blue"> <!-- Safari Pinned Tab Icon -->
+    { rel: 'icon', type: 'image/png', href: siteIcon }, // <link rel="icon" sizes="192x192" href="/path/to/icon.png">
+    { rel: 'apple-touch-icon', href: siteIcon }, // default resolution is 192x192 <link rel="apple-touch-icon" href="/path/to/apple-touch-icon.png">
+    { rel: 'mask-icon', href: siteIcon, color: head.color }, // <link rel="mask-icon" href="/path/to/icon.svg" color="blue"> <!-- Safari Pinned Tab Icon -->
     // { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
     // { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
     // { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700&display=swap' },

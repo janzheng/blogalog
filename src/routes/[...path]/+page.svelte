@@ -74,7 +74,7 @@
 
   let cytosis; // await streamed cytosis, and set it here
   // let pageContent = $page.data.pageContent;
-  let pageContent = $page.data.cytosis['jz-pages'].find(item => item.Path === $page.data.path);
+  let pageContent = $page.data.cytosis['site-pages'].find(item => item.Path === $page.data.path);
 
   // if(browser) {
   //   (async () => {

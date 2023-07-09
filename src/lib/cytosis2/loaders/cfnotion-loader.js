@@ -4,7 +4,7 @@
   Turns a Notion Collection into an array. For collections > posts
 
     {
-      "name": "jz-data",
+      "name": "site-data",
       "type": "cfnotion",
       "path": "/collection/cccaab5d7ee04ebd9a42dbf2227c1cdb",
       // "url": "https://notion-cloudflare-worker.yawnxyz.workers.dev",

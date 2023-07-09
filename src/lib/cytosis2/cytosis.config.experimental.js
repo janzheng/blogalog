@@ -44,7 +44,7 @@ export const config = {
       } 
     },
   //   {
-  //     "name": "jz-data",
+  //     "name": "site-data",
   //     "type": "cfnotion",
   //     "path": "/collection/cccaab5d7ee04ebd9a42dbf2227c1cdb",
   //     // "url": "https://notion-cloudflare-worker.yawnxyz.workers.dev",
@@ -75,7 +75,7 @@ export const config = {
   //     ]
   //   },
     // {
-    //   "name": "jz-pages",
+    //   "name": "site-pages",
     //   "type": "cfnotion",
     //   "path": "/collection/c94e18d29ab54bdc8318d6a41f683e92",
     //   // "url": "https://notion-cloudflare-worker.yawnxyz.workers.dev",

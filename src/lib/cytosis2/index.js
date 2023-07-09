@@ -19,7 +19,7 @@ import { applyTransformers, addTransformers } from './transformers/index.js'
 
 
 export const endo = async (config, {
-  sourceNames, // = ['jz-data'],
+  sourceNames, // = ['site-data'],
   transformers,
 } = {} ) => {
 
@@ -31,16 +31,19 @@ export const endo = async (config, {
     sources = sources.filter(src => sourceNames.includes(src.name))
   }
 
-  if (config?.loaders?.sourceFile) {
+  let sourceFile = config?.loaders?.sourceFile || process.env.CY_SOURCEFILE
+  if (sourceFile) {
     try {
-      let data = await import(config?.loaders?.sourceFile /* @vite-ignore */) 
+      let data = await import(sourceFile /* @vite-ignore */) 
       if (data && data.default) {
-        console.log('[endo] Using build file: ', config?.loaders?.sourceFile)
+        console.log('[endo] Using build file: ', sourceFile)
         return data.default
       }
     } catch(e) {
       console.log('[endo] File does not exist; loading from APIs.')
     }
+  } else {
+    console.log('[endo] Using API Loaders: ', sourceFile)
   }
 
   // add new transformers into the transformerMap
@@ -93,7 +96,7 @@ export const endo = async (config, {
     //   let endoData
     //   (async () => {
     //     endoData = await endo(src.loader, {
-    //       sourceNames, // = ['jz-data'],
+    //       sourceNames, // = ['site-data'],
     //       transformers,
     //     })
     //     console.log('asyncfn endoData:', endoData)

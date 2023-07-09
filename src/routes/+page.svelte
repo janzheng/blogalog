@@ -1,60 +1,46 @@
 <div class="Home">
 
-  <div class="Hero | content-pad | bg-slate-100 | overflow-hidden ">
-    <div class="relative container max-w-7xl mx-auto w-full h-full; | md:grid grid-cols-3-2">
-      <div>
-        {#if false && cytosis['jz-data']?.['hero'].Content}
-          {@html marked(cytosis['jz-data']?.['hero'].Content || '')}
-        {:else}
-          <h2 class="antialiased pt-4 pb-8">Hey hey,</h2>
-          <h2 class="pt-0 leading-12 antialiased ">I’m Jan, a product designer who uses code and good product design practices to tackle challenging, data-centric problems.</h2>
-        {/if}
-      </div>
-      <div class="relative">
-        <div id="me-container" on:click={handleClick} on:keypress={handleClick}>
-          <img alt="me.png" bind:this={image} id="slideImage" src="jan-zheng-pop.png" />
+  {#if PUBLIC_CY_TYPE !== "janzheng"}
+    <Profile />
+  {:else}
+    <div class="Hero | content-pad | bg-slate-100 | overflow-hidden ">
+      <div class="relative container max-w-7xl mx-auto w-full h-full; | md:grid grid-cols-3-2">
+        <div>
+          {#if false && cytosis['site-data']?.['hero'].Content}
+            {@html marked(cytosis['site-data']?.['hero'].Content || '')}
+          {:else}
+            <h2 class="antialiased pt-4 pb-8">Hey hey,</h2>
+            <h2 class="pt-0 leading-12 antialiased ">I’m Jan, a product designer who uses code and good product design practices to tackle challenging, data-centric problems.</h2>
+          {/if}
+        </div>
+        <div class="relative">
+          <div id="me-container" on:click={handleClick} on:keypress={handleClick}>
+            <img alt="me.png" bind:this={image} id="slideImage" src="jan-zheng-pop.png" />
+          </div>
         </div>
       </div>
     </div>
 
-  </div>
 
 
-
-  <div class="content-pad _content-wide">
-
-    {#if cytosis && cytosis['jz-pages']}
+    <div class="content-pad _content-wide">
+      {#if cytosis && cytosis['site-pages']}
+        <div class="my-16">
+          <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Post")} ></Posts>
+        </div>
+      {/if}
       <div class="my-16">
-        <Posts posts={cytosis['jz-pages'].filter(page => page.Type == "Post")} ></Posts>
+        <Companies ></Companies>
       </div>
 
-      <!-- {#each cytosis['jz-pages'] as post}
-        <div class="post | mb-32">
-          <Notion blocks={post.pageBlocks}></Notion>
+      <!-- {#if cytosis && cytosis['site-pages']}
+        <div class="my-16">
+          <CaseStudies caseStudies={cytosis['site-pages'].filter(page => page.Type == "Case Study")} ></CaseStudies>
         </div>
-      {/each} -->
-    {/if}
-
-    <div class="my-16">
-      <Companies ></Companies>
+      {/if} -->
+      
     </div>
-
-    {#if cytosis && cytosis['jz-pages']}
-      <div class="my-16">
-        <CaseStudies caseStudies={cytosis['jz-pages'].filter(page => page.Type == "Case Study")} ></CaseStudies>
-      </div>
-
-      <!-- {#each cytosis['jz-pages'] as post}
-        <div class="post | mb-32">
-          <Notion blocks={post.pageBlocks}></Notion>
-        </div>
-      {/each} -->
-    {/if}
-    
-  </div>
-
-  <!-- <Notion id={"8ebb6e62e9b64d988d2ee435cc5c740d"}></Notion> -->
-  
+  {/if}
 
 </div>
 
@@ -62,13 +48,15 @@
 <script>
 
   import { marked } from 'marked'
-	import { onMount } from 'svelte';
+	// import { onMount } from 'svelte';
   import { page } from '$app/stores'
   import { browser } from '$app/environment'; 
-  import Notion from '@yawnxyz/sveltekit-notion'
+  // import Notion from '@yawnxyz/sveltekit-notion'
+  import { PUBLIC_CY_TYPE } from '$env/static/public';
   
+  import Profile from '$lib/components/profiles/Profile.svelte';
   import Companies from '$lib/components/Companies.svelte';
-  import CaseStudies from '$lib/components/CaseStudies.svelte';
+  // import CaseStudies from '$lib/components/CaseStudies.svelte';
   import Posts from '$lib/components/Posts.svelte';
 
   let cytosis = $page.data.cytosis // doesn't wait

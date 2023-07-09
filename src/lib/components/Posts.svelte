@@ -12,10 +12,11 @@
 </p> -->
 
 {#if posts}
-  <div class="Posts-list | lg:grid grid-cols-3 gap-8">
+  <!-- <div class="Posts-list | lg:grid grid-cols-3 gap-8"> -->
+  <div class="Posts-list | ">
     {#each posts as post}
       <div class="Posts-case | mb-8">
-        <div class="font-serif text-xl">
+        <div class="font-serif text-2xl">
           <a href="/{post.Path}">
             {#if post.Cover}
               <div class="Cover-image-container">
@@ -24,7 +25,7 @@
             {/if}
             {post.Name}
           </a></div>
-        <div class="text-sm pt-2">{post.Description}</div>
+        <div class="text pt-2">{post.Description}</div>
       </div>
     {/each}
   </div>
