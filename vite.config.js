@@ -6,6 +6,7 @@ import { sveltekit } from "@sveltejs/kit/vite";
 import { config as dotenvconf } from "dotenv"
 dotenvconf()
 
+
 console.log('Use Local?:', process.env.PUBLIC_LOCAL)
 
 /** @type {import("vite").UserConfig} */
@@ -40,6 +41,9 @@ const config = {
       '$instill-helpers': process.env.PUBLIC_LOCAL == 'local' ? path.resolve('./src/plasmid/modules/instill-helpers') : path.resolve('./node_modules/plasmid/modules/instill-helpers'), // dynamic linked
       $modules: path.resolve('./node_modules'),
     }
+  },
+  optimizeDeps: {
+    include: ['/src/lib/cytosis2/*.js', '/src/lib/cytosis2/*.json',],
   },
 };
 

@@ -7,7 +7,12 @@ import { head, seo } from '$lib/config.js'
 
 // import config  from '$lib/cytosis2/cytosis.config.json';
 // import { config }  from '$lib/cytosis2/cytosis.config.experimental.js';
-// import { config }  from '$lib/cytosis2/cytosis.config.prod.js';
+import '$lib/cytosis2/cytosis.config.prod.js';
+import '$lib/cytosis2/cytosis.config.jessbio.js';
+
+
+
+
 import { endo } from '$lib/cytosis2';
 
 
@@ -49,6 +54,10 @@ export const load = async ({params, locals}) => {
       config = config.config
     } else {
       // import { config }  from '$lib/cytosis2/cytosis.config.prod.js';
+
+      // manually import config files here for vite; will end up in "chunks"
+      // alternatively do: import copy from 'rollup-plugin-copy'
+      config = await import('$lib/cytosis2/cytosis.config.jessbio.js' /* @vite-ignore */)
       config = await import('$lib/cytosis2/cytosis.config.prod.js' /* @vite-ignore */)
     }
 
