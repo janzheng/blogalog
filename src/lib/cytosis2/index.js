@@ -23,7 +23,7 @@ export const endo = async (config, {
   transformers,
 } = {} ) => {
 
-  console.log('[endo] Init load ---------')
+  console.log('[endo] Init load ---------', config)
 
   let sources = [...config.sources] // prevents issues when running multiple endos
 

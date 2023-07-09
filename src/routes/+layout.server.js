@@ -1,13 +1,13 @@
 import { error } from '@sveltejs/kit'
 import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
-import { PUBLIC_CY_TYPE } from '$env/static/public';
+import { PUBLIC_CY_TYPE, PUBLIC_CY_CONFIG_PATH } from '$env/static/public';
 
 // import { getContent } from '$routes/api/content/+server.js'
 import { head, seo } from '$lib/config.js'
 
 // import config  from '$lib/cytosis2/cytosis.config.json';
 // import { config }  from '$lib/cytosis2/cytosis.config.experimental.js';
-import { config }  from '$lib/cytosis2/cytosis.config.prod.js';
+// import { config }  from '$lib/cytosis2/cytosis.config.prod.js';
 import { endo } from '$lib/cytosis2';
 
 
@@ -43,33 +43,42 @@ export const load = async ({params, locals}) => {
     // console.log('--->>>> cytosisData:', cytosis)
     // console.log('--->>>> cytosisData:', JSON.stringify(cytosis, 0, 2)))
 
-    let cytosis = await endo(config, {
-      transformers: [customLibraryEventTransformer],
-    })
+    let config, cytosis, _head
+    if (PUBLIC_CY_CONFIG_PATH) { // dynamic import
+      config = await import(PUBLIC_CY_CONFIG_PATH /* @vite-ignore */)
+      config = config.config
+    } else {
+      // import { config }  from '$lib/cytosis2/cytosis.config.prod.js';
+      config = await import('$lib/cytosis2/cytosis.config.prod.js' /* @vite-ignore */)
+    }
 
-    let _head = PUBLIC_CY_TYPE !== "janzheng" ? {
-      title:  cytosis?.['site-data']?.['SiteTitle'].Content,
-      author:  cytosis?.['site-data']?.['Author'].Content,
-      description:  cytosis?.['site-data']?.['SiteDescription'].Content,
-      url:  cytosis?.['site-data']?.['URL'].Content,
-      canonical: cytosis?.['site-data']?.['URL'].Content,
-      title: cytosis?.['site-data']?.['SiteTitle'].Content,
-      ico: cytosis?.['site-data']?.['IconImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url,
-      image: {
-        url: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url,
-        width: 850,
-        height: 650,
-      },
-      meta: [
-        { property: "og:image:url", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
-        { property: "og:image", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
-      ],
-      links: [
-        { rel: 'icon', type: 'image/png', href: cytosis?.['site-data']?.['IconImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url }
-      ]
-    } : head
-
-    console.log('HEAD lol what:', _head)
+    if(config) {
+      cytosis = await endo(config, {
+        transformers: [customLibraryEventTransformer],
+      })
+  
+      _head = PUBLIC_CY_TYPE !== "janzheng" ? {
+        title:  cytosis?.['site-data']?.['SiteTitle'].Content,
+        author:  cytosis?.['site-data']?.['Author'].Content,
+        description:  cytosis?.['site-data']?.['SiteDescription'].Content,
+        url:  cytosis?.['site-data']?.['URL'].Content,
+        canonical: cytosis?.['site-data']?.['URL'].Content,
+        title: cytosis?.['site-data']?.['SiteTitle'].Content,
+        ico: cytosis?.['site-data']?.['IconImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url,
+        image: {
+          url: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url,
+          width: 850,
+          height: 650,
+        },
+        meta: [
+          { property: "og:image:url", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
+          { property: "og:image", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
+        ],
+        links: [
+          { rel: 'icon', type: 'image/png', href: cytosis?.['site-data']?.['IconImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url }
+        ]
+      } : head
+    }
 
     return {
       head: _head,
