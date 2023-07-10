@@ -11,7 +11,10 @@
   {#if profileImage}
     <div class="ProfileImage | pl-4 | absolute z-10 | -mt-32">
       <img class="w-32 h-32 | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
-      <div class="text-4xl font-bold | inline-block absolute -mt-16 ml-36 w-96">{author}</div>
+      <div class="ProfileShortDesc | inline-block absolute -mt-20 ml-36 w-96">
+        <div class="text-4xl font-bold py-2">{author||''}</div>
+        <div class="text ">{siteDesc||''}</div>
+      </div>
     </div>
   {/if}
 
@@ -57,6 +60,7 @@
   let profileImage = cytosis?.['site-data']?.['ProfileImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
   let coverImage = cytosis?.['site-data']?.['CoverImage'].Content || cytosis?.['site-data']?.['CoverImage'].Files?.[0].url;
   let author = cytosis?.['site-data'].Author?.['Content'];
+  let siteDesc = cytosis?.['site-data'].SiteDescription?.['Content'];
   let socialDescription = cytosis?.['site-data'].SocialDescription?.['Content'];
   let shortDescription = cytosis?.['site-data'].Short?.['Content'];
   let mainPageBlocks = cytosis?.['site-pages'].find(page => page.Type?.includes("MainPage"))?.pageBlocks;
