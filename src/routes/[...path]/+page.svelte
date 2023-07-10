@@ -7,7 +7,7 @@
 
 
 {#if pageContent}
-  <div class="PageContent content-pad _content-wide">
+  <div class="PagePath PageContent content-pad _content-wide">
 
     {#if PUBLIC_CY_TYPE!=='janzheng'}
       <div class="ProfileStack | ">
@@ -112,7 +112,7 @@
 
 <style lang="scss" global>
 
-  .notion-page { 
+  .PagePath .notion-page { 
     margin-left: 0; // left-align
   }
 </style>
