@@ -10,7 +10,7 @@
 
 
 
-<footer class="Footer | mt-32 | content-pad | bg-slate-100 ">
+<footer class="Footer | mt-4 | content-pad | bg-slate-100 ">
   {#if content}
     <div class="Content pfix text-center">
       {@html marked(content)}

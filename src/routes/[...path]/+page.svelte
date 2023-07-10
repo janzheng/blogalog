@@ -9,6 +9,20 @@
 {#if pageContent}
   <div class="PageContent content-pad _content-wide">
 
+    {#if PUBLIC_CY_TYPE!=='janzheng'}
+      <div class="ProfileStack | ">
+        <a href="/" class="hover:no-underline">
+          {#if profileImage}
+            <div class="ProfileImage |">
+              <img class="w-16 h-16 | inline-block | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
+              <div class="text-lg font-medium | inline-block ml-2">{author}</div>
+            </div>
+          {/if}
+        </a>
+      </div>
+    {/if}
+
+
     {#if pageContent?.Cover}
       <div class="CoverImage">
         <img alt="CoverImage header" src="{pageContent?.Cover}" />
@@ -28,7 +42,7 @@
     {/if}
 
     {#if pageContent?.pageBlocks}
-        <div class="post | mt-16 mb-32">
+        <div class="post | mt-16 mb-16">
           <Notion blocks={pageContent?.pageBlocks}></Notion>
         </div>
     {/if}
@@ -36,7 +50,7 @@
 
     <!-- create an html details / summary example here -->
     {#if pageContent?.versions}
-      <div class="mt-16 mb-32">
+      <div class="mt-4">
         <details>
           <summary>Versions</summary>
           {#each pageContent?.versions as version}
@@ -70,12 +84,15 @@
 	import { onMount } from 'svelte';
   import { page } from '$app/stores'
   import { browser } from '$app/environment'; 
+  import { PUBLIC_CY_TYPE } from '$env/static/public';
   import Notion from '@yawnxyz/sveltekit-notion'
 
-  let cytosis; // await streamed cytosis, and set it here
+  let cytosis = $page.data.cytosis; // await streamed cytosis, and set it here
   // let pageContent = $page.data.pageContent;
   let pageContent = $page.data.cytosis['site-pages'].find(item => item.Path === $page.data.path);
 
+  let profileImage = cytosis?.['site-data']?.['ProfileImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
+  let author = cytosis?.['site-data'].Author?.['Content'];
   // if(browser) {
   //   (async () => {
   //     cytosis = await $page.data.streamed?.cytosis

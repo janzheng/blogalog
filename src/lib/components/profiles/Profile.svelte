@@ -1,5 +1,5 @@
 
-<div class="Header | content-notion-wide  ">
+<div class="Header | content-notion-wide | mt-8 rounded-sm overflow-hidden  ">
   <!-- cover -->
   {#if coverImage}
     <div class="CoverImage bg-slate-100">
@@ -9,16 +9,16 @@
   
   <!-- profile -->
   {#if profileImage}
-    <div class="ProfileImage | pl-4 | absolute z-10 | bg-slate-100">
-      <img class="w-32 h-32 -mt-32 |  
-        object-cover rounded-full border-solid border-4 border-white" src="{profileImage}" alt="Profile" />
+    <div class="ProfileImage | pl-4 | absolute z-10 | -mt-32">
+      <img class="w-32 h-32 | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
+      <div class="text-4xl font-bold | inline-block absolute -mt-16 ml-36 w-96">{author}</div>
     </div>
   {/if}
 
   <div class="bg-slate-100 p-4 content-notion-wide">
     <!-- profile area -->
     {#if socialDescription}
-      <div class="my-4">
+      <div class="mb-4">
         {@html marked(socialDescription || '')}
       </div>
     {/if}
@@ -56,6 +56,7 @@
   let cytosis = $page.data.cytosis;
   let profileImage = cytosis?.['site-data']?.['ProfileImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
   let coverImage = cytosis?.['site-data']?.['CoverImage'].Content || cytosis?.['site-data']?.['CoverImage'].Files?.[0].url;
+  let author = cytosis?.['site-data'].Author?.['Content'];
   let socialDescription = cytosis?.['site-data'].SocialDescription?.['Content'];
   let shortDescription = cytosis?.['site-data'].Short?.['Content'];
   let mainPageBlocks = cytosis?.['site-pages'].find(page => page.Type?.includes("MainPage"))?.pageBlocks;
@@ -63,7 +64,7 @@
 </script>
 
 
-<style lang="scss">
+<style lang="scss" global>
 
   .content-pad {
     @apply px-8 md:px-32 py-8 mx-auto;
@@ -80,5 +81,11 @@
     max-width: calc(var(--notion-page-width) + 224px);
     margin-left: auto;
     margin-right: auto;
+  }
+  .notion-callout-icon {
+    align-self: flex-start;
+  }
+  .notion-page-icon {
+    font-size: 1.7rem;;
   }
 </style>
