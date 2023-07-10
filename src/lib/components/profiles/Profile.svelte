@@ -1,18 +1,18 @@
 
-<div class="Header | content-notion-wide | mt-8 rounded-sm overflow-hidden  ">
+<div class="Header | content-notion-wide | sm:mt-4 lg:mt-8 rounded-sm overflow-hidden  ">
   <!-- cover -->
   {#if coverImage}
     <div class="CoverImage bg-slate-100">
-      <img class="w-full h-64 object-left-top object-contain" src="{coverImage}" alt="Cover" />
+      <img class="w-full md:h-64 object-left-top object-contain" src="{coverImage}" alt="Cover" />
     </div>
   {/if}
   
   <!-- profile -->
   {#if profileImage}
-    <div class="ProfileImage | pl-4 | absolute z-10 | -mt-32">
+    <div class="ProfileImage | px-4 | md:absolute md:z-10 | md:-mt-32 sm:py-4 | bg-slate-100 md:bg-inherit">
       <img class="w-32 h-32 | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
-      <div class="ProfileShortDesc | inline-block absolute -mt-20 ml-36 w-96">
-        <div class="text-4xl font-bold py-2">{author||''}</div>
+      <div class="ProfileShortDesc | xs:inline-block xs:absolute xs:-mt-24 md:-mt-20 xs:ml-36 md:w-96">
+        <div class="text-xl md:text-4xl font-bold py-2">{author||''}</div>
         <div class="text ">{siteDesc||''}</div>
       </div>
     </div>
