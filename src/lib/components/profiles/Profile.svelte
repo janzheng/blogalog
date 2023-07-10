@@ -10,10 +10,10 @@
   <!-- profile -->
   {#if profileImage}
   <div class="ProfileImage-Container | relative py-4 bg-slate-100 ">
-    <div class="ProfileImage | px-4 | relative md:absolute z-20 | md:-mt-32 md:pb-8 |  ">
+    <div class="ProfileImage | px-4 | relative md:absolute z-20 | -mt-16 md:-mt-32 md:pb-8 |  ">
       <img class="w-32 h-32 | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
       <div class="ProfileShortDesc | sm:inline-block sm:absolute sm:-mt-24 md:-mt-20 sm:ml-36 md:w-96">
-        <div class="text-xl sm:text-4xl font-bold py-2">{author||''}</div>
+        <div class="text-2xl sm:text-4xl font-bold py-2">{author||''}</div>
         <div class="text ">{siteDesc||''}</div>
       </div>
     </div>
