@@ -80,6 +80,11 @@ export const load = async ({params, locals}) => {
           height: 650,
         },
         meta: [
+          { name: "twitter:site", content: cytosis?.['site-data']?.['TwitterHandle'].Content },
+          { name: "twitter:title", content: cytosis?.['site-data']?.['SiteTitle'].Content },
+          { name: "twitter:description", content: cytosis?.['site-data']?.['SiteDescription'].Content },
+          { name: "twitter:image", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
+          { name: "twitter:image:alt", content: cytosis?.['site-data']?.['SiteDescription'].Content },
           { property: "og:image:url", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
           { property: "og:image", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
         ],
@@ -90,8 +95,7 @@ export const load = async ({params, locals}) => {
     }
 
     return {
-      head: _head,
-      seo,
+      head: _head, // seo,
       user: locals?.user,
       cytosis: cytosis, // testing all
       // ... await endo(config, {sourceNames: ['site-data']}),
