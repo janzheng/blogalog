@@ -9,13 +9,15 @@
   
   <!-- profile -->
   {#if profileImage}
-    <div class="ProfileImage | px-4 | md:absolute md:z-10 | md:-mt-32 sm:py-4 | bg-slate-100 md:bg-inherit">
+  <div class="ProfileImage-Container | relative py-4 bg-slate-100 ">
+    <div class="ProfileImage | px-4 | relative md:absolute z-20 | md:-mt-32 md:pb-8 |  ">
       <img class="w-32 h-32 | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
-      <div class="ProfileShortDesc | xs:inline-block xs:absolute xs:-mt-24 md:-mt-20 xs:ml-36 md:w-96">
-        <div class="text-xl md:text-4xl font-bold py-2">{author||''}</div>
+      <div class="ProfileShortDesc | sm:inline-block sm:absolute sm:-mt-24 md:-mt-20 sm:ml-36 md:w-96">
+        <div class="text-xl sm:text-4xl font-bold py-2">{author||''}</div>
         <div class="text ">{siteDesc||''}</div>
       </div>
     </div>
+  </div>
   {/if}
 
   <div class="bg-slate-100 p-4 content-notion-wide">
