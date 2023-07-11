@@ -49,11 +49,12 @@
 
 
     <!-- create an html details / summary example here -->
-    {#if pageContent?.versions}
+    <!-- skip if only one version -->
+    {#if pageContent?.versions && pageContent?.versions.length > 1}
       <div class="mt-4">
         <details>
           <summary>Versions</summary>
-          {#each pageContent?.versions as version}
+          {#each pageContent?.versions.slice(1) as version}
             <div class="post-version | mt-4 pl-8">
               <details>
                 <summary>

@@ -33,20 +33,58 @@
   </div>
 </div>
 
-
-
+<!-- display posts before anything else -->
 {#if cytosis && cytosis['site-pages']}
-  <div class="Posts | my-16 | content-notion-wider | overflow-hidden ">
-    <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Post")} ></Posts>
+  <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
+    <div class="p-4 bg-slate-50">
+      <h2 class="pt-0 mt-0">{"Posts"}</h2>
+      <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Posts")} ></Posts>
+    </div>
   </div>
 {/if}
 
+
+{#each sitePages as page}
+  <div class="TypeSection | my-2 content-notion-wide | overflow-hidden | ">
+    {#if page.Type=='Main'}
+      <div class="MainPage | p-4 bg-slate-50 ">
+        <h2 class="pt-0 mt-0">{page.Name}</h2>
+        <Notion blocks={page.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
+      </div>
+    {:else if page.Type=='Posts'}
+      <!-- do nothing; these are displayed elsewhere -->
+      <!-- <div class="TypeContainer | p-4 bg-slate-50">
+        <h4 class="pt-0 mt-0">{page.Name}</h4>
+      </div> -->
+    {/if}
+  </div>
+{/each}
+
+
+<!-- 
+{#each sitePageTypes as type}
+  <div class="TypeSection | my-2 content-notion-wide | overflow-hidden | ">
+    {#if type=='Main'}
+      <div class="MainPage | p-4 bg-slate-50 ">
+        <h2 class="pt-0 mt-0">{type}</h2>
+        <Notion blocks={mainPageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
+      </div>
+    {:else}
+      <div class="TypeContainer | p-4 bg-slate-50">
+        <h2 class="pt-0 mt-0">{type}</h2>
+      </div>
+    {/if}
+  </div>
+{/each} -->
+
+
+
+<!-- 
 {#if mainPageBlocks}
   <div class="MainPage | content-pad | overflow-hidden ">
-    <!-- main area -->
-    <Notion blocks={mainPageBlocks}></Notion>
+    <Notion blocks={mainPageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
   </div>
-{/if}
+{/if} -->
 
 
 
@@ -65,7 +103,20 @@
   let siteDesc = cytosis?.['site-data'].SiteDescription?.['Content'];
   let socialDescription = cytosis?.['site-data'].SocialDescription?.['Content'];
   let shortDescription = cytosis?.['site-data'].Short?.['Content'];
-  let mainPageBlocks = cytosis?.['site-pages'].find(page => page.Type?.includes("MainPage"))?.pageBlocks;
+  let mainPageBlocks = cytosis?.['site-pages'].find(page => page.Type?.includes("Main"))?.pageBlocks;
+  let sitePages = cytosis?.['site-pages'];
+
+  let sitePageByType = {}, sitePageTypes = [];
+  cytosis?.['site-pages'].forEach(page => {
+    sitePageTypes = [...sitePageTypes, ...page.Type];
+    if(!sitePageByType[page.Type]) {
+      sitePageByType[page.Type] = [];
+    }
+    sitePageByType[page.Type].push(page);
+  });
+  sitePageTypes = [...new Set(sitePageTypes)]; 
+
+  console.log('sitePageByType:', sitePageByType, sitePageTypes);
 
 </script>
 
@@ -93,5 +144,14 @@
   }
   .notion-page-icon {
     font-size: 1.7rem;;
+  }
+
+
+  .MainPage {
+    h2, h3, h4 {
+      &:first-of-type {
+        padding-top: 0; // skip padding for first header keeps it tighter
+      }
+    }
   }
 </style>
