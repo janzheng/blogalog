@@ -90,7 +90,7 @@
 
   let cytosis = $page.data.cytosis; // await streamed cytosis, and set it here
   // let pageContent = $page.data.pageContent;
-  let pageContent = $page.data.cytosis['site-pages'].find(item => item.Path === $page.data.path);
+  let pageContent = $page.data.cytosis?.['site-pages'].find(item => item.Path === $page.data.path);
 
   let profileImage = cytosis?.['site-data']?.['ProfileImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
   let author = cytosis?.['site-data'].Author?.['Content'];

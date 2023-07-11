@@ -38,7 +38,7 @@ npm manifest:
       "commit": "git add . -A ; git commit ; git push origin main ",
       "commitprod": "git add . -A ; git commit ; git push origin prod ",
       "prod": "link vercel directly to prod branch; don't push to prod",
-      "output": "node ./src/lib/cytosis2/output.js ./cytosis.config.prod.js ./prod.json",
+      "output": "node ./src/lib/cytosis2/output.js ./cytosis.config.janzheng.js ./prod.json",
       "stage": "yarn install; vercel",
       "plasmid": "yarn add --dev git+https://github.com/janzheng/plasmid.git",
       "ln-plasmid": "ln -s ../../../plasmid/",

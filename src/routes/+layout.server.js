@@ -7,7 +7,7 @@ import { head, seo } from '$lib/config.js'
 
 // import config  from '$lib/cytosis2/cytosis.config.json';
 // import { config }  from '$lib/cytosis2/cytosis.config.experimental.js';
-import '$lib/cytosis2/cytosis.config.prod.js';
+import '$lib/cytosis2/cytosis.config.janzheng.js';
 import '$lib/cytosis2/cytosis.config.jessbio.js';
 
 
@@ -48,23 +48,23 @@ export const load = async ({params, locals}) => {
     // console.log('--->>>> cytosisData:', cytosis)
     // console.log('--->>>> cytosisData:', JSON.stringify(cytosis, 0, 2)))
 
-    let config, cytosis, _head
+    let config, cytosis, _head = head;
     if (PUBLIC_CY_CONFIG_PATH) { // dynamic import
       config = await import(PUBLIC_CY_CONFIG_PATH /* @vite-ignore */)
       config = config.config
     } else {
-      // import { config }  from '$lib/cytosis2/cytosis.config.prod.js';
+      // import { config }  from '$lib/cytosis2/cytosis.config.janzheng.js';
 
       // manually import config files here for vite; will end up in "chunks"
       // alternatively do: import copy from 'rollup-plugin-copy'
       config = await import('$lib/cytosis2/cytosis.config.jessbio.js' /* @vite-ignore */)
-      config = await import('$lib/cytosis2/cytosis.config.prod.js' /* @vite-ignore */)
+      config = await import('$lib/cytosis2/cytosis.config.janzheng.js' /* @vite-ignore */)
     }
 
-    if(config) {
-      cytosis = await endo(config, {
-        transformers: [customLibraryEventTransformer],
-      })
+    cytosis = await endo(config, {
+      transformers: [customLibraryEventTransformer],
+    })
+    if (config && PUBLIC_CY_TYPE !== 'janzheng' ) {
   
       _head = PUBLIC_CY_TYPE !== "janzheng" ? {
         title:  cytosis?.['site-data']?.['SiteTitle'].Content,
@@ -95,7 +95,8 @@ export const load = async ({params, locals}) => {
     }
 
     return {
-      head: _head, // seo,
+      head: _head,
+      seo: PUBLIC_CY_TYPE == "janzheng" && seo, // need to generalize this more
       user: locals?.user,
       cytosis: cytosis, // testing all
       // ... await endo(config, {sourceNames: ['site-data']}),

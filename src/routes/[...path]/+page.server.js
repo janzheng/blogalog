@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit'
 
-// import { config }  from '$lib/cytosis2/cytosis.config.prod.js';
+// import { config }  from '$lib/cytosis2/cytosis.config.janzheng.js';
 // import { endo } from '$lib/cytosis2';
 
 

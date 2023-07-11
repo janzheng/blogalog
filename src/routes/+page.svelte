@@ -21,12 +21,10 @@
       </div>
     </div>
 
-
-
     <div class="content-pad _content-wide">
       {#if cytosis && cytosis['site-pages']}
         <div class="my-16">
-          <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Post")} ></Posts>
+          <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Posts")} ></Posts>
         </div>
       {/if}
       <div class="my-16">

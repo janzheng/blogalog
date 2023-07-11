@@ -10,7 +10,7 @@ import { writable, get } from 'svelte/store';
  * PLEASE BE SURE TO UPDATE THEM ALL! Thank you!
  **/
 
-export const siteIcon = "/bananaicon.png"
+export const siteIcon = "/icon.png"
 export const siteCardTitle = "janz: designing with code"
 export const siteTitle = siteCardTitle // "janz: design with code"
 export const siteDescription = "somea this, lotsa that"
