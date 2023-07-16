@@ -101,7 +101,7 @@
   import Profile from '$lib/components/profiles/Profile.svelte';
 
   export let data
-  let blogpath = $page.data?.pathArr ? `/${$page.data?.pathArr[0]}` : "/"
+  let blogpath = $page.data?.pathArr.length>1 ? `/${$page.data?.pathArr[0]}` : "/"
   
   let cytosis = $page.data.cytosis; // await streamed cytosis, and set it here
   // let pageContent = $page.data.pageContent;

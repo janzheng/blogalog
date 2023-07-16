@@ -24,7 +24,7 @@ export const load = async ({ params, setHeaders, locals}) => {
     let config, cytosis, _head = head
 
   if (PUBLIC_CY_TYPE == 'blogalog') {
-    ({ _head, cytosis } = await loadBlogalogFromPath('demo'));
+    ({ _head, cytosis } = await loadBlogalogFromPath('blogalog'));
   } else {
     if (PUBLIC_CY_TYPE == 'janzheng') {
       config = jz_config
