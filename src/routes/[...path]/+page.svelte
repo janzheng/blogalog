@@ -36,10 +36,6 @@
       <h1 class="mb-0 pb-2">{@html marked(pageContent?.Name || '')}</h1>
     {/if}
 
-    {#if pageContent?.Description}
-      <div class="text-xl">{pageContent?.Description}</div>
-    {/if}
-
     {#if pageContent?.Content}
       <div class="text-xl">{pageContent?.Content}</div>
     {/if}

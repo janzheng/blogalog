@@ -15,7 +15,7 @@
   <!-- <div class="Posts-list | lg:grid grid-cols-3 gap-8"> -->
   <div class="Posts-list | ">
     {#each posts as post}
-      <div class="Posts-case | mb-8">
+      <div class="Posts-case |">
         <div class="font-serif text-2xl">
           <a href={`${path}${post.Path}`}>
             {#if post.Cover}
@@ -25,7 +25,7 @@
             {/if}
             {post.Name}
           </a></div>
-        <div class="text pt-2">{post.Content}</div>
+        <div class="text pt-2">{@html marked(post.Content || '')}</div>
       </div>
     {/each}
   </div>
@@ -33,6 +33,7 @@
 
 
 <script>
+  import {marked} from 'marked';
 
   export let posts;
   export let path = "/";

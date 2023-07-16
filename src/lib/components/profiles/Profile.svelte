@@ -1,5 +1,5 @@
 
-<div class="Header | content-notion-wide | sm:mt-4 lg:mt-8 rounded-sm overflow-hidden  ">
+<div class="Header | content-notion-wide | mt-0 md:mt-4 lg:mt-8 rounded-sm overflow-hidden  ">
   <!-- cover -->
   {#if coverImage}
     <div class="CoverImage bg-slate-100">
@@ -49,7 +49,8 @@
     {#if page.Type=='Main'}
       <div class="MainPage | p-4 bg-slate-50 ">
         <h2 class="pt-0 mt-0">{page.Name}</h2>
-        <Notion blocks={page.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
+        <!-- <Notion blocks={page.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev" /> -->
+        <Notion id={page.id} api="//notion-cloudflare-worker.yawnxyz.workers.dev" />
       </div>
     {:else if page.Type=='Posts'}
       <!-- do nothing; these are displayed elsewhere -->

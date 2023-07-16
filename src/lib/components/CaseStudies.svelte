@@ -24,7 +24,7 @@
             {/if}
             {caseStudy.Name}
           </a></div>
-        <div class="text-sm pt-2">{caseStudy.Description}</div>
+        <div class="text-sm pt-2">{caseStudy.Content}</div>
       </div>
     {/each}
   </div>
