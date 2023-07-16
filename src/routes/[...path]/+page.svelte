@@ -43,11 +43,11 @@
     {#if pageContent?.Link}
       <div class="my-4">Project Link: <a href="{pageContent?.Link}">{pageContent?.Link}</a></div>
     {/if}
-
+    
     {#if pageContent?.pageBlocks}
-        <div class="post | mt-16 mb-16">
-          <Notion blocks={pageContent?.pageBlocks}></Notion>
-        </div>
+      <div class="post | mt-16 mb-16">
+        <Notion blocks={pageContent?.pageBlocks}></Notion>
+      </div>
     {/if}
 
 
@@ -93,6 +93,7 @@
   import { browser } from '$app/environment'; 
   import { PUBLIC_CY_TYPE } from '$env/static/public';
   import Notion from '@yawnxyz/sveltekit-notion'
+  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
 
   import Profile from '$lib/components/profiles/Profile.svelte';
 

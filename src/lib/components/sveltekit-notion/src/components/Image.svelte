@@ -1,0 +1,50 @@
+{#if false}
+    <slot />
+{/if}
+{#if format}
+    <figure
+        bind:clientWidth={width}
+        id={`_block-${block.id}`}
+        class="notion-asset-wrapper notion-image {block_width > width ? 'notion-image-fullwidth' : ''}"
+        style={`width: ${block_width}px`}>
+        {#if block_aspect_ratio}
+            <div style={`padding-bottom: ${block_aspect_ratio * 100}%`}>
+              <img class="notion-image-inset" {alt} {src} />
+            </div>
+        {:else}<img {alt} {src} />{/if}
+        {#if block.properties.caption}
+            <figcaption class="notion-image-caption">
+                <FormattedText {block} />
+            </figcaption>
+        {/if}
+    </figure>
+{/if}
+
+<script>
+    import { getTextContent, toNotionImageUrl } from '../utils.js'
+    import FormattedText from '../subcomponents/FormattedText.svelte'
+    export let block = {}; block;
+    export let blocks = []; blocks;
+    export let fullPage = false; fullPage;
+    export let api = null; api;
+
+    if(block.properties.title)
+      block.properties.title = null; // notion sometimes adds "untitled" as the title, which we don't need
+    const format = block.format ? block.format : null
+    const { block_aspect_ratio, block_width } = format ? format : {}
+    const alt = block.properties.caption ? block.properties.caption[0][0] : ''
+    let src = block.properties.source
+        ? toNotionImageUrl(block.properties.source[0][0], block.id)
+        : ''
+
+    let width
+    // $: if(width) console.log('block:', width, block)
+
+</script>
+
+<style>
+    figure div {
+        position: relative;
+    }
+
+</style>

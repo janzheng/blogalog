@@ -49,8 +49,8 @@
     {#if page.Type=='Main'}
       <div class="MainPage | p-4 bg-slate-50 ">
         <h2 class="pt-0 mt-0">{page.Name}</h2>
-        <!-- <Notion blocks={page.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev" /> -->
-        <Notion id={page.id} api="//notion-cloudflare-worker.yawnxyz.workers.dev" />
+        <Notion blocks={page.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev" />
+        <!-- <Notion id={page.id} api="//notion-cloudflare-worker.yawnxyz.workers.dev" /> -->
       </div>
     {:else if page.Type=='Posts'}
       <!-- do nothing; these are displayed elsewhere -->
@@ -90,7 +90,8 @@
 
 
 <script>
-  import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '@yawnxyz/sveltekit-notion';
+  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import { page } from '$app/stores';
 
   import { marked } from 'marked';
