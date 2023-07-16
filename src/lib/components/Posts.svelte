@@ -17,7 +17,7 @@
     {#each posts as post}
       <div class="Posts-case | mb-8">
         <div class="font-serif text-2xl">
-          <a href="/{post.Path}">
+          <a href={`${path}${post.Path}`}>
             {#if post.Cover}
               <div class="Cover-image-container">
                 <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
@@ -25,7 +25,7 @@
             {/if}
             {post.Name}
           </a></div>
-        <div class="text pt-2">{post.Description}</div>
+        <div class="text pt-2">{post.Content}</div>
       </div>
     {/each}
   </div>
@@ -34,7 +34,8 @@
 
 <script>
 
-  export let posts
+  export let posts;
+  export let path = "/";
 
 </script>
 

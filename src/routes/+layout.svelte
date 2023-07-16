@@ -38,7 +38,7 @@
 
 
 <Head />
-{#if PUBLIC_CY_TYPE==='jessbio'}
+{#if PUBLIC_CY_TYPE!=='janzheng'}
   <div class="layout" class:open={$isMenuOpen}>
     <div class="ContentContainer">
       <main

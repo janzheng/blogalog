@@ -25,7 +25,7 @@ export const endo = async (config, {
 
   console.log('[endo] Init load ---------',)
 
-  let sources = [...config.sources] // prevents issues when running multiple endos
+  let sources = [...config?.sources] // prevents issues when running multiple endos
 
   if (sourceNames && sourceNames.length>0) {
     sources = sources.filter(src => sourceNames.includes(src.name))

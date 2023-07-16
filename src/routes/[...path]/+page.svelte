@@ -1,17 +1,20 @@
 
 
 <svelte:head>
-  <!-- this is wrong; has to be served from ssr, but too lazy -->
-  <title>{pageContent?.Name}</title>
+  {#if pageContent}
+    <title>{pageContent?.Name}</title>
+  {/if}
 </svelte:head>
 
 
-{#if pageContent}
+{#if $page.data.isBlogalog && !pageContent}
+  <Profile />
+{:else if pageContent}
   <div class="PagePath PageContent content-pad _content-wide">
 
     {#if PUBLIC_CY_TYPE!=='janzheng'}
       <div class="ProfileStack | ">
-        <a href="/" class="hover:no-underline">
+        <a href={blogpath} class="hover:no-underline">
           {#if profileImage}
             <div class="ProfileImage |">
               <img class="w-16 h-16 | inline-block | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
@@ -35,6 +38,10 @@
 
     {#if pageContent?.Description}
       <div class="text-xl">{pageContent?.Description}</div>
+    {/if}
+
+    {#if pageContent?.Content}
+      <div class="text-xl">{pageContent?.Content}</div>
     {/if}
 
     {#if pageContent?.Link}
@@ -79,6 +86,9 @@
 {/if}
 
 
+
+
+
 <script>
 
   import { marked } from 'marked'
@@ -88,22 +98,30 @@
   import { PUBLIC_CY_TYPE } from '$env/static/public';
   import Notion from '@yawnxyz/sveltekit-notion'
 
+  import Profile from '$lib/components/profiles/Profile.svelte';
+
+  export let data
+  let blogpath = $page.data?.pathArr ? `/${$page.data?.pathArr[0]}` : "/"
+  
   let cytosis = $page.data.cytosis; // await streamed cytosis, and set it here
   // let pageContent = $page.data.pageContent;
-  let pageContent = $page.data.cytosis?.['site-pages'].find(item => item.Path === $page.data.path);
+  let pageContent
+  
+  $: pageContent = $page.data.cytosis?.['site-pages'].find(item => item.Path === $page.data.path || item.Path === $page.data.pathArr?.[$page.data.pathArr?.length -1]);
 
   let profileImage = cytosis?.['site-data']?.['ProfileImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
   let author = cytosis?.['site-data'].Author?.['Content'];
-  // if(browser) {
+  if(browser) {
+      console.log('blog path DATA?!?!!??!:', data, pageContent)
   //   (async () => {
   //     cytosis = await $page.data.streamed?.cytosis
   //     console.log('----> cytosis:', cytosis)
   //   })()
-  // }
+  }
 
-  // $: if(browser && $page.data.streamed?.cytosis) {
+  $: if(browser && $page.data.streamed?.cytosis) {
   //   console.log('streamed.cytosis:', $page.data.streamed?.cytosis)
-  // }
+  }
 
 
 

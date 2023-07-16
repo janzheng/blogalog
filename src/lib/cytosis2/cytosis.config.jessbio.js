@@ -34,18 +34,5 @@ export const config = {
         }
       ]
     },
-    // {
-    //   "name": "shiplog",
-    //   "type": "cfnotion",
-    //   "path": "/collection/d408bcf94f3a4de2800eaec9485e92aa",
-    //   // "transformers": [
-    //   //   {
-    //   //     "function": "transformArrayToObjectByKey",
-    //   //     "settings": {
-    //   //       "objectKey": "Name"
-    //   //     }
-    //   //   }
-    //   // ]
-    // },
   ]
 }

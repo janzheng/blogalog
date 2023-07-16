@@ -152,18 +152,23 @@ export const transformFlattenKeyedObject = (results) => {
 export const transformArrayVersionedObjects = (results, { uniqueKey="Name", versionKey="Version" } = {}) => {
   if (!Array.isArray(results)) return results
   let postObject = {} // instead of sorting / shuffling things around, we just add them to the object by key
+  let posts = []
 
   // first pass: add all empties and v1s to posts
   results.forEach((post) => {
-    post[versionKey] = post[versionKey] || "1"
-    postObject[post[uniqueKey]] = postObject[post[uniqueKey]] || { versions: [] }
-    postObject[post[uniqueKey]]['versions'].push(post)
+    if (post[versionKey] && post[uniqueKey]) { 
+      post[versionKey] = post[versionKey] || "1"
+      postObject[post[uniqueKey]] = postObject[post[uniqueKey]] || { versions: [] }
+      postObject[post[uniqueKey]]['versions'].push(post)
+    } else {
+      // just push unversioned pages to the final list
+      posts.push(post)
+    }
   })
   // console.log('----> postObject', postObject)
 
   // sort post versions
   // transform keyed object back into array
-  let posts = []
   Object.keys(postObject).forEach(postKey => {
     let sortedVersions = postObject[postKey]['versions'].sort((a, b) => {
       return compareVersions(a[versionKey], b[versionKey])
