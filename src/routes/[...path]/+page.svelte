@@ -46,7 +46,7 @@
     
     {#if pageContent?.pageBlocks}
       <div class="post | mt-16 mb-16">
-        <Notion blocks={pageContent?.pageBlocks}></Notion>
+        <Notion blocks={pageContent?.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
       </div>
     {/if}
 
@@ -69,7 +69,7 @@
                   {/if}
                 </summary>
                 <div class="pl-8">
-                  <Notion blocks={version.pageBlocks}></Notion>
+                  <Notion blocks={version.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
                 </div>
               </details>  
             </div>
@@ -109,7 +109,7 @@
   let profileImage = cytosis?.['site-data']?.['ProfileImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
   let author = cytosis?.['site-data'].Author?.['Content'];
   if(browser) {
-      console.log('blog path DATA?!?!!??!:', data, pageContent)
+      // console.log('blog path DATA?!?!!??!:', data, pageContent)
   //   (async () => {
   //     cytosis = await $page.data.streamed?.cytosis
   //     console.log('----> cytosis:', cytosis)
