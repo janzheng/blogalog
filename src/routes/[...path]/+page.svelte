@@ -8,8 +8,11 @@
 
 
 {#if $page.data.isBlogalog && !pageContent}
+  <!-- blogalog profile -->
   <Profile />
+
 {:else if pageContent}
+  <!-- blog post -->
   <div class="PagePath PageContent content-pad _content-wide">
 
     {#if PUBLIC_CY_TYPE!=='janzheng'}
@@ -128,7 +131,14 @@
 
 <style lang="scss" global>
 
+  .PagePath {
+    // max-width: var(--notion-page-width);
+    @apply relative container max-w-4xl mx-auto w-full h-full;
+  }
+
   .PagePath .notion-page { 
     margin-left: 0; // left-align
+    width: 100%;
+    max-width: 100%;
   }
 </style>
