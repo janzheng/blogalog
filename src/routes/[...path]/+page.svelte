@@ -27,13 +27,13 @@
 
 
     {#if pageContent?.Cover}
-      <div class="CoverImage">
-        <img alt="CoverImage header" src="{pageContent?.Cover}" />
+      <div class="CoverImage-container | mt-4">
+        <img alt="CoverImage header " src="{pageContent?.Cover}" />
       </div>
     {/if}
 
     {#if pageContent?.Name}
-      <h1 class="mb-0 pb-2">{@html marked(pageContent?.Name || '')}</h1>
+      <h1 class="mb-0 pt-2 pb-2">{@html marked(pageContent?.Name || '')}</h1>
     {/if}
 
     {#if pageContent?.Content}
@@ -45,7 +45,7 @@
     {/if}
     
     {#if pageContent?.pageBlocks}
-      <div class="post | mt-16 mb-16">
+      <div class="post | mt-4 mb-16">
         <Notion blocks={pageContent?.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
       </div>
     {/if}
