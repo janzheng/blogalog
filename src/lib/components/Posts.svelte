@@ -19,7 +19,7 @@
         <div class="font-serif text-2xl">
           <a href={`${path}${post.Path}`}>
             {#if post.Cover}
-              <div class="Cover-image-container">
+              <div class="Cover-image-container | pb-4">
                 <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
               </div>
             {/if}
