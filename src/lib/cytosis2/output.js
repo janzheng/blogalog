@@ -16,6 +16,11 @@ import fetch from "node-fetch"
 import fs from "fs"
 
 import { endo } from './index.js';
+import { config as dotenvconf } from "dotenv"
+dotenvconf()
+
+import { Parser } from '@json2csv/plainjs';
+import { unwind, flatten } from '@json2csv/transforms';
 
 const configFilePath = process.argv[2]
 const outputFilePath = process.argv[3] || './cytosis-data.json'
@@ -29,7 +34,12 @@ try {
     let config = configFile.config
     console.log('Config: ', config)
     let results = await endo(config)
-    saveJson(results)
+
+    if (outputFilePath.includes(".json"))
+      saveJson(results, outputFilePath)
+
+    if (outputFilePath.includes(".csv"))
+      saveCsv(results, outputFilePath)
   })()
 } catch (err) { // do nothing if file doesn't exist // _err(err)
   console.error('Error:', err)
@@ -53,5 +63,18 @@ const saveJson = async (data, path=outputFilePath) => {
     console.log('[saveJson] Saved file at:', path)
   } catch (e) {
     console.error('[saveJson] error', e)
+  }
+};
+
+const saveCsv = async (data, path = outputFilePath) => {
+  try {
+    const parser = new Parser();
+    flatten({ objects: true, arrays: true });
+
+    const csv = parser.parse(data);
+    const fileStream = await fs.writeFileSync(path, csv)
+    console.log('[saveCsv] Saved file at:', path)
+  } catch (e) {
+    console.error('[saveCsv] error', e)
   }
 };

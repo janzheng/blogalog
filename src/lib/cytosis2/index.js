@@ -1,5 +1,4 @@
 
-
 import csv from 'csvtojson'
 import { Client } from '@notionhq/client'
 import Cytosis from 'cytosis'
@@ -80,6 +79,9 @@ export const endo = async (config, {
     }
     if (src.type == 'json') {
       asyncData = jsonLoader(src)
+    }
+    if (src.type == 'jsonlines') {
+      asyncData = jsonLoader(src, "jsonlines")
     }
     if (src.type == 'csv') {
       asyncData = csvLoader(src)

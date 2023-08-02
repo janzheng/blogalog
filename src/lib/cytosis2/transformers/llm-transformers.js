@@ -7,16 +7,26 @@
 
 */
 export const llmKeyPrompt = async (results, 
-  { key = "Name", outputKey="llm", prompt, llm 
+  { key = "Name", keys, outputKey="llm", prompt, llm 
   } = {}) => {
   let content = results[key]
-  let finalPrompt = `${prompt} ${content}`
+  if(keys && keys.length > 0) {
+    // keys = ["Name", "Description"]
+    content = {}
+    keys.map(key => {
+      results[key]
+      content[key] = results[key]
+    })
+    content = JSON.stringify(content)
+  }
+
+  let finalPrompt = `${prompt} \{${content}\}`
   let llmOutput = await getPrompt({
     ...llm,
     prompt: finalPrompt,
   })
 
-  results[outputKey] = llmOutput
+  results[outputKey] = llmOutput?.text || llmOutput
   return results
 }
 
@@ -54,6 +64,7 @@ import {
   HumanMessagePromptTemplate,
   ChatPromptTemplate,
 } from "langchain/prompts";
+// import { forEach } from "lodash"
 
 
 

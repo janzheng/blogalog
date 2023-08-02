@@ -16,10 +16,15 @@ export const applyTransformers = (results, transformers, sources) => {
     return results
 
   for (const transformer of transformers) {
-    const transformerFunction = transformerMap[transformer.function || transformer]; 
-    // transformer could look like a single string, e.g. "outputObject" if no settings given
-    results = transformerFunction(results, transformer.settings, sources);
-    // console.log('[applyTransformers] ----->', results, transformer.function, transformer.settings)
+    if(transformer.function) {
+      const transformerFunction = transformerMap[transformer.function || transformer]; 
+      // transformer could look like a single string, e.g. "outputObject" if no settings given
+      results = transformerFunction(results, transformer.settings, sources);
+      // console.log('[applyTransformers] ----->', results, transformer.function, transformer.settings)
+    } else if(transformer.fn) {
+      // custom transformer code; only works w/ JS configs
+      results = transformer.fn(results, sources);
+    }
   }
 
   return results
@@ -32,6 +37,50 @@ export const addTransformers = (transformers) => {
   transformers.forEach(tr => {
     transformerMap[tr.name] = tr
   })
+}
+
+
+
+
+
+/* 
+  gets one or more columns from a given object, discards the rest
+  only works for root keys, not nested keys (flatten first)
+*/
+export const pickColumnsFromObject = (obj, { keys }) => {
+  let result = {}
+  keys.forEach((k) => {
+    result = { ...result, [k]: obj[k] }
+  })
+  return result
+}
+
+export const pickColumnsFromObjectArray = (arr, { keys }) => {
+  let results = []
+  arr.forEach((row) => {
+    results = [...results, pickColumnsFromObject(row, { keys })]
+  })
+  return results
+}
+
+
+/* 
+  takes an array of object arrays, e.g. [{ authors: [...]}, {authors: [...]}]
+  and combines them into one array of { authors: [...] }
+
+*/
+export const combineColumnsFromObjectArray = (arr, { keys }) => {
+  let result = {}
+  keys.forEach((k) => {
+    if(!result[k]) {
+      result[k] = []
+    }
+    arr.forEach((row) => {
+      result[k] = [ ...result[k], ...row[k] ]
+    })
+  })
+  console.log('wakakakakak combineColumnsFromObjectArray results:', result)
+  return result
 }
 
 
@@ -84,9 +133,10 @@ export const transformArrayToObjectByKey = (results, {objectKey="Name"}={}) => {
   } else {
     return results
   }
-
   return resultObject
 }
+
+
 
 
 /* 
@@ -209,7 +259,7 @@ export const rollupEventsArrayToObjectByKey = (eventsArray, {objectKey="Name"} =
 
 
   // now we process each column into a keyed object of arrays, for each column, e.g. 
-  // Date: [date1, date2, ...], JSON, [...json1, ...json2]
+  // Date: [date1, date2, ...], JSON: [...json1, ...json2]
   Object.keys(resultObject).forEach((objKey) => {
     let value = resultObject[objKey] // e.g. "The Catcher in the Rye"
     let events = value.events // e.g. [event1, event2, ...]
@@ -305,6 +355,28 @@ export const outputObject = (sourceData, { flatten, usePrefix, divider = "_" } =
 }
 
 
+// similar to outputObject, but doesn't assign keys to the output; useful for flattening and saving to CSVs
+export const outputArray = (sourceData, { flatten, usePrefix, divider = "_" } = {}, sources) => {
+  let data = []
+  sources.map((src, i) => {
+    if (flatten) {
+      if (usePrefix) {
+        Object.keys(sourceData[i]).forEach((k) => {
+          sourceData[i][`${src.name}${divider}${k}`] = sourceData[i][k]
+          delete sourceData[i][k]
+        })
+      }
+      data = [ ...data, ...sourceData[i] ]
+    } else
+      data = [...data, ...sourceData[i]]
+  })
+  return data
+}
+
+
+
+
+
 
 
 
@@ -321,6 +393,11 @@ export const transformerMap = {
   scrapeKey, scrapeArray,
   transformArrayVersionedObjects,
 
+  // array transformers
+  pickColumnsFromObject, pickColumnsFromObjectArray,
+  combineColumnsFromObjectArray,
+
+
   // Ramda / Polymerase transformers
   transformDataBySchema,
   transformUnstructuredTextKey, transformUnstructuredTextKeyArray,
@@ -333,4 +410,5 @@ export const transformerMap = {
 
   // cytosis transformers
   outputObject,
+  outputArray,
 };

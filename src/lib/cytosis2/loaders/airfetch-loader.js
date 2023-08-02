@@ -91,7 +91,8 @@
 // required for running node locally w/o Svelte / vite, so no access to linked $plasmid
 // another way is to import plasmid from node, but it's less flexible for dev
 // import { getContent } from "../utils/airfetch.js"
-import Cytosis from 'cytosis';
+// import Cytosis from 'cytosis';
+import Cytosis from '../utils/cytosis.js';
 
 import { applyTransformers, transformArrayToObjectByKey, transformRemap } from '../transformers/index.js'
 
