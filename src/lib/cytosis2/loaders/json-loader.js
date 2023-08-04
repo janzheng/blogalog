@@ -13,7 +13,9 @@ async function readFileAsString(filePath) {
 export const jsonLoader = async (src, type="json") => {
   let results
   if(type == "json") {
-    results = await import(src.inputs.path, { assert: { type: 'json' } } /* @vite-ignore */)
+    // results = await import(src.inputs.path, {assert: { type: 'json' }} /* @vite-ignore */)
+    // results = await import(src.inputs.path /* @vite-ignore */)
+    results = await readFileAsString(src.inputs.path);
     results = applyTransformers(results, src.transformers)
     return results
   }

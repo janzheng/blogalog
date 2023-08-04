@@ -3219,8 +3219,8 @@ pify@^2.3.0:
   integrity sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
 
 "plasmid@git+https://github.com/janzheng/plasmid.git":
-  version "0.0.10"
-  resolved "git+https://github.com/janzheng/plasmid.git#3f881f53169017031e96b662a062856572aca29a"
+  version "0.0.50"
+  resolved "git+https://github.com/janzheng/plasmid.git#14e68c2c1bb72b374b43343917becd9a326a23d7"
   dependencies:
     "@polka/send" "^0.4.0"
     "@polka/send-type" "^0.5.2"
