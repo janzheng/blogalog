@@ -124,9 +124,9 @@ export const load = async ({ params, setHeaders, locals}) => {
 
     // this loads the new content, but has a chance of not running on serverless when data is returned
     // before initContent finishes loading
-    cachet(`cytosis-${PUBLIC_CY_TYPE}`, async () => {
-      return await initContent(head)
-    }, { skip: true })
+    // cachet(`cytosis-${PUBLIC_CY_TYPE}`, async () => {
+    //   return await initContent(head)
+    // }, { skip: true })
 
     return {
       head: _head,
