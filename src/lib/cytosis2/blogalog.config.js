@@ -2,7 +2,7 @@ export const config = {
   "loaders": {
     // "sourceFile": "../../../prod.json", // pull from this preloaded json
   },
-  "transformers": ["outputObject"],
+  // "transformers": ["outputObject"],
   "sources": [
     {
       "name": "blogalog",

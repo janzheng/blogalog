@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit'
 import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
-import { PUBLIC_CY_TYPE, PUBLIC_CY_CONFIG_PATH } from '$env/static/public';
+import { PUBLIC_CY_TYPE, PUBLIC_CY_CONFIG_PATH, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
 
 import { head, seo } from '$lib/config.js'
 
@@ -10,7 +10,8 @@ import { config as jz_config } from '$lib/cytosis2/cytosis.config.janzheng.js';
 import { config as js2_config } from '$lib/cytosis2/cytosis.config.jessbio2.js';
 
 import { loadBlogalogFromPath } from '$lib/blogalog'
-
+import FuzzyKey from '$plasmid/utils/fuzzykey'
+import { cachet } from '$plasmid/utils/cachet'
 
 
 import { endo } from '$lib/cytosis2';
@@ -18,82 +19,114 @@ import { applyTransformers } from '$lib/cytosis2/transformers';
 
 
 
+async function initContent(_head) {
+  let cytosis
+  console.log('[initContent] initializing:', PUBLIC_CY_TYPE)
+
+  if (PUBLIC_CY_TYPE == 'blogalog') {
+    ({ _head, cytosis } = await loadBlogalogFromPath('blogalog'));
+  } else {
+    if (PUBLIC_CY_TYPE == 'janzheng') {
+      // config = jz_config
+      cytosis = await endo(jz_config, {
+        // transformers: [customLibraryEventTransformer],
+      })
+    } else if (PUBLIC_CY_TYPE == 'jessbio') {
+      // config = js2_config
+      cytosis = await endo(js2_config, {
+        // transformers: [customLibraryEventTransformer],
+      })
+    }
+
+    // make sure this is ABOVE the _head code, since it references the transformed array object
+    // Experiment: trying to combine the two notion dbs into ONE
+    // if combined site-pagedata, we want to unroll it into site-data and sitepages
+    //     results = applyTransformers(results, src.transformers)
+    if (cytosis?.['site-pagedata']?.length > 0) {
+      cytosis['site-data'] = applyTransformers(cytosis['site-pagedata'], [{
+        "function": "transformArrayToObjectByKey",
+        "settings": {
+          "objectKey": "Name"
+        }
+      },
+      ])
+      cytosis['site-pages'] = applyTransformers(cytosis['site-pagedata'].filter(p => p.Type), [{
+        "function": "transformArrayVersionedObjects",
+        "settings": {
+          "uniqueKey": "Path", // unique field to track versions against
+          "versionKey": "Version", // version name / number field
+        }
+      },
+      ])
+    }
+
+    if (cytosis && PUBLIC_CY_TYPE !== 'janzheng') {
+      _head = PUBLIC_CY_TYPE !== "janzheng" ? {
+        title: cytosis?.['site-data']?.['SiteTitle']?.Content,
+        author: cytosis?.['site-data']?.['Author']?.Content,
+        description: cytosis?.['site-data']?.['SiteDescription']?.Content,
+        url: cytosis?.['site-data']?.['URL']?.Content,
+        canonical: cytosis?.['site-data']?.['URL']?.Content,
+        title: cytosis?.['site-data']?.['SiteTitle']?.Content,
+        ico: cytosis?.['site-data']?.['IconImage']?.Content || cytosis?.['site-data']?.['IconImage']?.Files?.[0].url,
+        image: {
+          url: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url,
+          width: 850,
+          height: 650,
+        },
+        meta: [
+          { name: "twitter:site", content: cytosis?.['site-data']?.['TwitterHandle']?.Content },
+          { name: "twitter:title", content: cytosis?.['site-data']?.['SiteTitle']?.Content },
+          { name: "twitter:description", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
+          { name: "twitter:image", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url },
+          { name: "twitter:image:alt", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
+          { property: "og:image:url", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url },
+          { property: "og:image", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url },
+        ],
+        links: [
+          { rel: 'icon', type: 'image/png', href: cytosis?.['site-data']?.['IconImage']?.Content || cytosis?.['site-data']?.['IconImage']?.Files?.[0].url }
+        ]
+      } : null // head
+    }
+
+  }
+
+  return {cytosis, _head}
+}
+
+
 export const load = async ({ params, setHeaders, locals}) => {
   try {
 
-    let cytosis, _head = head
+    let fuzzy = FuzzyKey({ url: PUBLIC_FUZZYKEY_URL })
+    
+    // // let add = await fuzzy.set("banana/rama", {fruit:"BANANANAAAAAAA !@$@#$@#$"})
+    // let fzz = await fuzzy.get("banana/rama")
+    // console.log("fzz???!!!!! GETtTTTttrtrtr", fzz.data)
 
-    if (PUBLIC_CY_TYPE == 'blogalog') {
-      ({ _head, cytosis } = await loadBlogalogFromPath('blogalog'));
-    } else {
-      if (PUBLIC_CY_TYPE == 'janzheng') {
-        // config = jz_config
-        cytosis = await endo(jz_config, {
-          // transformers: [customLibraryEventTransformer],
-        })
-      } else if (PUBLIC_CY_TYPE == 'jessbio') {
-        // config = js2_config
-        cytosis = await endo(js2_config, {
-          // transformers: [customLibraryEventTransformer],
-        })
-      }
+    // setting cachet w/ a function
+    // let myvar = "ok I can't believe this works lol"
+    // await cachet('testkey', ()=>{
+    //   console.log('myvar...', myvar)
+    //   return myvar
+    // }, {skip: true})
+    // console.log("cachet testkey!!!", await cachet('testkey'))
+    // console.log("cachet!!!", await cachet('banana/rama'))
+    // let fuzzytest = await fuzzy.get("testkey")
+    // console.log("fuzzytest", fuzzytest.data)
 
-      // make sure this is ABOVE the _head code, since it references the transformed array object
-      // Experiment: trying to combine the two notion dbs into ONE
-      // if combined site-pagedata, we want to unroll it into site-data and sitepages
-      //     results = applyTransformers(results, src.transformers)
-      if (cytosis?.['site-pagedata']?.length > 0) {
-        cytosis['site-data'] = applyTransformers(cytosis['site-pagedata'], [{
-          "function": "transformArrayToObjectByKey",
-          "settings": {
-            "objectKey": "Name"
-          }
-        },
-        ])
-        cytosis['site-pages'] = applyTransformers(cytosis['site-pagedata'].filter(p => p.Type), [{
-          "function": "transformArrayVersionedObjects",
-          "settings": {
-            "uniqueKey": "Path", // unique field to track versions against
-            "versionKey": "Version", // version name / number field
-          }
-        },
-        ])
-      }
+    // let {cytosis, _head} = await initContent(head)
+    let cytosis, _head
 
-      if (cytosis && PUBLIC_CY_TYPE !== 'janzheng' ) {
-        _head = PUBLIC_CY_TYPE !== "janzheng" ? {
-          title: cytosis?.['site-data']?.['SiteTitle']?.Content,
-          author: cytosis?.['site-data']?.['Author']?.Content,
-          description: cytosis?.['site-data']?.['SiteDescription']?.Content,
-          url: cytosis?.['site-data']?.['URL']?.Content,
-          canonical: cytosis?.['site-data']?.['URL']?.Content,
-          title: cytosis?.['site-data']?.['SiteTitle']?.Content,
-          ico: cytosis?.['site-data']?.['IconImage']?.Content || cytosis?.['site-data']?.['IconImage']?.Files?.[0].url,
-          image: {
-            url: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url,
-            width: 850,
-            height: 650,
-          },
-          meta: [
-            { name: "twitter:site", content: cytosis?.['site-data']?.['TwitterHandle']?.Content },
-            { name: "twitter:title", content: cytosis?.['site-data']?.['SiteTitle']?.Content },
-            { name: "twitter:description", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
-            { name: "twitter:image", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url },
-            { name: "twitter:image:alt", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
-            { property: "og:image:url", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url },
-            { property: "og:image", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url },
-          ],
-          links: [
-            { rel: 'icon', type: 'image/png', href: cytosis?.['site-data']?.['IconImage']?.Content || cytosis?.['site-data']?.['IconImage']?.Files?.[0].url }
-          ]
-        } : null // head
-      }
+    ({ cytosis, _head } = await cachet(`cytosis-${PUBLIC_CY_TYPE}`, async ()=>{
+       return await initContent(head)
+    }, {skip: false}))
 
-    }
-
-    // setHeaders({
-    //   'cache-control': `public, s-maxage=120, max-age=120, stale-while-revalidate=240`
-    // });
+    // this loads the new content, but has a chance of not running on serverless when data is returned
+    // before initContent finishes loading
+    cachet(`cytosis-${PUBLIC_CY_TYPE}`, async () => {
+      return await initContent(head)
+    }, { skip: true })
 
     return {
       head: _head,
@@ -103,6 +136,14 @@ export const load = async ({ params, setHeaders, locals}) => {
       // ... await endo(config, {sourceNames: ['site-data']}),
       // streamed: {
       //   // cytosis: endo(config, {sourceNames: ['site-pages']}) // streamed await
+      // }
+
+      // streamed: {
+      //   // this acts as an SWR cache updater; it loads after the initial load, and updates cache keys 
+      //   // this does keep the browser spinning though which isn't ideal 
+      //   refresh: await cachet(`cytosis-${PUBLIC_CY_TYPE}`, async () => {
+      //     return await initContent(head)
+      //   }, { skip: true })
       // }
     }
   }

@@ -60,12 +60,13 @@
   let cytosis = $page.data.cytosis // doesn't wait
 
   // streamed cytosis (loads in after page loads)
-  // if(browser) {
-  //   (async () => {
-  //     cytosis = await $page.data.streamed?.cytosis
-  //     console.log('----> cytosis:', cytosis)
-  //   })()
-  // }
+  if(browser) {
+    (async () => {
+      console.log('----> streamed:', $page.data.streamed)
+      // cytosis = await $page.data.streamed?.cytosis
+      // console.log('----> cytosis:', cytosis)
+    })()
+  }
 
   $: if(browser && $page.data.streamed?.cytosis) {
     console.log('streamed.cytosis:', $page.data.streamed?.cytosis)

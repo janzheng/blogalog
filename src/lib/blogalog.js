@@ -15,6 +15,12 @@ export const loadBlogalogFromPath = async (path) => {
   let endoData = await endo(blogalog_config)
   let blogs = endoData['blogalog']
 
+  if(!blogs) {
+    console.error("Blogalog data not loaded")
+    return
+  }
+
+
   cytosisData = await Promise.all(blogs.map(async (blog) => {
     if (blog?.Slug !== path) return
     isBlogalog = true

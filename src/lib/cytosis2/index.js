@@ -16,13 +16,16 @@ import { linksLoader } from './loaders/links-loader.js'
 
 import { applyTransformers, addTransformers } from './transformers/index.js'
 
+export const loud = false
+
 
 export const endo = async (config, {
   sourceNames, // = ['site-data'],
   transformers,
 } = {} ) => {
 
-  console.log('[endo] Init load ---------',)
+  if(loud)
+    console.log('[endo] Init load ---------',)
 
   let sources = [...config?.sources] // prevents issues when running multiple endos
 
@@ -35,14 +38,16 @@ export const endo = async (config, {
     try {
       let data = await import(sourceFile /* @vite-ignore */) 
       if (data && data.default) {
-        console.log('[endo] Using build file: ', sourceFile)
+        if (loud)
+          console.log('[endo] Using build file: ', sourceFile)
         return data.default
       }
     } catch(e) {
       console.log('[endo] File does not exist; loading from APIs.')
     }
   } else {
-    console.log('[endo] Using API Loaders: ', sourceFile)
+    if (loud)
+      console.log('[endo] Using API Loaders: ', sourceFile)
   }
 
   // add new transformers into the transformerMap
@@ -50,10 +55,13 @@ export const endo = async (config, {
     addTransformers(transformers)
   }
 
-  console.log('[endo] Fetching data sources:', sources)
+  if (loud)
+    console.log('[endo] Fetching data sources:', sources)
   // let loaderData = [] // for storing recursive, nested async data
   let sourceData = await Promise.all(sources.map((src, i) => {
-    console.log('[endo] >> loading item:', src.name, src.type)
+
+    if(loud)
+      console.log('[endo] >> loading item:', src.name, src.type)
     // cytosis2 versions
     // get notion from cloudflare-notion endpoint
     let asyncData
@@ -116,7 +124,9 @@ export const endo = async (config, {
   }))
 
   let data = {}
-  console.log('[endo] Done fetching!')
+
+  if (loud)
+    console.log('[endo] Done fetching!')
 
   // set the base transformer if not set in config
   if(!config.transformers) {

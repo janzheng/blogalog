@@ -119,7 +119,7 @@
   });
   sitePageTypes = [...new Set(sitePageTypes)]; 
 
-  console.log('sitePageByType:', sitePageByType, sitePageTypes);
+  // console.log('sitePageByType:', sitePageByType, sitePageTypes);
 
 </script>
 

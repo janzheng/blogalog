@@ -36,7 +36,7 @@
   $: if (tableData) {
     // console.log('tableData:::', tableData)
     view = tableData?.views[0];
-    console.log('VIEW:::: //tdata', view, tableData?.views, tableData)
+    // console.log('VIEW:::: //tdata', view, tableData?.views, tableData)
 
     if(tableData.rows) {
       // manipulate data here, e.g. sorting, filtering, insertions
@@ -69,7 +69,7 @@
       }
 
     }
-    console.log('VIEW:::: //tdata FILTER', tableRows)
+    // console.log('VIEW:::: //tdata FILTER', tableRows)
   }
 
   // #hide_title : don't show the collection name / title

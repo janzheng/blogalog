@@ -56,7 +56,7 @@
 
     <!-- create an html details / summary example here -->
     <!-- skip if only one version -->
-    {#if pageContent?.versions && pageContent?.versions.length > 1}
+    {#if pageContent && pageContent?.versions && pageContent?.versions.length > 1}
       <div class="mt-4">
         <details>
           <summary>Versions</summary>
@@ -101,13 +101,15 @@
   import Profile from '$lib/components/profiles/Profile.svelte';
 
   export let data
-  let blogpath = $page.data?.pathArr.length>1 ? `/${$page.data?.pathArr[0]}` : "/"
+  let blogpath = $page.data?.pathArr?.length>1 ? `/${$page.data?.pathArr[0]}` : "/"
   
   let cytosis = $page.data.cytosis; // await streamed cytosis, and set it here
   // let pageContent = $page.data.pageContent;
   let pageContent
   
   $: pageContent = $page.data.cytosis?.['site-pages'].find(item => item.Path === $page.data.path || item.Path === $page.data.pathArr?.[$page.data.pathArr?.length -1]);
+
+  console.log($page.data)
 
   let profileImage = cytosis?.['site-data']?.['ProfileImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
   let author = cytosis?.['site-data'].Author?.['Content'];
