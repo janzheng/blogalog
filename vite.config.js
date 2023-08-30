@@ -4,7 +4,7 @@ import { sveltekit } from "@sveltejs/kit/vite";
 // import { plugin as markdown, Mode } from "vite-plugin-markdown";
 
 import { config as dotenvconf } from "dotenv"
-dotenvconf()
+dotenvconf() 
 
 
 console.log('Use Local?:', process.env.PUBLIC_LOCAL)
