@@ -1,21 +1,20 @@
 import { error } from '@sveltejs/kit'
 import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
-import { PUBLIC_CY_TYPE, PUBLIC_CY_CONFIG_PATH, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
+import { PUBLIC_PROJECT_NAME, PUBLIC_CY_TYPE, PUBLIC_CY_CONFIG_PATH, PUBLIC_FUZZYKEY_URL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
 
 import { head, seo } from '$lib/config.js'
 
-import { config as blogalog_config } from '$lib/cytosis2/blogalog.config.js';
-import { config as jz_config } from '$lib/cytosis2/cytosis.config.janzheng.js';
-// import { config as js_config } from '$lib/cytosis2/cytosis.config.jessbio.js';
-import { config as js2_config } from '$lib/cytosis2/cytosis.config.jessbio2.js';
+import { config as blogalog_config } from '$plasmid/modules/cytosis2/configs/blogalog.config.js';
+import { config as jz_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.janzheng.js';
+// import { config as js_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.jessbio.js';
+import { config as js2_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.jessbio2.js';
 
 import { loadBlogalogFromPath } from '$lib/blogalog'
 import FuzzyKey from '$plasmid/utils/fuzzykey'
 import { cachet } from '$plasmid/utils/cachet'
 
-
-import { endo } from '$lib/cytosis2';
-import { applyTransformers } from '$lib/cytosis2/transformers';
+import { endo, endoloader } from '$plasmid/modules/cytosis2';
+import { applyTransformers } from '$plasmid/modules/cytosis2/transformers';
 
 
 
@@ -26,17 +25,17 @@ async function initContent(_head) {
   if (PUBLIC_CY_TYPE == 'blogalog') {
     ({ _head, cytosis } = await loadBlogalogFromPath('blogalog'));
   } else {
+    let config
     if (PUBLIC_CY_TYPE == 'janzheng') {
-      // config = jz_config
-      cytosis = await endo(jz_config, {
-        // transformers: [customLibraryEventTransformer],
-      })
+      config = jz_config
     } else if (PUBLIC_CY_TYPE == 'jessbio') {
-      // config = js2_config
-      cytosis = await endo(js2_config, {
-        // transformers: [customLibraryEventTransformer],
-      })
+      config = js2_config
     }
+    // cytosis = await endo(config)
+    cytosis = await endoloader(config, {
+      key: `${PUBLIC_PROJECT_NAME}-${PUBLIC_CY_TYPE}`,
+      url: PUBLIC_ENDOCYTOSIS_URL
+    })
 
     // make sure this is ABOVE the _head code, since it references the transformed array object
     // Experiment: trying to combine the two notion dbs into ONE
@@ -100,10 +99,9 @@ export const load = async ({ params, setHeaders, locals}) => {
 
     let fuzzy = FuzzyKey({ url: PUBLIC_FUZZYKEY_URL })
     
-    // // let add = await fuzzy.set("banana/rama", {fruit:"BANANANAAAAAAA !@$@#$@#$"})
+    // // let add = await fuzzy.set("banana/rama", {fruit:"bannnnanana!!"})
     // let fzz = await fuzzy.get("banana/rama")
-    // console.log("fzz???!!!!! GETtTTTttrtrtr", fzz.data)
-
+    // console.log("fuzzy get:", fzz.data)
     // setting cachet w/ a function
     // let myvar = "ok I can't believe this works lol"
     // await cachet('testkey', ()=>{
@@ -118,9 +116,10 @@ export const load = async ({ params, setHeaders, locals}) => {
     // let {cytosis, _head} = await initContent(head)
     let cytosis, _head
 
-    ({ cytosis, _head } = await cachet(`cytosis-${PUBLIC_CY_TYPE}`, async ()=>{
+    ({ cytosis, _head } = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_CY_TYPE}`, async ()=>{
        return await initContent(head)
     }, {skip: false}))
+    // }, {skip: true})) // skips the cache
 
     // this loads the new content, but has a chance of not running on serverless when data is returned
     // before initContent finishes loading

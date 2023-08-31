@@ -90,8 +90,8 @@
 
 
 <script>
-  // import Notion from '@yawnxyz/sveltekit-notion';
-  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import { page } from '$app/stores';
 
   import { marked } from 'marked';

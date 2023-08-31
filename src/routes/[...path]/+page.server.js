@@ -13,7 +13,7 @@ export const load = async (settings) => {
     let pathArr = settings.params.path.split('/')
     let _head, cytosis, isBlogalog;
 
-    console.log('Path is', path)
+    // console.log('Path is', path)
 
     // if we want to enable "blogalog routing"
     if(PUBLIC_CY_BLOGALOG == "true") {

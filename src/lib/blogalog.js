@@ -1,18 +1,26 @@
 
 import { head, seo } from '$lib/config.js'
-import { PUBLIC_CY_BLOGALOG } from '$env/static/public';
+import { PUBLIC_PROJECT_NAME, PUBLIC_CY_TYPE, PUBLIC_CY_CONFIG_PATH, PUBLIC_FUZZYKEY_URL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
 
-import { config as blogalog_config } from '$lib/cytosis2/blogalog.config.js';
-import { endo } from '$lib/cytosis2';
-import { applyTransformers } from '$lib/cytosis2/transformers';
+import { config as blogalog_config } from '$plasmid/modules/cytosis2/configs/blogalog.config.js';
+import { endo, endoloader } from '$plasmid/modules/cytosis2';
+import { applyTransformers } from '$plasmid/modules/cytosis2/transformers';
 
-
+import { cachet } from '$plasmid/utils/cachet'
 
 
 
 export const loadBlogalogFromPath = async (path) => {
   let cytosis, cytosisData, isBlogalog, _head;
-  let endoData = await endo(blogalog_config)
+
+  // load the config
+  // let endoData = await endo(blogalog_config)
+  let endoData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
+    return await endoloader(blogalog_config, {
+      url: PUBLIC_ENDOCYTOSIS_URL
+    })
+  })
+
   let blogs = endoData['blogalog']
 
   if(!blogs) {
@@ -20,24 +28,41 @@ export const loadBlogalogFromPath = async (path) => {
     return
   }
 
-
   cytosisData = await Promise.all(blogs.map(async (blog) => {
     if (blog?.Slug !== path) return
     isBlogalog = true
 
     // pull the data
-    return await endo({
-      "sources": [
-        {
-          "name": "site-pagedata",
-          "type": "cfnotion",
-          "path": `/collection/${blog['Pagedata ID']}`,
-          "loaders": {
-            "notionPageId": "id"
+    // return await endo({
+    //   "sources": [
+    //     {
+    //       "name": "site-pagedata",
+    //       "type": "cfnotion",
+    //       "path": `/collection/${blog['Pagedata ID']}`,
+    //       "loaders": {
+    //         "notionPageId": "id"
+    //       },
+    //     },
+    //   ]
+    // })
+    return await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
+      return await endoloader({
+        "sources": [
+          {
+            "name": "site-pagedata",
+            "type": "cfnotion",
+            "path": `/collection/${blog['Pagedata ID']}`,
+            "loaders": {
+              "notionPageId": "id"
+            },
           },
-        },
-      ]
+        ]
+      }, {
+        // key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
+        url: PUBLIC_ENDOCYTOSIS_URL
+      })
     })
+    
   }))
 
   // clear empty items from cytosisData
