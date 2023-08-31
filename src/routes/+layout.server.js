@@ -57,7 +57,7 @@ async function initContent(_head) {
         }
       },
       ])
-    }
+    } 
 
     if (cytosis && PUBLIC_CY_TYPE !== 'janzheng') {
       _head = PUBLIC_CY_TYPE !== "janzheng" ? {
