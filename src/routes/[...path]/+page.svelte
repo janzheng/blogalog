@@ -15,7 +15,7 @@
   <!-- blog post -->
   <div class="PagePath PageContent content-pad _content-wide">
 
-    {#if PUBLIC_CY_TYPE!=='janzheng'}
+    {#if PUBLIC_BLOGMODE!=='janzheng'}
       <div class="ProfileStack | ">
         <a href={blogpath} class="hover:no-underline">
           {#if profileImage}
@@ -94,7 +94,7 @@
 	import { onMount } from 'svelte';
   import { page } from '$app/stores'
   import { browser } from '$app/environment'; 
-  import { PUBLIC_CY_TYPE } from '$env/static/public';
+  import { PUBLIC_BLOGMODE } from '$env/static/public';
   import Notion from '@yawnxyz/sveltekit-notion'
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
 

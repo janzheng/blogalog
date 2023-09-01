@@ -7,7 +7,7 @@
 	import { currentPage, isMenuOpen, user } from '$lib/store'
 	// import { navItems } from '$lib/config'
   import { page } from '$app/stores'
-  import { PUBLIC_CY_TYPE } from '$env/static/public';
+  import { PUBLIC_BLOGMODE } from '$env/static/public';
 
 
 
@@ -38,7 +38,7 @@
 
 
 <Head />
-{#if PUBLIC_CY_TYPE!=='janzheng'}
+{#if PUBLIC_BLOGMODE!=='janzheng'}
   <div class="layout" class:open={$isMenuOpen}>
     <div class="ContentContainer">
       <main

@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit'
 import { head, seo } from '$lib/config.js'
-import { PUBLIC_CY_BLOGALOG } from '$env/static/public';
+import { PUBLIC_MULTIBLOG } from '$env/static/public';
 
 import { loadBlogalogFromPath  } from '$lib/blogalog'
 
@@ -16,7 +16,7 @@ export const load = async (settings) => {
     // console.log('Path is', path)
 
     // if we want to enable "blogalog routing"
-    if(PUBLIC_CY_BLOGALOG == "true") {
+    if(PUBLIC_MULTIBLOG == "true") {
       ({ _head, cytosis, isBlogalog } = await loadBlogalogFromPath(pathArr[0]));
     }
 

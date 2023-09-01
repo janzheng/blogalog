@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit'
 import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
-import { PUBLIC_PROJECT_NAME, PUBLIC_CY_TYPE, PUBLIC_CY_CONFIG_PATH, PUBLIC_FUZZYKEY_URL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
+import { PUBLIC_PROJECT_NAME, PUBLIC_BLOGMODE, PUBLIC_FUZZYKEY_URL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
 
 import { head, seo } from '$lib/config.js'
 
@@ -20,24 +20,24 @@ import { applyTransformers } from '$plasmid/modules/cytosis2/transformers';
 
 async function initContent(_head) {
   let cytosis
-  console.log('[initContent] initializing:', PUBLIC_CY_TYPE)
+  console.log('[initContent] initializing:', PUBLIC_BLOGMODE)
 
-  if (PUBLIC_CY_TYPE == 'blogalog') {
+  if (PUBLIC_BLOGMODE == 'blogalog') {
     ({ _head, cytosis } = await loadBlogalogFromPath('blogalog'));
   } else {
     let config
-    if (PUBLIC_CY_TYPE == 'janzheng') {
+    if (PUBLIC_BLOGMODE == 'janzheng') {
       config = jz_config
-    } else if (PUBLIC_CY_TYPE == 'jessbio') {
+    } else if (PUBLIC_BLOGMODE == 'jessbio') {
       config = js2_config
     }
-    cytosis = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_CY_TYPE}`, async () => {
+    cytosis = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_BLOGMODE}`, async () => {
       return await endoloader(config, {
         url: PUBLIC_ENDOCYTOSIS_URL
       })
     }, {
       skip: false,
-      bgFn: () => endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${PUBLIC_CY_TYPE}` })
+      bgFn: () => endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${PUBLIC_BLOGMODE}` })
     })
 
     // make sure this is ABOVE the _head code, since it references the transformed array object
@@ -62,8 +62,8 @@ async function initContent(_head) {
       ])
     } 
 
-    if (cytosis && PUBLIC_CY_TYPE !== 'janzheng') {
-      _head = PUBLIC_CY_TYPE !== "janzheng" ? {
+    if (cytosis && PUBLIC_BLOGMODE !== 'janzheng') {
+      _head = PUBLIC_BLOGMODE !== "janzheng" ? {
         title: cytosis?.['site-data']?.['SiteTitle']?.Content,
         author: cytosis?.['site-data']?.['Author']?.Content,
         description: cytosis?.['site-data']?.['SiteDescription']?.Content,
@@ -121,20 +121,20 @@ export const load = async ({ params, setHeaders, locals}) => {
 
     ({ cytosis, _head } = await initContent(head)) // don't cachet here; leave cachet strategy to blogalogloader or other loaders
     // example of how to cachet at the top:
-    // ({ cytosis, _head } = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_CY_TYPE}`, async ()=>{
+    // ({ cytosis, _head } = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_BLOGMODE}`, async ()=>{
     //    return await initContent(head)
     // // }, {skip: false}))
     // }, {skip: true})) // skips the cache; good for debugging
 
     // this loads the new content, but has a chance of not running on serverless when data is returned
     // before initContent finishes loading
-    // cachet(`cytosis-${PUBLIC_CY_TYPE}`, async () => {
+    // cachet(`cytosis-${PUBLIC_BLOGMODE}`, async () => {
     //   return await initContent(head)
     // }, { skip: true })
 
     return {
       head: _head,
-      seo: PUBLIC_CY_TYPE == "janzheng" && seo, // need to generalize this more
+      seo: PUBLIC_BLOGMODE == "janzheng" && seo, // need to generalize this more
       user: locals?.user,
       cytosis: cytosis, // testing all
       // ... await endo(config, {sourceNames: ['site-data']}),
@@ -145,7 +145,7 @@ export const load = async ({ params, setHeaders, locals}) => {
       // streamed: {
       //   // this acts as an SWR cache updater; it loads after the initial load, and updates cache keys 
       //   // this does keep the browser spinning though which isn't ideal 
-      //   refresh: await cachet(`cytosis-${PUBLIC_CY_TYPE}`, async () => {
+      //   refresh: await cachet(`cytosis-${PUBLIC_BLOGMODE}`, async () => {
       //     return await initContent(head)
       //   }, { skip: true })
       // }

@@ -1,6 +1,6 @@
 <div class="Home">
 
-  {#if PUBLIC_CY_TYPE !== "janzheng"}
+  {#if PUBLIC_BLOGMODE !== "janzheng"}
     <Profile />
   {:else}
     <div class="Hero | content-pad | bg-slate-100 | overflow-hidden ">
@@ -50,7 +50,7 @@
   import { page } from '$app/stores'
   import { browser } from '$app/environment'; 
   // import Notion from '@yawnxyz/sveltekit-notion'
-  import { PUBLIC_CY_TYPE } from '$env/static/public';
+  import { PUBLIC_BLOGMODE } from '$env/static/public';
   
   import Profile from '$lib/components/profiles/Profile.svelte';
   import Companies from '$lib/components/Companies.svelte';
