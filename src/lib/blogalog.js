@@ -1,6 +1,6 @@
 
 import { head, seo } from '$lib/config.js'
-import { PUBLIC_PROJECT_NAME, PUBLIC_BLOGMODE, PUBLIC_FUZZYKEY_URL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
+import { PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
 
 import { config as blogalog_config } from '$plasmid/modules/cytosis2/configs/blogalog.config.js';
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
@@ -64,6 +64,7 @@ export const loadBlogalogFromPath = async (path) => {
       })
     }, {
       skip: false,
+      ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
       bgFn: () => endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
     })
     
