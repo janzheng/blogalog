@@ -45,22 +45,26 @@ export const loadBlogalogFromPath = async (path) => {
     //     },
     //   ]
     // })
-    return await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
-      return await endoloader({
-        "sources": [
-          {
-            "name": "site-pagedata",
-            "type": "cfnotion",
-            "path": `/collection/${blog['Pagedata ID']}`,
-            "loaders": {
-              "notionPageId": "id"
-            },
+    let endoloader_config = {
+      "sources": [
+        {
+          "name": "site-pagedata",
+          "type": "cfnotion",
+          "path": `/collection/${blog['Pagedata ID']}`,
+          "loaders": {
+            "notionPageId": "id"
           },
-        ]
-      }, {
+        },
+      ]
+    }
+    return await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
+      return await endoloader(endoloader_config, {
         // key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
         url: PUBLIC_ENDOCYTOSIS_URL
       })
+    }, {
+      skip: false,
+      bgFn: () => endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
     })
     
   }))

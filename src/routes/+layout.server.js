@@ -31,10 +31,13 @@ async function initContent(_head) {
     } else if (PUBLIC_CY_TYPE == 'jessbio') {
       config = js2_config
     }
-    // cytosis = await endo(config)
-    cytosis = await endoloader(config, {
-      key: `${PUBLIC_PROJECT_NAME}-${PUBLIC_CY_TYPE}`,
-      url: PUBLIC_ENDOCYTOSIS_URL
+    cytosis = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_CY_TYPE}`, async () => {
+      return await endoloader(config, {
+        url: PUBLIC_ENDOCYTOSIS_URL
+      })
+    }, {
+      skip: false,
+      bgFn: () => endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${PUBLIC_CY_TYPE}` })
     })
 
     // make sure this is ABOVE the _head code, since it references the transformed array object
@@ -116,10 +119,12 @@ export const load = async ({ params, setHeaders, locals}) => {
     // let {cytosis, _head} = await initContent(head)
     let cytosis, _head
 
-    ({ cytosis, _head } = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_CY_TYPE}`, async ()=>{
-       return await initContent(head)
-    }, {skip: false}))
-    // }, {skip: true})) // skips the cache
+    ({ cytosis, _head } = await initContent(head)) // don't cachet here; leave cachet strategy to blogalogloader or other loaders
+    // example of how to cachet at the top:
+    // ({ cytosis, _head } = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_CY_TYPE}`, async ()=>{
+    //    return await initContent(head)
+    // // }, {skip: false}))
+    // }, {skip: true})) // skips the cache; good for debugging
 
     // this loads the new content, but has a chance of not running on serverless when data is returned
     // before initContent finishes loading
