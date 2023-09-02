@@ -93,29 +93,29 @@ export const loadBlogalogFromPath = async (path) => {
     }
 
     _head = {
-      title: cytosis?.['site-data']?.['SiteTitle'].Content,
-      author: cytosis?.['site-data']?.['Author'].Content,
-      description: cytosis?.['site-data']?.['SiteDescription'].Content,
-      url: cytosis?.['site-data']?.['URL'].Content,
-      canonical: cytosis?.['site-data']?.['URL'].Content,
-      title: cytosis?.['site-data']?.['SiteTitle'].Content,
-      ico: cytosis?.['site-data']?.['IconImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url,
+      title: cytosis?.['site-data']?.['SiteTitle']?.Content,
+      author: cytosis?.['site-data']?.['Author']?.Content,
+      description: cytosis?.['site-data']?.['SiteDescription']?.Content,
+      url: cytosis?.['site-data']?.['URL']?.Content,
+      canonical: cytosis?.['site-data']?.['URL']?.Content,
+      title: cytosis?.['site-data']?.['SiteTitle']?.Content,
+      ico: cytosis?.['site-data']?.['IconImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url,
       image: {
-        url: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url,
+        url: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url,
         width: 850,
         height: 650,
       },
       meta: [
-        { name: "twitter:site", content: cytosis?.['site-data']?.['TwitterHandle'].Content },
-        { name: "twitter:title", content: cytosis?.['site-data']?.['SiteTitle'].Content },
-        { name: "twitter:description", content: cytosis?.['site-data']?.['SiteDescription'].Content },
-        { name: "twitter:image", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
-        { name: "twitter:image:alt", content: cytosis?.['site-data']?.['SiteDescription'].Content },
-        { property: "og:image:url", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
-        { property: "og:image", content: cytosis?.['site-data']?.['CardImage'].Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
+        { name: "twitter:site", content: cytosis?.['site-data']?.['TwitterHandle']?.Content },
+        { name: "twitter:title", content: cytosis?.['site-data']?.['SiteTitle']?.Content },
+        { name: "twitter:description", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
+        { name: "twitter:image", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
+        { name: "twitter:image:alt", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
+        { property: "og:image:url", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
+        { property: "og:image", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage'].Files?.[0].url },
       ],
       links: [
-        { rel: 'icon', type: 'image/png', href: cytosis?.['site-data']?.['IconImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url }
+        { rel: 'icon', type: 'image/png', href: cytosis?.['site-data']?.['IconImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url }
       ]
     }
   }

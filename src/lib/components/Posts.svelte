@@ -15,7 +15,7 @@
   <!-- <div class="Posts-list | lg:grid grid-cols-3 gap-8"> -->
   <div class="Posts-list | ">
     {#each posts as post}
-      <div class="Posts-case |">
+      <div class="Posts-item | {PostItemClasses}">
         <div class="font-serif text-2xl">
           <a href={`${path}${post.Path}`}>
             {#if post.Cover}
@@ -37,6 +37,7 @@
 
   export let posts;
   export let path = "/";
+  export let PostItemClasses = "mb-4"
 
 </script>
 

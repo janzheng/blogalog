@@ -111,7 +111,7 @@
 
   console.log($page.data)
 
-  let profileImage = cytosis?.['site-data']?.['ProfileImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
+  let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
   let author = cytosis?.['site-data'].Author?.['Content'];
   if(browser) {
       // console.log('blog path DATA?!?!!??!:', data, pageContent)

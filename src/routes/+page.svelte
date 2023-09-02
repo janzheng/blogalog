@@ -6,8 +6,8 @@
     <div class="Hero | content-pad | bg-slate-100 | overflow-hidden ">
       <div class="relative container max-w-7xl mx-auto w-full h-full; | md:grid grid-cols-3-2">
         <div>
-          {#if false && cytosis['site-data']?.['hero'].Content}
-            {@html marked(cytosis['site-data']?.['hero'].Content || '')}
+          {#if false && cytosis['site-data']?.['hero']?.Content}
+            {@html marked(cytosis['site-data']?.['hero']?.Content || '')}
           {:else}
             <h2 class="antialiased pt-4 pb-8">Hey hey,</h2>
             <h2 class="pt-0 leading-12 antialiased ">I’m Jan, a product designer who uses code and good product design practices to tackle challenging, data-centric problems.</h2>

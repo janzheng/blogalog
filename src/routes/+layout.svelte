@@ -50,7 +50,7 @@
       >
         <slot />
       </main>
-      <Footer content={$page.data.cytosis?.['site-data']?.['Footer'].Content} />
+      <Footer content={$page.data.cytosis?.['site-data']?.['Footer']?.Content} />
     </div>
   </div>
 

@@ -1,20 +1,21 @@
 
-<div class="Header | content-notion-wide | mt-0 md:mt-4 lg:mt-8 rounded-sm overflow-hidden  ">
+<div class="Header | content-notion-wide | mt-0 md:mt-2 lg:mt-4 rounded-sm overflow-hidden  ">
   <!-- cover -->
   {#if coverImage}
-    <div class="CoverImage bg-slate-100">
-      <img class="w-full md:h-64 object-left-top object-contain bg-slate-100" src="{coverImage}" alt="Cover" />
+    <div class="CoverImage bg-slate-100 | md:h-80 overflow-hidden">
+      <img class="w-full md:h-80 object-left-top object-contain bg-slate-100" src="{coverImage}" alt="Cover" />
     </div>
   {/if}
   
   <!-- profile -->
   {#if profileImage}
-  <div class="ProfileImage-Container | relative py-4 bg-slate-100 ">
-    <div class="ProfileImage | px-4 | relative md:absolute z-20 | -mt-16 md:-mt-32 md:pb-8 |  ">
-      <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
-      <div class="ProfileShortDesc | sm:inline-block sm:absolute sm:-mt-20 sm:pt-2 md:pt-0 md:-mt-20 sm:ml-36 md:w-96">
-        <div class="text-2xl sm:text-4xl font-bold py-2">{author||''}</div>
-        <div class="text ">{siteDesc||''}</div>
+  <div class="ProfileImage-Container | relative bg-slate-100 ">
+    <div class="ProfileImage | px-4 | relative md:relative z-20 | -mt-16 md:-mt-32 |  ">
+      <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute -top-8" src="{profileImage}" alt="Profile" />
+      <div class="ProfileShortDesc | pt-24 sm:pt-0 sm:inline-block sm:relative sm:py-2 md:pt-2 sm:ml-36 md:w-96">
+        <div class="text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>
+        <div class="text">{siteDesc || ''}</div>
+        <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
       </div>
     </div>
   </div>
@@ -33,8 +34,8 @@
   </div>
 </div>
 
-<!-- display posts before anything else -->
-{#if cytosis && cytosis['site-pages']}
+<!-- display posts before anything else, if we don't have subsections -->
+{#if cytosis && cytosis['site-pages'] && sections.length == 0}
   <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
     <div class="p-4 bg-slate-50">
       <h2 class="pt-0 mt-0">{"Posts"}</h2>
@@ -44,13 +45,23 @@
 {/if}
 
 
-{#each sitePages as page}
+<!-- {#each sitePages as page} -->
+{#each pageOrder as page}
   <div class="TypeSection | my-2 content-notion-wide | overflow-hidden | ">
     {#if page.Type=='Main'}
       <div class="MainPage | p-4 bg-slate-50 ">
         <h2 class="pt-0 mt-0">{page.Name}</h2>
         <Notion blocks={page.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev" />
-        <!-- <Notion id={page.id} api="//notion-cloudflare-worker.yawnxyz.workers.dev" /> -->
+      </div>
+    {:else if page.Type=='Group'}
+      <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
+        <div class="p-4 bg-slate-50">
+          <h2 class="pt-0 mt-0">{page.Group}</h2>
+          {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
+          <Posts posts={page.Pages.filter(page => page.Type == "Posts")} path={blogpath}></Posts>
+          <!-- {#each page.pages as groupPage}
+          {/each} -->
+        </div>
       </div>
     {:else if page.Type=='Posts'}
       <!-- do nothing; these are displayed elsewhere -->
@@ -80,14 +91,6 @@
 
 
 
-<!-- 
-{#if mainPageBlocks}
-  <div class="MainPage | content-pad | overflow-hidden ">
-    <Notion blocks={mainPageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
-  </div>
-{/if} -->
-
-
 
 <script>
   import Notion from '@yawnxyz/sveltekit-notion';
@@ -99,12 +102,12 @@
   import Posts from '$lib/components/Posts.svelte';
 
   let cytosis = $page.data.cytosis;
-  let profileImage = cytosis?.['site-data']?.['ProfileImage'].Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
-  let coverImage = cytosis?.['site-data']?.['CoverImage'].Content || cytosis?.['site-data']?.['CoverImage'].Files?.[0].url;
+  let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
+  let coverImage = cytosis?.['site-data']?.['CoverImage']?.Content || cytosis?.['site-data']?.['CoverImage'].Files?.[0].url;
   let author = cytosis?.['site-data'].Author?.['Content'];
-  let siteDesc = cytosis?.['site-data'].SiteDescription?.['Content'];
+  let siteDesc = cytosis?.['site-data'].ShortDescription?.['Content'];
   let socialDescription = cytosis?.['site-data'].SocialDescription?.['Content'];
-  let shortDescription = cytosis?.['site-data'].Short?.['Content'];
+  let shortDescription = cytosis?.['site-data'].LongDescription?.['Content'];
   let mainPageBlocks = cytosis?.['site-pages'].find(page => page.Type?.includes("Main"))?.pageBlocks;
   let sitePages = cytosis?.['site-pages'];
   let blogpath = $page.data?.path ? `/${$page.data?.path}/` : "/"
@@ -119,8 +122,37 @@
   });
   sitePageTypes = [...new Set(sitePageTypes)]; 
 
-  // console.log('sitePageByType:', sitePageByType, sitePageTypes);
+  // build a Page Order where different sections are grouped together and placed where the first instance of that section appears
+  let pageOrder = [], sections = [];
+  // build the sections list
+  sitePages.forEach(page => {
+    if (page.Type) {
+      const Section = page.Section;
+      if(Section) {
+        const sectionExists = sections.find(section => section.Section === Section);
+        if (sectionExists) {
+          sectionExists.pages.push(page);
+        } else {
+          const newSection = { Section: Section, SectionDescription: page.SectionDescription, pages: [page] };
+          sections.push(newSection);
+        }
+      }
+    }
+  });
 
+  // build the pageOrder list
+  sitePages.forEach(page => {
+    pageOrder.push(page);
+    if (page.Section && !pageOrder.find(pageOrderPage => pageOrderPage.Group === page.Section)) {
+      const section = sections.find(section => section.Section === page.Section);
+      if (section) {
+        const newObject = { Group: section.Section, Type: ['Group'], Pages: section.pages, SectionDescription: section.SectionDescription };
+        pageOrder.push(newObject);
+      }
+    }
+  });
+  pageOrder = pageOrder.filter(item => !item.Section);
+  console.log('pageOrder:', pageOrder, sections);
 </script>
 
 
