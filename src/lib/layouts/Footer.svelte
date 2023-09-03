@@ -6,11 +6,11 @@
 
   export const logo = '/icon.png';
   export let content;
+
+  export let clientHeight;
 </script>
 
-
-
-<footer class="Footer | mt-4 | content-pad | bg-slate-100 ">
+<footer bind:clientHeight={clientHeight} class="Footer | mt-4 | content-pad | bg-slate-100 ">
   {#if content}
     <div class="Content pfix text-center">
       {@html marked(content)}

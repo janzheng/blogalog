@@ -39,7 +39,7 @@
   <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
     <div class="p-4 bg-slate-50">
       <h2 class="pt-0 mt-0">{"Posts"}</h2>
-      <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Posts")} path={blogpath}></Posts>
+      <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Posts" && !page.Hide)} path={blogpath}></Posts>
     </div>
   </div>
 {/if}
@@ -48,7 +48,7 @@
 <!-- {#each sitePages as page} -->
 {#each pageOrder as page}
   <div class="TypeSection | my-2 content-notion-wide | overflow-hidden | ">
-    {#if page.Type=='Main'}
+    {#if page.Type=='Main' && !page.Hide}
       <div class="MainPage | p-4 bg-slate-50 ">
         <h2 class="pt-0 mt-0">{page.Name}</h2>
         <Notion blocks={page.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev" />
@@ -58,16 +58,17 @@
         <div class="p-4 bg-slate-50">
           <h2 class="pt-0 mt-0">{page.Group}</h2>
           {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
-          <Posts posts={page.Pages.filter(page => page.Type == "Posts")} path={blogpath}></Posts>
+          <Posts posts={page.Pages.filter(page => page.Type == "Posts" && !page.Hide)} path={blogpath}></Posts>
           <!-- {#each page.pages as groupPage}
           {/each} -->
         </div>
       </div>
-    {:else if page.Type=='Posts'}
+    {:else if page.Type=='Posts' && !page.Hide}
       <!-- do nothing; these are displayed elsewhere -->
-      <!-- <div class="TypeContainer | p-4 bg-slate-50">
-        <h4 class="pt-0 mt-0">{page.Name}</h4>
-      </div> -->
+      <div class="TypeContainer | p-4 bg-slate-50">
+        <!-- <h4 class="pt-0 mt-0">{page.Name}</h4> -->
+        <Posts posts={[page]} path={blogpath} PostItemClasses={""}></Posts>
+      </div>
     {/if}
   </div>
 {/each}
@@ -122,37 +123,45 @@
   });
   sitePageTypes = [...new Set(sitePageTypes)]; 
 
+
+
   // build a Page Order where different sections are grouped together and placed where the first instance of that section appears
   let pageOrder = [], sections = [];
-  // build the sections list
-  sitePages.forEach(page => {
-    if (page.Type) {
-      const Section = page.Section;
-      if(Section) {
-        const sectionExists = sections.find(section => section.Section === Section);
-        if (sectionExists) {
-          sectionExists.pages.push(page);
-        } else {
-          const newSection = { Section: Section, SectionDescription: page.SectionDescription, pages: [page] };
-          sections.push(newSection);
+  function buildPageOrer() {
+    // build the sections list
+    sitePages.forEach(page => {
+      if (page.Type) {
+        const Section = page.Section;
+        if(Section && Section.length > 0 && Section !== ' ') {
+          // console.log('Section -->', `[${Section}]`)
+          const sectionExists = sections.find(section => section.Section === Section);
+          if (sectionExists) {
+            sectionExists.pages.push(page);
+          } else {
+            const newSection = { Section: Section, SectionDescription: page.SectionDescription, pages: [page] };
+            sections.push(newSection);
+          }
         }
       }
-    }
-  });
-
-  // build the pageOrder list
-  sitePages.forEach(page => {
-    pageOrder.push(page);
-    if (page.Section && !pageOrder.find(pageOrderPage => pageOrderPage.Group === page.Section)) {
-      const section = sections.find(section => section.Section === page.Section);
-      if (section) {
-        const newObject = { Group: section.Section, Type: ['Group'], Pages: section.pages, SectionDescription: section.SectionDescription };
-        pageOrder.push(newObject);
+    });
+    // build the pageOrder list
+    sitePages.forEach(page => {
+      pageOrder.push(page);
+      if (page.Section && !pageOrder.find(pageOrderPage => pageOrderPage.Group === page.Section)) {
+        const section = sections.find(section => section.Section === page.Section);
+        if (section) {
+          const newObject = { Group: section.Section, Type: ['Group'], Pages: section.pages, SectionDescription: section.SectionDescription };
+          pageOrder.push(newObject);
+        }
       }
-    }
-  });
-  pageOrder = pageOrder.filter(item => !item.Section);
-  console.log('pageOrder:', pageOrder, sections);
+    });
+    pageOrder = pageOrder.filter(item => (!item.Section || item.Section == ' '));
+    console.log('pageOrder:', pageOrder, sections);
+  } buildPageOrer()
+
+
+
+
 </script>
 
 
@@ -180,7 +189,6 @@
   .notion-page-icon {
     font-size: 1.7rem;;
   }
-
 
   .MainPage {
     h2, h3, h4 {

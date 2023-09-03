@@ -16,7 +16,7 @@
   <div class="Posts-list | ">
     {#each posts as post}
       <div class="Posts-item | {PostItemClasses}">
-        <div class="font-serif text-2xl">
+        <div class="text-lg">
           <a href={`${path}${post.Path}`}>
             {#if post.Cover}
               <div class="Cover-image-container | pb-2">
@@ -24,8 +24,22 @@
               </div>
             {/if}
             {post.Name}
-          </a></div>
-        <div class="text pt-2">{@html marked(post.Content || '')}</div>
+          </a>
+        </div>
+
+        {#if post.Content}<div class="text pt-1">{@html marked(post.Content || '')}</div>{/if}
+        {#if post.AuthorName && post.AuthorName !== 'undefined' }
+          <div class="Posts-Author | mb-8 flex items-center">
+            {#if post.AuthorProfile?.[0] }
+              <div class="rounded-full overflow-hidden mr-2">
+                <img class="w-8 h-8" src="{post.AuthorProfile?.[0]?.rawUrl || post.AuthorProfile?.[0]?.url}" alt="Author Profile" />
+              </div>
+            {/if}
+            {#if post.AuthorName && post.AuthorName !== 'undefined' }
+              <div>{post.AuthorName}</div>
+            {/if}
+          </div>
+        {/if}
       </div>
     {/each}
   </div>
@@ -37,8 +51,8 @@
 
   export let posts;
   export let path = "/";
-  export let PostItemClasses = "mb-4"
-
+  export let PostItemClasses = "mb-4";
+  
 </script>
 
 <style lang="scss" global>

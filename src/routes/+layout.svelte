@@ -2,14 +2,12 @@
 
 <script>
   import { fade } from 'svelte/transition'
-	// import { onMount } from 'svelte'
+	import { onMount } from 'svelte'
   import { browser } from '$app/environment'; 
 	import { currentPage, isMenuOpen, user } from '$lib/store'
 	// import { navItems } from '$lib/config'
   import { page } from '$app/stores'
   import { PUBLIC_BLOGMODE } from '$env/static/public';
-
-
 
   import Head from '$lib/components/shared/Head.svelte'
 	// import Header from '$lib/layouts/Header.svelte'
@@ -30,19 +28,22 @@
 	// $: currentPage.set(data.path);
   // $user = $page.data?.user || null
   $: if(browser) console.log('[routes][+layout.svelte] $page.data:', $page.data, $page.data.cytosis)
+
+
+  let heightOfFooter
 </script>
 
 
 <!-- root layout does NOT come with a Head! -->
 <!-- all Head need to be in a layout group -->
 
-
 <Head />
 {#if PUBLIC_BLOGMODE!=='janzheng'}
   <div class="layout" class:open={$isMenuOpen}>
-    <div class="ContentContainer">
+    <div class="ContentContainer |">
       <main
         class="ContentBody"
+        style={heightOfFooter ? `min-height: calc(100vh - ${heightOfFooter + 20}px)` : ''}
         id="main"
         tabindex="-1"
         in:fade={transitionIn}
@@ -50,7 +51,7 @@
       >
         <slot />
       </main>
-      <Footer content={$page.data.cytosis?.['site-data']?.['Footer']?.Content} />
+      <Footer bind:clientHeight={heightOfFooter} content={$page.data.cytosis?.['site-data']?.['Footer']?.Content} />
     </div>
   </div>
 
@@ -92,7 +93,7 @@
           <slot />
         </main>
 
-        <Footer />
+        <Footer bind:clientHeight={heightOfFooter} />
       </div>
 
     </div>
