@@ -8,16 +8,17 @@
 
 
 {#if $page.data.isBlogalog && !pageContent}
-  <!-- blogalog profile -->
+  <!-- blogalog profile / main home pag-->
   <Profile />
 
 {:else if pageContent}
-  <!-- blog post -->
+  <!-- blog post or sub-page post -->
   <div class="PagePath PageContent content-pad _content-wide">
 
     {#if PUBLIC_BLOGMODE!=='janzheng'}
       <div class="ProfileStack | ">
-        <a href={blogpath} class="hover:no-underline">
+        path: {blogPath}
+        <a href={blogPath} class="hover:no-underline">
           {#if profileImage}
             <div class="ProfileImage |">
               <img class="w-16 h-16 | inline-block | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
@@ -92,7 +93,6 @@
 
   import { marked } from 'marked'
 	import { onMount } from 'svelte';
-  import { page } from '$app/stores'
   import { browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
   import Notion from '@yawnxyz/sveltekit-notion'
@@ -100,8 +100,9 @@
 
   import Profile from '$lib/components/profiles/Profile.svelte';
 
-  export let data
-  let blogpath = $page.data?.pathArr?.length>1 ? `/${$page.data?.pathArr[0]}` : "/"
+  import { page } from '$app/stores'
+  console.log('-* pageData: ' + $page.data)
+  let blogPath = $page.data?.pathArr?.length>0 ? `/${$page.data?.pathArr[0]}` : "/"
   
   let cytosis = $page.data.cytosis; // await streamed cytosis, and set it here
   // let pageContent = $page.data.pageContent;
@@ -109,7 +110,6 @@
   
   $: pageContent = $page.data.cytosis?.['site-pages'].find(item => item.Path === $page.data.path || item.Path === $page.data.pathArr?.[$page.data.pathArr?.length -1]);
 
-  console.log($page.data)
 
   let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
   let author = cytosis?.['site-data'].Author?.['Content'];

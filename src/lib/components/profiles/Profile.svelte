@@ -35,14 +35,15 @@
 </div>
 
 <!-- display posts before anything else, if we don't have subsections -->
-{#if cytosis && cytosis['site-pages'] && sections.length == 0}
+<!-- update: instead of grouping them, now allowing multiple sections of posts, if theye're inserted at diff. places -->
+<!-- {#if cytosis && cytosis['site-pages'] && sections.length == 0}
   <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
     <div class="p-4 bg-slate-50">
       <h2 class="pt-0 mt-0">{"Posts"}</h2>
-      <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Posts" && !page.Hide)} path={blogpath}></Posts>
+      <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
     </div>
   </div>
-{/if}
+{/if} -->
 
 
 <!-- {#each sitePages as page} -->
@@ -58,7 +59,7 @@
         <div class="p-4 bg-slate-50">
           <h2 class="pt-0 mt-0">{page.Group}</h2>
           {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
-          <Posts posts={page.Pages.filter(page => page.Type == "Posts" && !page.Hide)} path={blogpath}></Posts>
+          <Posts posts={page.Pages.filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
           <!-- {#each page.pages as groupPage}
           {/each} -->
         </div>
@@ -67,7 +68,7 @@
       <!-- do nothing; these are displayed elsewhere -->
       <div class="TypeContainer | p-4 bg-slate-50">
         <!-- <h4 class="pt-0 mt-0">{page.Name}</h4> -->
-        <Posts posts={[page]} path={blogpath} PostItemClasses={""}></Posts>
+        <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
       </div>
     {/if}
   </div>

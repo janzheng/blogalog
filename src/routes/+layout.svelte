@@ -15,6 +15,7 @@
 	import '$src/app.scss'
 
   export let data;
+  export let layoutStyle = "style-blogalog"
 
 	const transitionIn = { delay: 150, duration: 150 };
 	const transitionOut = { duration: 100 };
@@ -39,7 +40,7 @@
 
 <Head />
 {#if PUBLIC_BLOGMODE!=='janzheng'}
-  <div class="layout" class:open={$isMenuOpen}>
+  <div class="layout {layoutStyle}" class:open={$isMenuOpen}>
     <div class="ContentContainer |">
       <main
         class="ContentBody"
@@ -56,7 +57,7 @@
   </div>
 
 {:else}
-  <div class="layout" class:open={$isMenuOpen}>
+  <div class="layout style-janzheng" class:open={$isMenuOpen}>
     <div id="top" class="ContentFrame Layout" :class="isLoaded ? '--loaded' : ''" >
       <div class="color-palette color-top" id="top">
         <div id="c1"></div><div id="c2"></div><div id="c3"></div><div id="c4"></div><div id="c5"></div>

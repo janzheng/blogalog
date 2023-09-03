@@ -17,7 +17,7 @@
     {#each posts as post}
       <div class="Posts-item | {PostItemClasses}">
         <div class="text-lg">
-          <a href={`${path}${post.Path}`}>
+          <a href={`${pathBase}${post.Path}`}>
             {#if post.Cover}
               <div class="Cover-image-container | pb-2">
                 <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
@@ -32,7 +32,7 @@
           <div class="Posts-Author | mb-8 flex items-center">
             {#if post.AuthorProfile?.[0] }
               <div class="rounded-full overflow-hidden mr-2">
-                <img class="w-8 h-8" src="{post.AuthorProfile?.[0]?.rawUrl || post.AuthorProfile?.[0]?.url}" alt="Author Profile" />
+                <img class="w-8 h-8" src="{post.AuthorProfile?.[0]?.rawUrl || post.AuthorProfile?.[0]?.rawUrl}" alt="Author Profile" />
               </div>
             {/if}
             {#if post.AuthorName && post.AuthorName !== 'undefined' }
@@ -50,7 +50,7 @@
   import {marked} from 'marked';
 
   export let posts;
-  export let path = "/";
+  export let pathBase = "/";
   export let PostItemClasses = "mb-4";
   
 </script>
