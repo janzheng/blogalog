@@ -13,9 +13,9 @@
 
 {#if posts}
   <!-- <div class="Posts-list | lg:grid grid-cols-3 gap-8"> -->
-  <div class="Posts-list | ">
+  <div class="Posts Posts-list | ">
     {#each posts as post}
-      <div class="Posts-item | {PostItemClasses}">
+      <div class="Post-item | {PostItemClasses}">
         <div class="text-lg">
           <a href={`${pathBase}${post.Path}`}>
             {#if post.Cover}
@@ -23,7 +23,7 @@
                 <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
               </div>
             {/if}
-            {post.Name}
+            <span class="Post-name">{post.Name}</span>
           </a>
         </div>
 
@@ -32,7 +32,7 @@
           <div class="Posts-Author | mb-8 flex items-center">
             {#if post.AuthorProfile?.[0] }
               <div class="rounded-full overflow-hidden mr-2">
-                <img class="w-8 h-8" src="{post.AuthorProfile?.[0]?.rawUrl || post.AuthorProfile?.[0]?.rawUrl}" alt="Author Profile" />
+                <img class="w-8 h-8" src="{post.AuthorProfile?.[0]?.rawUrl || post.AuthorProfile?.[0]?.url}" alt="Author Profile" />
               </div>
             {/if}
             {#if post.AuthorName && post.AuthorName !== 'undefined' }

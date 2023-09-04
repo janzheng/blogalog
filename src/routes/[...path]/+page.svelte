@@ -17,14 +17,12 @@
 
     {#if PUBLIC_BLOGMODE!=='janzheng'}
       <div class="ProfileStack | ">
-        path: {blogPath}
-        <a href={blogPath} class="hover:no-underline">
+        <a href={blogPath} style="" class="flex items-center">
           {#if profileImage}
             <div class="ProfileImage |">
               <img class="w-16 h-16 | inline-block | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
-              <div class="text-lg font-medium | inline-block ml-2">{author}</div>
             </div>
-          {/if}
+          {/if}<div class="text-lg font-medium | inline-block ml-2">{author}</div>
         </a>
       </div>
     {/if}
@@ -37,20 +35,20 @@
     {/if}
 
     {#if pageContent?.Name}
-      <h1 class="mb-0 pt-2 pb-2">{@html marked(pageContent?.Name || '')}</h1>
+      <h1 class="PageContent-Name mb-0 pt-2 pb-2">{@html marked(pageContent?.Name || '')}</h1>
     {/if}
 
     {#if pageContent?.Content}
-      <div class="text-xl">{pageContent?.Content}</div>
+      <div class="PageContent-Content text-xl">{pageContent?.Content}</div>
     {/if}
 
     {#if pageContent?.Link}
-      <div class="my-4">Project Link: <a href="{pageContent?.Link}">{pageContent?.Link}</a></div>
+      <div class="PageContent-Link my-4">Project Link: <a href="{pageContent?.Link}">{pageContent?.Link}</a></div>
     {/if}
     
     {#if pageContent?.pageBlocks}
-      <div class="post | mt-4 mb-16">
-        <Notion blocks={pageContent?.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
+      <div class="PageContent-Blocks post | mt-4 mb-16">
+        <Notion classes="notion" blocks={pageContent?.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
       </div>
     {/if}
 
@@ -58,7 +56,7 @@
     <!-- create an html details / summary example here -->
     <!-- skip if only one version -->
     {#if pageContent && pageContent?.versions && pageContent?.versions.length > 1}
-      <div class="mt-4">
+      <div class="PageContent-Versions mt-4">
         <details>
           <summary>Versions</summary>
           {#each pageContent?.versions.slice(1) as version}
@@ -73,7 +71,7 @@
                   {/if}
                 </summary>
                 <div class="pl-8">
-                  <Notion blocks={version.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
+                  <Notion classes="notion" blocks={version.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
                 </div>
               </details>  
             </div>

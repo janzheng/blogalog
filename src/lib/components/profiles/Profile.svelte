@@ -1,18 +1,18 @@
 
-<div class="Header | content-notion-wide | mt-0 md:mt-2 lg:mt-4 rounded-sm overflow-hidden  ">
+<div class="Profile-Header | content-notion-wide | mt-0 md:mt-2 lg:mt-4 rounded-sm overflow-hidden  ">
   <!-- cover -->
   {#if coverImage}
-    <div class="CoverImage bg-slate-100 | md:h-80 overflow-hidden">
-      <img class="w-full md:h-80 object-left-top object-contain bg-slate-100" src="{coverImage}" alt="Cover" />
+    <div class="CoverImage | min-h-[4rem] overflow-hidden">
+      <img class="w-full object-left-top object-contain" src="{coverImage}" alt="Cover" />
     </div>
   {/if}
   
   <!-- profile -->
   {#if profileImage}
   <div class="ProfileImage-Container | relative bg-slate-100 ">
-    <div class="ProfileImage | px-4 | relative md:relative z-20 | -mt-16 md:-mt-32 |  ">
-      <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute -top-8" src="{profileImage}" alt="Profile" />
-      <div class="ProfileShortDesc | pt-24 sm:pt-0 sm:inline-block sm:relative sm:py-2 md:pt-2 sm:ml-36 md:w-96">
+    <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 ">
+      <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
+      <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-96">
         <div class="text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>
         <div class="text">{siteDesc || ''}</div>
         <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
@@ -48,16 +48,16 @@
 
 <!-- {#each sitePages as page} -->
 {#each pageOrder as page}
-  <div class="TypeSection | my-2 content-notion-wide | overflow-hidden | ">
+  <div class="Profile-Page | my-2 content-notion-wide | overflow-hidden | ">
     {#if page.Type=='Main' && !page.Hide}
       <div class="MainPage | p-4 bg-slate-50 ">
         <h2 class="pt-0 mt-0">{page.Name}</h2>
         <Notion blocks={page.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev" />
       </div>
     {:else if page.Type=='Group'}
-      <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
+      <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
         <div class="p-4 bg-slate-50">
-          <h2 class="pt-0 mt-0">{page.Group}</h2>
+          <h5 class="pt-0 mt-0">{page.Group}</h5>
           {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
           <Posts posts={page.Pages.filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
           <!-- {#each page.pages as groupPage}
@@ -194,7 +194,7 @@
   .MainPage {
     h2, h3, h4 {
       &:first-of-type {
-        padding-top: 0; // skip padding for first header keeps it tighter
+        @apply pt-1; // tiny padding for first header keeps it tighter
       }
     }
   }

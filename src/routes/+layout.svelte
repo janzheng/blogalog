@@ -7,7 +7,7 @@
 	import { currentPage, isMenuOpen, user } from '$lib/store'
 	// import { navItems } from '$lib/config'
   import { page } from '$app/stores'
-  import { PUBLIC_BLOGMODE } from '$env/static/public';
+  import { PUBLIC_PROJECT_NAME, PUBLIC_BLOGMODE } from '$env/static/public';
 
   import Head from '$lib/components/shared/Head.svelte'
 	// import Header from '$lib/layouts/Header.svelte'
@@ -40,7 +40,7 @@
 
 <Head />
 {#if PUBLIC_BLOGMODE!=='janzheng'}
-  <div class="layout {layoutStyle}" class:open={$isMenuOpen}>
+  <div id="layout" class="layout {"project-"+PUBLIC_PROJECT_NAME}  {layoutStyle}" class:open={$isMenuOpen}>
     <div class="ContentContainer |">
       <main
         class="ContentBody"
@@ -57,7 +57,7 @@
   </div>
 
 {:else}
-  <div class="layout style-janzheng" class:open={$isMenuOpen}>
+  <div id="layout" class="layout {"project-"+PUBLIC_PROJECT_NAME} style-janzheng" class:open={$isMenuOpen}>
     <div id="top" class="ContentFrame Layout" :class="isLoaded ? '--loaded' : ''" >
       <div class="color-palette color-top" id="top">
         <div id="c1"></div><div id="c2"></div><div id="c3"></div><div id="c4"></div><div id="c5"></div>

@@ -39,19 +39,20 @@ module.exports = {
     },
     colors: {
       ...colors, // include all default colors
-      'evergreen': '#dbf4e9',
-      'evg-white': '#f7fffb',
-      'evg-copy': '#140116',
-      'evg-active': '#460646',
-      'evg-light': '#6aaae6',
-      'evg-green-white': '#e1f3e2',
-      'evg-green-dark': '#256725',
-      'evg-green-lightest': '#DBF4E9',
-      'evg-green-lighter': '#c7f0c9',
-      'evg-green-light': '#72dd77',
-      'evg-active-green': '#04960b',
-      'evg-green': '#E7FAF3',
-      'jan': '#971f1f'
+
+      'jan': "#971f1f",
+      'jan-': { // color range similar to zinc's distribution
+        50: "#f2e0e0",
+        100: "#e6c2c2",
+        200: "#db9f9f",
+        300: "#cf7d7d",
+        400: "#c35a5a",
+        500: "#b73838",
+        600: "#971f1f",
+        700: "#7c0606",
+        800: "#610000",
+        900: "#460000"
+      },
 
     },
     extend: {
