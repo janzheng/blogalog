@@ -99,8 +99,10 @@
   import Profile from '$lib/components/profiles/Profile.svelte';
 
   import { page } from '$app/stores'
-  console.log('-* pageData: ' + $page.data)
-  let blogPath = $page.data?.pathArr?.length>0 ? `/${$page.data?.pathArr[0]}` : "/"
+  console.log('-* pageData: ', $page.data)
+
+  // needs to catch both /base/project/post vs. /project/post and go one step up
+  let blogPath = $page.data?.pathArr?.length>1 ? `/${$page.data?.pathArr[0]}` : "/"
   
   let cytosis = $page.data.cytosis; // await streamed cytosis, and set it here
   // let pageContent = $page.data.pageContent;

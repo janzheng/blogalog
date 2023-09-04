@@ -57,195 +57,190 @@
 
 
 
+/* 
+  Reused, compartmentalized styles
+*/
+@mixin notionStyles {
+  .notion {
+    font-family: Inter, sans-serif !important;
+  }
+  .notion-list, .notion-list-disc {
+    ul { padding-inline-start: 0; }
+    li { list-style-position: outside;}
+  }
 
-@layer base {
-  /* 
-    Reused, compartmentalized styles
-  */
-  @mixin notionStyles {
-    .notion {
-      font-family: Inter, sans-serif !important;
-    }
-    .notion-list, .notion-list-disc {
-      ul { padding-inline-start: 0; }
-      li { list-style-position: outside;}
-    }
-  
+}
+@mixin postStyles {
+  .Posts {
+    .Post-name { @apply text-xl; }
   }
-  @mixin postStyles {
-    .Posts {
-      .Post-name { @apply text-xl; }
+}
+// @mixin profileStyles {
+
+// }
+
+
+/* 
+
+  Base BLOGALOG themes
+
+*/
+@mixin sharedStyles {
+  // general styles
+  font-family: Inter, sans-serif;
+  font-size: 1em;
+  color: #37352f;
+  p {
+    @apply pb-3;
+  }
+  // Add any other styles you want
+  a,._link { 
+    @apply no-underline text-blue-600 cursor-pointer;
+    &:hover { @apply underline text-blue-600/80; }
+  }
+  ._link-reset {
+    @apply no-underline hover:no-underline text-inherit;
+    text-decoration: none !important;
+    color: var(--color-base);
+  }
+
+  // specific component styles
+  .headline {
+    @apply font-display;
+    text-rendering: geometricprecision;
+  }
+
+  // for narrative pages / longform
+  .Narrative {
+    img {
+      @apply rounded-md;
     }
   }
-  // @mixin profileStyles {
-  
-  // }
-  
-  
-  /* 
-  
-    Base BLOGALOG themes
-  
-  */
-  @mixin sharedStyles {
-    // general styles
-    font-family: Inter, sans-serif;
-    font-size: 1em;
-    color: #37352f;
-    p {
-      @apply pb-3;
+
+  .text-light {
+    @apply text-slate-600;
+  }
+
+  // preloaded global tw styles for airtable/notion classes
+  .tw-border-blue-600 {
+    @apply border-blue-600;
+  }
+
+  // Blogs, Case studies / dynamic routed stuff from Notion
+  .PageContent .notion-page {
+    margin-left: 0; // left-align
+  }
+
+  h1 {
+    @apply font-sans leading-tight text-3xl lg:leading-tight pb-4 font-bold;
+  }
+  h5 {
+    @apply font-sans leading-snug text-xs uppercase tracking-widest pb-6 text-slate-500;
+  }
+
+  @include notionStyles;
+  @include postStyles;
+  // @include profileStyles;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.project-BLOGALOG {
+  @include sharedStyles;
+}
+
+
+
+
+
+
+
+
+
+// janzheng.com-specific styles
+.style-janzheng {
+  @include sharedStyles;
+
+  h1 {
+    @apply font-serif leading-tight text-4xl lg:leading-tight pb-8 font-light;
+  }
+    h1.article-title  {
+      @apply text-6xl md:text-5xl font-display font-bold leading-tight pb-8
     }
-    // Add any other styles you want
-    a,._link { 
-      @apply no-underline text-blue-600 cursor-pointer;
-      &:hover { @apply underline text-blue-600/80; }
+  h2 {
+    @apply font-serif text-2xl leading-12 pb-6 ;
+
+    &.--extra {
+      @apply text-4xl pb-2 tracking-tight;
     }
+
+    // &~h3 { messes with faq pages; only do this for nearest neighb
+    &+h3 {
+      padding-top: 0;
+    }
+  }
+    *>h1,*>h2,*>h3,*>h5,*>h6 { 
+      @apply pt-12
+    }
+  h3 {
+    // @apply text-xl pb-6
+    @apply font-serif text-xl pt-8 pb-2 text-jan;
+  }
+  h4 {
+    @apply text-lg pb-4;
+  }
+  h5 {
+    @apply font-bold pb-4;
+  }
+  h6 {
+    @apply text-xs tracking-wide uppercase pb-2;
+  }
+
+  p {
+    @apply pb-4;
+  }
+
+
+  a, ._link {
+    @apply no-underline text-jan cursor-pointer;
+
+  }
+    a:hover {
+      @apply underline text-jan;
+    }
+
     ._link-reset {
       @apply no-underline hover:no-underline text-inherit;
       text-decoration: none !important;
       color: var(--color-base);
     }
-  
-    // specific component styles
-    .headline {
-      @apply font-display;
-      text-rendering: geometricprecision;
-    }
-  
-    // for narrative pages / longform
-    .Narrative {
-      img {
-        @apply rounded-md;
-      }
-    }
-  
-    .text-light {
-      @apply text-slate-600;
-    }
-  
-    // preloaded global tw styles for airtable/notion classes
-    .tw-border-blue-600 {
-      @apply border-blue-600;
-    }
-  
-    // Blogs, Case studies / dynamic routed stuff from Notion
-    .PageContent .notion-page {
-      margin-left: 0; // left-align
-    }
-  
-    h1 {
-      @apply font-sans leading-tight text-3xl lg:leading-tight pb-4 font-bold;
-    }
-    h5 {
-      @apply font-sans leading-snug text-xs uppercase tracking-widest pb-6 text-slate-500;
-    }
-  
-    @include notionStyles;
-    @include postStyles;
-    // @include profileStyles;
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  .project-BLOGALOG {
-    @include sharedStyles;
-  
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  // janzheng.com-specific styles
-  .style-janzheng {
-    @include sharedStyles;
-  
-    h1 {
-      @apply font-serif leading-tight text-4xl lg:leading-tight pb-8 font-light;
-    }
-      h1.article-title  {
-        @apply text-6xl md:text-5xl font-display font-bold leading-tight pb-8
-      }
-    h2 {
-      @apply font-serif text-2xl leading-12 pb-6 ;
-  
-      &.--extra {
-        @apply text-4xl pb-2 tracking-tight;
-      }
-  
-      // &~h3 { messes with faq pages; only do this for nearest neighb
-      &+h3 {
-        padding-top: 0;
-      }
-    }
-      *>h1,*>h2,*>h3,*>h5,*>h6 { 
-        @apply pt-12
-      }
-    h3 {
-      // @apply text-xl pb-6
-      @apply font-serif text-xl pt-8 pb-2 text-jan;
-    }
-    h4 {
-      @apply text-lg pb-4;
-    }
-    h5 {
-      @apply font-bold pb-4;
-    }
-    h6 {
-      @apply text-xs tracking-wide uppercase pb-2;
-    }
-  
-    p {
-      @apply pb-4;
-    }
-  
-  
-    a, ._link {
-      @apply no-underline text-jan cursor-pointer;
-  
-    }
-      a:hover {
-        @apply underline text-jan;
-      }
-  
-      ._link-reset {
-        @apply no-underline hover:no-underline text-inherit;
-        text-decoration: none !important;
-        color: var(--color-base);
-      }
-      
-  
-    .text-jan-i {
-      color: #971f1f !important;
-    }
-  }
+    
 
-}  
+  .text-jan-i {
+    color: #971f1f !important;
+  }
+}
 
 
 
