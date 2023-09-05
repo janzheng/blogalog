@@ -1,4 +1,12 @@
 
+
+<svelte:head>
+  {#if $page.data.head}
+    <title>{$page.data.head?.title}</title>
+  {/if}
+</svelte:head>
+
+
 <div class="Profile-Header | content-notion-wide | mt-0 md:mt-2 lg:mt-4 rounded-sm overflow-hidden  ">
   <!-- cover -->
   {#if coverImage}
@@ -97,6 +105,7 @@
 <script>
   import Notion from '@yawnxyz/sveltekit-notion';
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  import { browser } from '$app/environment';
   import { page } from '$app/stores';
 
   import { marked } from 'marked';
@@ -125,6 +134,8 @@
   sitePageTypes = [...new Set(sitePageTypes)]; 
 
 
+  if(browser)
+    console.log('%% PROFILE PageData', $page.data)
 
   // build a Page Order where different sections are grouped together and placed where the first instance of that section appears
   let pageOrder = [], sections = [];
@@ -171,6 +182,10 @@
   //   })
   // } buildMetadata();
 </script>
+
+
+
+
 
 
 <style lang="scss" global>

@@ -49,11 +49,13 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
       (path && blog?.Slug == path) || 
       (blog.URLs && blog.URLs?.split(',').map(url => url.trim()).includes(hostname))
       )) {
-        console.log('escape!')
         return
       }
 
-    if (path && (blog.URLs && blog.URLs?.split(',').map(url => url.trim()).includes(hostname))) {
+    if (
+        path && 
+        (blog.URLs && blog.URLs?.split(',').map(url => url.trim()).includes(hostname))) {
+      console.error('[blogalog] skipping hostname:', hostname)
       return
       // always prefer path over hostname
     }
@@ -61,9 +63,6 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
     console.log("1:", blog?.Slug == path, 'path:', path, 'blogSlug:', blog?.Slug)
     console.log("2:", blog?.URLs?.split(',').map(url => url.trim()).includes(hostname), 'hostname:', hostname, 'URLs:', blog?.URLs)
     console.log("3:", blog?.Slug == path || blog?.URLs?.split(',').map(url => url.trim()).includes(hostname))
-
-    // testing only; skip default
-    if (!blog['URLs']) return
     
     isBlogalog = true
 
