@@ -49,7 +49,7 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
     // testing only; skip default
     if (!blog['URLs']) return
     
-    // console.log('----> LOADING:', blog['Slug'], blog['URLs'], 'hostname:', hostname )
+    console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname )
     isBlogalog = true
 
     // pull the data

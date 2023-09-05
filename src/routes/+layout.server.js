@@ -107,7 +107,9 @@ async function initContent(_head, hostname) {
 
 export const load = async ({ url, params, setHeaders, locals}) => {
   try {
-    console.log('[hostname]:', url?.hostname);
+    let hostname = url?.hostname
+    // let hostname = "jessica.sacher.ca"; // url?.hostname
+    console.log('---&& [hostname]:', hostname);
 
     // let fuzzy = FuzzyKey({ url: PUBLIC_FUZZYKEY_URL })
     // // let add = await fuzzy.set("banana/rama", {fruit:"bannnnanana!!"})
@@ -128,7 +130,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
 
     // let {cytosis, _head} = await initContent(head)
     let cytosis, _head
-    ({ cytosis, _head } = await initContent(head, url?.hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
+    ({ cytosis, _head } = await initContent(head, hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
     // example of how to cachet at the top:
     // ({ cytosis, _head } = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_BLOGMODE}`, async ()=>{
     //    return await initContent(head)
