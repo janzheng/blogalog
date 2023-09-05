@@ -106,11 +106,11 @@
   let cytosis = $page.data.cytosis;
   let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
   let coverImage = cytosis?.['site-data']?.['CoverImage']?.Content || cytosis?.['site-data']?.['CoverImage'].Files?.[0].url;
-  let author = cytosis?.['site-data'].Author?.['Content'];
-  let siteDesc = cytosis?.['site-data'].ShortDescription?.['Content'];
-  let socialDescription = cytosis?.['site-data'].SocialDescription?.['Content'];
-  let shortDescription = cytosis?.['site-data'].LongDescription?.['Content'];
-  let mainPageBlocks = cytosis?.['site-pages'].find(page => page.Type?.includes("Main"))?.pageBlocks;
+  let author = cytosis?.['site-data']?.Author?.['Content'];
+  let siteDesc = cytosis?.['site-data']?.ShortDescription?.['Content'];
+  let socialDescription = cytosis?.['site-data']?.SocialDescription?.['Content'];
+  let shortDescription = cytosis?.['site-data']?.LongDescription?.['Content'];
+  let mainPageBlocks = cytosis?.['site-pages']?.find(page => page.Type?.includes("Main"))?.pageBlocks;
   let sitePages = cytosis?.['site-pages'];
   let blogpath = $page.data?.path ? `/${$page.data?.path}/` : "/"
 

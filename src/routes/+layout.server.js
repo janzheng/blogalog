@@ -20,28 +20,31 @@ import { applyTransformers } from '$plasmid/modules/cytosis2/transformers';
 
 
 
-let cytosis
+let cytosis, config, mode
 async function initContent(_head, hostname) {
   console.log('[initContent] initializing:', PUBLIC_BLOGMODE)
 
-  if (PUBLIC_BLOGMODE == 'blogalog') {
+  if (PUBLIC_BLOGMODE == 'blogalog' && !hostname.includes('janzheng')) {
     // ({ _head, cytosis } = await loadBlogalogFromPath('blogalog', hostname)); // previously, needed to specify blogalog; now uses the hostname/domain
     ({ _head, cytosis } = await loadBlogalogFromPath(null, hostname));
   } else {
-    let config
-    if (PUBLIC_BLOGMODE == 'janzheng') {
+    if (PUBLIC_BLOGMODE == 'janzheng' || hostname.includes('janzheng')) {
       config = jz_config
+      mode = 'janzheng'
     } else if (PUBLIC_BLOGMODE == 'jessbio') {
       config = js2_config
+      mode = 'jessbio'
     }
-    cytosis = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_BLOGMODE}`, async () => {
+
+    console.log('mode::', mode)
+    cytosis = await cachet(`${PUBLIC_PROJECT_NAME}-${mode}`, async () => {
       return await endoloader(config, {
         url: PUBLIC_ENDOCYTOSIS_URL
       })
     }, {
       skip: false,
       ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-      bgFn: () => endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${PUBLIC_BLOGMODE}` })
+      bgFn: () => endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${mode}` })
     })
 
     // make sure this is ABOVE the _head code, since it references the transformed array object
@@ -71,8 +74,8 @@ async function initContent(_head, hostname) {
       })
     } 
 
-    if (cytosis && PUBLIC_BLOGMODE !== 'janzheng') {
-      _head = PUBLIC_BLOGMODE !== "janzheng" ? {
+    if (cytosis && (mode !== 'janzheng')) {
+      _head = mode !== "janzheng" ? {
         title: cytosis?.['site-data']?.['SiteTitle']?.Content,
         author: cytosis?.['site-data']?.['Author']?.Content,
         description: cytosis?.['site-data']?.['SiteDescription']?.Content,
@@ -108,8 +111,9 @@ async function initContent(_head, hostname) {
 
 export const load = async ({ url, params, setHeaders, locals}) => {
   try {
-    // let hostname = url?.hostname
-    let hostname = "jessica.sacher.ca"; // url?.hostname
+    let hostname = url?.hostname
+    // let hostname = "jessica.sacher.ca"; // url?.hostname
+    // let hostname = "janzheng.com"; // url?.hostname
     console.log('---&& [hostname]:', hostname);
 
     // let fuzzy = FuzzyKey({ url: PUBLIC_FUZZYKEY_URL })
