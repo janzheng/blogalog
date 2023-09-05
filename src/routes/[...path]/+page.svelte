@@ -7,11 +7,18 @@
 </svelte:head>
 
 
-{#if $page.data.isBlogalog && !pageContent}
+<!-- {#if $page.data.isBlogalog && !pageContent} -->
+{#if $page.data.isBlogalog}
   <!-- blogalog profile / main home pag-->
   <Profile />
 
 {:else if pageContent}
+  <!-- 
+
+    THIS IS KIND OF DEFUNCT: Works for "janzhen.com"
+    Takes the .versions thing and bring that into Profile
+
+  -->
   <!-- blog post or sub-page post -->
   <div class="PagePath PageContent content-pad _content-wide">
 
@@ -108,6 +115,7 @@
   // let pageContent = $page.data.pageContent;
   let pageContent = $page.data.pageContent
   // $: pageContent = $page.data.cytosis?.['site-pages'].find(item => item.Path === $page.data.path || item.Path === $page.data.pathArr?.[$page.data.pathArr?.length -1]);
+  console.log('-* pageContent: ', pageContent)
 
 
   let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;

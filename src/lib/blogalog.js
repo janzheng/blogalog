@@ -12,7 +12,8 @@ import { parseMetadata } from '$lib/helpers.js'
 
 
 export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
-  let cytosis, cytosisData, isBlogalog, _head;
+  let cytosis, cytosisData, isBlogalog, _head = {};
+  console.log('[loadBlogalogFromPath] path:', path, 'hostname', hostname)
 
   // load the config
   // let endoData = await endo(blogalog_config)
@@ -40,11 +41,26 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
     return
   }
   
+
+
+
   cytosisData = await Promise.all(blogs.map(async (blog) => {
     if (loadAll==false && !(
-          blog?.Slug == path || 
-          blog?.URLs?.split(',').map(url => url.trim()).includes(hostname)
-      )) return
+      (path && blog?.Slug == path) || 
+      (blog.URLs && blog.URLs?.split(',').map(url => url.trim()).includes(hostname))
+      )) {
+        console.log('escape!')
+        return
+      }
+
+    if (path && (blog.URLs && blog.URLs?.split(',').map(url => url.trim()).includes(hostname))) {
+      return
+      // always prefer path over hostname
+    }
+      
+    console.log("1:", blog?.Slug == path, 'path:', path, 'blogSlug:', blog?.Slug)
+    console.log("2:", blog?.URLs?.split(',').map(url => url.trim()).includes(hostname), 'hostname:', hostname, 'URLs:', blog?.URLs)
+    console.log("3:", blog?.Slug == path || blog?.URLs?.split(',').map(url => url.trim()).includes(hostname))
 
     // testing only; skip default
     if (!blog['URLs']) return
@@ -77,19 +93,21 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
       ]
     }
 
-    // console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname, 'cache key:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, 'config:', endoloader_config)
+    console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname, 'cache key:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, 'config:', endoloader_config)
 
 
     return await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
       return await endoloader(endoloader_config, {
-        key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
-        url: PUBLIC_ENDOCYTOSIS_URL
-      })
-    }, {
-      skip: true,
-      ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-      bgFn: () => endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
-    })
+          key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
+          url: PUBLIC_ENDOCYTOSIS_URL
+        })
+      }, 
+      // {
+      //   skip: true,
+      //   ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+      //   bgFn: () => endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
+      // }
+    )
   }))
 
   // clear empty items from cytosisData
@@ -146,5 +164,7 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
       ]
     }
   }
+
+  console.log('[cytosisData] Total:', cytosisData.length)
   return { cytosis, _head, isBlogalog }
 }

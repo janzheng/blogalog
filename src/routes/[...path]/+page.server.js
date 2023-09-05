@@ -9,6 +9,8 @@ import { loadBlogalogFromPath  } from '$lib/blogalog'
 export const load = async (settings) => {
   try {
     
+
+    let hostname = settings.url?.hostname
     let path = settings.params.path;
     let pathArr = settings.params.path.split('/')
     let _head, cytosis, isBlogalog;
@@ -24,8 +26,9 @@ export const load = async (settings) => {
 
     if(!pageContent || PUBLIC_MULTIBLOG == "true") {
       // if we want to enable "blogalog routing"
-      ({ _head, cytosis, isBlogalog } = await loadBlogalogFromPath(pathArr[0]));
-      cytosis?.['site-pages'].find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
+      ({ _head, cytosis, isBlogalog } = await loadBlogalogFromPath(pathArr[0], hostname));
+      // pageContent = cytosis?.['site-pages'].find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
+      pageContent = cytosis?.['site-data'];
     }
 
     let obj = {
@@ -38,12 +41,13 @@ export const load = async (settings) => {
     if(pageContent) obj['pageContent'] = pageContent;
 
     if(!pageContent) {
+      console.error('[path/page] Page Content not Found!', )
       throw error(404, 'Page Not Found');
     }
 
     return obj
   } catch (err) {
-    console.error('[page] router error', err.message)
+    console.error('[page] router error', err, err.message)
   }
 
   throw error(404, 'Page Not Found');
