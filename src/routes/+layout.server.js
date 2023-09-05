@@ -27,6 +27,11 @@ async function initContent(_head, hostname) {
   if (PUBLIC_BLOGMODE == 'blogalog' && !hostname.includes('janzheng')) {
     // ({ _head, cytosis } = await loadBlogalogFromPath('blogalog', hostname)); // previously, needed to specify blogalog; now uses the hostname/domain
     ({ _head, cytosis } = await loadBlogalogFromPath(null, hostname));
+
+    if (!cytosis) {
+      // for default or wrong hostnames, pull default blogalog
+      ({ _head, cytosis } = await loadBlogalogFromPath("blogalog"));
+    }
   } else {
     if (PUBLIC_BLOGMODE == 'janzheng' || hostname.includes('janzheng')) {
       config = jz_config
@@ -112,8 +117,9 @@ async function initContent(_head, hostname) {
 export const load = async ({ url, params, setHeaders, locals}) => {
   try {
     let hostname = url?.hostname
-    hostname = "www.jess.bio"; // url?.hostname
+    // hostname = "www.jess.bio"; // url?.hostname
     // hostname = "janzheng.com"; // url?.hostname
+    // hostname = "somethingwrong.com"; // url?.hostname
     console.log('---&& [hostname]:', hostname);
 
     // let fuzzy = FuzzyKey({ url: PUBLIC_FUZZYKEY_URL })
