@@ -25,7 +25,8 @@ async function initContent(_head, hostname) {
   console.log('[initContent] initializing:', PUBLIC_BLOGMODE)
 
   if (PUBLIC_BLOGMODE == 'blogalog') {
-    ({ _head, cytosis } = await loadBlogalogFromPath('blogalog', hostname));
+    // ({ _head, cytosis } = await loadBlogalogFromPath('blogalog', hostname)); // previously, needed to specify blogalog; now uses the hostname/domain
+    ({ _head, cytosis } = await loadBlogalogFromPath(null, hostname));
   } else {
     let config
     if (PUBLIC_BLOGMODE == 'janzheng') {
@@ -107,8 +108,8 @@ async function initContent(_head, hostname) {
 
 export const load = async ({ url, params, setHeaders, locals}) => {
   try {
-    let hostname = url?.hostname
-    // let hostname = "jessica.sacher.ca"; // url?.hostname
+    // let hostname = url?.hostname
+    let hostname = "jessica.sacher.ca"; // url?.hostname
     console.log('---&& [hostname]:', hostname);
 
     // let fuzzy = FuzzyKey({ url: PUBLIC_FUZZYKEY_URL })

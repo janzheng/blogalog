@@ -41,15 +41,14 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
   }
   
   cytosisData = await Promise.all(blogs.map(async (blog) => {
-    if (loadAll==false && (
-          blog?.Slug !== path && 
-          !blog?.URLs?.split(',').map(url => url.trim()).includes(hostname)
+    if (loadAll==false && !(
+          blog?.Slug == path || 
+          blog?.URLs?.split(',').map(url => url.trim()).includes(hostname)
       )) return
 
     // testing only; skip default
     if (!blog['URLs']) return
     
-    console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname )
     isBlogalog = true
 
     // pull the data
@@ -77,17 +76,20 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
         },
       ]
     }
+
+    // console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname, 'cache key:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, 'config:', endoloader_config)
+
+
     return await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
       return await endoloader(endoloader_config, {
-        // key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
+        key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
         url: PUBLIC_ENDOCYTOSIS_URL
       })
     }, {
-      skip: false,
+      skip: true,
       ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
       bgFn: () => endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
     })
-    
   }))
 
   // clear empty items from cytosisData
@@ -144,6 +146,5 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
       ]
     }
   }
-
   return { cytosis, _head, isBlogalog }
 }
