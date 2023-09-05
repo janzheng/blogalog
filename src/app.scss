@@ -89,7 +89,7 @@
   // general styles
   font-family: Inter, sans-serif;
   font-size: 1em;
-  color: #37352f;
+  color: var(--color-base);
   p {
     @apply pb-3;
   }

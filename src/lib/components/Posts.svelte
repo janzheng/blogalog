@@ -15,19 +15,36 @@
   <!-- <div class="Posts-list | lg:grid grid-cols-3 gap-8"> -->
   <div class="Posts Posts-list | ">
     {#each posts as post}
-      <div class="Post-item | {PostItemClasses}">
+      <div class="Post-item | {PostItemClasses} coverStyle_{post.MetaObj?.coverStyle}">
         <div class="text-lg">
           <a href={`${pathBase}${post.Path}`}>
-            {#if post.Cover}
-              <div class="Cover-image-container | pb-2">
-                <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
+            {#if post.MetaObj?.coverStyle == "inline"}
+              <!-- small inline cover where it's on the right side -->
+              <div class="flex justify-between gap-4">
+                <div>
+                  <span class="Post-name">{post.Name}</span>
+                  {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
+                </div>
+                {#if post.Cover}
+                  <div class="Cover-image-container | pb-2">
+                    <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
+                  </div>
+                {/if}
               </div>
+
+            {:else}
+              <!-- large image cover // regular -->
+              {#if post.Cover}
+                <div class="Cover-image-container | pb-2">
+                  <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
+                </div>
+              {/if}
+              <span class="Post-name">{post.Name}</span>
+              {#if post.Content}<div class="text pt-1">{@html marked(post.Content || '')}</div>{/if}
             {/if}
-            <span class="Post-name">{post.Name}</span>
           </a>
         </div>
 
-        {#if post.Content}<div class="text pt-1">{@html marked(post.Content || '')}</div>{/if}
         {#if post.AuthorName && post.AuthorName !== 'undefined' }
           <div class="Posts-Author | mb-8 flex items-center">
             {#if post.AuthorProfile?.[0] }
@@ -53,6 +70,7 @@
   export let pathBase = "/";
   export let PostItemClasses = "mb-4";
   
+  console.log('<><><> posts:', posts)
 </script>
 
 <style lang="scss" global>
@@ -66,6 +84,19 @@
       // max-height: 240px;
       // max-height: 190px;
       overflow: hidden;
+    }
+  }
+
+  // don't underline text
+  .coverStyle_inline {
+    a {
+      text-decoration: none !important;
+
+      &:hover {
+        .Post-name {
+          text-decoration: underline;
+        }
+      }
     }
   }
 </style>

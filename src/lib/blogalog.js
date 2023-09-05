@@ -7,6 +7,7 @@ import { endo, endoloader } from '$plasmid/modules/cytosis2';
 import { applyTransformers } from '$plasmid/modules/cytosis2/transformers';
 
 import { cachet } from '$plasmid/utils/cachet'
+import { parseMetadata } from '$lib/helpers.js'
 
 
 
@@ -80,16 +81,21 @@ export const loadBlogalogFromPath = async (path) => {
         "settings": {
           "objectKey": "Name"
         }
-      },
-      ])
+      }])
       cytosis['site-pages'] = applyTransformers(cytosis['site-pagedata'].filter(p => p.Type), [{
         "function": "transformArrayVersionedObjects",
         "settings": {
           "uniqueKey": "Path", // unique field to track versions against
           "versionKey": "Version", // version name / number field
         }
-      },
-      ])
+      }])
+
+      // extract metadata
+      cytosis['site-pages'].forEach((page, i) => {
+        if (page.Metadata) {
+          cytosis['site-pages'][i].MetaObj = parseMetadata(page.Metadata)
+        }
+      })
     }
 
     _head = {

@@ -34,6 +34,31 @@ export const compareVersions = (version1, version2) => {
 }
 
 
+
+// input is either a valid JSON string of a bunch of \n key:value pairs
+export function parseMetadata(metadataInput="key:value") {
+  let metadata = {};
+  if (!metadataInput || metadataInput.length == 0)
+    return {}
+    
+  if (typeof input === 'string' && metadataInput.trim().startsWith('{')) {
+    // Metadata is a JSON string
+    metadata = JSON.parse(metadataInput);
+  } else if (typeof metadataInput === 'string') {
+    // Metadata is a \n separated list of key/val pairs
+    metadataInput?.split('\n').forEach(pair => {
+      const [key, value] = pair.split(':');
+      if (key && value) {
+        metadata[key.trim()] = value.trim();
+      }
+    });
+  }
+  return metadata;
+}
+
+
+
+
 // export const attendeeDictMap = {
 //   // left is the key used in template, e.g. {{name}}
 //   // right is the key in the data object, e.g. {{firstName}}

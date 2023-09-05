@@ -160,9 +160,16 @@
     console.log('pageOrder:', pageOrder, sections);
   } buildPageOrer()
 
-
-
-
+  // function buildMetadata() {
+  //   /*
+  //     pages can have a page.Metadata which either looks like a JSON or a \n separated list of key/val pairs, e.g. coverStyle: small
+  //   */
+  //   sitePages.forEach((page,i) => {
+  //     if(page.Metadata) {
+  //       sitePages[i].MetadataObj = parseMetadata(page.Metadata)
+  //     }
+  //   })
+  // } buildMetadata();
 </script>
 
 

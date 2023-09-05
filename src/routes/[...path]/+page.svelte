@@ -99,33 +99,30 @@
   import Profile from '$lib/components/profiles/Profile.svelte';
 
   import { page } from '$app/stores'
-  console.log('-* pageData: ', $page.data)
+  // console.log('-* pageData: ', $page.data)
 
   // needs to catch both /base/project/post vs. /project/post and go one step up
   let blogPath = $page.data?.pathArr?.length>1 ? `/${$page.data?.pathArr[0]}` : "/"
   
   let cytosis = $page.data.cytosis; // await streamed cytosis, and set it here
   // let pageContent = $page.data.pageContent;
-  let pageContent
-  
-  $: pageContent = $page.data.cytosis?.['site-pages'].find(item => item.Path === $page.data.path || item.Path === $page.data.pathArr?.[$page.data.pathArr?.length -1]);
+  let pageContent = $page.data.pageContent
+  // $: pageContent = $page.data.cytosis?.['site-pages'].find(item => item.Path === $page.data.path || item.Path === $page.data.pathArr?.[$page.data.pathArr?.length -1]);
 
 
   let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
   let author = cytosis?.['site-data'].Author?.['Content'];
-  if(browser) {
+  // if(browser) {
       // console.log('blog path DATA?!?!!??!:', data, pageContent)
   //   (async () => {
   //     cytosis = await $page.data.streamed?.cytosis
   //     console.log('----> cytosis:', cytosis)
   //   })()
-  }
+  // }
 
-  $: if(browser && $page.data.streamed?.cytosis) {
+  // $: if(browser && $page.data.streamed?.cytosis) {
   //   console.log('streamed.cytosis:', $page.data.streamed?.cytosis)
-  }
-
-
+  // }
 
 </script>
 

@@ -3,6 +3,8 @@ import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
 import { PUBLIC_PROJECT_NAME, PUBLIC_BLOGMODE, PUBLIC_FUZZYKEY_URL, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_CACHET_TTR } from '$env/static/public';
 
 import { head, seo } from '$lib/config.js'
+import { parseMetadata } from '$lib/helpers.js'
+
 
 import { config as blogalog_config } from '$plasmid/modules/cytosis2/configs/blogalog.config.js';
 import { config as jz_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.janzheng.js';
@@ -51,16 +53,21 @@ async function initContent(_head) {
         "settings": {
           "objectKey": "Name"
         }
-      },
-      ])
+      }])
       cytosis['site-pages'] = applyTransformers(cytosis['site-pagedata'].filter(p => p.Type), [{
         "function": "transformArrayVersionedObjects",
         "settings": {
           "uniqueKey": "Path", // unique field to track versions against
           "versionKey": "Version", // version name / number field
         }
-      },
-      ])
+      }])
+
+      // extract metadata
+      cytosis['site-pages'].forEach((page, i) => {
+        if (page.Metadata) {
+          cytosis['site-pages'][i].MetaObj = parseMetadata(page.Metadata)
+        }
+      })
     } 
 
     if (cytosis && PUBLIC_BLOGMODE !== 'janzheng') {
@@ -101,8 +108,7 @@ async function initContent(_head) {
 export const load = async ({ params, setHeaders, locals}) => {
   try {
 
-    let fuzzy = FuzzyKey({ url: PUBLIC_FUZZYKEY_URL })
-    
+    // let fuzzy = FuzzyKey({ url: PUBLIC_FUZZYKEY_URL })
     // // let add = await fuzzy.set("banana/rama", {fruit:"bannnnanana!!"})
     // let fzz = await fuzzy.get("banana/rama")
     // console.log("fuzzy get:", fzz.data)
@@ -134,6 +140,9 @@ export const load = async ({ params, setHeaders, locals}) => {
     // }, { skip: true })
 
     return {
+      path: params?.path,
+      pathArr: params?.path?.split('/'),
+      
       head: _head,
       seo: PUBLIC_BLOGMODE == "janzheng" && seo, // need to generalize this more
       user: locals?.user,

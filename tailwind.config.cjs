@@ -39,7 +39,7 @@ module.exports = {
     },
     colors: {
       ...colors, // include all default colors
-
+      'base': '#37352f',
       'jan': "#971f1f",
       'jan-': { // color range similar to zinc's distribution
         50: "#f2e0e0",
