@@ -69,8 +69,7 @@
   export let posts;
   export let pathBase = "/";
   export let PostItemClasses = "mb-4";
-  
-  console.log('<><><> posts:', posts)
+
 </script>
 
 <style lang="scss" global>

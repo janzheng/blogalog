@@ -11,26 +11,45 @@ import { parseMetadata } from '$lib/helpers.js'
 
 
 
-export const loadBlogalogFromPath = async (path) => {
+export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
   let cytosis, cytosisData, isBlogalog, _head;
 
   // load the config
   // let endoData = await endo(blogalog_config)
+  // let endoData = await endoloader(blogalog_config, {
+  //   url: PUBLIC_ENDOCYTOSIS_URL
+  // })
   let endoData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
     return await endoloader(blogalog_config, {
       url: PUBLIC_ENDOCYTOSIS_URL
     })
-  })
+  }, 
+  // { // used to cache bust the (very resilient) blog config!
+  //   skip: true, ttr: 0, ttl: 0, 
+  //   bgFn: async () => await endoloader(blogalog_config, {
+  //     url: PUBLIC_ENDOCYTOSIS_URL
+  //   })
+  // }
+  )
 
   let blogs = endoData['blogalog']
+  // console.log('[blogList]:', blogs)
 
   if(!blogs) {
     console.error("Blogalog data not loaded")
     return
   }
-
+  
   cytosisData = await Promise.all(blogs.map(async (blog) => {
-    if (blog?.Slug !== path) return
+    if (loadAll==false && (
+          blog?.Slug !== path && 
+          !blog?.URLs?.split(',').map(url => url.trim()).includes(hostname)
+      )) return
+
+    // testing only; skip default
+    if (!blog['URLs']) return
+    
+    // console.log('----> LOADING:', blog['Slug'], blog['URLs'], 'hostname:', hostname )
     isBlogalog = true
 
     // pull the data

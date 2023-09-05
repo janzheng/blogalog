@@ -20,12 +20,12 @@ import { applyTransformers } from '$plasmid/modules/cytosis2/transformers';
 
 
 
-async function initContent(_head) {
-  let cytosis
+let cytosis
+async function initContent(_head, hostname) {
   console.log('[initContent] initializing:', PUBLIC_BLOGMODE)
 
   if (PUBLIC_BLOGMODE == 'blogalog') {
-    ({ _head, cytosis } = await loadBlogalogFromPath('blogalog'));
+    ({ _head, cytosis } = await loadBlogalogFromPath('blogalog', hostname));
   } else {
     let config
     if (PUBLIC_BLOGMODE == 'janzheng') {
@@ -105,8 +105,9 @@ async function initContent(_head) {
 }
 
 
-export const load = async ({ params, setHeaders, locals}) => {
+export const load = async ({ url, params, setHeaders, locals}) => {
   try {
+    console.log('[hostname]:', url?.hostname);
 
     // let fuzzy = FuzzyKey({ url: PUBLIC_FUZZYKEY_URL })
     // // let add = await fuzzy.set("banana/rama", {fruit:"bannnnanana!!"})
@@ -123,10 +124,11 @@ export const load = async ({ params, setHeaders, locals}) => {
     // let fuzzytest = await fuzzy.get("testkey")
     // console.log("fuzzytest", fuzzytest.data)
 
+    
+
     // let {cytosis, _head} = await initContent(head)
     let cytosis, _head
-
-    ({ cytosis, _head } = await initContent(head)) // don't cachet here; leave cachet strategy to blogalogloader or other loaders
+    ({ cytosis, _head } = await initContent(head, url?.hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
     // example of how to cachet at the top:
     // ({ cytosis, _head } = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_BLOGMODE}`, async ()=>{
     //    return await initContent(head)

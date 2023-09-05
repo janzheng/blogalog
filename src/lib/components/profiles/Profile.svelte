@@ -115,7 +115,7 @@
   let blogpath = $page.data?.path ? `/${$page.data?.path}/` : "/"
 
   let sitePageByType = {}, sitePageTypes = [];
-  cytosis?.['site-pages'].forEach(page => {
+  cytosis?.['site-pages']?.forEach(page => {
     sitePageTypes = [...sitePageTypes, ...page.Type];
     if(!sitePageByType[page.Type]) {
       sitePageByType[page.Type] = [];
@@ -130,7 +130,7 @@
   let pageOrder = [], sections = [];
   function buildPageOrer() {
     // build the sections list
-    sitePages.forEach(page => {
+    sitePages?.forEach(page => {
       if (page.Type) {
         const Section = page.Section;
         if(Section && Section.length > 0 && Section !== ' ') {
@@ -146,7 +146,7 @@
       }
     });
     // build the pageOrder list
-    sitePages.forEach(page => {
+    sitePages?.forEach(page => {
       pageOrder.push(page);
       if (page.Section && !pageOrder.find(pageOrderPage => pageOrderPage.Group === page.Section)) {
         const section = sections.find(section => section.Section === page.Section);
@@ -157,7 +157,7 @@
       }
     });
     pageOrder = pageOrder.filter(item => (!item.Section || item.Section == ' '));
-    console.log('pageOrder:', pageOrder, sections);
+    // console.log('pageOrder:', pageOrder, sections);
   } buildPageOrer()
 
   // function buildMetadata() {
