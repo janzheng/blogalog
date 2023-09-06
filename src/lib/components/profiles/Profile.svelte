@@ -133,7 +133,7 @@
   });
   sitePageTypes = [...new Set(sitePageTypes)]; 
 
-  if(browser) console.log('%% PROFILE PageData', $page.data)
+  // if(browser) console.log('%% PROFILE PageData', $page.data)
 
   // build a Page Order where different sections are grouped together and placed where the first instance of that section appears
   let pageOrder = [], sections = [];
