@@ -10,10 +10,10 @@ import { cachet } from '$plasmid/utils/cachet'
 import { parseMetadata } from '$lib/helpers.js'
 
 
-
-export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
-  let cytosis, cytosisData, isBlogalog, _head = {};
-  console.log('[loadBlogalogFromPath] path:', path, 'hostname', hostname)
+// blogPath is something like /jessbio/
+export const loadBlogalogFromPath = async (blogPath, hostname, loadAll=false) => {
+  let cytosis, cytosisData, isBlogalogHome, _head = {};
+  console.log('[loadBlogalogFromPath] path:', blogPath, 'hostname', hostname)
 
   // load the config
   // let endoData = await endo(blogalog_config)
@@ -37,32 +37,34 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
   // console.log('[blogList]:', blogs)
 
   if(!blogs) {
-    console.error("Blogalog data not loaded")
+    console.error("Blogalog data not loaded", endoData)
     return
   }
   
   cytosisData = await Promise.all(blogs.map(async (blog) => {
     if (loadAll==false && !(
-      (path && blog?.Slug == path) || 
+      (blogPath && blog?.Slug == blogPath) || 
       (blog.URLs && blog.URLs?.split(',').map(url => url.trim()).includes(hostname))
       )) {
         return
       }
 
     if (
-        path && 
+        blogPath && 
         (blog.URLs && blog.URLs?.split(',').map(url => url.trim()).includes(hostname))) {
-      console.error('[blogalog] skipping hostname:', hostname)
+      console.error('[blogalog] skipping hostname:', hostname, 'and loading path:', blogPath)
       return
       // always prefer path over hostname
+      // this breaks when loading blogalog/blog-post since you need hostname first
     }
+
       
-    console.log("1:", blog?.Slug == path, 'path:', path, 'blogSlug:', blog?.Slug)
+    console.log("1:", blog?.Slug == blogPath, 'path:', blogPath, 'blogSlug:', blog?.Slug)
     console.log("2:", blog?.URLs?.split(',').map(url => url.trim()).includes(hostname), 'hostname:', hostname, 'URLs:', blog?.URLs)
-    console.log("3:", blog?.Slug == path || blog?.URLs?.split(',').map(url => url.trim()).includes(hostname))
+    console.log("3:", blog?.Slug == blogPath || blog?.URLs?.split(',').map(url => url.trim()).includes(hostname))
     console.log("===> loading resource:", blog?.Slug)
     
-    isBlogalog = true
+    isBlogalogHome = true
 
     // pull the data
     // return await endo({
@@ -90,7 +92,7 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
       ]
     }
 
-    console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname, 'cache key:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, 'config:', endoloader_config)
+    // console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname, 'cache key:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, 'config:', endoloader_config)
 
     return await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
       return await endoloader(endoloader_config, {
@@ -162,5 +164,5 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
   }
 
   console.log('[cytosisData] Total:', cytosisData.length)
-  return { cytosis, _head, isBlogalog }
+  return { cytosis, _head, isBlogalogHome }
 }

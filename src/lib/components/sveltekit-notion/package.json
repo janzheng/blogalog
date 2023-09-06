@@ -1,6 +1,6 @@
 {
   "name": "@yawnxyz/sveltekit-notion",
-  "version": "0.0.511",
+  "version": "0.0.525",
   "svelte": "src/main.js",
   "module": "dist/main.mjs",
   "main": "dist/main.js",

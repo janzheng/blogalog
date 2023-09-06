@@ -636,7 +636,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z$3 = ":root {\n\n  --notion-bold: 600;\n\n  --notion-page-width: 704px;\n  --notion-base: 1rem;\n  --notion-pad-offset: 0.75;\n  --notion-small: 0.8rem;\n  --notion-smaller: 0.75rem;\n  --notion-title: 2.5rem;\n\n  --notion-h1: 1.875em;\n  --notion-h1-weight: var(--notion-bold);\n  --notion-h1-line-height: 1.2;\n  --notion-h1-margin-top: calc(var(--notion-h1) * var(--notion-pad-offset));\n  --notion-h1-padding-bottom: 0.2em;\n\n  --notion-h2: 1.5rem;\n  --notion-h2-weight: var(--notion-bold);\n  --notion-h2-line-height: 1.5;\n  --notion-h2-margin-top: 0.6em;\n  --notion-h2-padding-bottom: var(--notion-3px);\n\n  --notion-h3 : 1.42rem;\n  --notion-h3-weight: var(--notion-bold);\n  --notion-h3-line-height: 1.4;\n  --notion-h3-margin-top: 0.6em;\n  --notion-h3-padding-bottom: var(--notion-3px);\n\n  --notion-p-padding: var(--notion-3px) var(--notion-2px);\n\n  --notion-1d6em: calc(var(--notion-base) * 1.6);\n  --notion-1d4em: calc(var(--notion-base) * 1.4);\n  --notion-12px: calc(var(--notion-base) * 0.75);\n  --notion-8px: calc(var(--notion-base) * 0.5);\n  --notion-6px: calc(var(--notion-base) * 0.375);\n  --notion-3px: calc(var(--notion-base) * 0.1875);\n  --notion-2px: calc(var(--notion-base) * 0.125);\n  --color-text-default: rgb(55, 53, 47);\n  --color-text-default-light: #64748b;\n  --color-text-checked: rgb(187, 187, 187);\n  --color-text-gray: rgba(29, 29, 37, 0.93);\n  --color-text-brown: rgb(102, 49, 13);\n  --color-text-orange: rgb(129, 44, 10);\n  --color-text-yellow: rgb(111, 76, 18);\n  --color-text-green: rgb(35, 93, 28);\n  --color-text-blue: rgb(9, 78, 121);\n  --color-text-purple: rgb(82, 35, 114);\n  --color-text-pink: rgb(76, 35, 55);\n  --color-text-red: rgb(119, 19, 39);\n  --color-bg-default: #f3eee8;\n  --color-bg-gray: rgba(234, 234, 235, 0.93);\n  --color-bg-brown: rgb(250, 239, 229);\n  --color-bg-orange: rgb(255, 236, 228);\n  --color-bg-yellow: rgb(254, 246, 231);\n  --color-bg-green: rgb(233, 244, 231);\n  --color-bg-blue: rgb(231, 242, 252);\n  --color-bg-purple: rgb(246, 237, 252);\n  --color-bg-pink: rgb(255, 242, 248);\n  --color-bg-red: rgb(255, 234, 243);\n\n  --color-bg-gray-light: rgb(246, 246, 246);\n  --color-bg-brown-light: rgb(252, 245, 239);\n  --color-bg-orange-light: rgb(255, 236, 228);\n  --color-bg-yellow-light: rgb(254, 246, 231);\n  --color-bg-green-light: rgb(243, 249, 242);\n  --color-bg-blue-light: rgb(231, 242, 252);\n  --color-bg-purple-light: rgb(250, 244, 253);\n  --color-bg-pink-light: rgb(255, 242, 248);\n  --color-bg-red-light: rgb(255, 243, 242);\n\n  --color-ui-hover-bg: rgba(0, 0, 0, 0.04);\n  --color-ui-hover-bg-light: rgba(0, 0, 0, 0.04);\n  --color-card-bg: #f3eee8;\n  --color-accent-bg: rgb(46, 170, 220);\n  --color-border-default: rgba(0, 0, 0, 0.04);\n  --color-border-dark: rgb(0, 0, 0);\n\n  --column-spacing: 46px;\n  --collection-card-cover-size-small: 172px;\n  --collection-card-cover-size-medium: 260px;\n  --collection-card-cover-size-large: 320px;\n}\n\n.notion {\n  font-size: var(--notion-base);\n  line-height: calc(var(--notion-base) * 1.5);\n  color: rgb(55, 53, 47);\n  caret-color: rgb(55, 53, 47);\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica,\n    \"Apple Color Emoji\", Arial, sans-serif, \"Segoe UI Emoji\", \"Segoe UI Symbol\";\n}\n\n.notion > * {\n  padding: var(--notion-3px) 0px;\n}\n\n.notion * {\n  /* margin-block-start: 0px; */\n  /* margin-block-start: calc(var(--notion-base) * 0.1875); */\n  margin-block-start: calc(var(--notion-base) * 0.26);\n  margin-block-end: 0px;\n}\n\n.notion-checked {\n  color: var(--color-text-checked);\n}\n.notion-red {\n  color: var(--color-text-red);\n}\n.notion-pink {\n  color: var(--color-text-pink);\n}\n.notion-blue {\n  color: var(--color-text-blue);\n}\n.notion-purple {\n  color: var(--color-text-purple);\n}\n.notion-teal {\n  color: var(--color-text-teal);\n}\n.notion-yellow {\n  color: var(--color-text-yellow);\n}\n.notion-orange {\n  color: var(--color-text-orange);\n}\n.notion-brown {\n  color: var(--color-text-brown);\n}\n.notion-gray {\n  color: var(--color-text-gray);\n}\n.notion-red_background {\n  background-color: var(--color-bg-red);\n}\n.notion-green_background {\n  background-color: var(--color-bg-green);\n  /* background-color: rgb(244, 223, 235); */\n}\n.notion-pink_background {\n  background-color: var(--color-bg-pink);\n  /* background-color: rgb(244, 223, 235); */\n}\n.notion-blue_background {\n  background-color: var(--color-bg-blue);\n}\n.notion-purple_background {\n  background-color: var(--color-bg-purple);\n}\n.notion-teal_background {\n  background-color: var(--color-bg-teal);\n}\n.notion-yellow_background {\n  background-color: var(--color-bg-yellow);\n}\n.notion-orange_background {\n  background-color: var(--color-bg-orange);\n}\n.notion-brown_background {\n  background-color: var(--color-bg-brown);\n}\n.notion-gray_background {\n  background-color: var(--color-bg-gray);\n}\n.notion-red_background_co {\n  background-color: var(--color-bg-red-light);\n}\n.notion-pink_background_co {\n  background-color: var(--color-bg-pink-light);\n}\n.notion-blue_background_co {\n  background-color: var(--color-bg-blue-light);\n}\n.notion-purple_background_co {\n  background-color: var(--color-bg-purple-light);\n}\n.notion-teal_background_co {\n  background-color: var(--color-bg-teal-light);\n}\n.notion-yellow_background_co {\n  background-color: var(--color-bg-yellow-light);\n}\n.notion-orange_background_co {\n  background-color: var(--color-bg-orange-light);\n}\n.notion-brown_background_co {\n  background-color: var(--color-bg-brown-light);\n}\n.notion-gray_background_co {\n  background-color: var(--color-bg-gray-light);\n}\n\n.notion b {\n  font-weight: var(--notion-bold);\n}\n\n.notion-title {\n  line-height: var(--notion-title);\n  font-weight: var(--notion-bold);\n  line-height: calc(var(--notion-title) * 0.75);\n  line-height: calc(var(--notion-title) * 0.25);\n}\n\n/* .notion-h1,\n.notion-h2,\n.notion-h3 {\n  font-weight: var(--notion-bold);\n  line-height: calc(var(--notion-base) * 1.5);\n  padding: var(--notion-2px);\n} */\n\n.notion-h1 {\n  font-size: var(--notion-h1);\n  font-weight: var(--notion-h1-weight);\n  line-height: var(--notion-h1-line-height);\n  margin-top: var(--notion-h1-margin-top);\n  padding-bottom: var(--notion-h1-padding-bottom);\n}\n.notion-h1:first-of-type {\n  margin-top: 0;\n}\n.notion-h2 {\n  font-size: var(--notion-h2);\n  font-weight: var(--notion-h2-weight);\n  line-height: var(--notion-h2-line-height);\n  margin-top: var(--notion-h2-margin-top);\n  padding-bottom: var(--notion-h2-padding-bottom);\n}\n.notion-h3 {\n  font-size: var(--notion-h3);\n  font-weight: var(--notion-h3-weight);\n  line-height: var(--notion-h3-line-height);\n  margin-top: var(--notion-h3-margin-top);\n  padding-bottom: var(--notion-h3-padding-bottom);\n}\n.notion-page-cover {\n  display: block;\n  object-fit: cover;\n  width: 100%;\n  height: 30vh;\n  padding: 0;\n}\n\n.notion-page {\n  margin: 0 auto;\n  max-width: var(--notion-page-width);\n}\n\n.notion-page-offset {\n  margin-top: 96px;\n}\n\nspan.notion-page-icon-cover {\n  height: 78px;\n  width: 78px;\n  font-size: 78px;\n  display: inline-block;\n  line-height: 1.1;\n  margin-left: 0px;\n}\n\nspan.notion-page-icon-offset {\n  margin-top: -42px;\n}\n\nimg.notion-page-icon-cover {\n  border-radius: 3px;\n  width: 124px;\n  height: 124px;\n  margin: 8px;\n}\n\nimg.notion-page-icon-offset {\n  margin-top: -80px;\n}\n\n.notion-full-width {\n  padding: 0 40px;\n  max-width: 100%;\n}\n\n.notion-small-text {\n  font-size: var(--notion-small);\n}\n.notion-quote {\n  white-space: pre-wrap;\n  word-break: break-word;\n  border-left: 3px solid currentcolor;\n  padding: 0.2em 0.9em;\n  margin: 0;\n  font-size: 1.2em;\n}\n.notion-hr {\n  margin: 6px 0px;\n  padding: 0;\n  /* border-top: none; */\n  border-color: rgba(55, 53, 47, 0.09);\n}\n.notion-link {\n  color: inherit;\n  word-break: break-all;\n  text-decoration: underline;\n  text-decoration-color: inherit;\n\n  overflow-wrap: break-word;\n  word-wrap: break-word;\n  -ms-word-break: break-all;\n  word-break: break-all;\n  word-break: break-word;\n  -ms-hyphens: auto;\n  -moz-hyphens: auto;\n  -webkit-hyphens: auto;\n  hyphens: auto;\n}\n.notion-blank {\n  height: 1rem;\n  padding: 4px 0;\n}\n.notion-page-link {\n  display: flex;\n  color: rgb(55, 53, 47);\n  text-decoration: none;\n  height: 30px;\n  margin: 1px 0px;\n  transition: background 120ms ease-in 0s;\n}\n.notion-page-link:hover {\n  background: rgba(55, 53, 47, 0.08);\n}\n\n.notion-page-icon {\n  margin-right: 4px;\n  margin-top: 2px;\n  margin-left: 2px;\n}\nimg.notion-page-icon {\n  display: block;\n  object-fit: cover;\n  border-radius: 3px;\n  width: 20px;\n  height: 20px;\n}\n\n.notion-page-text {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  font-weight: 500;\n  line-height: 1.3;\n  border-bottom: 1px solid rgba(55, 53, 47, 0.16);\n  margin: 4px 0px;\n}\n\n.notion-inline-code {\n  color: #eb5757;\n  padding: 0.2em 0.4em;\n  background: rgba(135, 131, 120, 0.15);\n  border-radius: 3px;\n  font-size: 85%;\n  font-family: \"SFMono-Regular\", Consolas, \"Liberation Mono\", Menlo, Courier,\n    monospace;\n}\n\n.notion-list {\n  margin: 0;\n  margin-block-start: 0.6em;\n  margin-block-end: 0.6em;\n}\n\n.notion-list-disc {\n  list-style-type: disc;\n  padding-inline-start: var(--notion-1d4em);\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.notion-list-numbered {\n  list-style-type: decimal;\n  padding-inline-start: var(--notion-1d6em);\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n\n.notion-list-disc li {\n  padding-left: 0.1em;\n}\n\n.notion-list-todo {\n  list-style-type: none;\n  padding-inline-start: 0.8em;\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.notion-list-todo li {\n  padding-left: 0.1em;\n}\n.notion-list-todo .notion-text {\n  padding-left: 0.75em;\n}\n\n.notion-list-numbered li {\n  padding-left: 0.1em;\n}\n\n.notion-list li {\n  /* padding: 3px 0px; */\n  /* white-space: pre-wrap; */\n}\n\n.notion-asset-wrapper {\n  margin: 2px 0 0.5rem;\n  max-width: 100%;\n}\n\n.notion-asset-wrapper iframe {\n  border: none;\n}\n\n.notion-text {\n  /* white-space: pre-wrap; */\n  caret-color: rgb(55, 53, 47);\n  padding: var(--notion-p-padding);\n}\n.notion-block {\n  padding: 3px 2px;\n}\n\n.notion-code {\n  padding: 30px 16px 30px 20px;\n  margin: 4px 0;\n  tab-size: 2;\n  font-size: 85%;\n  display: block;\n  background: rgb(247, 246, 243);\n  font-family: SFMono-Regular, Consolas, \"Liberation Mono\", Menlo, Courier,\n    monospace;\n  box-sizing: border-box;\n  overflow-x: scroll;\n}\n\n.notion-column {\n  padding-top: 12px;\n  padding-bottom: 12px;\n}\n\n.notion-column > *:first-child {\n  margin-top: 0;\n  margin-left: 0;\n  margin-right: 0;\n}\n\n.notion-column > *:last-child {\n  margin-left: 0;\n  margin-right: 0;\n  margin-bottom: 0;\n}\n\n.notion-row {\n  display: flex;\n  overflow: hidden;\n}\n\n.notion-bookmark {\n  margin: 4px 0;\n  width: 100%;\n  box-sizing: border-box;\n  text-decoration: none;\n  border: 1px solid rgba(55, 53, 47, 0.16);\n  border-radius: 3px;\n  display: flex;\n  overflow: hidden;\n  user-select: none;\n}\n\n.notion-bookmark > div:first-child {\n  flex: 4 1 180px;\n  padding: 12px 14px 14px;\n  overflow: hidden;\n  text-align: left;\n  color: rgb(55, 53, 47);\n}\n\n.notion-bookmark-title {\n  font-size: var(--notion-small);\n  line-height: calc(var(--notion-small) * 1.4);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 24px;\n  margin-bottom: 2px;\n}\n\n.notion-bookmark-description {\n  font-size: var(--notion-smaller);\n  line-height: calc(var(--notion-smaller) * 1.6);\n  opacity: 0.6;\n  height: 32px;\n  overflow: hidden;\n}\n\n.notion-bookmark-link {\n  display: flex;\n  margin-top: 6px;\n}\n\n.notion-bookmark-link > img {\n  width: var(--notion-base);\n  height: var(--notion-base);\n  min-width: var(--notion-base);\n  margin-right: 6px;\n}\n\n.notion-bookmark-link > div {\n  font-size: var(--notion-small);\n  line-height: calc(var(--notion-small) * 1.4);\n  color: rgb(55, 53, 47);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.notion-bookmark-image {\n  flex: 1 1 180px;\n  position: relative;\n}\n\n.notion-bookmark-image img {\n  object-fit: cover;\n  width: 100%;\n  height: 100%;\n  position: absolute;\n}\n\n.notion-column .notion-bookmark-image {\n  display: none;\n}\n\n@media (max-width: 640px) {\n  .notion-bookmark-image {\n    display: none;\n  }\n\n  .notion-row {\n    flex-direction: column;\n  }\n\n  /* .notion-row > *,\n    .notion-column > * {\n        width: 100% !important;\n    } */\n}\n\n.notion-spacer:last-child {\n  display: none;\n}\n\n.notion-image-inset {\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.notion-image-caption {\n  padding: 6px 0px;\n  /* white-space: pre-wrap; */\n  word-break: break-word;\n  caret-color: rgb(55, 53, 47);\n  font-size: 14px;\n  line-height: 1.4;\n  color: rgba(55, 53, 47, 0.6);\n}\n\n.notion-callout {\n  padding: var(--notion-base) var(--notion-base) var(--notion-base) var(--notion-small);\n  display: inline-flex;\n  /* display: block; prevents image blowouts, but doesn't support emojis */\n  width: 100%;\n  border-radius: 3px;\n  border-width: 1px;\n  align-items: center;\n  box-sizing: border-box;\n  margin: 4px 0;\n}\n.notion-callout.billboard {\n  display: block;\n}\n\n.notion-callout-text {\n  margin-left: 8px;\n}\n\n.notion-toggle {\n  /* padding: var(--notion-3px) 0px; */\n  padding: var(--notion-3px) var(--notion-2px);\n  padding-inline-start: var(--notion-8px);\n}\n.notion-toggle-summary {\n  padding-left: var(--notion-6px);\n}\n.notion-toggle summary {\n  white-space: break-spaces !important;\n  cursor: pointer;\n}\n.notion-toggle > div {\n  margin-left: 1.1em;\n}\n\n.notion-list-item {\n  display: flex;\n}\n.notion-list-icon-container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.notion-list-icon {\n  /* margin-bottom: 2px; */\n  margin-right: 9px;\n}\n\n.notion-checkbox {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 1em;\n  height: 1em;\n}\n.notion-checkbox {\n  /* border: 2px solid var(--color-border-dark); */\n}\n.notion-checkbox.checked svg {\n  width: 0.72em;\n  fill: var(--color-border-dark);\n}\n.notion-checkbox.checked {\n  border-color: var(--color-accent-bg);\n  background: var(--color-accent-bg);\n}\n.notion-checkbox.checked svg {\n  width: 0.72em;\n  fill: #fff;\n}\n\n.notion-collection-list {\n  border-top: 1px solid var(--color-border-default);\n}\n\n.notion-collection-list .notion-collection-item {\n  display: flex;\n  margin: 4px 3px;\n  padding: 4px;\n  border-radius: 4px;\n}\n.notion-collection-list .notion-collection-item:hover {\n  background: var(--color-ui-hover-bg-light);\n}\n\n.notion-collection-list .notion-collection-props {\n  flex: 1;\n  display: flex;\n  justify-content: flex-end;\n  gap: 8px;\n}\n";
+var css_248z$3 = ":root {\n\n  --notion-bold: 600;\n\n  --notion-page-width: 704px;\n  --notion-base: 1rem;\n  --notion-pad-offset: 0.75;\n  --notion-small: 0.8rem;\n  --notion-smaller: 0.75rem;\n  --notion-title: 2.5rem;\n\n  --notion-h1: 1.875em;\n  --notion-h1-weight: var(--notion-bold);\n  --notion-h1-line-height: 1.2;\n  --notion-h1-margin-top: calc(var(--notion-h1) * var(--notion-pad-offset));\n  --notion-h1-padding-bottom: 0.2em;\n\n  --notion-h2: 1.5rem;\n  --notion-h2-weight: var(--notion-bold);\n  --notion-h2-line-height: 1.5;\n  --notion-h2-margin-top: 0.6em;\n  --notion-h2-padding-bottom: var(--notion-3px);\n\n  --notion-h3 : 1.42rem;\n  --notion-h3-weight: var(--notion-bold);\n  --notion-h3-line-height: 1.4;\n  --notion-h3-margin-top: 0.6em;\n  --notion-h3-padding-bottom: var(--notion-3px);\n\n  --notion-p-padding: var(--notion-3px) var(--notion-2px);\n\n  --notion-1d6em: calc(var(--notion-base) * 1.6);\n  --notion-1d4em: calc(var(--notion-base) * 1.4);\n  --notion-12px: calc(var(--notion-base) * 0.75);\n  --notion-8px: calc(var(--notion-base) * 0.5);\n  --notion-6px: calc(var(--notion-base) * 0.375);\n  --notion-3px: calc(var(--notion-base) * 0.1875);\n  --notion-2px: calc(var(--notion-base) * 0.125);\n  --color-text-default: rgb(55, 53, 47);\n  --color-text-default-light: #64748b;\n  --color-text-checked: rgb(187, 187, 187);\n  --color-text-gray: rgba(29, 29, 37, 0.93);\n  --color-text-brown: rgb(102, 49, 13);\n  --color-text-orange: rgb(129, 44, 10);\n  --color-text-yellow: rgb(111, 76, 18);\n  --color-text-green: rgb(35, 93, 28);\n  --color-text-blue: rgb(9, 78, 121);\n  --color-text-purple: rgb(82, 35, 114);\n  --color-text-pink: rgb(76, 35, 55);\n  --color-text-red: rgb(119, 19, 39);\n  --color-bg-default: #f3eee8;\n  --color-bg-gray: rgba(234, 234, 235, 0.93);\n  --color-bg-brown: rgb(250, 239, 229);\n  --color-bg-orange: rgb(255, 236, 228);\n  --color-bg-yellow: rgb(254, 246, 231);\n  --color-bg-green: rgb(233, 244, 231);\n  --color-bg-blue: rgb(231, 242, 252);\n  --color-bg-purple: rgb(246, 237, 252);\n  --color-bg-pink: rgb(255, 242, 248);\n  --color-bg-red: rgb(255, 234, 243);\n\n  --color-bg-gray-light: rgb(246, 246, 246);\n  --color-bg-brown-light: rgb(252, 245, 239);\n  --color-bg-orange-light: rgb(255, 236, 228);\n  --color-bg-yellow-light: rgb(254, 246, 231);\n  --color-bg-green-light: rgb(243, 249, 242);\n  --color-bg-blue-light: rgb(231, 242, 252);\n  --color-bg-purple-light: rgb(250, 244, 253);\n  --color-bg-pink-light: rgb(255, 242, 248);\n  --color-bg-red-light: rgb(255, 243, 242);\n\n  --color-ui-hover-bg: rgba(0, 0, 0, 0.04);\n  --color-ui-hover-bg-light: rgba(0, 0, 0, 0.04);\n  --color-card-bg: #f3eee8;\n  --color-accent-bg: rgb(46, 170, 220);\n  --color-border-default: rgba(0, 0, 0, 0.04);\n  --color-border-dark: rgb(0, 0, 0);\n\n  --column-spacing: 46px;\n  --collection-card-cover-size-small: 172px;\n  --collection-card-cover-size-medium: 260px;\n  --collection-card-cover-size-large: 320px;\n}\n\n.notion {\n  font-size: var(--notion-base);\n  line-height: calc(var(--notion-base) * 1.5);\n  color: rgb(55, 53, 47);\n  caret-color: rgb(55, 53, 47);\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica,\n    \"Apple Color Emoji\", Arial, sans-serif, \"Segoe UI Emoji\", \"Segoe UI Symbol\";\n}\n\n.notion > * {\n  padding: var(--notion-3px) 0px;\n}\n\n.notion * {\n  /* margin-block-start: 0px; */\n  /* margin-block-start: calc(var(--notion-base) * 0.1875); */\n  margin-block-start: calc(var(--notion-base) * 0.26);\n  margin-block-end: 0px;\n}\n\n.notion-checked {\n  color: var(--color-text-checked);\n}\n.notion-red {\n  color: var(--color-text-red);\n}\n.notion-pink {\n  color: var(--color-text-pink);\n}\n.notion-blue {\n  color: var(--color-text-blue);\n}\n.notion-purple {\n  color: var(--color-text-purple);\n}\n.notion-teal {\n  color: var(--color-text-teal);\n}\n.notion-yellow {\n  color: var(--color-text-yellow);\n}\n.notion-orange {\n  color: var(--color-text-orange);\n}\n.notion-brown {\n  color: var(--color-text-brown);\n}\n.notion-gray {\n  color: var(--color-text-gray);\n}\n.notion-red_background {\n  background-color: var(--color-bg-red);\n}\n.notion-green_background {\n  background-color: var(--color-bg-green);\n  /* background-color: rgb(244, 223, 235); */\n}\n.notion-pink_background {\n  background-color: var(--color-bg-pink);\n  /* background-color: rgb(244, 223, 235); */\n}\n.notion-blue_background {\n  background-color: var(--color-bg-blue);\n}\n.notion-purple_background {\n  background-color: var(--color-bg-purple);\n}\n.notion-teal_background {\n  background-color: var(--color-bg-teal);\n}\n.notion-yellow_background {\n  background-color: var(--color-bg-yellow);\n}\n.notion-orange_background {\n  background-color: var(--color-bg-orange);\n}\n.notion-brown_background {\n  background-color: var(--color-bg-brown);\n}\n.notion-gray_background {\n  background-color: var(--color-bg-gray);\n}\n.notion-red_background_co {\n  background-color: var(--color-bg-red-light);\n}\n.notion-pink_background_co {\n  background-color: var(--color-bg-pink-light);\n}\n.notion-blue_background_co {\n  background-color: var(--color-bg-blue-light);\n}\n.notion-purple_background_co {\n  background-color: var(--color-bg-purple-light);\n}\n.notion-teal_background_co {\n  background-color: var(--color-bg-teal-light);\n}\n.notion-yellow_background_co {\n  background-color: var(--color-bg-yellow-light);\n}\n.notion-orange_background_co {\n  background-color: var(--color-bg-orange-light);\n}\n.notion-brown_background_co {\n  background-color: var(--color-bg-brown-light);\n}\n.notion-gray_background_co {\n  background-color: var(--color-bg-gray-light);\n}\n\n.notion b {\n  font-weight: var(--notion-bold);\n}\n\n.notion-title {\n  line-height: var(--notion-title);\n  font-weight: var(--notion-bold);\n  line-height: calc(var(--notion-title) * 0.75);\n  line-height: calc(var(--notion-title) * 0.25);\n}\n\n/* .notion-h1,\n.notion-h2,\n.notion-h3 {\n  font-weight: var(--notion-bold);\n  line-height: calc(var(--notion-base) * 1.5);\n  padding: var(--notion-2px);\n} */\n\n.notion-h1 {\n  font-size: var(--notion-h1);\n  font-weight: var(--notion-h1-weight);\n  line-height: var(--notion-h1-line-height);\n  margin-top: var(--notion-h1-margin-top);\n  padding-bottom: var(--notion-h1-padding-bottom);\n}\n.notion-h1:first-of-type {\n  margin-top: 0;\n}\n.notion-h2 {\n  font-size: var(--notion-h2);\n  font-weight: var(--notion-h2-weight);\n  line-height: var(--notion-h2-line-height);\n  margin-top: var(--notion-h2-margin-top);\n  padding-bottom: var(--notion-h2-padding-bottom);\n}\n.notion-h3 {\n  font-size: var(--notion-h3);\n  font-weight: var(--notion-h3-weight);\n  line-height: var(--notion-h3-line-height);\n  margin-top: var(--notion-h3-margin-top);\n  padding-bottom: var(--notion-h3-padding-bottom);\n}\n.notion-page-cover {\n  display: block;\n  object-fit: cover;\n  width: 100%;\n  height: 30vh;\n  padding: 0;\n}\n\n.notion-page {\n  margin: 0 auto;\n  max-width: var(--notion-page-width);\n}\n\n.notion-page-offset {\n  margin-top: 96px;\n}\n\nspan.notion-page-icon-cover {\n  height: 78px;\n  width: 78px;\n  font-size: 78px;\n  display: inline-block;\n  line-height: 1.1;\n  margin-left: 0px;\n}\n\nspan.notion-page-icon-offset {\n  margin-top: -42px;\n}\n\nimg.notion-page-icon-cover {\n  border-radius: 3px;\n  width: 124px;\n  height: 124px;\n  margin: 8px;\n}\n\nimg.notion-page-icon-offset {\n  margin-top: -80px;\n}\n\n.notion-full-width {\n  padding: 0 40px;\n  max-width: 100%;\n}\n\n.notion-small-text {\n  font-size: var(--notion-small);\n}\n.notion-quote {\n  white-space: pre-wrap;\n  word-break: break-word;\n  border-left: 3px solid currentcolor;\n  padding: 0.2em 0.9em;\n  margin: 0;\n  font-size: 1.2em;\n}\n.notion-hr {\n  margin: 6px 0px;\n  padding: 0;\n  /* border-top: none; */\n  border-color: rgba(55, 53, 47, 0.09);\n}\n.notion-link {\n  color: inherit;\n  word-break: break-all;\n  text-decoration: underline;\n  text-decoration-color: inherit;\n\n  overflow-wrap: break-word;\n  word-wrap: break-word;\n  -ms-word-break: break-all;\n  word-break: break-all;\n  word-break: break-word;\n  -ms-hyphens: auto;\n  -moz-hyphens: auto;\n  -webkit-hyphens: auto;\n  hyphens: auto;\n}\n.notion-blank {\n  height: 1rem;\n  padding: 4px 0;\n}\n.notion-page-link {\n  display: flex;\n  color: rgb(55, 53, 47);\n  text-decoration: none;\n  height: 30px;\n  margin: 1px 0px;\n  transition: background 120ms ease-in 0s;\n}\n.notion-page-link:hover {\n  background: rgba(55, 53, 47, 0.08);\n}\n\n.notion-page-icon {\n  margin-right: 4px;\n  margin-top: 2px;\n  margin-left: 2px;\n}\nimg.notion-page-icon {\n  display: block;\n  object-fit: cover;\n  border-radius: 3px;\n  width: 20px;\n  height: 20px;\n}\n\n.notion-page-text {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  font-weight: 500;\n  line-height: 1.3;\n  border-bottom: 1px solid rgba(55, 53, 47, 0.16);\n  margin: 4px 0px;\n}\n\n.notion-inline-code {\n  color: #eb5757;\n  padding: 0.2em 0.4em;\n  background: rgba(135, 131, 120, 0.15);\n  border-radius: 3px;\n  font-size: 85%;\n  font-family: \"SFMono-Regular\", Consolas, \"Liberation Mono\", Menlo, Courier,\n    monospace;\n}\n\n.notion-list {\n  margin: 0;\n  margin-block-start: 0.6em;\n  margin-block-end: 0.6em;\n}\n\n.notion-list-disc {\n  list-style-type: disc;\n  padding-inline-start: var(--notion-1d4em);\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.notion-list-numbered {\n  list-style-type: decimal;\n  padding-inline-start: var(--notion-1d6em);\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n\n.notion-list-disc li {\n  padding-left: 0.1em;\n}\n\n.notion-list-todo {\n  list-style-type: none;\n  padding-inline-start: 0.8em;\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.notion-list-todo li {\n  padding-left: 0.1em;\n}\n.notion-list-todo .notion-text {\n  padding-left: 0.75em;\n}\n\n.notion-list-numbered li {\n  padding-left: 0.1em;\n}\n\n.notion-list li {\n  /* padding: 3px 0px; */\n  /* white-space: pre-wrap; */\n}\n\n.notion-asset-wrapper {\n  margin: 2px 0 0.5rem;\n  max-width: 100%;\n}\n\n.notion-asset-wrapper iframe {\n  border: none;\n}\n\n.notion-text {\n  /* white-space: pre-wrap; */\n  caret-color: rgb(55, 53, 47);\n  padding: var(--notion-p-padding);\n}\n.notion-block {\n  padding: 3px 2px;\n}\n\n.notion-code {\n  padding: 30px 16px 30px 20px;\n  margin: 4px 0;\n  tab-size: 2;\n  font-size: 85%;\n  display: block;\n  background: rgb(247, 246, 243);\n  font-family: SFMono-Regular, Consolas, \"Liberation Mono\", Menlo, Courier,\n    monospace;\n  box-sizing: border-box;\n  overflow-x: scroll;\n}\n\n.notion-column {\n  padding-top: 12px;\n  padding-bottom: 12px;\n}\n\n.notion-column > *:first-child {\n  margin-top: 0;\n  margin-left: 0;\n  margin-right: 0;\n}\n\n.notion-column > *:last-child {\n  margin-left: 0;\n  margin-right: 0;\n  margin-bottom: 0;\n}\n\n.notion-row {\n  display: flex;\n  overflow: hidden;\n}\n\n.notion-bookmark {\n  margin: 4px 0;\n  width: 100%;\n  box-sizing: border-box;\n  text-decoration: none;\n  border: 1px solid rgba(55, 53, 47, 0.16);\n  border-radius: 3px;\n  display: flex;\n  overflow: hidden;\n  user-select: none;\n}\n\n.notion-bookmark > div:first-child {\n  flex: 4 1 180px;\n  padding: 12px 14px 14px;\n  overflow: hidden;\n  text-align: left;\n  color: rgb(55, 53, 47);\n}\n\n.notion-bookmark-title {\n  font-size: var(--notion-small);\n  line-height: calc(var(--notion-small) * 1.4);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 24px;\n  margin-bottom: 2px;\n}\n\n.notion-bookmark-description {\n  font-size: var(--notion-smaller);\n  line-height: calc(var(--notion-smaller) * 1.6);\n  opacity: 0.6;\n  height: 32px;\n  overflow: hidden;\n}\n\n.notion-bookmark-link {\n  display: flex;\n  margin-top: 6px;\n}\n\n.notion-bookmark-link > img {\n  width: var(--notion-base);\n  height: var(--notion-base);\n  min-width: var(--notion-base);\n  margin-right: 6px;\n}\n\n.notion-bookmark-link > div {\n  font-size: var(--notion-small);\n  line-height: calc(var(--notion-small) * 1.4);\n  color: rgb(55, 53, 47);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.notion-bookmark-image {\n  flex: 1 1 180px;\n  position: relative;\n}\n\n.notion-bookmark-image img {\n  object-fit: cover;\n  width: 100%;\n  height: 100%;\n  position: absolute;\n}\n\n.notion-column .notion-bookmark-image {\n  display: none;\n}\n\n@media (max-width: 640px) {\n  .notion-bookmark-image {\n    display: none;\n  }\n\n  .notion-row {\n    flex-direction: column;\n  }\n\n  /* .notion-row > *,\n    .notion-column > * {\n        width: 100% !important;\n    } */\n}\n\n.notion-spacer:last-child {\n  display: none;\n}\n\n.notion-image-inset {\n  /*position: absolute;*/\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.notion-image-caption {\n  padding: 6px 0px;\n  /* white-space: pre-wrap; */\n  word-break: break-word;\n  caret-color: rgb(55, 53, 47);\n  font-size: 14px;\n  line-height: 1.4;\n  color: rgba(55, 53, 47, 0.6);\n}\n\n.notion-callout {\n  padding: var(--notion-base) var(--notion-base) var(--notion-base) var(--notion-small);\n  display: inline-flex;\n  /* display: block; prevents image blowouts, but doesn't support emojis */\n  width: 100%;\n  border-radius: 3px;\n  border-width: 1px;\n  align-items: center;\n  box-sizing: border-box;\n  margin: 4px 0;\n}\n.notion-callout.billboard {\n  display: block;\n}\n\n.notion-callout-text {\n  margin-left: 8px;\n}\n\n.notion-toggle {\n  /* padding: var(--notion-3px) 0px; */\n  padding: var(--notion-3px) var(--notion-2px);\n  padding-inline-start: var(--notion-8px);\n}\n.notion-toggle-summary {\n  padding-left: var(--notion-6px);\n}\n.notion-toggle summary {\n  white-space: break-spaces !important;\n  cursor: pointer;\n}\n.notion-toggle > div {\n  margin-left: 1.1em;\n}\n\n.notion-list-item {\n  display: flex;\n}\n.notion-list-icon-container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.notion-list-icon {\n  /* margin-bottom: 2px; */\n  margin-right: 9px;\n}\n\n.notion-checkbox {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 1em;\n  height: 1em;\n}\n.notion-checkbox {\n  /* border: 2px solid var(--color-border-dark); */\n}\n.notion-checkbox.checked svg {\n  width: 0.72em;\n  fill: var(--color-border-dark);\n}\n.notion-checkbox.checked {\n  border-color: var(--color-accent-bg);\n  background: var(--color-accent-bg);\n}\n.notion-checkbox.checked svg {\n  width: 0.72em;\n  fill: #fff;\n}\n\n.notion-collection-list {\n  border-top: 1px solid var(--color-border-default);\n}\n\n.notion-collection-list .notion-collection-item {\n  display: flex;\n  margin: 4px 3px;\n  padding: 4px;\n  border-radius: 4px;\n}\n.notion-collection-list .notion-collection-item:hover {\n  background: var(--color-ui-hover-bg-light);\n}\n\n.notion-collection-list .notion-collection-props {\n  flex: 1;\n  display: flex;\n  justify-content: flex-end;\n  gap: 8px;\n}\n";
 styleInject(css_248z$3);
 
 const search = (block, blocks) => blocks.find(el => el.id == block);
@@ -644,8 +644,8 @@ const search = (block, blocks) => blocks.find(el => el.id == block);
 const isTopLevel = (block, blocks) =>
     block.type !== search(block.parent_id, blocks).type;
 
-const toNotionImageUrl = (url, blockId) => {
-    return `https://notion.so${
+const toNotionImageUrl = (url, blockId, siteSrc="https://phagedirectory.notion.site") => {
+  return `${siteSrc || "https://notion.so"}${
         url.startsWith('/image')
             ? url
             : `/image/${encodeURIComponent(url)}?table=block&id=${blockId}`
@@ -723,7 +723,7 @@ const isImage = attachment => {
 /* src/subcomponents/FormattedText.svelte generated by Svelte v3.49.0 */
 
 // (8:0) {:else}
-function create_else_block$h(ctx) {
+function create_else_block$i(ctx) {
 	let div;
 
 	return {
@@ -742,7 +742,7 @@ function create_else_block$h(ctx) {
 }
 
 // (6:55) 
-function create_if_block_1$h(ctx) {
+function create_if_block_1$i(ctx) {
 	let html_tag;
 	let raw_value = formatText(/*block*/ ctx[0].properties.caption) + "";
 	let html_anchor;
@@ -801,8 +801,8 @@ function create_fragment$v(ctx) {
 
 	function select_block_type(ctx, dirty) {
 		if (/*block*/ ctx[0].properties && /*block*/ ctx[0].properties.title) return create_if_block$m;
-		if (/*block*/ ctx[0].properties && /*block*/ ctx[0].properties.caption) return create_if_block_1$h;
-		return create_else_block$h;
+		if (/*block*/ ctx[0].properties && /*block*/ ctx[0].properties.caption) return create_if_block_1$i;
+		return create_else_block$i;
 	}
 
 	let current_block_type = select_block_type(ctx);
@@ -944,10 +944,10 @@ function create_if_block$l(ctx) {
 			img1 = element("img");
 			attr(div0, "class", "notion-bookmark-title");
 			attr(div1, "class", "notion-bookmark-description");
-			if (!src_url_equal(img0.src, img0_src_value = toNotionImageUrl(/*block*/ ctx[0].format.bookmark_icon, /*block*/ ctx[0].id))) attr(img0, "src", img0_src_value);
+			if (!src_url_equal(img0.src, img0_src_value = toNotionImageUrl(/*block*/ ctx[0].format.bookmark_icon, /*block*/ ctx[0].id, /*siteSrc*/ ctx[1]))) attr(img0, "src", img0_src_value);
 			attr(img0, "alt", img0_alt_value = getTextContent(/*block*/ ctx[0]));
 			attr(div3, "class", "notion-bookmark-link");
-			if (!src_url_equal(img1.src, img1_src_value = toNotionImageUrl(/*block*/ ctx[0].format.bookmark_cover, /*block*/ ctx[0].id))) attr(img1, "src", img1_src_value);
+			if (!src_url_equal(img1.src, img1_src_value = toNotionImageUrl(/*block*/ ctx[0].format.bookmark_cover, /*block*/ ctx[0].id, /*siteSrc*/ ctx[1]))) attr(img1, "src", img1_src_value);
 			attr(img1, "alt", img1_alt_value = getTextContent(/*block*/ ctx[0]));
 			attr(div5, "class", "notion-bookmark-image");
 			attr(a, "target", "_blank");
@@ -983,7 +983,7 @@ function create_if_block$l(ctx) {
 			formattedtext.$set(formattedtext_changes);
 			if ((!current || dirty & /*block*/ 1) && t1_value !== (t1_value = formatText(/*block*/ ctx[0].properties.description) + "")) set_data(t1, t1_value);
 
-			if (!current || dirty & /*block*/ 1 && !src_url_equal(img0.src, img0_src_value = toNotionImageUrl(/*block*/ ctx[0].format.bookmark_icon, /*block*/ ctx[0].id))) {
+			if (!current || dirty & /*block, siteSrc*/ 3 && !src_url_equal(img0.src, img0_src_value = toNotionImageUrl(/*block*/ ctx[0].format.bookmark_icon, /*block*/ ctx[0].id, /*siteSrc*/ ctx[1]))) {
 				attr(img0, "src", img0_src_value);
 			}
 
@@ -993,7 +993,7 @@ function create_if_block$l(ctx) {
 
 			if ((!current || dirty & /*block*/ 1) && t4_value !== (t4_value = formatText(/*block*/ ctx[0].properties.link) + "")) set_data(t4, t4_value);
 
-			if (!current || dirty & /*block*/ 1 && !src_url_equal(img1.src, img1_src_value = toNotionImageUrl(/*block*/ ctx[0].format.bookmark_cover, /*block*/ ctx[0].id))) {
+			if (!current || dirty & /*block, siteSrc*/ 3 && !src_url_equal(img1.src, img1_src_value = toNotionImageUrl(/*block*/ ctx[0].format.bookmark_cover, /*block*/ ctx[0].id, /*siteSrc*/ ctx[1]))) {
 				attr(img1, "src", img1_src_value);
 			}
 
@@ -1098,28 +1098,37 @@ function instance$u($$self, $$props, $$invalidate) {
 	let { blocks = [] } = $$props;
 	let { fullPage = false } = $$props;
 	let { api } = $$props;
+	let { siteSrc } = $$props;
 
 	$$self.$$set = $$props => {
 		if ('block' in $$props) $$invalidate(0, block = $$props.block);
-		if ('blocks' in $$props) $$invalidate(1, blocks = $$props.blocks);
-		if ('fullPage' in $$props) $$invalidate(2, fullPage = $$props.fullPage);
-		if ('api' in $$props) $$invalidate(3, api = $$props.api);
-		if ('$$scope' in $$props) $$invalidate(4, $$scope = $$props.$$scope);
+		if ('blocks' in $$props) $$invalidate(2, blocks = $$props.blocks);
+		if ('fullPage' in $$props) $$invalidate(3, fullPage = $$props.fullPage);
+		if ('api' in $$props) $$invalidate(4, api = $$props.api);
+		if ('siteSrc' in $$props) $$invalidate(1, siteSrc = $$props.siteSrc);
+		if ('$$scope' in $$props) $$invalidate(5, $$scope = $$props.$$scope);
 	};
 
-	return [block, blocks, fullPage, api, $$scope, slots];
+	return [block, siteSrc, blocks, fullPage, api, $$scope, slots];
 }
 
 class Bookmark extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance$u, create_fragment$u, safe_not_equal, { block: 0, blocks: 1, fullPage: 2, api: 3 });
+
+		init(this, options, instance$u, create_fragment$u, safe_not_equal, {
+			block: 0,
+			blocks: 2,
+			fullPage: 3,
+			api: 4,
+			siteSrc: 1
+		});
 	}
 }
 
 /* src/components/BulletedList.svelte generated by Svelte v3.49.0 */
 
-function create_else_block$g(ctx) {
+function create_else_block$h(ctx) {
 	let t;
 	let if_block1_anchor;
 	let current;
@@ -1214,7 +1223,7 @@ function create_if_block$k(ctx) {
 	let ul_id_value;
 	let current;
 	let if_block0 = /*block*/ ctx[0].properties && create_if_block_2$d(ctx);
-	let if_block1 = /*block*/ ctx[0].content && create_if_block_1$g(ctx);
+	let if_block1 = /*block*/ ctx[0].content && create_if_block_1$h(ctx);
 
 	return {
 		c() {
@@ -1264,7 +1273,7 @@ function create_if_block$k(ctx) {
 						transition_in(if_block1, 1);
 					}
 				} else {
-					if_block1 = create_if_block_1$g(ctx);
+					if_block1 = create_if_block_1$h(ctx);
 					if_block1.c();
 					transition_in(if_block1, 1);
 					if_block1.m(ul, null);
@@ -1445,7 +1454,7 @@ function create_if_block_2$d(ctx) {
 }
 
 // (8:8) {#if block.content}
-function create_if_block_1$g(ctx) {
+function create_if_block_1$h(ctx) {
 	let ul;
 	let current;
 	const default_slot_template = /*#slots*/ ctx[5].default;
@@ -1504,7 +1513,7 @@ function create_fragment$t(ctx) {
 	let if_block;
 	let if_block_anchor;
 	let current;
-	const if_block_creators = [create_if_block$k, create_else_block$g];
+	const if_block_creators = [create_if_block$k, create_else_block$h];
 	const if_blocks = [];
 
 	function select_block_type(ctx, dirty) {
@@ -1601,8 +1610,8 @@ function create_if_block$j(ctx) {
 	let if_block_anchor;
 
 	function select_block_type(ctx, dirty) {
-		if (/*icon*/ ctx[3] && /*icon*/ ctx[3].includes('http')) return create_if_block_1$f;
-		return create_else_block$f;
+		if (/*icon*/ ctx[3] && /*icon*/ ctx[3].includes('http')) return create_if_block_1$g;
+		return create_else_block$g;
 	}
 
 	let current_block_type = select_block_type(ctx);
@@ -1628,7 +1637,7 @@ function create_if_block$j(ctx) {
 }
 
 // (7:4) {:else}
-function create_else_block$f(ctx) {
+function create_else_block$g(ctx) {
 	let span;
 	let t;
 	let span_class_value;
@@ -1662,7 +1671,7 @@ function create_else_block$f(ctx) {
 }
 
 // (2:4) {#if icon && icon.includes('http')}
-function create_if_block_1$f(ctx) {
+function create_if_block_1$g(ctx) {
 	let img;
 	let img_class_value;
 	let img_src_value;
@@ -1767,7 +1776,7 @@ class PageIcon extends SvelteComponent {
 
 /* src/components/Callout.svelte generated by Svelte v3.49.0 */
 
-function create_else_block$e(ctx) {
+function create_else_block$f(ctx) {
 	let div2;
 	let t0;
 	let div1;
@@ -1777,7 +1786,7 @@ function create_else_block$e(ctx) {
 	let div2_class_value;
 	let current;
 	let if_block0 = /*showIcon*/ ctx[1] && create_if_block_2$c(ctx);
-	let if_block1 = /*calloutType*/ ctx[4] == 'default' && create_if_block_1$e(ctx);
+	let if_block1 = /*calloutType*/ ctx[4] == 'default' && create_if_block_1$f(ctx);
 	const default_slot_template = /*#slots*/ ctx[12].default;
 	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[11], null);
 
@@ -1844,7 +1853,7 @@ function create_else_block$e(ctx) {
 						transition_in(if_block1, 1);
 					}
 				} else {
-					if_block1 = create_if_block_1$e(ctx);
+					if_block1 = create_if_block_1$f(ctx);
 					if_block1.c();
 					transition_in(if_block1, 1);
 					if_block1.m(div1, t1);
@@ -2030,7 +2039,7 @@ function create_if_block_2$c(ctx) {
 }
 
 // (84:6) {#if calloutType == 'default'}
-function create_if_block_1$e(ctx) {
+function create_if_block_1$f(ctx) {
 	let formattedtext;
 	let current;
 	formattedtext = new FormattedText({ props: { block: /*block*/ ctx[5] } });
@@ -2068,7 +2077,7 @@ function create_fragment$r(ctx) {
 	let if_block;
 	let if_block_anchor;
 	let current;
-	const if_block_creators = [create_if_block$i, create_else_block$e];
+	const if_block_creators = [create_if_block$i, create_else_block$f];
 	const if_blocks = [];
 
 	function select_block_type(ctx, dirty) {
@@ -4216,7 +4225,7 @@ createCommonjsModule(function (module) {
 
 /* src/components/Code.svelte generated by Svelte v3.49.0 */
 
-function add_css$2(target) {
+function add_css$1(target) {
 	append_styles(target, "svelte-2v3wzz", ".notion-code.svelte-2v3wzz{padding:30px 16px 30px 20px;margin:4px 0;tab-size:2;font-size:85%;display:block;font-family:SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier,\n            monospace;box-sizing:border-box;overflow-x:scroll}");
 }
 
@@ -4331,7 +4340,7 @@ function instance$q($$self, $$props, $$invalidate) {
 class Code extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance$q, create_fragment$q, safe_not_equal, { block: 0, blocks: 4, fullPage: 5, api: 6 }, add_css$2);
+		init(this, options, instance$q, create_fragment$q, safe_not_equal, { block: 0, blocks: 4, fullPage: 5, api: 6 }, add_css$1);
 	}
 }
 
@@ -4593,8 +4602,8 @@ class Divider extends SvelteComponent {
 
 /* src/components/Embed.svelte generated by Svelte v3.49.0 */
 
-// (88:0) {:else}
-function create_else_block$d(ctx) {
+// (89:0) {:else}
+function create_else_block$e(ctx) {
 	let figure;
 	let div;
 	let iframe;
@@ -4603,7 +4612,7 @@ function create_else_block$d(ctx) {
 	let t;
 	let figure_id_value;
 	let current;
-	let if_block = /*block*/ ctx[0].properties.caption && create_if_block_1$d(ctx);
+	let if_block = /*block*/ ctx[0].properties.caption && create_if_block_1$e(ctx);
 
 	return {
 		c() {
@@ -4624,7 +4633,7 @@ function create_else_block$d(ctx) {
 			insert(target, figure, anchor);
 			append(figure, div);
 			append(div, iframe);
-			/*iframe_binding*/ ctx[13](iframe);
+			/*iframe_binding*/ ctx[14](iframe);
 			append(figure, t);
 			if (if_block) if_block.m(figure, null);
 			current = true;
@@ -4646,7 +4655,7 @@ function create_else_block$d(ctx) {
 						transition_in(if_block, 1);
 					}
 				} else {
-					if_block = create_if_block_1$d(ctx);
+					if_block = create_if_block_1$e(ctx);
 					if_block.c();
 					transition_in(if_block, 1);
 					if_block.m(figure, null);
@@ -4676,13 +4685,13 @@ function create_else_block$d(ctx) {
 		},
 		d(detaching) {
 			if (detaching) detach(figure);
-			/*iframe_binding*/ ctx[13](null);
+			/*iframe_binding*/ ctx[14](null);
 			if (if_block) if_block.d();
 		}
 	};
 }
 
-// (80:0) {#if block.type == 'file'}
+// (81:0) {#if block.type == 'file'}
 function create_if_block$h(ctx) {
 	let div;
 	let a;
@@ -4724,8 +4733,8 @@ function create_if_block$h(ctx) {
 	};
 }
 
-// (101:4) {#if block.properties.caption}
-function create_if_block_1$d(ctx) {
+// (102:4) {#if block.properties.caption}
+function create_if_block_1$e(ctx) {
 	let figcaption;
 	let formattedtext;
 	let current;
@@ -4770,7 +4779,7 @@ function create_fragment$m(ctx) {
 	let if_block1_anchor;
 	let current;
 	let if_block0 = false ;
-	const if_block_creators = [create_if_block$h, create_else_block$d];
+	const if_block_creators = [create_if_block$h, create_else_block$e];
 	const if_blocks = [];
 
 	function select_block_type(ctx, dirty) {
@@ -4845,6 +4854,7 @@ function instance$m($$self, $$props, $$invalidate) {
 	let { blocks = [] } = $$props;
 	let { fullPage = false } = $$props;
 	let { api = null } = $$props;
+	let { siteSrc } = $$props;
 	const format = block.format ? block.format : null;
 	let { block_height, block_width, display_source } = format ? format : {};
 
@@ -4875,7 +4885,7 @@ function instance$m($$self, $$props, $$invalidate) {
 	: "";
 
 	block.properties && block.properties.source
-	? toNotionImageUrl(block.properties.source[0][0], block.id)
+	? toNotionImageUrl(block.properties.source[0][0], block.id, siteSrc)
 	: block.properties.source[0][0];
 
 	let url, filename;
@@ -4910,7 +4920,8 @@ function instance$m($$self, $$props, $$invalidate) {
 		if ('blocks' in $$props) $$invalidate(8, blocks = $$props.blocks);
 		if ('fullPage' in $$props) $$invalidate(9, fullPage = $$props.fullPage);
 		if ('api' in $$props) $$invalidate(10, api = $$props.api);
-		if ('$$scope' in $$props) $$invalidate(11, $$scope = $$props.$$scope);
+		if ('siteSrc' in $$props) $$invalidate(11, siteSrc = $$props.siteSrc);
+		if ('$$scope' in $$props) $$invalidate(12, $$scope = $$props.$$scope);
 	};
 
 	return [
@@ -4925,6 +4936,7 @@ function instance$m($$self, $$props, $$invalidate) {
 		blocks,
 		fullPage,
 		api,
+		siteSrc,
 		$$scope,
 		slots,
 		iframe_binding
@@ -4939,7 +4951,8 @@ class Embed extends SvelteComponent {
 			block: 0,
 			blocks: 8,
 			fullPage: 9,
-			api: 10
+			api: 10,
+			siteSrc: 11
 		});
 	}
 }
@@ -5024,10 +5037,6 @@ class Header extends SvelteComponent {
 
 /* src/components/Image.svelte generated by Svelte v3.49.0 */
 
-function add_css$1(target) {
-	append_styles(target, "svelte-h445r8", "figure.svelte-h445r8 div.svelte-h445r8{position:relative}");
-}
-
 // (4:0) {#if format}
 function create_if_block$g(ctx) {
 	let figure;
@@ -5039,12 +5048,12 @@ function create_if_block$g(ctx) {
 
 	function select_block_type(ctx, dirty) {
 		if (/*block_aspect_ratio*/ ctx[3]) return create_if_block_2$b;
-		return create_else_block$c;
+		return create_else_block$d;
 	}
 
 	let current_block_type = select_block_type(ctx);
 	let if_block0 = current_block_type(ctx);
-	let if_block1 = /*block*/ ctx[0].properties.caption && create_if_block_1$c(ctx);
+	let if_block1 = /*block*/ ctx[0].properties.caption && create_if_block_1$d(ctx);
 
 	return {
 		c() {
@@ -5056,17 +5065,17 @@ function create_if_block$g(ctx) {
 
 			attr(figure, "class", figure_class_value = "notion-asset-wrapper notion-image " + (/*block_width*/ ctx[4] > /*width*/ ctx[1]
 			? 'notion-image-fullwidth'
-			: '') + " svelte-h445r8");
+			: ''));
 
 			attr(figure, "style", `width: ${/*block_width*/ ctx[4]}px`);
-			add_render_callback(() => /*figure_elementresize_handler*/ ctx[12].call(figure));
+			add_render_callback(() => /*figure_elementresize_handler*/ ctx[13].call(figure));
 		},
 		m(target, anchor) {
 			insert(target, figure, anchor);
 			if_block0.m(figure, null);
 			append(figure, t);
 			if (if_block1) if_block1.m(figure, null);
-			figure_resize_listener = add_resize_listener(figure, /*figure_elementresize_handler*/ ctx[12].bind(figure));
+			figure_resize_listener = add_resize_listener(figure, /*figure_elementresize_handler*/ ctx[13].bind(figure));
 			current = true;
 		},
 		p(ctx, dirty) {
@@ -5080,7 +5089,7 @@ function create_if_block$g(ctx) {
 						transition_in(if_block1, 1);
 					}
 				} else {
-					if_block1 = create_if_block_1$c(ctx);
+					if_block1 = create_if_block_1$d(ctx);
 					if_block1.c();
 					transition_in(if_block1, 1);
 					if_block1.m(figure, null);
@@ -5101,7 +5110,7 @@ function create_if_block$g(ctx) {
 
 			if (!current || dirty & /*width*/ 2 && figure_class_value !== (figure_class_value = "notion-asset-wrapper notion-image " + (/*block_width*/ ctx[4] > /*width*/ ctx[1]
 			? 'notion-image-fullwidth'
-			: '') + " svelte-h445r8")) {
+			: ''))) {
 				attr(figure, "class", figure_class_value);
 			}
 		},
@@ -5124,7 +5133,7 @@ function create_if_block$g(ctx) {
 }
 
 // (14:8) {:else}
-function create_else_block$c(ctx) {
+function create_else_block$d(ctx) {
 	let img;
 	let img_src_value;
 
@@ -5133,6 +5142,7 @@ function create_else_block$c(ctx) {
 			img = element("img");
 			attr(img, "alt", /*alt*/ ctx[5]);
 			if (!src_url_equal(img.src, img_src_value = /*src*/ ctx[6])) attr(img, "src", img_src_value);
+			attr(img, "loading", "lazy");
 		},
 		m(target, anchor) {
 			insert(target, img, anchor);
@@ -5146,33 +5156,29 @@ function create_else_block$c(ctx) {
 
 // (10:8) {#if block_aspect_ratio}
 function create_if_block_2$b(ctx) {
-	let div;
 	let img;
 	let img_src_value;
 
 	return {
 		c() {
-			div = element("div");
 			img = element("img");
 			attr(img, "class", "notion-image-inset");
 			attr(img, "alt", /*alt*/ ctx[5]);
 			if (!src_url_equal(img.src, img_src_value = /*src*/ ctx[6])) attr(img, "src", img_src_value);
-			attr(div, "style", `padding-bottom: ${/*block_aspect_ratio*/ ctx[3] * 100}%`);
-			attr(div, "class", "svelte-h445r8");
+			attr(img, "loading", "lazy");
 		},
 		m(target, anchor) {
-			insert(target, div, anchor);
-			append(div, img);
+			insert(target, img, anchor);
 		},
 		p: noop,
 		d(detaching) {
-			if (detaching) detach(div);
+			if (detaching) detach(img);
 		}
 	};
 }
 
 // (15:8) {#if block.properties.caption}
-function create_if_block_1$c(ctx) {
+function create_if_block_1$d(ctx) {
 	let figcaption;
 	let formattedtext;
 	let current;
@@ -5257,6 +5263,7 @@ function instance$k($$self, $$props, $$invalidate) {
 	let { blocks = [] } = $$props;
 	let { fullPage = false } = $$props;
 	let { api = null } = $$props;
+	let { siteSrc } = $$props;
 	if (block.properties.title) block.properties.title = null; // notion sometimes adds "untitled" as the title, which we don't need
 	const format = block.format ? block.format : null;
 	const { block_aspect_ratio, block_width } = format ? format : {};
@@ -5266,7 +5273,7 @@ function instance$k($$self, $$props, $$invalidate) {
 	: '';
 
 	let src = block.properties.source
-	? toNotionImageUrl(block.properties.source[0][0], block.id)
+	? toNotionImageUrl(block.properties.source[0][0], block.id, siteSrc)
 	: '';
 
 	let width;
@@ -5281,7 +5288,8 @@ function instance$k($$self, $$props, $$invalidate) {
 		if ('blocks' in $$props) $$invalidate(7, blocks = $$props.blocks);
 		if ('fullPage' in $$props) $$invalidate(8, fullPage = $$props.fullPage);
 		if ('api' in $$props) $$invalidate(9, api = $$props.api);
-		if ('$$scope' in $$props) $$invalidate(10, $$scope = $$props.$$scope);
+		if ('siteSrc' in $$props) $$invalidate(10, siteSrc = $$props.siteSrc);
+		if ('$$scope' in $$props) $$invalidate(11, $$scope = $$props.$$scope);
 	};
 
 	return [
@@ -5295,6 +5303,7 @@ function instance$k($$self, $$props, $$invalidate) {
 		blocks,
 		fullPage,
 		api,
+		siteSrc,
 		$$scope,
 		slots,
 		figure_elementresize_handler
@@ -5304,13 +5313,20 @@ function instance$k($$self, $$props, $$invalidate) {
 class Image extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance$k, create_fragment$k, safe_not_equal, { block: 0, blocks: 7, fullPage: 8, api: 9 }, add_css$1);
+
+		init(this, options, instance$k, create_fragment$k, safe_not_equal, {
+			block: 0,
+			blocks: 7,
+			fullPage: 8,
+			api: 9,
+			siteSrc: 10
+		});
 	}
 }
 
 /* src/components/NumberedList.svelte generated by Svelte v3.49.0 */
 
-function create_else_block$b(ctx) {
+function create_else_block$c(ctx) {
 	let t;
 	let if_block1_anchor;
 	let current;
@@ -5405,7 +5421,7 @@ function create_if_block$f(ctx) {
 	let ol_id_value;
 	let current;
 	let if_block0 = /*block*/ ctx[0].properties && create_if_block_2$a(ctx);
-	let if_block1 = /*block*/ ctx[0].content && create_if_block_1$b(ctx);
+	let if_block1 = /*block*/ ctx[0].content && create_if_block_1$c(ctx);
 
 	return {
 		c() {
@@ -5456,7 +5472,7 @@ function create_if_block$f(ctx) {
 						transition_in(if_block1, 1);
 					}
 				} else {
-					if_block1 = create_if_block_1$b(ctx);
+					if_block1 = create_if_block_1$c(ctx);
 					if_block1.c();
 					transition_in(if_block1, 1);
 					if_block1.m(ol, null);
@@ -5638,7 +5654,7 @@ function create_if_block_2$a(ctx) {
 }
 
 // (11:8) {#if block.content}
-function create_if_block_1$b(ctx) {
+function create_if_block_1$c(ctx) {
 	let current;
 	const default_slot_template = /*#slots*/ ctx[6].default;
 	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[5], null);
@@ -5691,7 +5707,7 @@ function create_fragment$j(ctx) {
 	let if_block;
 	let if_block_anchor;
 	let current;
-	const if_block_creators = [create_if_block$f, create_else_block$b];
+	const if_block_creators = [create_if_block$f, create_else_block$c];
 	const if_blocks = [];
 
 	function select_block_type(ctx, dirty) {
@@ -5785,12 +5801,12 @@ class NumberedList extends SvelteComponent {
 
 /* src/components/Page.svelte generated by Svelte v3.49.0 */
 
-function create_else_block$a(ctx) {
+function create_else_block$b(ctx) {
 	let div;
 	let div_id_value;
 	let current;
-	const default_slot_template = /*#slots*/ ctx[10].default;
-	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[9], null);
+	const default_slot_template = /*#slots*/ ctx[11].default;
+	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[10], null);
 
 	return {
 		c() {
@@ -5810,15 +5826,15 @@ function create_else_block$a(ctx) {
 		},
 		p(ctx, dirty) {
 			if (default_slot) {
-				if (default_slot.p && (!current || dirty & /*$$scope*/ 512)) {
+				if (default_slot.p && (!current || dirty & /*$$scope*/ 1024)) {
 					update_slot_base(
 						default_slot,
 						default_slot_template,
 						ctx,
-						/*$$scope*/ ctx[9],
+						/*$$scope*/ ctx[10],
 						!current
-						? get_all_dirty_from_scope(/*$$scope*/ ctx[9])
-						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[9], dirty, null),
+						? get_all_dirty_from_scope(/*$$scope*/ ctx[10])
+						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[10], dirty, null),
 						null
 					);
 				}
@@ -5848,7 +5864,7 @@ function create_else_block$a(ctx) {
 function create_if_block$e(ctx) {
 	let if_block_anchor;
 	let current;
-	let if_block = /*block*/ ctx[0].properties && create_if_block_1$a(ctx);
+	let if_block = /*block*/ ctx[0].properties && create_if_block_1$b(ctx);
 
 	return {
 		c() {
@@ -5869,7 +5885,7 @@ function create_if_block$e(ctx) {
 						transition_in(if_block, 1);
 					}
 				} else {
-					if_block = create_if_block_1$a(ctx);
+					if_block = create_if_block_1$b(ctx);
 					if_block.c();
 					transition_in(if_block, 1);
 					if_block.m(if_block_anchor.parentNode, if_block_anchor);
@@ -5901,7 +5917,7 @@ function create_if_block$e(ctx) {
 }
 
 // (54:4) {#if block.properties}
-function create_if_block_1$a(ctx) {
+function create_if_block_1$b(ctx) {
 	let div2;
 	let t0;
 	let div1;
@@ -5911,11 +5927,11 @@ function create_if_block_1$a(ctx) {
 	let t2;
 	let div2_id_value;
 	let current;
-	let if_block0 = /*page_cover*/ ctx[3] && create_if_block_3$4(ctx);
-	let if_block1 = /*page_icon*/ ctx[2] && create_if_block_2$9(ctx);
+	let if_block0 = /*page_cover*/ ctx[4] && create_if_block_3$4(ctx);
+	let if_block1 = /*page_icon*/ ctx[3] && create_if_block_2$9(ctx);
 	formattedtext = new FormattedText({ props: { block: /*block*/ ctx[0] } });
-	const default_slot_template = /*#slots*/ ctx[10].default;
-	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[9], null);
+	const default_slot_template = /*#slots*/ ctx[11].default;
+	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[10], null);
 
 	return {
 		c() {
@@ -5930,7 +5946,7 @@ function create_if_block_1$a(ctx) {
 			t2 = space();
 			if (default_slot) default_slot.c();
 			attr(div0, "class", "notion-title");
-			attr(div1, "class", `notion-page ${!/*page_cover*/ ctx[3] && 'notion-page-offset'} ${/*page_full_width*/ ctx[4] && 'notion-full-width'} ${/*page_small_text*/ ctx[5] && 'notion-small-text'}`);
+			attr(div1, "class", `notion-page ${!/*page_cover*/ ctx[4] && 'notion-page-offset'} ${/*page_full_width*/ ctx[5] && 'notion-full-width'} ${/*page_small_text*/ ctx[6] && 'notion-small-text'}`);
 			attr(div2, "id", div2_id_value = `_block-${/*block*/ ctx[0].id}`);
 			attr(div2, "class", "notion-page");
 		},
@@ -5952,22 +5968,22 @@ function create_if_block_1$a(ctx) {
 			current = true;
 		},
 		p(ctx, dirty) {
-			if (/*page_cover*/ ctx[3]) if_block0.p(ctx, dirty);
-			if (/*page_icon*/ ctx[2]) if_block1.p(ctx, dirty);
+			if (/*page_cover*/ ctx[4]) if_block0.p(ctx, dirty);
+			if (/*page_icon*/ ctx[3]) if_block1.p(ctx, dirty);
 			const formattedtext_changes = {};
 			if (dirty & /*block*/ 1) formattedtext_changes.block = /*block*/ ctx[0];
 			formattedtext.$set(formattedtext_changes);
 
 			if (default_slot) {
-				if (default_slot.p && (!current || dirty & /*$$scope*/ 512)) {
+				if (default_slot.p && (!current || dirty & /*$$scope*/ 1024)) {
 					update_slot_base(
 						default_slot,
 						default_slot_template,
 						ctx,
-						/*$$scope*/ ctx[9],
+						/*$$scope*/ ctx[10],
 						!current
-						? get_all_dirty_from_scope(/*$$scope*/ ctx[9])
-						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[9], dirty, null),
+						? get_all_dirty_from_scope(/*$$scope*/ ctx[10])
+						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[10], dirty, null),
 						null
 					);
 				}
@@ -6009,16 +6025,16 @@ function create_if_block_3$4(ctx) {
 	return {
 		c() {
 			img = element("img");
-			if (!src_url_equal(img.src, img_src_value = toNotionImageUrl(/*page_cover*/ ctx[3], /*block*/ ctx[0].id))) attr(img, "src", img_src_value);
+			if (!src_url_equal(img.src, img_src_value = toNotionImageUrl(/*page_cover*/ ctx[4], /*block*/ ctx[0].id, /*siteSrc*/ ctx[2]))) attr(img, "src", img_src_value);
 			attr(img, "alt", img_alt_value = getTextContent(/*block*/ ctx[0]));
 			attr(img, "class", "notion-page-cover");
-			attr(img, "style", `object-position: center ${/*coverPosition*/ ctx[6]}%`);
+			attr(img, "style", `object-position: center ${/*coverPosition*/ ctx[7]}%`);
 		},
 		m(target, anchor) {
 			insert(target, img, anchor);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*block*/ 1 && !src_url_equal(img.src, img_src_value = toNotionImageUrl(/*page_cover*/ ctx[3], /*block*/ ctx[0].id))) {
+			if (dirty & /*block, siteSrc*/ 5 && !src_url_equal(img.src, img_src_value = toNotionImageUrl(/*page_cover*/ ctx[4], /*block*/ ctx[0].id, /*siteSrc*/ ctx[2]))) {
 				attr(img, "src", img_src_value);
 			}
 
@@ -6039,7 +6055,7 @@ function create_if_block_2$9(ctx) {
 
 	pageicon = new PageIcon({
 			props: {
-				class: /*page_cover*/ ctx[3]
+				class: /*page_cover*/ ctx[4]
 				? 'notion-page-icon-offset'
 				: undefined,
 				block: /*block*/ ctx[0],
@@ -6080,7 +6096,7 @@ function create_fragment$i(ctx) {
 	let if_block;
 	let if_block_anchor;
 	let current;
-	const if_block_creators = [create_if_block$e, create_else_block$a];
+	const if_block_creators = [create_if_block$e, create_else_block$b];
 	const if_blocks = [];
 
 	function select_block_type(ctx, dirty) {
@@ -6150,20 +6166,23 @@ function instance$i($$self, $$props, $$invalidate) {
 	let { blocks = [] } = $$props;
 	let { fullPage = false } = $$props;
 	let { api = undefined } = $$props;
+	let { siteSrc } = $$props;
 	const { page_icon, page_cover, page_cover_position, page_full_width, page_small_text } = block.format ? block.format : {};
 	const coverPosition = (1 - (page_cover_position || 0.5)) * 100;
 
 	$$self.$$set = $$props => {
 		if ('block' in $$props) $$invalidate(0, block = $$props.block);
-		if ('blocks' in $$props) $$invalidate(7, blocks = $$props.blocks);
+		if ('blocks' in $$props) $$invalidate(8, blocks = $$props.blocks);
 		if ('fullPage' in $$props) $$invalidate(1, fullPage = $$props.fullPage);
-		if ('api' in $$props) $$invalidate(8, api = $$props.api);
-		if ('$$scope' in $$props) $$invalidate(9, $$scope = $$props.$$scope);
+		if ('api' in $$props) $$invalidate(9, api = $$props.api);
+		if ('siteSrc' in $$props) $$invalidate(2, siteSrc = $$props.siteSrc);
+		if ('$$scope' in $$props) $$invalidate(10, $$scope = $$props.$$scope);
 	};
 
 	return [
 		block,
 		fullPage,
+		siteSrc,
 		page_icon,
 		page_cover,
 		page_full_width,
@@ -6179,7 +6198,14 @@ function instance$i($$self, $$props, $$invalidate) {
 class Page extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance$i, create_fragment$i, safe_not_equal, { block: 0, blocks: 7, fullPage: 1, api: 8 });
+
+		init(this, options, instance$i, create_fragment$i, safe_not_equal, {
+			block: 0,
+			blocks: 8,
+			fullPage: 1,
+			api: 9,
+			siteSrc: 2
+		});
 	}
 }
 
@@ -6530,7 +6556,7 @@ function create_if_block$d(ctx) {
 	let if_block;
 	let if_block_anchor;
 	let current;
-	const if_block_creators = [create_if_block_1$9, create_else_block$9];
+	const if_block_creators = [create_if_block_1$a, create_else_block$a];
 	const if_blocks = [];
 
 	function select_block_type_1(ctx, dirty) {
@@ -6571,7 +6597,7 @@ function create_if_block$d(ctx) {
 }
 
 // (25:2) {:else}
-function create_else_block$9(ctx) {
+function create_else_block$a(ctx) {
 	let p;
 	let formattedtext;
 	let p_id_value;
@@ -6616,7 +6642,7 @@ function create_else_block$9(ctx) {
 }
 
 // (21:2) {#if useHtml}
-function create_if_block_1$9(ctx) {
+function create_if_block_1$a(ctx) {
 	let div;
 	let raw_value = getTextContent(/*block*/ ctx[0]) + "";
 	let div_id_value;
@@ -6764,7 +6790,7 @@ function add_css(target) {
 }
 
 // (46:0) {:else}
-function create_else_block$8(ctx) {
+function create_else_block$9(ctx) {
 	let details;
 	let summary;
 	let span;
@@ -6850,7 +6876,7 @@ function create_else_block$8(ctx) {
 }
 
 // (42:22) 
-function create_if_block_1$8(ctx) {
+function create_if_block_1$9(ctx) {
 	let div;
 	let div_id_value;
 	let current;
@@ -6974,7 +7000,7 @@ function create_fragment$d(ctx) {
 	let if_block;
 	let if_block_anchor;
 	let current;
-	const if_block_creators = [create_if_block$c, create_if_block_1$8, create_else_block$8];
+	const if_block_creators = [create_if_block$c, create_if_block_1$9, create_else_block$9];
 	const if_blocks = [];
 
 	function select_block_type(ctx, dirty) {
@@ -7099,12 +7125,72 @@ class Toggle extends SvelteComponent {
 
 /* src/components/Video.svelte generated by Svelte v3.49.0 */
 
-// (12:4) {#if block.properties.caption}
+// (13:6) {:else}
+function create_else_block$8(ctx) {
+	let video;
+	let source;
+	let source_src_value;
+	let t;
+
+	return {
+		c() {
+			video = element("video");
+			source = element("source");
+			t = text("\n          Your browser does not support the video tag.");
+			if (!src_url_equal(source.src, source_src_value = /*src*/ ctx[2])) attr(source, "src", source_src_value);
+			attr(video, "width", "640");
+			attr(video, "height", "360");
+			video.controls = true;
+		},
+		m(target, anchor) {
+			insert(target, video, anchor);
+			append(video, source);
+			append(video, t);
+		},
+		p(ctx, dirty) {
+			if (dirty & /*src*/ 4 && !src_url_equal(source.src, source_src_value = /*src*/ ctx[2])) {
+				attr(source, "src", source_src_value);
+			}
+		},
+		d(detaching) {
+			if (detaching) detach(video);
+		}
+	};
+}
+
+// (11:6) {#if videoType == 'iframe'}
+function create_if_block_1$8(ctx) {
+	let iframe;
+	let iframe_src_value;
+
+	return {
+		c() {
+			iframe = element("iframe");
+			attr(iframe, "class", "notion-image-inset");
+			if (!src_url_equal(iframe.src, iframe_src_value = /*src*/ ctx[2])) attr(iframe, "src", iframe_src_value);
+			attr(iframe, "title", /*alt*/ ctx[4]);
+			set_style(iframe, "min-height", "360px");
+		},
+		m(target, anchor) {
+			insert(target, iframe, anchor);
+		},
+		p(ctx, dirty) {
+			if (dirty & /*src*/ 4 && !src_url_equal(iframe.src, iframe_src_value = /*src*/ ctx[2])) {
+				attr(iframe, "src", iframe_src_value);
+			}
+		},
+		d(detaching) {
+			if (detaching) detach(iframe);
+		}
+	};
+}
+
+// (20:4) {#if block.properties.caption}
 function create_if_block$b(ctx) {
 	let figcaption;
 	let formattedtext;
 	let current;
-	formattedtext = new FormattedText({ props: { block: /*block*/ ctx[0] } });
+	formattedtext = new FormattedText({ props: { block: /*block*/ ctx[1] } });
 
 	return {
 		c() {
@@ -7119,7 +7205,7 @@ function create_if_block$b(ctx) {
 		},
 		p(ctx, dirty) {
 			const formattedtext_changes = {};
-			if (dirty & /*block*/ 1) formattedtext_changes.block = /*block*/ ctx[0];
+			if (dirty & /*block*/ 2) formattedtext_changes.block = /*block*/ ctx[1];
 			formattedtext.$set(formattedtext_changes);
 		},
 		i(local) {
@@ -7142,83 +7228,99 @@ function create_fragment$c(ctx) {
 	let t0;
 	let figure;
 	let div;
-	let iframe;
-	let iframe_src_value;
 	let t1;
 	let figure_id_value;
 	let current;
 	let if_block0 = false ;
-	let if_block1 = /*block*/ ctx[0].properties.caption && create_if_block$b(ctx);
+
+	function select_block_type(ctx, dirty) {
+		if (/*videoType*/ ctx[0] == 'iframe') return create_if_block_1$8;
+		return create_else_block$8;
+	}
+
+	let current_block_type = select_block_type(ctx);
+	let if_block1 = current_block_type(ctx);
+	let if_block2 = /*block*/ ctx[1].properties.caption && create_if_block$b(ctx);
 
 	return {
 		c() {
 			t0 = space();
 			figure = element("figure");
 			div = element("div");
-			iframe = element("iframe");
+			if_block1.c();
 			t1 = space();
-			if (if_block1) if_block1.c();
-			attr(iframe, "class", "notion-image-inset");
-			if (!src_url_equal(iframe.src, iframe_src_value = /*display_source*/ ctx[3])) attr(iframe, "src", iframe_src_value);
-			attr(iframe, "title", /*alt*/ ctx[4]);
-			attr(div, "style", `padding-bottom: ${/*block_aspect_ratio*/ ctx[1] * 100}%; position: relative`);
-			attr(figure, "id", figure_id_value = `_block-${/*block*/ ctx[0].id}`);
+			if (if_block2) if_block2.c();
+			set_style(div, "position", "relative");
+			attr(figure, "id", figure_id_value = `_block-${/*block*/ ctx[1].id}`);
 			attr(figure, "class", "notion-asset-wrapper");
-			attr(figure, "style", `width: ${/*block_width*/ ctx[2]}px`);
+			attr(figure, "style", `width: ${/*block_width*/ ctx[3]}px`);
 		},
 		m(target, anchor) {
 			insert(target, t0, anchor);
 			insert(target, figure, anchor);
 			append(figure, div);
-			append(div, iframe);
+			if_block1.m(div, null);
 			append(figure, t1);
-			if (if_block1) if_block1.m(figure, null);
+			if (if_block2) if_block2.m(figure, null);
 			current = true;
 		},
 		p(ctx, [dirty]) {
 
-			if (/*block*/ ctx[0].properties.caption) {
-				if (if_block1) {
-					if_block1.p(ctx, dirty);
+			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block1) {
+				if_block1.p(ctx, dirty);
+			} else {
+				if_block1.d(1);
+				if_block1 = current_block_type(ctx);
 
-					if (dirty & /*block*/ 1) {
-						transition_in(if_block1, 1);
+				if (if_block1) {
+					if_block1.c();
+					if_block1.m(div, null);
+				}
+			}
+
+			if (/*block*/ ctx[1].properties.caption) {
+				if (if_block2) {
+					if_block2.p(ctx, dirty);
+
+					if (dirty & /*block*/ 2) {
+						transition_in(if_block2, 1);
 					}
 				} else {
-					if_block1 = create_if_block$b(ctx);
-					if_block1.c();
-					transition_in(if_block1, 1);
-					if_block1.m(figure, null);
+					if_block2 = create_if_block$b(ctx);
+					if_block2.c();
+					transition_in(if_block2, 1);
+					if_block2.m(figure, null);
 				}
-			} else if (if_block1) {
+			} else if (if_block2) {
 				group_outros();
 
-				transition_out(if_block1, 1, 1, () => {
-					if_block1 = null;
+				transition_out(if_block2, 1, 1, () => {
+					if_block2 = null;
 				});
 
 				check_outros();
 			}
 
-			if (!current || dirty & /*block*/ 1 && figure_id_value !== (figure_id_value = `_block-${/*block*/ ctx[0].id}`)) {
+			if (!current || dirty & /*block*/ 2 && figure_id_value !== (figure_id_value = `_block-${/*block*/ ctx[1].id}`)) {
 				attr(figure, "id", figure_id_value);
 			}
 		},
 		i(local) {
 			if (current) return;
 			transition_in(if_block0);
-			transition_in(if_block1);
+			transition_in(if_block2);
 			current = true;
 		},
 		o(local) {
 			transition_out(if_block0);
-			transition_out(if_block1);
+			transition_out(if_block2);
 			current = false;
 		},
 		d(detaching) {
 			if (detaching) detach(t0);
 			if (detaching) detach(figure);
-			if (if_block1) if_block1.d();
+			if_block1.d();
+			if (if_block2) if_block2.d();
 		}
 	};
 }
@@ -7229,6 +7331,8 @@ function instance$c($$self, $$props, $$invalidate) {
 	let { blocks = [] } = $$props;
 	let { fullPage = null } = $$props;
 	let { api = null } = $$props;
+	let { siteSrc } = $$props;
+	let { videoType = null } = $$props;
 	const format = block.format ? block.format : null;
 	const { block_aspect_ratio, block_width, display_source } = format ? format : {};
 
@@ -7236,27 +7340,44 @@ function instance$c($$self, $$props, $$invalidate) {
 	? block.properties.caption[0][0]
 	: '';
 
-	block.properties.source
-	? toNotionImageUrl(block.properties.source[0][0], block.id)
+	// const src = block.properties.source
+	//     ? toNotionImageUrl(block.properties.source[0][0], block.id, siteSrc)
+	//     : '';
+	let src = block.properties.source
+	? block.properties.source[0][0]
 	: '';
 
+	if (src.includes('youtube.com/watch') || src.includes('youtu.be')) {
+		videoType = 'iframe';
+
+		if (src.includes('youtube.com/watch')) {
+			src = src.replace('youtube.com/watch?v=', 'youtube.com/embed/');
+		} else if (src.includes('youtu.be')) {
+			let videoId = src.split('youtu.be/')[1];
+			src = `https://www.youtube.com/embed/${videoId}`;
+		}
+	}
+
 	$$self.$$set = $$props => {
-		if ('block' in $$props) $$invalidate(0, block = $$props.block);
+		if ('block' in $$props) $$invalidate(1, block = $$props.block);
 		if ('blocks' in $$props) $$invalidate(5, blocks = $$props.blocks);
 		if ('fullPage' in $$props) $$invalidate(6, fullPage = $$props.fullPage);
 		if ('api' in $$props) $$invalidate(7, api = $$props.api);
-		if ('$$scope' in $$props) $$invalidate(8, $$scope = $$props.$$scope);
+		if ('siteSrc' in $$props) $$invalidate(8, siteSrc = $$props.siteSrc);
+		if ('videoType' in $$props) $$invalidate(0, videoType = $$props.videoType);
+		if ('$$scope' in $$props) $$invalidate(9, $$scope = $$props.$$scope);
 	};
 
 	return [
+		videoType,
 		block,
-		block_aspect_ratio,
+		src,
 		block_width,
-		display_source,
 		alt,
 		blocks,
 		fullPage,
 		api,
+		siteSrc,
 		$$scope,
 		slots
 	];
@@ -7265,7 +7386,15 @@ function instance$c($$self, $$props, $$invalidate) {
 class Video extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance$c, create_fragment$c, safe_not_equal, { block: 0, blocks: 5, fullPage: 6, api: 7 });
+
+		init(this, options, instance$c, create_fragment$c, safe_not_equal, {
+			block: 1,
+			blocks: 5,
+			fullPage: 6,
+			api: 7,
+			siteSrc: 8,
+			videoType: 0
+		});
 	}
 }
 
@@ -7356,6 +7485,7 @@ function instance$b($$self, $$props, $$invalidate) {
 	let { blocks = [] } = $$props;
 	let { fullPage = null } = $$props;
 	let { api = null } = $$props;
+	let { siteSrc } = $$props;
 	let href;
 	if (block.properties && block.properties.source) href = block.properties.source[0][0];
 
@@ -7368,15 +7498,23 @@ function instance$b($$self, $$props, $$invalidate) {
 		if ('blocks' in $$props) $$invalidate(2, blocks = $$props.blocks);
 		if ('fullPage' in $$props) $$invalidate(3, fullPage = $$props.fullPage);
 		if ('api' in $$props) $$invalidate(4, api = $$props.api);
+		if ('siteSrc' in $$props) $$invalidate(5, siteSrc = $$props.siteSrc);
 	};
 
-	return [block, href, blocks, fullPage, api];
+	return [block, href, blocks, fullPage, api, siteSrc];
 }
 
 class Tweet extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance$b, create_fragment$b, safe_not_equal, { block: 0, blocks: 2, fullPage: 3, api: 4 });
+
+		init(this, options, instance$b, create_fragment$b, safe_not_equal, {
+			block: 0,
+			blocks: 2,
+			fullPage: 3,
+			api: 4,
+			siteSrc: 5
+		});
 	}
 }
 
@@ -8233,7 +8371,7 @@ function create_if_block_2$6(ctx) {
 	};
 }
 
-// (7:20) {#if column.visible == true}
+// (7:20) {#if column.visible == true && column.name}
 function create_if_block_3$2(ctx) {
 	let th;
 	let t_value = /*column*/ ctx[11].name + "";
@@ -8265,7 +8403,7 @@ function create_if_block_3$2(ctx) {
 // (6:16) {#each tableData.columns as column}
 function create_each_block_2$3(ctx) {
 	let if_block_anchor;
-	let if_block = /*column*/ ctx[11].visible == true && create_if_block_3$2(ctx);
+	let if_block = /*column*/ ctx[11].visible == true && /*column*/ ctx[11].name && create_if_block_3$2(ctx);
 
 	return {
 		c() {
@@ -8277,7 +8415,7 @@ function create_each_block_2$3(ctx) {
 			insert(target, if_block_anchor, anchor);
 		},
 		p(ctx, dirty) {
-			if (/*column*/ ctx[11].visible == true) {
+			if (/*column*/ ctx[11].visible == true && /*column*/ ctx[11].name) {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 				} else {
@@ -8382,7 +8520,7 @@ function create_if_block$8(ctx) {
 	};
 }
 
-// (19:24) {#if column.visible == true}
+// (19:24) {#if column.visible == true && column.name}
 function create_if_block_1$6(ctx) {
 	let td;
 	let collectionprop;
@@ -8448,7 +8586,7 @@ function create_if_block_1$6(ctx) {
 function create_each_block_1$4(ctx) {
 	let if_block_anchor;
 	let current;
-	let if_block = /*column*/ ctx[11].visible == true && create_if_block_1$6(ctx);
+	let if_block = /*column*/ ctx[11].visible == true && /*column*/ ctx[11].name && create_if_block_1$6(ctx);
 
 	return {
 		c() {
@@ -8461,7 +8599,7 @@ function create_each_block_1$4(ctx) {
 			current = true;
 		},
 		p(ctx, dirty) {
-			if (/*column*/ ctx[11].visible == true) {
+			if (/*column*/ ctx[11].visible == true && /*column*/ ctx[11].name) {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 
@@ -11509,7 +11647,7 @@ class CollectionBoard extends SvelteComponent {
 
 /* src/components/Collection.svelte generated by Svelte v3.49.0 */
 
-// (69:0) {#if tableData && tableData.name}
+// (97:0) {#if tableData && tableData.name}
 function create_if_block$4(ctx) {
 	let div;
 	let t;
@@ -11621,7 +11759,7 @@ function create_if_block$4(ctx) {
 	};
 }
 
-// (71:4) {#if !isHideTitle}
+// (99:4) {#if !isHideTitle}
 function create_if_block_5(ctx) {
 	let h3;
 	let t_value = /*tableData*/ ctx[0].name + "";
@@ -11646,7 +11784,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (83:6) {:else}
+// (111:6) {:else}
 function create_else_block$3(ctx) {
 	let div;
 
@@ -11667,7 +11805,7 @@ function create_else_block$3(ctx) {
 	};
 }
 
-// (81:37) 
+// (109:37) 
 function create_if_block_4(ctx) {
 	let collectionboard;
 	let current;
@@ -11712,7 +11850,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (79:36) 
+// (107:36) 
 function create_if_block_3(ctx) {
 	let collectionlist;
 	let current;
@@ -11757,7 +11895,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (77:39) 
+// (105:39) 
 function create_if_block_2$3(ctx) {
 	let collectiongallery;
 	let current;
@@ -11802,7 +11940,7 @@ function create_if_block_2$3(ctx) {
 	};
 }
 
-// (75:6) {#if view.type == 'table'}
+// (103:6) {#if view.type == 'table'}
 function create_if_block_1$3(ctx) {
 	let collectiontable;
 	let current;
@@ -11921,6 +12059,7 @@ function instance$5($$self, $$props, $$invalidate) {
 	// export let columns
 	// const request = fetch(`${api}/v1/table/${block.id}`)
 	let request;
+
 	let tableRows;
 
 	$$self.$$set = $$props => {
@@ -11950,18 +12089,43 @@ function instance$5($$self, $$props, $$invalidate) {
 			}
 		}
 
-		if ($$self.$$.dirty & /*tableData*/ 1) {
+		if ($$self.$$.dirty & /*tableData, view*/ 3) {
 			if (tableData) {
 				// console.log('tableData:::', tableData)
 				$$invalidate(1, view = tableData.views[0]);
-			} // console.log('VIEW::::', view)
-		}
 
-		if ($$self.$$.dirty & /*tableData*/ 1) {
-			if (tableData && tableData.rows) {
-				// manipulate data here, e.g. sorting, filtering, insertions
-				$$invalidate(4, tableRows = tableData.rows);
-			}
+				// console.log('VIEW:::: //tdata', view, tableData.views, tableData)
+				if (tableData.rows) {
+					// manipulate data here, e.g. sorting, filtering, insertions
+					/* 
+  property_filters: [{
+    filter: {
+      property: "title"
+      filter: {
+        operator: "string_contains"
+        value: {
+          type: "exact",
+          value: "Banana"
+        }
+      }
+    }
+  }]
+*/
+					let filterObj = view.format?.property_filters?.[0]?.filter;
+
+					$$invalidate(4, tableRows = tableData.rows);
+
+					// console.log('lol:', filterObj)
+					if (filterObj) {
+						$$invalidate(4, tableRows = tableData.rows.filter(row => {
+							// Check if the row value matches the filter value
+							console.log('ok so...', filterObj.filter?.value?.type, filterObj.property, row, row[tableData.schema[filterObj.property].name], filterObj?.filter?.value?.value);
+
+							if (filterObj.filter?.value?.type === 'exact') return row[tableData.schema[filterObj.property].name] === filterObj?.filter?.value?.value;
+						}));
+					}
+				}
+			} // console.log('VIEW:::: //tdata FILTER', tableRows)
 		}
 
 		if ($$self.$$.dirty & /*tableData, _description*/ 33) {
@@ -13242,7 +13406,7 @@ function create_if_block(ctx) {
 
 	function select_block_type(ctx, dirty) {
 		if (/*blocks*/ ctx[1]) return 0;
-		if (/*id*/ ctx[0] && browser && /*type*/ ctx[8] == 'page') return 1;
+		if (/*id*/ ctx[0] && browser && /*type*/ ctx[9] == 'page') return 1;
 		return 2;
 	}
 
@@ -13302,7 +13466,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (97:4) {:else}
+// (100:4) {:else}
 function create_else_block(ctx) {
 	return {
 		c: noop,
@@ -13314,7 +13478,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (79:46) 
+// (81:46) 
 function create_if_block_2(ctx) {
 	let await_block_anchor;
 	let promise;
@@ -13329,11 +13493,11 @@ function create_if_block_2(ctx) {
 		then: create_then_block,
 		catch: create_catch_block,
 		value: 1,
-		error: 13,
+		error: 14,
 		blocks: [,,,]
 	};
 
-	handle_promise(promise = /*request*/ ctx[9], info);
+	handle_promise(promise = /*request*/ ctx[10], info);
 
 	return {
 		c() {
@@ -13351,7 +13515,7 @@ function create_if_block_2(ctx) {
 			ctx = new_ctx;
 			info.ctx = ctx;
 
-			if (dirty & /*request*/ 512 && promise !== (promise = /*request*/ ctx[9]) && handle_promise(promise, info)) ; else {
+			if (dirty & /*request*/ 1024 && promise !== (promise = /*request*/ ctx[10]) && handle_promise(promise, info)) ; else {
 				update_await_block_branch(info, ctx, dirty);
 			}
 		},
@@ -13377,7 +13541,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (73:4) {#if blocks}
+// (74:4) {#if blocks}
 function create_if_block_1(ctx) {
 	let render;
 	let current;
@@ -13386,7 +13550,8 @@ function create_if_block_1(ctx) {
 			props: {
 				fullPage: /*fullPage*/ ctx[2],
 				blocks: /*blocks*/ ctx[1],
-				api: /*api*/ ctx[3],
+				api: /*api*/ ctx[4],
+				siteSrc: /*siteSrc*/ ctx[3],
 				block: /*blocks*/ ctx[1].find(func)
 			}
 		});
@@ -13403,7 +13568,8 @@ function create_if_block_1(ctx) {
 			const render_changes = {};
 			if (dirty & /*fullPage*/ 4) render_changes.fullPage = /*fullPage*/ ctx[2];
 			if (dirty & /*blocks*/ 2) render_changes.blocks = /*blocks*/ ctx[1];
-			if (dirty & /*api*/ 8) render_changes.api = /*api*/ ctx[3];
+			if (dirty & /*api*/ 16) render_changes.api = /*api*/ ctx[4];
+			if (dirty & /*siteSrc*/ 8) render_changes.siteSrc = /*siteSrc*/ ctx[3];
 			if (dirty & /*blocks*/ 2) render_changes.block = /*blocks*/ ctx[1].find(func);
 			render.$set(render_changes);
 		},
@@ -13422,7 +13588,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (91:6) {:catch error}
+// (94:6) {:catch error}
 function create_catch_block(ctx) {
 	let t0;
 	let t1;
@@ -13432,13 +13598,13 @@ function create_catch_block(ctx) {
 	let br0;
 	let br1;
 	let t5;
-	let t6_value = /*error*/ ctx[13] + "";
+	let t6_value = /*error*/ ctx[14] + "";
 	let t6;
 
 	return {
 		c() {
 			t0 = text("An error occurred trying to fetch: [");
-			t1 = text(/*api*/ ctx[3]);
+			t1 = text(/*api*/ ctx[4]);
 			t2 = text("/v1/page/");
 			t3 = text(/*id*/ ctx[0]);
 			t4 = text("]\n        ");
@@ -13459,9 +13625,9 @@ function create_catch_block(ctx) {
 			insert(target, t6, anchor);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*api*/ 8) set_data(t1, /*api*/ ctx[3]);
+			if (dirty & /*api*/ 16) set_data(t1, /*api*/ ctx[4]);
 			if (dirty & /*id*/ 1) set_data(t3, /*id*/ ctx[0]);
-			if (dirty & /*request*/ 512 && t6_value !== (t6_value = /*error*/ ctx[13] + "")) set_data(t6, t6_value);
+			if (dirty & /*request*/ 1024 && t6_value !== (t6_value = /*error*/ ctx[14] + "")) set_data(t6, t6_value);
 		},
 		i: noop,
 		o: noop,
@@ -13479,7 +13645,7 @@ function create_catch_block(ctx) {
 	};
 }
 
-// (84:6) {:then blocks}
+// (86:6) {:then blocks}
 function create_then_block(ctx) {
 	let render;
 	let current;
@@ -13488,7 +13654,8 @@ function create_then_block(ctx) {
 			props: {
 				fullPage: /*fullPage*/ ctx[2],
 				blocks: /*blocks*/ ctx[1],
-				api: /*api*/ ctx[3],
+				api: /*api*/ ctx[4],
+				siteSrc: /*siteSrc*/ ctx[3],
 				block: /*blocks*/ ctx[1].find(func_1)
 			}
 		});
@@ -13504,9 +13671,10 @@ function create_then_block(ctx) {
 		p(ctx, dirty) {
 			const render_changes = {};
 			if (dirty & /*fullPage*/ 4) render_changes.fullPage = /*fullPage*/ ctx[2];
-			if (dirty & /*request*/ 512) render_changes.blocks = /*blocks*/ ctx[1];
-			if (dirty & /*api*/ 8) render_changes.api = /*api*/ ctx[3];
-			if (dirty & /*request*/ 512) render_changes.block = /*blocks*/ ctx[1].find(func_1);
+			if (dirty & /*request*/ 1024) render_changes.blocks = /*blocks*/ ctx[1];
+			if (dirty & /*api*/ 16) render_changes.api = /*api*/ ctx[4];
+			if (dirty & /*siteSrc*/ 8) render_changes.siteSrc = /*siteSrc*/ ctx[3];
+			if (dirty & /*request*/ 1024) render_changes.block = /*blocks*/ ctx[1].find(func_1);
 			render.$set(render_changes);
 		},
 		i(local) {
@@ -13524,7 +13692,7 @@ function create_then_block(ctx) {
 	};
 }
 
-// (80:22)          <div class="Notion-loading {loadingClasses}
+// (82:22)          <div class="Notion-loading {loadingClasses}
 function create_pending_block(ctx) {
 	let div;
 	let div_class_value;
@@ -13532,15 +13700,15 @@ function create_pending_block(ctx) {
 	return {
 		c() {
 			div = element("div");
-			attr(div, "class", div_class_value = "Notion-loading " + /*loadingClasses*/ ctx[6]);
+			attr(div, "class", div_class_value = "Notion-loading " + /*loadingClasses*/ ctx[7]);
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
-			div.innerHTML = /*loadingMsg*/ ctx[7];
+			div.innerHTML = /*loadingMsg*/ ctx[8];
 		},
 		p(ctx, dirty) {
-			if (dirty & /*loadingMsg*/ 128) div.innerHTML = /*loadingMsg*/ ctx[7];
-			if (dirty & /*loadingClasses*/ 64 && div_class_value !== (div_class_value = "Notion-loading " + /*loadingClasses*/ ctx[6])) {
+			if (dirty & /*loadingMsg*/ 256) div.innerHTML = /*loadingMsg*/ ctx[8];
+			if (dirty & /*loadingClasses*/ 128 && div_class_value !== (div_class_value = "Notion-loading " + /*loadingClasses*/ ctx[7])) {
 				attr(div, "class", div_class_value);
 			}
 		},
@@ -13555,13 +13723,13 @@ function create_pending_block(ctx) {
 function create_fragment(ctx) {
 	let div;
 	let current;
-	let if_block = (/*id*/ ctx[0] || /*blocks*/ ctx[1]) && /*doRender*/ ctx[4] && create_if_block(ctx);
+	let if_block = (/*id*/ ctx[0] || /*blocks*/ ctx[1]) && /*doRender*/ ctx[5] && create_if_block(ctx);
 
 	return {
 		c() {
 			div = element("div");
 			if (if_block) if_block.c();
-			attr(div, "class", /*classes*/ ctx[5]);
+			attr(div, "class", /*classes*/ ctx[6]);
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
@@ -13569,11 +13737,11 @@ function create_fragment(ctx) {
 			current = true;
 		},
 		p(ctx, [dirty]) {
-			if ((/*id*/ ctx[0] || /*blocks*/ ctx[1]) && /*doRender*/ ctx[4]) {
+			if ((/*id*/ ctx[0] || /*blocks*/ ctx[1]) && /*doRender*/ ctx[5]) {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 
-					if (dirty & /*id, blocks, doRender*/ 19) {
+					if (dirty & /*id, blocks, doRender*/ 35) {
 						transition_in(if_block, 1);
 					}
 				} else {
@@ -13592,8 +13760,8 @@ function create_fragment(ctx) {
 				check_outros();
 			}
 
-			if (!current || dirty & /*classes*/ 32) {
-				attr(div, "class", /*classes*/ ctx[5]);
+			if (!current || dirty & /*classes*/ 64) {
+				attr(div, "class", /*classes*/ ctx[6]);
 			}
 		},
 		i(local) {
@@ -13617,7 +13785,8 @@ const func_1 = el => el.type == 'page';
 
 function instance($$self, $$props, $$invalidate) {
 	let { fullPage = false } = $$props;
-	let { api = "https://notion-api.splitbee.io" } = $$props;
+	let { siteSrc = "https://phagedirectory.notion.site" } = $$props;
+	let { api = "//notion-cloudflare-worker.yawnxyz.workers.dev" } = $$props;
 	let { id = null, doRender = true } = $$props;
 
 	// console.log('id:', id)
@@ -13626,7 +13795,7 @@ function instance($$self, $$props, $$invalidate) {
 		id = id.split("-").pop();
 	} // console.log('id stripped:', id)
 
-	let { classes, loadingClasses, loadingMsg = "Loading ...", headers = null, type = "page", results = null, loud = false, blocks = null } = $$props;
+	let { classes = "notion", loadingClasses, loadingMsg = "Loading ...", headers = null, type = "page", results = null, loud = false, blocks = null } = $$props;
 	let request = undefined;
 
 	if (browser && !blocks) {
@@ -13634,7 +13803,7 @@ function instance($$self, $$props, $$invalidate) {
 
 		try {
 			request = fetch(`${api}/v1/${type}/${id}`, headers).then(res => res.json()).then(json => {
-				$$invalidate(10, results = json);
+				$$invalidate(11, results = json);
 				return Object.values(json).map(el => el.value);
 			}).then(json => {
 				if (type == "page") {
@@ -13653,16 +13822,17 @@ function instance($$self, $$props, $$invalidate) {
 
 	$$self.$$set = $$props => {
 		if ('fullPage' in $$props) $$invalidate(2, fullPage = $$props.fullPage);
-		if ('api' in $$props) $$invalidate(3, api = $$props.api);
+		if ('siteSrc' in $$props) $$invalidate(3, siteSrc = $$props.siteSrc);
+		if ('api' in $$props) $$invalidate(4, api = $$props.api);
 		if ('id' in $$props) $$invalidate(0, id = $$props.id);
-		if ('doRender' in $$props) $$invalidate(4, doRender = $$props.doRender);
-		if ('classes' in $$props) $$invalidate(5, classes = $$props.classes);
-		if ('loadingClasses' in $$props) $$invalidate(6, loadingClasses = $$props.loadingClasses);
-		if ('loadingMsg' in $$props) $$invalidate(7, loadingMsg = $$props.loadingMsg);
-		if ('headers' in $$props) $$invalidate(11, headers = $$props.headers);
-		if ('type' in $$props) $$invalidate(8, type = $$props.type);
-		if ('results' in $$props) $$invalidate(10, results = $$props.results);
-		if ('loud' in $$props) $$invalidate(12, loud = $$props.loud);
+		if ('doRender' in $$props) $$invalidate(5, doRender = $$props.doRender);
+		if ('classes' in $$props) $$invalidate(6, classes = $$props.classes);
+		if ('loadingClasses' in $$props) $$invalidate(7, loadingClasses = $$props.loadingClasses);
+		if ('loadingMsg' in $$props) $$invalidate(8, loadingMsg = $$props.loadingMsg);
+		if ('headers' in $$props) $$invalidate(12, headers = $$props.headers);
+		if ('type' in $$props) $$invalidate(9, type = $$props.type);
+		if ('results' in $$props) $$invalidate(11, results = $$props.results);
+		if ('loud' in $$props) $$invalidate(13, loud = $$props.loud);
 		if ('blocks' in $$props) $$invalidate(1, blocks = $$props.blocks);
 	};
 
@@ -13670,6 +13840,7 @@ function instance($$self, $$props, $$invalidate) {
 		id,
 		blocks,
 		fullPage,
+		siteSrc,
 		api,
 		doRender,
 		classes,
@@ -13689,16 +13860,17 @@ class Notion extends SvelteComponent {
 
 		init(this, options, instance, create_fragment, safe_not_equal, {
 			fullPage: 2,
-			api: 3,
+			siteSrc: 3,
+			api: 4,
 			id: 0,
-			doRender: 4,
-			classes: 5,
-			loadingClasses: 6,
-			loadingMsg: 7,
-			headers: 11,
-			type: 8,
-			results: 10,
-			loud: 12,
+			doRender: 5,
+			classes: 6,
+			loadingClasses: 7,
+			loadingMsg: 8,
+			headers: 12,
+			type: 9,
+			results: 11,
+			loud: 13,
 			blocks: 1
 		});
 	}

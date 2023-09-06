@@ -7,6 +7,7 @@
   export let blocks = []; blocks;
   export let fullPage = false; fullPage;
   export let api = null; api;
+  export let siteSrc; siteSrc;
 
   const format = block.format ? block.format : null;
   let { block_height, block_width, display_source } = format ? format : {};
@@ -40,7 +41,7 @@
 
   let src =
     block.properties && block.properties.source
-      ? toNotionImageUrl(block.properties.source[0][0], block.id)
+      ? toNotionImageUrl(block.properties.source[0][0], block.id, siteSrc)
       : block.properties.source[0][0];
 
   let url, filename;

@@ -60,7 +60,7 @@
     {#if page.Type=='Main' && !page.Hide}
       <div class="MainPage | p-4 bg-slate-50 ">
         <h2 class="pt-0 mt-0">{page.Name}</h2>
-        <Notion blocks={page.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev" />
+        <Notion blocks={page.pageBlocks} />
       </div>
     {:else if page.Type=='Group'}
       <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
@@ -121,7 +121,7 @@
   let shortDescription = cytosis?.['site-data']?.LongDescription?.['Content'];
   let mainPageBlocks = cytosis?.['site-pages']?.find(page => page.Type?.includes("Main"))?.pageBlocks;
   let sitePages = cytosis?.['site-pages'];
-  let blogpath = $page.data?.path ? `/${$page.data?.path}/` : "/"
+  let blogpath = $page.data?.pathArr ? `/${$page.data?.path}/` : "/"
 
   let sitePageByType = {}, sitePageTypes = [];
   cytosis?.['site-pages']?.forEach(page => {
@@ -133,9 +133,8 @@
   });
   sitePageTypes = [...new Set(sitePageTypes)]; 
 
-
-  if(browser)
-    console.log('%% PROFILE PageData', $page.data)
+  // if(browser)
+    // console.log('%% PROFILE PageData', $page.data)
 
   // build a Page Order where different sections are grouped together and placed where the first instance of that section appears
   let pageOrder = [], sections = [];

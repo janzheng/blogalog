@@ -1,14 +1,18 @@
 <script>
 	import { browser } from '$app/environment';
   import { onMount } from "svelte";
+  import { PUBLIC_NOTION_API_URL } from '$env/static/public';
 
   import "./styles.css";
   import Render from "./subcomponents/Render.svelte";
   export let fullPage = false;
-  export let api = "//notion-cloudflare-worker.yawnxyz.workers.dev";
-  // let api = "http://127.0.0.1:8787";
-  export let id = null,
-    doRender = true;
+  export let siteSrc = "https://phagedirectory.notion.site"; // required for images and links
+  // export let api = "https://notion-api.splitbee.io";
+  export let api = PUBLIC_NOTION_API_URL || "//notion-cloudflare-worker.yawnxyz.workers.dev";
+  export let id = null, doRender = true, doExternalRequest = true;
+
+  if(loud)
+    console.log('[@yawnxyz/sveltekit-notion] NODE_MODULE INSTANCE')
 
   // console.log('id:', id)
   // if id includes url, only get the id
@@ -17,8 +21,7 @@
     // console.log('id stripped:', id)
   }
     
-
-  export let classes, loadingClasses,
+  export let classes="notion", loadingClasses,
     loadingMsg = "Loading ...",
     headers = null,
     type = "page",
@@ -27,7 +30,7 @@
     blocks = null;
 
   let request = undefined;
-  if (browser && !blocks) {
+  if (browser && !blocks && doExternalRequest) {
     if (loud) console.log(`[svelte-notion] ${api}/v1/${type}/${id}`);
 
     try {
@@ -51,7 +54,7 @@
     }
   } else {
     // server-side: silent
-    if (loud) console.log(`[svelte-notion] blocks imported`);
+    if (loud) console.log(`[svelte-notion] blocks imported.`);
   }
 
 </script>
@@ -75,6 +78,8 @@
         {fullPage}
         {blocks}
         {api}
+        {doExternalRequest}
+        {siteSrc}
         block={blocks.find((el) => el.type == 'page')} />
     {:else if id && browser && type == 'page'}
       {#await request}
@@ -87,6 +92,8 @@
           {fullPage}
           {blocks}
           {api}
+          {doExternalRequest}
+          {siteSrc}
           block={blocks.find((el) => el.type == 'page')} />
       {:catch error}
         An error occurred trying to fetch: [{api}/v1/page/{id}]

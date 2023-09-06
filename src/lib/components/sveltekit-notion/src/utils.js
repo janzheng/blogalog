@@ -3,8 +3,8 @@ export const search = (block, blocks) => blocks.find(el => el.id == block)
 export const isTopLevel = (block, blocks) =>
     block.type !== search(block.parent_id, blocks).type
 
-export const toNotionImageUrl = (url, blockId) => {
-    return `https://notion.so${
+export const toNotionImageUrl = (url, blockId, siteSrc="https://phagedirectory.notion.site") => {
+  return `${siteSrc || "https://notion.so"}${
         url.startsWith('/image')
             ? url
             : `/image/${encodeURIComponent(url)}?table=block&id=${blockId}`

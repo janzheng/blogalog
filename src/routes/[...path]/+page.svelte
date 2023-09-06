@@ -7,8 +7,8 @@
 </svelte:head>
 
 
-<!-- {#if $page.data.isBlogalog && !pageContent} -->
-{#if $page.data.isBlogalog}
+<!-- {#if $page.data.isBlogalogHome && !pageContent} -->
+{#if $page.data.isBlogalogHome}
   <!-- blogalog profile / main home pag-->
   <Profile />
 
@@ -34,7 +34,7 @@
       </div>
     {/if}
 
-
+ 
     {#if pageContent?.Cover}
       <div class="CoverImage-container | mt-4">
         <img alt="CoverImage header " src="{pageContent?.Cover}" />
@@ -55,14 +55,14 @@
     
     {#if pageContent?.pageBlocks}
       <div class="PageContent-Blocks post | mt-4 mb-16">
-        <Notion classes="notion" blocks={pageContent?.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
+        <Notion classes="notion" loud={true} blocks={pageContent?.pageBlocks} ></Notion>
       </div>
     {/if}
 
 
     <!-- create an html details / summary example here -->
     <!-- skip if only one version -->
-    {#if pageContent && pageContent?.versions && pageContent?.versions.length > 1}
+    <!-- {#if pageContent && pageContent?.versions && pageContent?.versions.length > 1}
       <div class="PageContent-Versions mt-4">
         <details>
           <summary>Versions</summary>
@@ -77,15 +77,17 @@
                     <span class=""> — {version.Description}</span>
                   {/if}
                 </summary>
-                <div class="pl-8">
-                  <Notion classes="notion" blocks={version.pageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
-                </div>
+                {#if version.pageBlocks}
+                  <div class="pl-8">
+                    <Notion classes="notion" blocks={version.pageBlocks}></Notion>
+                  </div>
+                {/if}
               </details>  
             </div>
           {/each}
         </details>
       </div>
-    {/if}
+    {/if} -->
 
   </div>
 {/if}
@@ -101,6 +103,7 @@
   import { browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
   import Notion from '@yawnxyz/sveltekit-notion'
+  // import Notion from '@yawnxyz/sveltekit-notion/src/Notion.svelte'
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
 
   import Profile from '$lib/components/profiles/Profile.svelte';
@@ -116,8 +119,7 @@
   // let pageContent = $page.data.pageContent;
   let pageContent = $page.data.pageContent
   // $: pageContent = $page.data.cytosis?.['site-pages'].find(item => item.Path === $page.data.path || item.Path === $page.data.pathArr?.[$page.data.pathArr?.length -1]);
-  // if (browser)
-  //   console.log('-* pageContent: ', pageContent)
+  // if (browser) console.log('-* pageContent: ', pageContent)
 
 
   let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;

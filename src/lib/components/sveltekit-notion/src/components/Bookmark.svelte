@@ -17,14 +17,14 @@
                 </div>
                 <div class="notion-bookmark-link">
                     <img
-                        src={toNotionImageUrl(block.format.bookmark_icon, block.id)}
+                        src={toNotionImageUrl(block.format.bookmark_icon, block.id, siteSrc)}
                         alt={getTextContent(block)} />
                     <div>{formatText(block.properties.link)}</div>
                 </div>
             </div>
             <div class="notion-bookmark-image">
                 <img
-                    src={toNotionImageUrl(block.format.bookmark_cover, block.id)}
+                    src={toNotionImageUrl(block.format.bookmark_cover, block.id, siteSrc)}
                     alt={getTextContent(block)} />
             </div>
         </a>
@@ -42,5 +42,6 @@
     export let blocks = []; blocks;
     export let fullPage = false; fullPage;
     export let api; api;
+    export let siteSrc; siteSrc;
 
 </script>

@@ -8,13 +8,13 @@
         class="notion-asset-wrapper notion-image {block_width > width ? 'notion-image-fullwidth' : ''}"
         style={`width: ${block_width}px`}>
         {#if block_aspect_ratio}
-            <div style={`padding-bottom: ${block_aspect_ratio * 100}%`}>
-              <img class="notion-image-inset" {alt} {src} />
-            </div>
-        {:else}<img {alt} {src} />{/if}
+          <!-- <div style={`padding-bottom: ${block_aspect_ratio * 100}%`}> -->
+            <img class="notion-image-inset" {alt} {src} loading="lazy" />
+          <!-- </div> -->
+        {:else}<img {alt} {src} loading="lazy" />{/if}
         {#if block.properties.caption}
             <figcaption class="notion-image-caption">
-                <FormattedText {block} />
+              <FormattedText {block} />
             </figcaption>
         {/if}
     </figure>
@@ -27,6 +27,7 @@
     export let blocks = []; blocks;
     export let fullPage = false; fullPage;
     export let api = null; api;
+    export let siteSrc; siteSrc;
 
     if(block.properties.title)
       block.properties.title = null; // notion sometimes adds "untitled" as the title, which we don't need
@@ -34,7 +35,7 @@
     const { block_aspect_ratio, block_width } = format ? format : {}
     const alt = block.properties.caption ? block.properties.caption[0][0] : ''
     let src = block.properties.source
-        ? toNotionImageUrl(block.properties.source[0][0], block.id)
+        ? toNotionImageUrl(block.properties.source[0][0], block.id, siteSrc)
         : ''
 
     let width

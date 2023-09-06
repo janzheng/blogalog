@@ -55,7 +55,7 @@
         <div id={`_block-${block.id}`} class="notion-page">
             {#if page_cover}
                 <img
-                    src={toNotionImageUrl(page_cover, block.id)}
+                    src={toNotionImageUrl(page_cover, block.id, siteSrc)}
                     alt={getTextContent(block)}
                     class="notion-page-cover"
                     style={`object-position: center ${coverPosition}%`} />
@@ -90,6 +90,7 @@
     export let blocks = []; blocks;
     export let fullPage = false; fullPage;
     export let api = undefined; api;
+    export let siteSrc; siteSrc;
 
     const {
         page_icon,

@@ -26,11 +26,15 @@ async function initContent(_head, hostname) {
 
   if (PUBLIC_BLOGMODE == 'blogalog' && !hostname.includes('janzheng')) {
     // ({ _head, cytosis } = await loadBlogalogFromPath('blogalog', hostname)); // previously, needed to specify blogalog; now uses the hostname/domain
-    ({ _head, cytosis } = await loadBlogalogFromPath(null, hostname));
+    let blogalog = await loadBlogalogFromPath(null, hostname);
 
-    if (!cytosis) {
+    if(blogalog)
+      ({ _head, cytosis } = blogalog);
+    else {
       // for default or wrong hostnames, pull default blogalog
-      ({ _head, cytosis } = await loadBlogalogFromPath("blogalog"));
+      blogalog = await loadBlogalogFromPath("blogalog");
+      if (blogalog)
+        ({ _head, cytosis } = blogalog);
     }
   } else {
     if (PUBLIC_BLOGMODE == 'janzheng' || hostname.includes('janzheng')) {
@@ -110,6 +114,7 @@ async function initContent(_head, hostname) {
 
   }
 
+  // console.log('[layout] cytosis:', cytosis)
   return {cytosis, _head}
 }
 

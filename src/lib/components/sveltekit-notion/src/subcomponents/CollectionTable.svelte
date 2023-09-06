@@ -45,6 +45,4 @@
         _props
     let tableWrap = _format.table_wrap;
 
-    // console.log('Collection Table!!!', tableData, tableRows, view)
-
 </script>
