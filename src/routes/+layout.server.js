@@ -165,6 +165,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
       pathArr: params?.path?.split('/'),
       hostname, 
       origin: url?.origin,
+      url,
       
       head: _head,
       seo: PUBLIC_BLOGMODE == "janzheng" && seo, // need to generalize this more
