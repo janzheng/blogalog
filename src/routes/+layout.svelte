@@ -37,6 +37,10 @@
 <!-- root layout does NOT come with a Head! -->
 <!-- all Head need to be in a layout group -->
 
+<svelte:head>
+  <script defer data-domain="{$page.data.origin}" src="https://plausible.io/js/script.js"></script>
+</svelte:head> 
+
 <Head />
 {#if PUBLIC_BLOGMODE!=='janzheng'}
   <div id="layout" class="layout {"project-"+PUBLIC_PROJECT_NAME}  {layoutStyle}" class:open={$isMenuOpen}>

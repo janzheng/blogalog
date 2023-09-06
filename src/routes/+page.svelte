@@ -3,6 +3,8 @@
   {#if PUBLIC_BLOGMODE !== "janzheng"}
     <Profile />
   {:else}
+    <!-- janzheng.com custom pages -->
+    <script defer data-domain="janzheng.com" src="https://plausible.io/js/script.js"></script>
     <div class="Hero | content-pad | bg-slate-100 | overflow-hidden ">
       <div class="relative container max-w-7xl mx-auto w-full h-full; | md:grid grid-cols-3-2">
         <div>
