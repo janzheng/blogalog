@@ -41,9 +41,6 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
     return
   }
   
-
-
-
   cytosisData = await Promise.all(blogs.map(async (blog) => {
     if (loadAll==false && !(
       (path && blog?.Slug == path) || 
@@ -63,6 +60,7 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
     console.log("1:", blog?.Slug == path, 'path:', path, 'blogSlug:', blog?.Slug)
     console.log("2:", blog?.URLs?.split(',').map(url => url.trim()).includes(hostname), 'hostname:', hostname, 'URLs:', blog?.URLs)
     console.log("3:", blog?.Slug == path || blog?.URLs?.split(',').map(url => url.trim()).includes(hostname))
+    console.log("===> loading resource:", blog?.Slug)
     
     isBlogalog = true
 
@@ -93,7 +91,6 @@ export const loadBlogalogFromPath = async (path, hostname, loadAll=false) => {
     }
 
     console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname, 'cache key:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, 'config:', endoloader_config)
-
 
     return await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
       return await endoloader(endoloader_config, {

@@ -16,13 +16,13 @@
   <div class="Posts Posts-list | ">
     {#each posts as post}
       <div class="Post-item | {PostItemClasses} coverStyle_{post.MetaObj?.coverStyle}">
-        <div class="text-lg">
+        <div class="">
           <a href={`${pathBase}${post.Path}`}>
             {#if post.MetaObj?.coverStyle == "inline"}
               <!-- small inline cover where it's on the right side -->
               <div class="flex justify-between gap-4">
                 <div>
-                  <span class="Post-name">{post.Name}</span>
+                  <span class="Post-name text-lg">{post.Name}</span>
                   {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
                 </div>
                 {#if post.Cover}
@@ -39,8 +39,8 @@
                   <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
                 </div>
               {/if}
-              <span class="Post-name">{post.Name}</span>
-              {#if post.Content}<div class="text pt-1">{@html marked(post.Content || '')}</div>{/if}
+              <span class="Post-name text-lg">{post.Name}</span>
+              {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
             {/if}
           </a>
         </div>
@@ -87,7 +87,7 @@
   }
 
   // don't underline text
-  .coverStyle_inline {
+  .Post-item {
     a {
       text-decoration: none !important;
 
@@ -98,4 +98,7 @@
       }
     }
   }
+  // .Post-content {
+  //   text-decoration: none !important;
+  // }
 </style>

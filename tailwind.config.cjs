@@ -91,6 +91,14 @@ module.exports = {
       lineHeight: {
         'extra-loose': '4',
         '12': '2.1rem',
+      },
+      colors: { // for a17t and for color-neutral-400 etc.
+        neutral: colors.slate,
+        positive: colors.green,
+        urge: colors.violet,
+        warning: colors.yellow,
+        info: colors.blue,
+        critical: colors.red,
       }
     },
     fontFamily: {

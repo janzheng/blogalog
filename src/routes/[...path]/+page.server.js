@@ -24,11 +24,17 @@ export const load = async (settings) => {
       pageContent = cytosis?.['site-pages'].find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
     }
 
-    if(!pageContent || PUBLIC_MULTIBLOG == "true") {
+    if (!pageContent || PUBLIC_MULTIBLOG == "true") {
       // if we want to enable "blogalog routing"
-      ({ _head, cytosis, isBlogalog } = await loadBlogalogFromPath(pathArr[0], hostname));
+      // this loads blogs as SUB PATHS
+      // otherwise we just get the data back from the layout
+      let newCytosis = await loadBlogalogFromPath(pathArr[0]); // 
+      if(newCytosis) {
+        ({ _head, cytosis, isBlogalog } = newCytosis);
+      }
+      if (cytosis?.['site-data'])
+        pageContent = cytosis?.['site-data'];
       // pageContent = cytosis?.['site-pages'].find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
-      pageContent = cytosis?.['site-data'];
     }
 
     let obj = {
@@ -41,7 +47,7 @@ export const load = async (settings) => {
     if(pageContent) obj['pageContent'] = pageContent;
 
     if(!pageContent) {
-      console.error('[path/page] Page Content not Found!', )
+      console.error('[path/page] Page Content not Found!', JSON.stringify(cytosis, 0, 2))
       throw error(404, 'Page Not Found');
     }
 

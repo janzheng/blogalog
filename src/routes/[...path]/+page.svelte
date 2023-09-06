@@ -106,7 +106,8 @@
   import Profile from '$lib/components/profiles/Profile.svelte';
 
   import { page } from '$app/stores'
-  // console.log('-* pageData: ', $page.data)
+  // if(browser)
+  //   console.log('-* pageData: ', $page.data)
 
   // needs to catch both /base/project/post vs. /project/post and go one step up
   let blogPath = $page.data?.pathArr?.length>1 ? `/${$page.data?.pathArr[0]}` : "/"
@@ -115,7 +116,8 @@
   // let pageContent = $page.data.pageContent;
   let pageContent = $page.data.pageContent
   // $: pageContent = $page.data.cytosis?.['site-pages'].find(item => item.Path === $page.data.path || item.Path === $page.data.pathArr?.[$page.data.pathArr?.length -1]);
-  console.log('-* pageContent: ', pageContent)
+  // if (browser)
+  //   console.log('-* pageContent: ', pageContent)
 
 
   let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
