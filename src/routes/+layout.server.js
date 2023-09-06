@@ -18,6 +18,12 @@ import { cachet } from '$plasmid/utils/cachet'
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
 import { applyTransformers } from '$plasmid/modules/cytosis2/transformers';
 
+function removePrefixFromHostname(url) {
+  let hostname = url.hostname;
+  // Use a regular expression to remove any prefixes
+  hostname = hostname.replace(/^(www\.|blog\.|subdomain\.)+/i, '');
+  return hostname;
+}
 
 
 let cytosis, config, mode
@@ -165,7 +171,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
       pathArr: params?.path?.split('/'),
       hostname, 
       origin: url?.origin,
-      url,
+      plainUrl: removePrefixFromHostname(url),
       
       head: _head,
       seo: PUBLIC_BLOGMODE == "janzheng" && seo, // need to generalize this more
