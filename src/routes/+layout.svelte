@@ -52,7 +52,7 @@
 <!-- all Head need to be in a layout group -->
 
 <svelte:head>
-  <script defer data-domain="{$page.data.planUrl},rollup.blogalog.net" src="https://plausible.io/js/script.js"></script>
+  <script defer data-domain="{$page.data.plainUrl},rollup.blogalog.net" src="https://plausible.io/js/script.js"></script>
 </svelte:head> 
 
 <Head />
