@@ -91,7 +91,7 @@
   font-size: 1em;
   color: var(--color-base);
   p {
-    @apply pb-3;
+    @apply pb-3 mt-0 pt-0;
   }
   // Add any other styles you want
   a,._link { 
@@ -132,10 +132,31 @@
   }
 
   h1 {
-    @apply font-sans leading-tight text-3xl lg:leading-tight pb-4 font-bold;
+    @apply font-sans leading-tight text-3xl lg:leading-tight mb-4 font-bold;
+  }
+  h2 {
+    // @apply font-sans text-2xl leading-12 pb-6 ;
+    @apply font-sans leading-tight text-2xl mb-2 font-bold;
+    &.--extra {
+      @apply text-4xl mb-2 tracking-tight;
+    }
+    &+h3 {padding-top: 0;}
+  }
+    //  
+    *+h1,*+h2,*+h3,*+h5,*+h6 { 
+      @apply pt-12
+    }
+  h3 {
+    @apply font-sans text-xl leading-12 mb-2 text-slate-800;
+  }
+  h4 {
+    @apply text-lg mb-2;
   }
   h5 {
-    @apply font-sans leading-snug text-xs uppercase tracking-widest pb-6 text-slate-500;
+    @apply font-sans leading-snug text-xs uppercase tracking-widest mb-2 text-slate-500;
+  }
+  h6 {
+    @apply text-xs tracking-wide uppercase mb-2;
   }
 
   @include notionStyles;

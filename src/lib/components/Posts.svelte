@@ -46,7 +46,7 @@
         </div>
 
         {#if post.AuthorName && post.AuthorName !== 'undefined' }
-          <div class="Posts-Author | mb-8 flex items-center">
+          <div class="Posts-Author | mt-1 mb-4 flex items-center">
             {#if post.AuthorProfile?.[0] }
               <div class="rounded-full overflow-hidden mr-2">
                 <img class="w-8 h-8" src="{post.AuthorProfile?.[0]?.rawUrl || post.AuthorProfile?.[0]?.url}" alt="Author Profile" />

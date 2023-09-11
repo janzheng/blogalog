@@ -12,30 +12,34 @@ export const load = async (settings) => {
     let hostname = settings.url?.hostname
     let path = settings.params.path;
     let pathArr = settings.params.path.split('/')
-    let _head, cytosis, isBlogalogHome;
+    let _head, cytosis, isBlogalogHome, blogs;
     let parentData = await settings.parent()
     let pageContent
+
+    console.log('[path/load] path array:', pathArr,)
 
     // is it a sub blog we've already loaded?
     if (parentData) {
       _head = parentData?.head
       cytosis = parentData?.cytosis
-      pageContent = cytosis?.['site-pages'].find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
+      blogs = parentData?.blogs
+      pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
     }
+
 
     if (!pageContent && PUBLIC_MULTIBLOG == "true") {
       // if we want to enable "blogalog routing"
       // this loads blogs as SUB PATHS
       // otherwise we just get the data back from the layout
       // problem is sometimes you load blogalog/postSlug, it does NOT have parent data cached, so now you're loading both localhost AND a subpath post slug
-      let newCytosis = await loadBlogalogFromPath(pathArr[0]); // 
+      let newCytosis = await loadBlogalogFromPath({blogPath: pathArr[0], blogs}); // 
       if(newCytosis) {
         ({ _head, cytosis, isBlogalogHome } = newCytosis);
       }
 
       if (pathArr.length > 1) {// load a leaf blog instead of base blog
-        // console.log("LEAF POST", pathArr)  
-        pageContent = cytosis?.['site-pages'].find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
+        console.log("LEAF POST", pathArr)  
+        pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
         path = pathArr[1]; // set the home path to the first one, e.g. jessbio only when in multiblog
         isBlogalogHome = false
       } else if (cytosis?.['site-data']) {

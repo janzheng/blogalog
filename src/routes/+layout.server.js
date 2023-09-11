@@ -26,23 +26,36 @@ function removePrefixFromHostname(url) {
 }
 
 
-let cytosis, config, mode
+
+
 async function initContent(_head, hostname) {
   console.log('[initContent] initializing:', PUBLIC_BLOGMODE)
+  let cytosis, config, mode, blogs
 
   if (PUBLIC_BLOGMODE == 'blogalog' && !hostname.includes('janzheng')) {
     // ({ _head, cytosis } = await loadBlogalogFromPath('blogalog', hostname)); // previously, needed to specify blogalog; now uses the hostname/domain
-    let blogalog = await loadBlogalogFromPath(null, hostname);
+    let blogalog = await loadBlogalogFromPath({hostname});
 
-    if(blogalog)
-      ({ _head, cytosis } = blogalog);
-    else {
-      // for default or wrong hostnames, pull default blogalog
-      blogalog = await loadBlogalogFromPath("blogalog");
-      if (blogalog)
-        ({ _head, cytosis } = blogalog);
+    if(blogalog) {
+      ({ _head, cytosis, blogs } = blogalog);
     }
+    else {
+      // NOTE: don't do this if on a subpath; or maybe just don't do this at all?
+      // otherwise will load base blog AND sub blog, which is slowwww
+      // for default or wrong hostnames, pull default blogalog
+      // console.error('[layout] No custom blog or page found; defaulting to load [BLOGALOG]')
+      // blogalog = await loadBlogalogFromPath("blogalog");
+      // if (blogalog) ({ _head, cytosis } = blogalog);
+    }
+
+
+
+
+
+
+
   } else {
+    // custom pages
     if (PUBLIC_BLOGMODE == 'janzheng' || hostname.includes('janzheng')) {
       config = jz_config
       mode = 'janzheng'
@@ -53,11 +66,13 @@ async function initContent(_head, hostname) {
 
     console.log('mode::', mode)
     cytosis = await cachet(`${PUBLIC_PROJECT_NAME}-${mode}`, async () => {
-      return await endoloader(config, {
+      let data = await endoloader(config, {
         url: PUBLIC_ENDOCYTOSIS_URL
       })
+      return data
+      // return data?.value
     }, {
-      skip: false,
+      skipCache: false,
       ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
       bgFn: () => endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${mode}` })
     })
@@ -121,7 +136,7 @@ async function initContent(_head, hostname) {
   }
 
   // console.log('[layout] cytosis:', cytosis)
-  return {cytosis, _head}
+  return { cytosis, _head, blogs }
 }
 
 
@@ -143,7 +158,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
     // await cachet('testkey', ()=>{
     //   console.log('myvar...', myvar)
     //   return myvar
-    // }, {skip: true})
+    // }, {skipCache: true})
     // console.log("cachet testkey!!!", await cachet('testkey'))
     // console.log("cachet!!!", await cachet('banana/rama'))
     // let fuzzytest = await fuzzy.get("testkey")
@@ -152,19 +167,19 @@ export const load = async ({ url, params, setHeaders, locals}) => {
     
 
     // let {cytosis, _head} = await initContent(head)
-    let cytosis, _head
-    ({ cytosis, _head } = await initContent(head, hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
+    let cytosis, _head, blogs
+    ({ cytosis, _head, blogs } = await initContent(head, hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
     // example of how to cachet at the top:
     // ({ cytosis, _head } = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_BLOGMODE}`, async ()=>{
     //    return await initContent(head)
-    // // }, {skip: false}))
-    // }, {skip: true})) // skips the cache; good for debugging
+    // // }, {skipCache: false}))
+    // }, {skipCache: true})) // skips the cache; good for debugging
 
     // this loads the new content, but has a chance of not running on serverless when data is returned
     // before initContent finishes loading
     // cachet(`cytosis-${PUBLIC_BLOGMODE}`, async () => {
     //   return await initContent(head)
-    // }, { skip: true })
+    // }, { skipCache: true })
 
     return {
       path: params?.path,
@@ -177,6 +192,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
       seo: PUBLIC_BLOGMODE == "janzheng" && seo, // need to generalize this more
       user: locals?.user,
       cytosis: cytosis, // testing all
+      blogs,
       // ... await endo(config, {sourceNames: ['site-data']}),
       // streamed: {
       //   // cytosis: endo(config, {sourceNames: ['site-pages']}) // streamed await
@@ -187,7 +203,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
       //   // this does keep the browser spinning though which isn't ideal 
       //   refresh: await cachet(`cytosis-${PUBLIC_BLOGMODE}`, async () => {
       //     return await initContent(head)
-      //   }, { skip: true })
+      //   }, { skipCache: true })
       // }
     }
   }

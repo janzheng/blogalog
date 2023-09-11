@@ -11,8 +11,8 @@
           {#if false && cytosis['site-data']?.['hero']?.Content}
             {@html marked(cytosis['site-data']?.['hero']?.Content || '')}
           {:else}
-            <h2 class="antialiased pt-4 pb-8">Hey hey,</h2>
-            <h2 class="pt-0 leading-12 antialiased " style="padding-top: 0;">I’m Jan, a product designer who uses code and good product design practices to tackle challenging, data-centric problems.</h2>
+            <h2 class="h2-1 antialiased pt-4 pb- mb-0" >Hey hey,</h2>
+            <h2 class="h2-2 pt-0 leading-12 antialiased">I’m Jan, a product designer who uses code and good product design practices to tackle challenging, data-centric problems.</h2>
           {/if}
         </div>
         <div class="relative">
@@ -94,6 +94,18 @@
 
 
 <style lang="scss" global>
+
+  .h2-1 {
+    font-weight: 300 !important; 
+    margin-bottom: 0 !important;
+  }
+  .h2-2 {
+    padding-top: 0 !important; 
+    font-weight: 300  !important;
+  }
+
+
+
   // Notion Pages 
   #_block-e6bbf137-2947-4a6a-9aee-bdcb448d1339 {
     // h2 block in intro Notion

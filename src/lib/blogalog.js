@@ -1,4 +1,7 @@
+/* 
+  sometimes this looks for .data; might be from cachet / fuzzyekey; track it down! Should be unwrapped
 
+*/
 import { head, seo } from '$lib/config.js'
 import { PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
 
@@ -11,36 +14,64 @@ import { parseMetadata } from '$lib/helpers.js'
 
 
 // blogPath is something like /jessbio/
-export const loadBlogalogFromPath = async (blogPath, hostname, loadAll=false) => {
+export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, blogs=[]}={}) => {
   let cytosis, cytosisData, isBlogalogHome, _head = {};
   console.log('[loadBlogalogFromPath] path:', blogPath, 'hostname', hostname)
 
-  // load the config
-  // let endoData = await endo(blogalog_config)
-  // let endoData = await endoloader(blogalog_config, {
-  //   url: PUBLIC_ENDOCYTOSIS_URL
-  // })
-  let endoData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
-    return await endoloader(blogalog_config, {
-      url: PUBLIC_ENDOCYTOSIS_URL
-    })
-  }, 
-  // { // used to cache bust the (very resilient) blog config!
-  //   skip: true, ttr: 0, ttl: 0, 
-  //   bgFn: async () => await endoloader(blogalog_config, {
-  //     url: PUBLIC_ENDOCYTOSIS_URL
-  //   })
-  // }
-  )
+  /* 
+  
+    Load all the Config Blog Data
+  
+  */
 
-  let blogs = endoData['blogalog']
-  // console.log('[blogList]:', blogs)
+  console.log('loadBlogalogFromPath BLGOZFZ', blogs)
+  if (!blogs || blogs.length < 1) {
+    // blogs might have been passed down from layout (already loaded)
+    let blogConfigData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
+        let data = await endoloader(blogalog_config, {
+          url: PUBLIC_ENDOCYTOSIS_URL,
+          key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
+          // saveCache: false, // handled by cachet
+        })
+        console.log("blogalog_config data:", data)
+        return data
+        // return data?.value
+      }, 
+      { // used to cache bust the (very resilient) blog config!
+        // skipCache: true,
+        // setFuzzy: false,
+        // ttr: 0, ttl: 0, 
+        ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+        bgFn: async () => await endoloader(blogalog_config, {
+          url: PUBLIC_ENDOCYTOSIS_URL
+        })
+      }
+    )
+    // let endoData = await endoloader(blogalog_config, {
+    //   url: PUBLIC_ENDOCYTOSIS_URL,
+    //   key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
+    //   // saveCache: false, // handled by cachet
+    // })
 
-  if(!blogs) {
-    console.error("Blogalog data not loaded", endoData)
+    blogs = blogConfigData?.value?.['blogalog'] 
+    // console.log('[endoLoaderData///blogList]:', blogs)
+  }
+
+  if(!blogs || blogs.length < 1) {
+    console.error("Blogalog data not loaded", blogConfigData)
     return
   }
   
+
+
+
+
+
+  /* 
+  
+    Load the Blog pages themselves
+  
+  */
   cytosisData = await Promise.all(blogs.map(async (blog) => {
     if (loadAll==false && !(
       (blogPath && blog?.Slug == blogPath) || 
@@ -48,6 +79,7 @@ export const loadBlogalogFromPath = async (blogPath, hostname, loadAll=false) =>
       )) {
         return
       }
+
 
     if (
         blogPath && 
@@ -95,23 +127,27 @@ export const loadBlogalogFromPath = async (blogPath, hostname, loadAll=false) =>
     // console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname, 'cache key:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, 'config:', endoloader_config)
 
     return await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
-      return await endoloader(endoloader_config, {
+        let data = await endoloader(endoloader_config, {
           key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
-          url: PUBLIC_ENDOCYTOSIS_URL
+          url: PUBLIC_ENDOCYTOSIS_URL,
+          // saveCache: false, // handled by cachet
         })
+        return data
+        // return data?.value
       }, 
-      // {
-      //   skip: true,
-      //   ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-      //   bgFn: () => endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
-      // }
+      {
+        // skipCache: true,
+        // setFuzzy: false,
+        ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+        bgFn: () => endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
+      }
     )
   }))
 
   // clear empty items from cytosisData
   cytosisData = cytosisData.filter(c => c)
   if (cytosisData?.length > 0) {
-    cytosis = cytosisData[0]
+    cytosis = cytosisData[0]?.value
     if (cytosis?.['site-pagedata']?.length > 0) {
       cytosis['site-data'] = applyTransformers(cytosis['site-pagedata'], [{
         "function": "transformArrayToObjectByKey",
@@ -163,6 +199,6 @@ export const loadBlogalogFromPath = async (blogPath, hostname, loadAll=false) =>
     }
   }
 
-  console.log('[cytosisData] Total:', cytosisData.length)
-  return { cytosis, _head, isBlogalogHome }
+  // console.log('[cytosisData] object:', cytosis)
+  return { cytosis, _head, blogs, isBlogalogHome }
 }
