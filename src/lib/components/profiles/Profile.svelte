@@ -107,14 +107,15 @@
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import { browser } from '$app/environment';
   import { page } from '$app/stores';
+  import { getNotionImageLink } from '$lib/helpers.js'
 
   import { marked } from 'marked';
 
   import Posts from '$lib/components/Posts.svelte';
 
   let cytosis = $page.data.cytosis;
-  let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].rawUrl || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
-  let coverImage = cytosis?.['site-data']?.['CoverImage']?.Content || cytosis?.['site-data']?.['CoverImage'].Files?.[0].rawUrl || cytosis?.['site-data']?.['CoverImage'].Files?.[0].url;
+  let profileImage = getNotionImageLink(cytosis?.['site-data']?.['ProfileImage']);
+  let coverImage = getNotionImageLink(cytosis?.['site-data']?.['CoverImage']);
   let author = cytosis?.['site-data']?.Author?.['Content'];
   let siteDesc = cytosis?.['site-data']?.ShortDescription?.['Content'];
   let socialDescription = cytosis?.['site-data']?.SocialDescription?.['Content'];

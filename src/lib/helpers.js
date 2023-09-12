@@ -57,6 +57,17 @@ export function parseMetadata(metadataInput="key:value") {
 }
 
 
+export function getNotionImageLink(notionImage) {
+  /* 
+    we want rawUrl whenever possible, EXCEPT when it contains "secure.notion-static.com"
+  */
+  let fileObj = notionImage?.Files?.[0]
+  let url = notionImage.Content
+  if(!url) fileObj.rawUrl.includes("secure.notion-static.com") ? fileObj.url : fileObj.rawUrl;
+  if(!url) url = fileObj.url
+  return url
+}
+
 
 
 // export const attendeeDictMap = {

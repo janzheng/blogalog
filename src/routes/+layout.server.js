@@ -3,7 +3,7 @@ import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
 import { PUBLIC_PROJECT_NAME, PUBLIC_BLOGMODE, PUBLIC_FUZZYKEY_URL, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_CACHET_TTR } from '$env/static/public';
 
 import { head, seo } from '$lib/config.js'
-import { parseMetadata } from '$lib/helpers.js'
+import { parseMetadata, getNotionImageLink } from '$lib/helpers.js'
 
 
 import { config as blogalog_config } from '$plasmid/modules/cytosis2/configs/blogalog.config.js';
@@ -112,9 +112,9 @@ async function initContent(_head, hostname) {
         url: cytosis?.['site-data']?.['URL']?.Content,
         canonical: cytosis?.['site-data']?.['URL']?.Content,
         title: cytosis?.['site-data']?.['SiteTitle']?.Content,
-        ico: cytosis?.['site-data']?.['IconImage']?.Content || cytosis?.['site-data']?.['IconImage']?.Files?.[0].rawUrl || cytosis?.['site-data']?.['IconImage']?.Files?.[0].url,
+        ico: getNotionImageLink(cytosis?.['site-data']?.['IconImage']),
         image: {
-          url: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].rawUrl || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url,
+          url: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), 
           width: 850,
           height: 650,
         },
@@ -122,13 +122,13 @@ async function initContent(_head, hostname) {
           { name: "twitter:site", content: cytosis?.['site-data']?.['TwitterHandle']?.Content },
           { name: "twitter:title", content: cytosis?.['site-data']?.['SiteTitle']?.Content },
           { name: "twitter:description", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
-          { name: "twitter:image", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].rawUrl || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url },
+          { name: "twitter:image", content: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), },
           { name: "twitter:image:alt", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
-          { property: "og:image:url", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].rawUrl || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url },
-          { property: "og:image", content: cytosis?.['site-data']?.['CardImage']?.Content || cytosis?.['site-data']?.['CardImage']?.Files?.[0].rawUrl || cytosis?.['site-data']?.['CardImage']?.Files?.[0].url },
+          { property: "og:image:url", content: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), },
+          { property: "og:image", content: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), },
         ],
         links: [
-          { rel: 'icon', type: 'image/png', href: cytosis?.['site-data']?.['IconImage']?.Content || cytosis?.['site-data']?.['IconImage']?.Files?.[0].rawUrl || cytosis?.['site-data']?.['IconImage']?.Files?.[0].url }
+          { rel: 'icon', type: 'image/png', href: getNotionImageLink(cytosis?.['site-data']?.['IconImage']), }
         ]
       } : null // head
     }
