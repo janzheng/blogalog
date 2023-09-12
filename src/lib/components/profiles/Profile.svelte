@@ -123,8 +123,6 @@
   let sitePages = cytosis?.['site-pages'];
   let blogpath = $page.data?.pathArr ? `/${$page.data?.path}/` : "/"
 
-
-  console.log('COVER IMAGES: ::', cytosis?.['site-data']?.['CoverImage'])
   let sitePageByType = {}, sitePageTypes = [];
   cytosis?.['site-pages']?.forEach(page => {
     sitePageTypes = [...sitePageTypes, ...page.Type];
