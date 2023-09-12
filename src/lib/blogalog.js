@@ -25,7 +25,6 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
   
   */
 
-  console.log('loadBlogalogFromPath BLGOZFZ', blogs)
   if (!blogs || blogs.length < 1) {
     // blogs might have been passed down from layout (already loaded)
     let blogConfigData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
@@ -42,10 +41,10 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
         // skipCache: true,
         // setFuzzy: false,
         // ttr: 0, ttl: 0, 
-        ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-        bgFn: async () => await endoloader(blogalog_config, {
-          url: PUBLIC_ENDOCYTOSIS_URL
-        })
+        // ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+        // bgFn: async () => await endoloader(blogalog_config, {
+        //   url: PUBLIC_ENDOCYTOSIS_URL
+        // })
       }
     )
     // let endoData = await endoloader(blogalog_config, {
@@ -139,8 +138,8 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
       {
         // skipCache: true,
         // setFuzzy: false,
-        ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-        bgFn: () => endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
+        // ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+        // bgFn: () => endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
       }
     )
   }))
