@@ -63,8 +63,10 @@ export function getNotionImageLink(notionImage) {
   */
   let fileObj = notionImage?.Files?.[0]
   let url = notionImage.Content
-  if(!url) fileObj.rawUrl.includes("secure.notion-static.com") ? fileObj.url : fileObj.rawUrl;
-  if(!url) url = fileObj.url
+
+  if(!url) fileObj?.rawUrl?.includes("secure.notion-static.com") ? url = fileObj?.url : url = fileObj?.rawUrl;
+  if(!url) url = fileObj?.url
+  
   return url
 }
 

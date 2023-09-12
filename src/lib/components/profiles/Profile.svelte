@@ -124,6 +124,7 @@
   let sitePages = cytosis?.['site-pages'];
   let blogpath = $page.data?.pathArr ? `/${$page.data?.path}/` : "/"
 
+  
   let sitePageByType = {}, sitePageTypes = [];
   cytosis?.['site-pages']?.forEach(page => {
     sitePageTypes = [...sitePageTypes, ...page.Type];
@@ -195,7 +196,7 @@
   }
 
   .content-notion-wide {
-    max-width: var(--notion-page-width);
+    max-width: var(--blogalog-page-width, 704px);
     margin-left: auto;
     margin-right: auto;
   }
