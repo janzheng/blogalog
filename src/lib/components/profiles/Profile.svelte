@@ -220,4 +220,9 @@
       }
     }
   }
+
+  :root {
+    // set notion page width to default blogalog page width
+    --notion-page-width: var(--blogalog-page-width);
+  }
 </style>

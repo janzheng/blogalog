@@ -13,13 +13,8 @@
   <Profile />
 
 {:else if pageContent}
-  <!-- 
-
-    THIS IS KIND OF DEFUNCT: Works for "janzhen.com"
-    Takes the .versions thing and bring that into Profile
-
-  -->
   <!-- blog post or sub-page post -->
+
   <div class="PagePath PageContent content-pad _content-wide">
 
     {#if PUBLIC_BLOGMODE!=='janzheng'}
@@ -142,14 +137,8 @@
 
 <style lang="scss" global>
 
-  .PagePath {
-    // max-width: var(--notion-page-width);
-    @apply relative container max-w-4xl mx-auto w-full h-full;
-  }
-
-  .PagePath .notion-page { 
-    margin-left: 0; // left-align
-    width: 100%;
-    max-width: 100%;
-  }
+  // :root {
+  //   // set notion page width to default blogalog page width
+  //   --notion-page-width: var(--blogalog-page-width);
+  // }
 </style>

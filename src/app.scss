@@ -74,6 +74,18 @@
   .Posts {
     .Post-name { @apply text-xl; }
   }
+
+
+  .PagePath {
+    // max-width: var(--notion-page-width);
+    @apply relative container max-w-4xl mx-auto w-full h-full;
+  }
+
+  .PagePath .notion-page {
+    margin-left: 0; // left-align
+    width: 100%;
+    max-width: 100%;
+  }
 }
 // @mixin profileStyles {
 
@@ -162,26 +174,8 @@
   @include notionStyles;
   @include postStyles;
   // @include profileStyles;
+  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -190,11 +184,6 @@
 .project-BLOGALOG {
   @include sharedStyles;
 }
-
-
-
-
-
 
 
 
@@ -262,6 +251,17 @@
     color: #971f1f !important;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
