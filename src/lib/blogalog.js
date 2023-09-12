@@ -98,6 +98,10 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
     
     isBlogalogHome = true
 
+    if (!blog['Pagedata ID']){
+      throw new Error("No Pagedata ID for Notion-loading provided.")
+    }
+
     // pull the data
     // return await endo({
     //   "sources": [
