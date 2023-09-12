@@ -109,18 +109,23 @@
   // if(browser)
   //   console.log('-* pageData: ', $page?.data)
 
+  let blogPath, cytosis, pageContent, profileImage, author
+
+  $: if($page?.data) {
+    blogPath = $page?.data?.pathArr?.length>1 ? `/${$page?.data?.pathArr[0]}` : "/"
+    cytosis = $page?.data.cytosis; // await streamed cytosis, and set it here
+    pageContent = $page?.data.pageContent
+    if (browser) console.log('[path-*] pageContent: ', pageContent)
+    profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
+    author = cytosis?.['site-data'].Author?.['Content'];
+  }
   // needs to catch both /base/project/post vs. /project/post and go one step up
-  let blogPath = $page?.data?.pathArr?.length>1 ? `/${$page?.data?.pathArr[$page?.data?.pathArr?.length-1]}` : "/"
   
-  let cytosis = $page?.data.cytosis; // await streamed cytosis, and set it here
   // $: pageContent = $page?.data.cytosis?.['site-pages'].find(item => item.Path === $page?.data.path || item.Path === $page?.data.pathArr?.[$page?.data.pathArr?.length -1]);
   // if($page?.data.pageContent) pageContent = $page?.data.pageContent
 
-  if (browser) console.log('-* pageContent: ',  $page?.data.pageContent)
 
 
-  let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
-  let author = cytosis?.['site-data'].Author?.['Content'];
   // if(browser) {
       // console.log('blog path DATA?!?!!??!:', data, pageContent)
   //   (async () => {
