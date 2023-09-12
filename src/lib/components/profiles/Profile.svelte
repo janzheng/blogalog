@@ -113,8 +113,8 @@
   import Posts from '$lib/components/Posts.svelte';
 
   let cytosis = $page.data.cytosis;
-  let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
-  let coverImage = cytosis?.['site-data']?.['CoverImage']?.Content || cytosis?.['site-data']?.['CoverImage'].Files?.[0].url;
+  let profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].rawUrl || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
+  let coverImage = cytosis?.['site-data']?.['CoverImage']?.Content || cytosis?.['site-data']?.['CoverImage'].Files?.[0].rawUrl || cytosis?.['site-data']?.['CoverImage'].Files?.[0].url;
   let author = cytosis?.['site-data']?.Author?.['Content'];
   let siteDesc = cytosis?.['site-data']?.ShortDescription?.['Content'];
   let socialDescription = cytosis?.['site-data']?.SocialDescription?.['Content'];
@@ -123,6 +123,8 @@
   let sitePages = cytosis?.['site-pages'];
   let blogpath = $page.data?.pathArr ? `/${$page.data?.path}/` : "/"
 
+
+  console.log('COVER IMAGES: ::', cytosis?.['site-data']?.['CoverImage'])
   let sitePageByType = {}, sitePageTypes = [];
   cytosis?.['site-pages']?.forEach(page => {
     sitePageTypes = [...sitePageTypes, ...page.Type];
