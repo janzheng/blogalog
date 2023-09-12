@@ -75,6 +75,10 @@
     .Post-name { @apply text-xl; }
   }
 
+  .Profile, .Layout {
+    // set notion page width to default blogalog page width
+    --notion-page-width: var(--blogalog-page-width);
+  }
 
   .PagePath {
     // max-width: var(--notion-page-width);

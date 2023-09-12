@@ -7,97 +7,99 @@
 </svelte:head>
 
 
-<div class="Profile-Header | content-notion-wide | mt-0 md:mt-2 lg:mt-4 rounded-sm overflow-hidden  ">
-  <!-- cover -->
-  {#if coverImage}
-    <div class="CoverImage | min-h-[4rem] overflow-hidden">
-      <img class="w-full object-left-top object-contain" src="{coverImage}" alt="Cover" />
-    </div>
-  {/if}
-  
-  <!-- profile -->
-  {#if profileImage}
-  <div class="ProfileImage-Container | relative bg-slate-100 ">
-    <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 ">
-      <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
-      <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-96">
-        <div class="text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>
-        <div class="text">{siteDesc || ''}</div>
-        <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
-      </div>
-    </div>
-  </div>
-  {/if}
-
-  <div class="bg-slate-100 p-4 content-notion-wide">
-    <!-- profile area -->
-    {#if socialDescription}
-      <div class="mb-4">
-        {@html marked(socialDescription || '')}
+<div class="Profile">
+  <div class="Profile-Header | content-notion-wide | mt-0 md:mt-2 lg:mt-4 rounded-sm overflow-hidden  ">
+    <!-- cover -->
+    {#if coverImage}
+      <div class="CoverImage | min-h-[4rem] overflow-hidden">
+        <img class="w-full object-left-top object-contain" src="{coverImage}" alt="Cover" />
       </div>
     {/if}
-    {#if shortDescription}
-      {@html marked(shortDescription || '')}
-    {/if}
-  </div>
-</div>
-
-<!-- display posts before anything else, if we don't have subsections -->
-<!-- update: instead of grouping them, now allowing multiple sections of posts, if theye're inserted at diff. places -->
-<!-- {#if cytosis && cytosis['site-pages'] && sections.length == 0}
-  <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
-    <div class="p-4 bg-slate-50">
-      <h2 class="pt-0 mt-0">{"Posts"}</h2>
-      <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
-    </div>
-  </div>
-{/if} -->
-
-
-<!-- {#each sitePages as page} -->
-{#each pageOrder as page}
-  <div class="Profile-Page | my-2 content-notion-wide | overflow-hidden | ">
-    {#if page.Type=='Main' && !page.Hide}
-      <div class="MainPage | p-4 bg-slate-50 ">
-        <h2 class="pt-0 mt-0">{page.Name}</h2>
-        <Notion blocks={page.pageBlocks} />
-      </div>
-    {:else if page.Type=='Group'}
-      <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
-        <div class="p-4 bg-slate-50">
-          <h5 class="pt-0 mt-0">{page.Group}</h5>
-          {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
-          <Posts posts={page.Pages.filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
-          <!-- {#each page.pages as groupPage}
-          {/each} -->
+    
+    <!-- profile -->
+    {#if profileImage}
+    <div class="ProfileImage-Container | relative bg-slate-100 ">
+      <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 ">
+        <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
+        <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-96">
+          <div class="text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>
+          <div class="text">{siteDesc || ''}</div>
+          <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
         </div>
       </div>
-    {:else if page.Type=='Posts' && !page.Hide}
-      <!-- do nothing; these are displayed elsewhere -->
-      <div class="TypeContainer | p-4 bg-slate-50">
-        <!-- <h4 class="pt-0 mt-0">{page.Name}</h4> -->
-        <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
-      </div>
+    </div>
     {/if}
+  
+    <div class="bg-slate-100 p-4 content-notion-wide">
+      <!-- profile area -->
+      {#if socialDescription}
+        <div class="mb-4">
+          {@html marked(socialDescription || '')}
+        </div>
+      {/if}
+      {#if shortDescription}
+        {@html marked(shortDescription || '')}
+      {/if}
+    </div>
   </div>
-{/each}
-
-
-<!-- 
-{#each sitePageTypes as type}
-  <div class="TypeSection | my-2 content-notion-wide | overflow-hidden | ">
-    {#if type=='Main'}
-      <div class="MainPage | p-4 bg-slate-50 ">
-        <h2 class="pt-0 mt-0">{type}</h2>
-        <Notion blocks={mainPageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
+  
+  <!-- display posts before anything else, if we don't have subsections -->
+  <!-- update: instead of grouping them, now allowing multiple sections of posts, if theye're inserted at diff. places -->
+  <!-- {#if cytosis && cytosis['site-pages'] && sections.length == 0}
+    <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
+      <div class="p-4 bg-slate-50">
+        <h2 class="pt-0 mt-0">{"Posts"}</h2>
+        <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
       </div>
-    {:else}
-      <div class="TypeContainer | p-4 bg-slate-50">
-        <h2 class="pt-0 mt-0">{type}</h2>
-      </div>
-    {/if}
-  </div>
-{/each} -->
+    </div>
+  {/if} -->
+  
+  
+  <!-- {#each sitePages as page} -->
+  {#each pageOrder as page}
+    <div class="Profile-Page | my-2 content-notion-wide | overflow-hidden | ">
+      {#if page.Type=='Main' && !page.Hide}
+        <div class="MainPage | p-4 bg-slate-50 ">
+          <h2 class="pt-0 mt-0">{page.Name}</h2>
+          <Notion blocks={page.pageBlocks} />
+        </div>
+      {:else if page.Type=='Group'}
+        <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
+          <div class="p-4 bg-slate-50">
+            <h5 class="pt-0 mt-0">{page.Group}</h5>
+            {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
+            <Posts posts={page.Pages.filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
+            <!-- {#each page.pages as groupPage}
+            {/each} -->
+          </div>
+        </div>
+      {:else if page.Type=='Posts' && !page.Hide}
+        <!-- do nothing; these are displayed elsewhere -->
+        <div class="TypeContainer | p-4 bg-slate-50">
+          <!-- <h4 class="pt-0 mt-0">{page.Name}</h4> -->
+          <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
+        </div>
+      {/if}
+    </div>
+  {/each}
+  
+  
+  <!-- 
+  {#each sitePageTypes as type}
+    <div class="TypeSection | my-2 content-notion-wide | overflow-hidden | ">
+      {#if type=='Main'}
+        <div class="MainPage | p-4 bg-slate-50 ">
+          <h2 class="pt-0 mt-0">{type}</h2>
+          <Notion blocks={mainPageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
+        </div>
+      {:else}
+        <div class="TypeContainer | p-4 bg-slate-50">
+          <h2 class="pt-0 mt-0">{type}</h2>
+        </div>
+      {/if}
+    </div>
+  {/each} -->
+</div>
 
 
 
@@ -221,8 +223,4 @@
     }
   }
 
-  :root {
-    // set notion page width to default blogalog page width
-    --notion-page-width: var(--blogalog-page-width);
-  }
 </style>
