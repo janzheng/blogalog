@@ -17,6 +17,8 @@
   <!-- blog post or sub-page post -->
   <div class="PagePath PageContent content-pad _content-wide">
 
+
+    <!-- BACK LINK -->
     {#if PUBLIC_BLOGMODE!=='janzheng'}
       <div class="ProfileStack | ">
         <a href={blogPath} style="" class="flex items-center">
@@ -28,6 +30,8 @@
         </a>
       </div>
     {/if}
+
+
 
     {#if $page?.data.pageContent?.Cover}
       <div class="CoverImage-container | mt-4">
@@ -106,7 +110,7 @@
   //   console.log('-* pageData: ', $page?.data)
 
   // needs to catch both /base/project/post vs. /project/post and go one step up
-  let blogPath = $page?.data?.pathArr?.length>1 ? `/${$page?.data?.pathArr[0]}` : "/"
+  let blogPath = $page?.data?.pathArr?.length>1 ? `/${$page?.data?.pathArr[$page?.data?.pathArr?.length-1]}` : "/"
   
   let cytosis = $page?.data.cytosis; // await streamed cytosis, and set it here
   // $: pageContent = $page?.data.cytosis?.['site-pages'].find(item => item.Path === $page?.data.path || item.Path === $page?.data.pathArr?.[$page?.data.pathArr?.length -1]);
