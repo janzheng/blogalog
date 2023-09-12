@@ -147,6 +147,17 @@
     margin-left: 0; // left-align
   }
 
+  // headers have some spacing
+  *+h1,*+h2,*+h3,*+h5,*+h6 { 
+    @apply pt-12
+  }
+  // except when listed with other headers (a headers-list)
+  h1,h2,h3,h4,h5,h6 {
+    &+h1,&+h2,&+h3,&+h4,&+h5,&+h6 {
+      @apply pt-0;
+    }
+  }
+
   h1 {
     @apply font-sans leading-tight text-3xl lg:leading-tight mb-4 font-bold;
   }
@@ -158,10 +169,6 @@
     }
     &+h3 {padding-top: 0;}
   }
-    //  
-    *+h1,*+h2,*+h3,*+h5,*+h6 { 
-      @apply pt-12
-    }
   h3 {
     @apply font-sans text-xl leading-12 mb-2 text-slate-800;
   }

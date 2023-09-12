@@ -22,7 +22,7 @@
               <!-- small inline cover where it's on the right side -->
               <div class="flex justify-between gap-4">
                 <div>
-                  <span class="Post-name text-lg">{post.Name}</span>
+                  <span class="Post-name text-lg pfix">{@html marked(post.Name)}</span>
                   {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
                 </div>
                 {#if post.Cover}
@@ -39,7 +39,7 @@
                   <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
                 </div>
               {/if}
-              <span class="Post-name text-lg">{post.Name}</span>
+              <span class="Post-name text-lg pfix">{@html marked(post.Name)}</span>
               {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
             {/if}
           </a>
