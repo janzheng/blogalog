@@ -12,6 +12,7 @@ import { getNotionImageLink } from '$lib/helpers.js'
 
 import { cachet } from '$plasmid/utils/cachet'
 import { parseMetadata } from '$lib/helpers.js'
+import { cacheClear } from "$plasmid/utils/cache.js";
 
 
 // blogPath is something like /jessbio/
@@ -41,11 +42,13 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
         // setFuzzy: false,
         // ttr: 0, ttl: 0, 
         ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-        bgFn: async () => await endoloader(blogalog_config, {
-          url: PUBLIC_ENDOCYTOSIS_URL,
-          key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
-        })
-      }
+        bgFn: () => {
+          // cacheClear(`${PUBLIC_PROJECT_NAME}-blogalog_config`)
+          endoloader(blogalog_config, {
+            url: PUBLIC_ENDOCYTOSIS_URL,
+            key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
+          })
+      }}
     )
     // let endoData = await endoloader(blogalog_config, {
     //   url: PUBLIC_ENDOCYTOSIS_URL,
@@ -80,7 +83,6 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
       )) {
         return
       }
-
 
     if (
         blogPath && 
@@ -144,7 +146,10 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
         // skipCache: true,
         // setFuzzy: false,
         ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-        bgFn: () => endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
+        bgFn: () => {
+          // cacheClear(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`)
+          endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` });
+        }
       })
 
     return finalData

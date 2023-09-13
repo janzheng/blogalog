@@ -4,17 +4,7 @@ import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
 import { loadBlogalogFromPath } from '$lib/blogalog'
 
 import { PUBLIC_PROJECT_NAME, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
-
-
-async function resetBlog(key) {
-  const url = `${PUBLIC_FUZZYKEY_URL}/?key=${key}`;
-  const response = await fetch(url, { method: 'DELETE' });
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  console.log('[api/reset]: reset 👍', key)
-  return true
-}
+import { resetBlog, reloadBlog } from '$lib/server-helpers';
 
 
 export async function GET({ url }) {
@@ -29,7 +19,7 @@ export async function GET({ url }) {
 
     // clear local cache!
     cacheClear();
-    
+
     // temp
     blogs.push({Slug: `blogalog_config`})
 

@@ -26,17 +26,17 @@
                   {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
                 </div>
                 {#if post.Cover}
-                  <div class="Cover-image-container | pb-2">
-                    <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
+                  <div class="Cover-image-container | pb-2 max-w-sm">
+                    <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
                   </div>
                 {/if}
               </div>
 
             {:else}
               <!-- large image cover // regular -->
-              {#if post.Cover}
+              {#if post.Cover || post.Files}
                 <div class="Cover-image-container | pb-2">
-                  <img class="Cover-image" src="{post.Cover}" alt="Cover"/>
+                  <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
                 </div>
               {/if}
               <span class="Post-name text-lg pfix">{@html marked(post.Name)}</span>
@@ -65,10 +65,16 @@
 
 <script>
   import {marked} from 'marked';
+  import { getNotionImageLink } from '$lib/helpers.js'
 
   export let posts;
   export let pathBase = "/";
   export let PostItemClasses = "mb-4";
+
+  function getCover(post) {
+    console.log('post cover:', post, 'derp', getNotionImageLink(post))
+    return getNotionImageLink(post);
+  }
 
 </script>
 

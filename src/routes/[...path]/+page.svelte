@@ -33,9 +33,9 @@
 
 
 
-    {#if $page?.data.pageContent?.Cover}
+    {#if pageCover}
       <div class="CoverImage-container | mt-4">
-        <img alt="CoverImage header " src="{$page?.data.pageContent?.Cover}" />
+        <img alt="CoverImage header " src="{pageCover}" />
       </div>
     {/if}
 
@@ -110,7 +110,7 @@
   // if(browser)
   //   console.log('-* pageData: ', $page?.data)
 
-  let blogPath, cytosis, pageContent, profileImage, author
+  let blogPath, cytosis, pageContent, profileImage, author, pageCover
 
   $: if($page?.data) {
     blogPath = $page?.data?.pathArr?.length>1 ? `/${$page?.data?.pathArr[0]}` : "/"
@@ -118,7 +118,10 @@
     pageContent = $page?.data.pageContent
     if (browser) console.log('[path-*] pageContent: ', pageContent)
     profileImage = getNotionImageLink(cytosis?.['site-data']?.['ProfileImage'])
+    pageCover = getNotionImageLink(cytosis?.['site-data']?.['Files']) || cytosis?.['site-data']?.['Cover']
     author = cytosis?.['site-data'].Author?.['Content'];
+
+    console.log('pageCover:', pageCover)
   }
   // needs to catch both /base/project/post vs. /project/post and go one step up
   

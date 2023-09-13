@@ -64,7 +64,7 @@ export function getNotionImageLink(notionImage) {
  if(!notionImage) return null
  
   let fileObj = notionImage?.Files?.[0]
-  let url = notionImage?.Content
+  let url // = notionImage?.Content // defunct; images should be in .Cover or other explicit URL fields! Many items use .Content for text
 
   // console.log('fileObj:',fileObj)
   const links = ["https://prod-files-secure.s3", "//s3-us-west-2.amazonaws"];
@@ -72,9 +72,20 @@ export function getNotionImageLink(notionImage) {
   // console.log('url1:',url)
   if(!url) url = fileObj?.url
   // console.log('url2:',url)
+  if(!url) url = notionImage?.Cover
   
   return url
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
