@@ -70,7 +70,7 @@
   }
 
   .notion-collection-gallery-group-items {
-    @apply grid md:grid-cols-3 gap-4 justify-center items-center;
+    @apply grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-12 justify-center items-center;
   }
 }
 @mixin postStyles {

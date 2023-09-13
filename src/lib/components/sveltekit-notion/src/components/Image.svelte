@@ -6,10 +6,10 @@
         bind:clientWidth={width}
         id={`_block-${block.id}`}
         class="notion-asset-wrapper notion-image {block_width > width ? 'notion-image-fullwidth' : ''}"
-        style={`width: ${block_width}px`}>
+        style={`width: 100%; max-width: ${block_width}px`}>
         {#if block_aspect_ratio}
           <!-- <div style={`padding-bottom: ${block_aspect_ratio * 100}%`}> -->
-            <img class="notion-image-inset" {alt} {src} loading="lazy" />
+            <img class="notion-image-inset " {alt} {src} loading="lazy" />
           <!-- </div> -->
         {:else}<img {alt} {src} loading="lazy" />{/if}
         {#if block.properties.caption}

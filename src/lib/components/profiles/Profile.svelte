@@ -62,7 +62,7 @@
     <div class="Profile-Item | my-2 content-notion-wide | overflow-hidden | ">
       {#if page.Type?.includes('Main') && !page.Hide}
         <div class="MainPage | p-4 bg-slate-50 ">
-          {#if !["#noheader"].includes(page.Type)}
+          {#if page.Type.includes("#noheader") == false}
             <h2 class="pt-0 mt-0">{page.Name}</h2>
           {/if}
           <Notion blocks={page.pageBlocks} />
@@ -119,8 +119,8 @@
 
 
 <script>
-  import Notion from '@yawnxyz/sveltekit-notion';
-  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  // import Notion from '@yawnxyz/sveltekit-notion';
+  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import { browser } from '$app/environment';
   import { page } from '$app/stores';
   import { getNotionImageLink } from '$lib/helpers.js'

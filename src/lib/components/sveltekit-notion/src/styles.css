@@ -444,6 +444,13 @@ img.notion-page-icon {
   padding-bottom: 12px;
 }
 
+@media (max-width: 640px) {
+  /* otherwise half-columns are tiny on mobile */
+  .notion-column {
+    width: 100% !important;
+  }
+}
+
 .notion-column > *:first-child {
   margin-top: 0;
   margin-left: 0;

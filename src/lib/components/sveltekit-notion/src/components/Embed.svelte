@@ -65,7 +65,7 @@
       .then((json) => {
         if (json["signedUrls"] && json["signedUrls"][0])
           display_source = json["signedUrls"][0];
-        console.log("src url:", url, filename);
+        // console.log("src url:", url, filename);
         return json;
       });
   }
