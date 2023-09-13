@@ -59,7 +59,7 @@
 
   <!-- {#each sitePages as page} -->
   {#each pageOrder as page}
-    <div class="Profile-Page | my-2 content-notion-wide | overflow-hidden | ">
+    <div class="Profile-Item | my-2 content-notion-wide | overflow-hidden | ">
       {#if page.Type?.includes('Main') && !page.Hide}
         <div class="MainPage | p-4 bg-slate-50 ">
           {#if !["#noheader"].includes(page.Type)}
@@ -78,7 +78,7 @@
           </div>
         </div>
       {:else if page.Type?.includes('Posts') && !page.Hide}
-        <!-- do nothing; these are displayed elsewhere -->
+        <!-- loose posts are NOT grouped together unless given a section -->
         <div class="TypeContainer | p-4 bg-slate-50">
           <!-- <h4 class="pt-0 mt-0">{page.Name}</h4> -->
           <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>

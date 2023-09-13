@@ -118,10 +118,10 @@
     pageContent = $page?.data.pageContent
     if (browser) console.log('[path-*] pageContent: ', pageContent)
     profileImage = getNotionImageLink(cytosis?.['site-data']?.['ProfileImage'])
-    pageCover = getNotionImageLink(cytosis?.['site-data']?.['Files']) || cytosis?.['site-data']?.['Cover']
+    pageCover = getNotionImageLink(pageContent) || pageContent?.['Cover']
     author = cytosis?.['site-data'].Author?.['Content'];
 
-    console.log('pageCover:', pageCover)
+    console.log('pageCover:', pageCover, pageContent)
   }
   // needs to catch both /base/project/post vs. /project/post and go one step up
   
