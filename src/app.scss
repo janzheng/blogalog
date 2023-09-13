@@ -69,6 +69,9 @@
     li { list-style-position: outside;}
   }
 
+  .notion-collection-gallery-group-items {
+    @apply grid md:grid-cols-3 gap-4 justify-center items-center;
+  }
 }
 @mixin postStyles {
   .Posts {

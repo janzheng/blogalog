@@ -36,7 +36,7 @@
 
   $: if (!tableData && browser && fetch && doExternalRequest) {
     try {
-      console.log('[Collection] fetching Table', tableData, block.id);
+      // console.log('[Collection] fetching Table', tableData, block.id);
       request = fetch(`${api}/v1/collection/${block.id}`)
         .then((res) => res.json())
         .then((json) => {
@@ -81,7 +81,7 @@
       if(filterObj) {
         tableRows = tableData.rows.filter(row => {
           // Check if the row value matches the filter value
-          console.log('ok so...', filterObj.filter?.value?.type, filterObj.property, row, row[tableData.schema[filterObj.property].name], filterObj?.filter?.value?.value)
+          // console.log('ok so...', filterObj.filter?.value?.type, filterObj.property, row, row[tableData.schema[filterObj.property].name], filterObj?.filter?.value?.value)
           if(filterObj.filter?.value?.type === 'exact')
             return row[tableData.schema[filterObj.property].name] === filterObj?.filter?.value?.value;
         });

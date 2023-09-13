@@ -59,13 +59,19 @@ export function parseMetadata(metadataInput="key:value") {
 
 export function getNotionImageLink(notionImage) {
   /* 
-    we want rawUrl whenever possible, EXCEPT when it contains "secure.notion-static.com"
+    we want rawUrl whenever possible, EXCEPT when it contains "https://prod-files-secure.s3" which doesn't render properly
   */
+ if(!notionImage) return null
+ 
   let fileObj = notionImage?.Files?.[0]
-  let url = notionImage.Content
+  let url = notionImage?.Content
 
-  if(!url) fileObj?.rawUrl?.includes("secure.notion-static.com") ? url = fileObj?.url : url = fileObj?.rawUrl;
+  // console.log('fileObj:',fileObj)
+  const links = ["https://prod-files-secure.s3", "//s3-us-west-2.amazonaws"];
+  if (!url) url = links.some(link => fileObj?.rawUrl?.includes(link)) ? fileObj?.url : fileObj?.rawUrl;
+  // console.log('url1:',url)
   if(!url) url = fileObj?.url
+  // console.log('url2:',url)
   
   return url
 }

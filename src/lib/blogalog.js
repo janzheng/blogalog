@@ -61,6 +61,7 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
     console.error("Blogalog data not loaded", blogConfigData)
     return
   }
+  // console.log('[blogalog] blogs:', blogs)
   
 
 
@@ -94,12 +95,11 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
     console.log("1:", blog?.Slug == blogPath, 'path:', blogPath, 'blogSlug:', blog?.Slug)
     console.log("2:", blog?.URLs?.split(',').map(url => url.trim()).includes(hostname), 'hostname:', hostname, 'URLs:', blog?.URLs)
     console.log("3:", blog?.Slug == blogPath || blog?.URLs?.split(',').map(url => url.trim()).includes(hostname))
-    console.log("===> loading resource:", blog?.Slug)
     
     isBlogalogHome = true
 
     if (!blog['Pagedata ID']){
-      throw new Error("No Pagedata ID for Notion-loading provided.")
+      throw new Error(`No Pagedata ID for [${blog['Pagedata ID']}] provided; \n${JSON.stringify(blog, 0, 2)}`)
     }
 
     // pull the data
@@ -129,13 +129,15 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
     }
 
     // console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname, 'cache key:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, 'config:', endoloader_config)
+    
 
-    return await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
+    let finalData =  await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
+        console.log('[blogalog] Loading Endo:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`)
         let data = await endoloader(endoloader_config, {
-          key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
-          url: PUBLIC_ENDOCYTOSIS_URL,
-          // saveCache: false, // handled by cachet
-        })
+            key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
+            url: PUBLIC_ENDOCYTOSIS_URL,
+            saveCache: false, // handled by cachet
+          })
         return data
       }, 
       {
@@ -143,14 +145,18 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
         // setFuzzy: false,
         ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
         bgFn: () => endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` })
-      }
-    )
+      })
+
+    return finalData
   }))
 
   // clear empty items from cytosisData
   cytosisData = cytosisData.filter(c => c)
+  // console.log('cytosis data:', cytosisData)
   if (cytosisData?.length > 0) {
-    cytosis = cytosisData[0]?.value
+    cytosis = cytosisData[cytosisData.length-1]?.value
+    // sometimes this trips up and loads the base blogalog page instead of the leaf page (esp. on localhost)
+
     if (cytosis?.['site-pagedata']?.length > 0) {
       cytosis['site-data'] = applyTransformers(cytosis['site-pagedata'], [{
         "function": "transformArrayToObjectByKey",

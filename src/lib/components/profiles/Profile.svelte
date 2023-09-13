@@ -53,27 +53,31 @@
       </div>
     </div>
   {/if} -->
-  
-  
+
+
+
+
   <!-- {#each sitePages as page} -->
   {#each pageOrder as page}
     <div class="Profile-Page | my-2 content-notion-wide | overflow-hidden | ">
-      {#if page.Type=='Main' && !page.Hide}
+      {#if page.Type?.includes('Main') && !page.Hide}
         <div class="MainPage | p-4 bg-slate-50 ">
-          <h2 class="pt-0 mt-0">{page.Name}</h2>
+          {#if !["#noheader"].includes(page.Type)}
+            <h2 class="pt-0 mt-0">{page.Name}</h2>
+          {/if}
           <Notion blocks={page.pageBlocks} />
         </div>
-      {:else if page.Type=='Group'}
+      {:else if page.Type?.includes('Group')}
         <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
           <div class="p-4 bg-slate-50">
             <h5 class="pt-0 mt-0">{page.Group}</h5>
             {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
-            <Posts posts={page.Pages.filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
+            <Posts posts={page.Pages.filter(page => page.Type?.includes("Posts") && !page.Hide)} pathBase={blogpath}></Posts>
             <!-- {#each page.pages as groupPage}
             {/each} -->
           </div>
         </div>
-      {:else if page.Type=='Posts' && !page.Hide}
+      {:else if page.Type?.includes('Posts') && !page.Hide}
         <!-- do nothing; these are displayed elsewhere -->
         <div class="TypeContainer | p-4 bg-slate-50">
           <!-- <h4 class="pt-0 mt-0">{page.Name}</h4> -->
@@ -100,6 +104,16 @@
     </div>
   {/each} -->
 </div>
+
+
+
+
+
+
+
+
+
+
 
 
 

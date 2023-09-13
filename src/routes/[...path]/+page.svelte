@@ -99,6 +99,7 @@
   import { browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
   import Notion from '@yawnxyz/sveltekit-notion'
+  import { getNotionImageLink } from '$lib/helpers.js'
   // import Notion from '@yawnxyz/sveltekit-notion/src/Notion.svelte'
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
 
@@ -116,7 +117,7 @@
     cytosis = $page?.data.cytosis; // await streamed cytosis, and set it here
     pageContent = $page?.data.pageContent
     if (browser) console.log('[path-*] pageContent: ', pageContent)
-    profileImage = cytosis?.['site-data']?.['ProfileImage']?.Content || cytosis?.['site-data']?.['IconImage'].Files?.[0].url;
+    profileImage = getNotionImageLink(cytosis?.['site-data']?.['ProfileImage'])
     author = cytosis?.['site-data'].Author?.['Content'];
   }
   // needs to catch both /base/project/post vs. /project/post and go one step up

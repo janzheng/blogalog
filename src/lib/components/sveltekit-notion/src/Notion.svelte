@@ -11,8 +11,6 @@
   export let api = PUBLIC_NOTION_API_URL || "//notion-cloudflare-worker.yawnxyz.workers.dev";
   export let id = null, doRender = true, doExternalRequest = true;
 
-  if(loud)
-    console.log('[@yawnxyz/sveltekit-notion] NODE_MODULE INSTANCE')
 
   // console.log('id:', id)
   // if id includes url, only get the id
@@ -28,6 +26,10 @@
     results = null,
     loud = false,
     blocks = null;
+
+  if(loud)
+    console.log('[@yawnxyz/sveltekit-notion] NODE_MODULE INSTANCE')
+
 
   let request = undefined;
   if (browser && !blocks && doExternalRequest) {
