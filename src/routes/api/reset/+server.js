@@ -27,6 +27,9 @@ export async function GET({ url }) {
       ({ blogs } = blogalog);
     }
 
+    // clear local cache!
+    cacheClear();
+    
     // temp
     blogs.push({Slug: `blogalog_config`})
 

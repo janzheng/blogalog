@@ -5,6 +5,8 @@ import { endo, endoloader } from '$plasmid/modules/cytosis2';
 import { loadBlogalogFromPath } from '$lib/blogalog'
 import { PUBLIC_PROJECT_NAME, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
 
+import { cacheClear } from "$plasmid/utils/cache.js"
+
 async function resetBlog(key) {
   const url = `${PUBLIC_FUZZYKEY_URL}/?key=${key}`;
   const response = await fetch(url, { method: 'DELETE' });
@@ -64,6 +66,9 @@ export async function GET({ url }) {
     if (blogalog) {
       ({ blogs } = blogalog);
     }
+
+    // clear local cache!
+    cacheClear();
 
     // note we don't reset the blogalog_config!!
 
