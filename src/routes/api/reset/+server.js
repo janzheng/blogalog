@@ -3,8 +3,11 @@ import { json, error } from '@sveltejs/kit'
 import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
 import { loadBlogalogFromPath } from '$lib/blogalog'
 
+import { PUBLIC_PROJECT_NAME, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
+
+
 async function resetBlog(key) {
-  const url = `${process.env.PUBLIC_FUZZYKEY_URL}/?key=${key}`;
+  const url = `${PUBLIC_FUZZYKEY_URL}/?key=${key}`;
   const response = await fetch(url, { method: 'DELETE' });
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -18,19 +21,19 @@ export async function GET({ url }) {
   try {
     let hostname = url?.hostname;
     let blogalog = await loadBlogalogFromPath({ hostname });
-    let _head, cytosis, blogs=[];
+    let blogs=[];
 
     if (blogalog) {
-      ({ _head, cytosis, blogs } = blogalog);
+      ({ blogs } = blogalog);
     }
 
     // temp
     blogs.push({Slug: `blogalog_config`})
 
-    let blogsReset = []
+    let blogList = []
     if(blogs && blogs.length > 0) {
-      blogsReset = await Promise.all(blogs.map(async blog => {
-        let slug = `${process.env.PUBLIC_PROJECT_NAME}-${blog.Slug}`
+      blogList = await Promise.all(blogs.map(async blog => {
+        let slug = `${PUBLIC_PROJECT_NAME}-${blog.Slug}`
         await resetBlog(slug);
         return slug;
       }));
@@ -38,7 +41,7 @@ export async function GET({ url }) {
     
     return json({
       status: true,
-      blogsReset,
+      blogList,
     })
   } catch(e) {
     console.error('[api/reset] error', e)
