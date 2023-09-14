@@ -98,9 +98,9 @@
 	import { onMount } from 'svelte';
   import { browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
-  import Notion from '@yawnxyz/sveltekit-notion'
   import { getNotionImageLink } from '$lib/helpers.js'
-  // import Notion from '@yawnxyz/sveltekit-notion/src/Notion.svelte'
+  // import Notion from '@yawnxyz/sveltekit-notion'
+  import Notion from '@yawnxyz/sveltekit-notion/src/Notion.svelte'
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
 
   import Profile from '$lib/components/profiles/Profile.svelte';

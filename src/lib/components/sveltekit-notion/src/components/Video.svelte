@@ -4,8 +4,9 @@
 
 <figure
     id={`_block-${block.id}`}
-    class="notion-asset-wrapper"
-    style={`width: ${block_width}px`}>
+    bind:clientWidth={width}
+    class="notion-asset-wrapper notion-video {block_width > width ? 'notion-image-fullwidth' : ''}"
+    style={`width: 100%; max-width: ${block_width}px`}>
     <!-- <div style={`padding-bottom: ${block_aspect_ratio * 100}%; position: relative`}> -->
     <div style="position: relative">
       {#if videoType == 'iframe'}
@@ -59,4 +60,5 @@
     }
 
     // $: console.log('video.svelte:', siteSrc, block, src);
+    let width
 </script>

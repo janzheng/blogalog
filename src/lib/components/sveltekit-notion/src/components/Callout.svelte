@@ -9,7 +9,7 @@
   export let blocks = []; blocks;
   export let fullPage = false; fullPage;
   export let api = null; api;
-  export let classes = "", showIcon = true, useBlockColor = true, useCallout = true, calloutType = "default";
+  export let classes = "", iconClasses="", showIcon = true, useBlockColor = true, useCallout = true, calloutType = "default";
 
   let markdown = false, url;
 
@@ -32,6 +32,11 @@
       useCallout = false;
     }
 
+    if (title && title.includes(".icon-center")) {
+      calloutType = "noTitle";
+      iconClasses = "icon-center";
+    }
+
 
     if (title && title.includes("#link")) {
       calloutType = "link";
@@ -41,6 +46,10 @@
       let hashes = title.split(' ')
       let hash = hashes.find(h => h.includes('link'))
       url = hash.substring(hash.indexOf(':')+1)
+    }
+
+    if (title && title.includes("#classes")) {
+      classes += " " + title;
     }
 
     if (title && title.includes("#classes")) {
@@ -76,7 +85,7 @@
     class:notion-callout-billboard={title.includes('#billboard')}
     class={`${useCallout ? 'notion-callout' : ''} ${classes} ${block.content ? 'notion-children' : ''} ${useBlockColor && block.format.block_color && 'notion-' + block.format.block_color + '_co'}`}>
     {#if showIcon}
-      <div class="notion-callout-icon">
+      <div class="notion-callout-icon {iconClasses}">
         <PageIcon {block} />
       </div>
     {/if}
