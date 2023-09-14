@@ -11,6 +11,11 @@ import { resetBlog, reloadBlog } from '$lib/server-helpers';
 
 export async function GET({ url }) {
   try {
+
+    // clear local cache!
+    cacheClear();
+    await resetBlog(`${PUBLIC_PROJECT_NAME}-${"blogalog_config"}`);
+
     console.time('[api/reload] Total reload time');
     let hostname = url?.hostname;
     let blogalog = await loadBlogalogFromPath({ hostname });
@@ -19,9 +24,6 @@ export async function GET({ url }) {
     if (blogalog) {
       ({ blogs } = blogalog);
     }
-
-    // clear local cache!
-    cacheClear();
 
     // note we don't reset the blogalog_config!!
 

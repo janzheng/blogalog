@@ -18,7 +18,7 @@
     
     <!-- profile -->
     {#if profileImage}
-    <div class="ProfileImage-Container | relative bg-slate-100 ">
+    <div class="ProfileImage-Container | relative bg-slate-100 | min-h-[10rem] ">
       <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 ">
         <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
         <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-96">
@@ -30,17 +30,19 @@
     </div>
     {/if}
   
-    <div class="bg-slate-100 p-4 content-notion-wide">
-      <!-- profile area -->
-      {#if socialDescription}
-        <div class="mb-4">
-          {@html marked(socialDescription || '')}
-        </div>
-      {/if}
-      {#if shortDescription}
-        {@html marked(shortDescription || '')}
-      {/if}
-    </div>
+    {#if socialDescription || shortDescription}
+      <div class="bg-slate-100 p-4 content-notion-wide">
+        <!-- profile area -->
+        {#if socialDescription}
+          <div class="mb-4">
+            {@html marked(socialDescription || '')}
+          </div>
+        {/if}
+        {#if shortDescription}
+          {@html marked(shortDescription || '')}
+        {/if}
+      </div>
+    {/if}
   </div>
   
   <!-- display posts before anything else, if we don't have subsections -->

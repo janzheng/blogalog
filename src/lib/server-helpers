@@ -26,7 +26,7 @@ export async function reloadBlog(blog) {
       {
         "name": "site-pagedata",
         "type": "cfnotion",
-        "path": `/collection/${blog['Pagedata ID']}`,
+        "path": `/collection/${blog['Pagedata ID']||blog}`,
         "loaders": {
           "notionPageId": "id"
         },

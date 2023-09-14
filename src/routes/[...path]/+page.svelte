@@ -121,7 +121,6 @@
     pageCover = getNotionImageLink(pageContent) || pageContent?.['Cover']
     author = cytosis?.['site-data'].Author?.['Content'];
 
-    console.log('pageCover:', pageCover, pageContent)
   }
   // needs to catch both /base/project/post vs. /project/post and go one step up
   
