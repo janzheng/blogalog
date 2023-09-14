@@ -11,7 +11,6 @@
         {#if block_aspect_ratio}
           <!-- <div style={`padding-bottom: ${block_aspect_ratio * 100}%`}> -->
             <img class="notion-image-inset " {alt} {src} loading="lazy" />
-            banana
           <!-- </div> -->
         {:else}<img {alt} {src} loading="lazy" />{/if}
         {#if block.properties.caption}
@@ -36,12 +35,27 @@
     const format = block.format ? block.format : null
     const { block_aspect_ratio, block_width } = format ? format : {}
     const alt = block.properties.caption ? block.properties.caption[0][0] : ''
-    let src = block.format?.display_source || // this one displays the raw link to a linked image
+    let src = getNotionImageLink(block.format?.display_source) || // this one displays the raw link to a linked image
         (block.properties.source ? toNotionImageUrl(block.properties.source[0][0], block.id, siteSrc) : '')
 
     let width
     // $: if(width) console.log('block:', width, block)
 
+
+
+  export function getNotionImageLink(imageUrl) {
+    /* 
+      we want rawUrl whenever possible, EXCEPT when it contains "https://prod-files-secure.s3" which doesn't render properly
+    */
+  if(!imageUrl) return null
+  
+    let url // = notionImage?.Content // defunct; images should be in .Cover or other explicit URL fields! Many items use .Content for text
+
+    // console.log('fileObj:',fileObj)
+    const links = ["https://prod-files-secure.s3", "//s3-us-west-2.amazonaws"];
+    if (!url) url = links.some(link => imageUrl?.includes(link)) ? null : imageUrl;
+    return url
+  }
 
 </script>
 
