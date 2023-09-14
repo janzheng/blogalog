@@ -39,7 +39,7 @@
     "@sveltejs/kit": "^1.20.5",
     "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/typography": "^0.5.0",
-    "@yawnxyz/sveltekit-notion": "^0.0.531",
+    "@yawnxyz/sveltekit-notion": "^0.0.533",
     "autoprefixer": "^10.4.8",
     "cssnano": "^5.1.15",
     "csvtojson": "^2.0.10",

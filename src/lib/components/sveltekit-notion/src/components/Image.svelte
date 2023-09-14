@@ -1,6 +1,7 @@
 {#if false}
     <slot />
 {/if}
+
 {#if format}
     <figure
         bind:clientWidth={width}
@@ -10,6 +11,7 @@
         {#if block_aspect_ratio}
           <!-- <div style={`padding-bottom: ${block_aspect_ratio * 100}%`}> -->
             <img class="notion-image-inset " {alt} {src} loading="lazy" />
+            banana
           <!-- </div> -->
         {:else}<img {alt} {src} loading="lazy" />{/if}
         {#if block.properties.caption}
@@ -34,12 +36,12 @@
     const format = block.format ? block.format : null
     const { block_aspect_ratio, block_width } = format ? format : {}
     const alt = block.properties.caption ? block.properties.caption[0][0] : ''
-    let src = block.properties.source
-        ? toNotionImageUrl(block.properties.source[0][0], block.id, siteSrc)
-        : ''
+    let src = block.format?.display_source || // this one displays the raw link to a linked image
+        (block.properties.source ? toNotionImageUrl(block.properties.source[0][0], block.id, siteSrc) : '')
 
     let width
     // $: if(width) console.log('block:', width, block)
+
 
 </script>
 
