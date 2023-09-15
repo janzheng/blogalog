@@ -147,7 +147,8 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
         // setFuzzy: false,
         ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
         bgFn: () => {
-          // cacheClear(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`)
+          // cacheClear(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`)÷
+          console.log('[blogalog] << Reloading Endo >> ', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`)
           endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` });
         }
       })
