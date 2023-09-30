@@ -3,7 +3,7 @@
 
 */
 import { head, seo } from '$lib/config.js'
-import { PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
+import { PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_CACHET_TTL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
 
 import { config as blogalog_config } from '$plasmid/modules/cytosis2/configs/blogalog.config.js';
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
@@ -42,6 +42,7 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
         // setFuzzy: false,
         // ttr: 0, ttl: 0, 
         ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+        ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
         bgFn: () => {
           // cacheClear(`${PUBLIC_PROJECT_NAME}-blogalog_config`)
           endoloader(blogalog_config, {
@@ -145,6 +146,7 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
       {
         // skipCache: true,
         // setFuzzy: false,
+        ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
         ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
         bgFn: () => {
           // cacheClear(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`)÷

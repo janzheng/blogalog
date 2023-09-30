@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit'
 import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
-import { PUBLIC_PROJECT_NAME, PUBLIC_BLOGMODE, PUBLIC_FUZZYKEY_URL, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_CACHET_TTR } from '$env/static/public';
+import { PUBLIC_PROJECT_NAME, PUBLIC_BLOGMODE, PUBLIC_FUZZYKEY_URL, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_CACHET_TTR, PUBLIC_CACHET_TTL } from '$env/static/public';
 
 import { head, seo } from '$lib/config.js'
 import { parseMetadata, getNotionImageLink } from '$lib/helpers.js'
@@ -73,6 +73,7 @@ async function initContent(_head, hostname) {
       // return data?.value
     }, {
       skipCache: false,
+      ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
       ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
       bgFn: () => endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${mode}` })
     })
