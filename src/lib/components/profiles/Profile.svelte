@@ -65,7 +65,9 @@
       {#if page.Type?.includes('Main') && !page.Hide}
         <div class="MainPage | p-4 bg-slate-50 ">
           {#if page.Type.includes("#noheader") == false}
-            <h2 class="pt-0 mt-0">{page.Name}</h2>
+            {#if page.Name !=='undefined'}
+              <h2 class="pt-0 mt-0">{page.Name}</h2>
+            {/if}
           {/if}
           <Notion blocks={page.pageBlocks} />
         </div>

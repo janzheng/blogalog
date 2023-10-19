@@ -21,7 +21,7 @@
       "message",
       (event) => {
         // console.log('event????:', event.origin, display_source, display_source.includes(event.origin), event.data, event.data[1])
-        if (display_source.includes(event.origin)) {
+        if (display_source?.includes(event.origin)) {
           // make sure it's the embedded site's event
           // get an array of [outerW, outerH, clientW, clientH]
           // console.log('event:', event.origin, display_source, event.data, event.data[1])
@@ -34,15 +34,18 @@
     );
   }
 
+  // console.log('Embed Block!?', block)
+
   const alt =
     block.properties && block.properties.caption
       ? block.properties.caption[0][0]
       : "";
 
-  let src =
-    block.properties && block.properties.source
-      ? toNotionImageUrl(block.properties.source[0][0], block.id, siteSrc)
-      : block.properties.source[0][0];
+  // let src =
+  //   block.properties && block.properties.source
+  //     ? toNotionImageUrl(block.properties.source[0][0], block.id, siteSrc)
+  //     : block.properties.source[0][0] || block.properties.source[0];
+  let src = block.properties && block.properties.source && block.properties.source[0][0] || block.properties.source[0];
 
   let url, filename;
 
@@ -70,7 +73,7 @@
       });
   }
 
-  // console.log('src:', src)
+  console.log('src:', src, block.properties.source[0])
 
 </script>
 
@@ -82,7 +85,7 @@
   <div
     id={`_block-${block.id}`}
     class="notion-file"
-    style={`padding-bottom: ${(block_height / block_width) * 100}%; position: relative`}>
+    style={`position: relative`}>
     <!-- <iframe class="notion-image-inset" src={display_source} title={alt} /> -->
     <a href={display_source} alt="download file">{filename}</a>
   </div>
@@ -90,13 +93,15 @@
   <figure
     id={`_block-${block.id}`}
     class="notion-asset-wrapper notion-embed"
-    style={`width: ${block_width}px`}>
+    style={`width: ${block_width}px; max-width: 100%;`}>
     <!-- <div style={`padding-bottom: ${(block_height / block_width) * 100}%; position: relative`}> -->
-    <div style={`padding-bottom: ${frame_height}; position: relative`}>
+    <!-- <div style={`padding-bottom: ${frame_height}; position: relative`}> -->
+    <div style={`position: relative`}>
       <iframe
         bind:this={frame}
         class="notion-image-inset"
-        src={display_source}
+        src={display_source||src}
+        style={`width: ${block_width}px; max-width: 100%; height: ${block_height}px;`}
         title={alt} />
     </div>
     {#if block.properties.caption}
