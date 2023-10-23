@@ -23,7 +23,8 @@
         <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
         <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-[36rem]">
           <div class="text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>
-          <div class="text">{siteDesc || ''}</div>
+          <!-- <div class="text">{siteDesc || ''}</div> -->
+          <div class="text">{@html marked(siteDesc) || ''}</div>
           <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
         </div>
       </div>
@@ -130,6 +131,9 @@
   import { getNotionImageLink } from '$lib/helpers.js'
 
   import { marked } from 'marked';
+  marked.use({
+    breaks: true,
+  });
 
   import Posts from '$lib/components/Posts.svelte';
 
