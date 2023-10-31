@@ -10,27 +10,41 @@
 {/if}
 
 <script context="module">
-    export const formatText = property =>
-        {
-          if(property && property.length > 0)
-            return property
-              .map(text =>
-                  text[1]
-                      ? text[1].reduceRight(
-                            (av, cv) =>
-                                ({
-                                    i: `<em>${av}</em>`,
-                                    c: `<code class="notion-inline-code">${av}</code>`,
-                                    s: `<s>${av}</s>`,
-                                    b: `<b>${av}</b>`,
-                                    h: `<span class="notion-${cv[1]}">${av}</span>`,
-                                    a: `<a class="notion-link" href="${cv[1]}">${av}</a>`,
-                                }[cv[0]]),
-                            text[0]
-                        )
-                      : text[0]
-              )
-              .join('')}
+  export const formatText = property => {
+    if(property && property.length > 0)
+      return property.map(text =>
+        text[1]
+          ? text[1].reduceRight(
+            (av, cv) =>
+              ({
+                i: `<em>${av}</em>`,
+                c: `<code class="notion-inline-code">${av}</code>`,
+                s: `<s>${av}</s>`,
+                b: `<b>${av}</b>`,
+                h: `<span class="notion-${cv[1]}">${av}</span>`,
+                a: `<a class="notion-link" href="${cv[1]}">${av}</a>`,
+              }[cv[0]]),
+            text[0]
+            )
+          : text[0]
+      ).join('')
+  };
+
+  export const textToHtml = text =>
+    text[1]
+      ? text[1].reduceRight(
+        (av, cv) =>
+          ({
+            i: `<em>${av}</em>`,
+            c: `<code class="notion-inline-code">${av}</code>`,
+            s: `<s>${av}</s>`,
+            b: `<b>${av}</b>`,
+            h: `<span class="notion-${cv[1]}">${av}</span>`,
+            a: `<a class="notion-link" href="${cv[1]}">${av}</a>`,
+          }[cv[0]]),
+        text[0]
+        )
+      : text[0];
 
 </script>
 

@@ -3,7 +3,7 @@
 	import { onMount } from "svelte";
 	import { browser } from '$app/environment';
 
-	import { isMenuOpen } from '$lib/store'
+	// import { isMenuOpen } from '$lib/stores'
 	import { page } from '$app/stores';
 	import logo from './svelte-logo.svg';
 

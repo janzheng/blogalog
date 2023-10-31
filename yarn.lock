@@ -1566,10 +1566,10 @@
     node-gyp-build "^4.2.2"
     resolve-from "^5.0.0"
 
-"@yawnxyz/sveltekit-notion@^0.0.536":
-  version "0.0.536"
-  resolved "https://registry.yarnpkg.com/@yawnxyz/sveltekit-notion/-/sveltekit-notion-0.0.536.tgz#a005f0de338bf8b7ac138448ae8781f0e5baae3b"
-  integrity sha512-JVLQtYqjZA5NLJJi0vhGwO3hGiDG2de5xiuPwTbOXnEBIxhFeGPt8sEVE+L6TnwoWqQ32l2OetE2OB9fFQ096g==
+"@yawnxyz/sveltekit-notion@^0.0.539":
+  version "0.0.539"
+  resolved "https://registry.yarnpkg.com/@yawnxyz/sveltekit-notion/-/sveltekit-notion-0.0.539.tgz#e9669cb1e4dc45401d63886d3b590c36786d5a5b"
+  integrity sha512-ddXm3TWPk3MACJgA/oHPE4jWGUdSH1EWxpp6z8rrPpysdZDvSTfqcgIrCVPfO19mR3MtGRgtYC9CwIhewXrD9A==
 
 abab@^2.0.6:
   version "2.0.6"
@@ -3967,6 +3967,11 @@ svelte-local-storage-store@^0.4.0:
   resolved "https://registry.yarnpkg.com/svelte-local-storage-store/-/svelte-local-storage-store-0.4.0.tgz#965e342582555b606102045e86662d6c5864e1e6"
   integrity sha512-ctPykTt4S3BE5bF0mfV0jKiUR1qlmqLvnAkQvYHLeb9wRyO1MdIFDVI23X+TZEFleATHkTaOpYZswIvf3b2tWA==
 
+svelte-persisted-store@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/svelte-persisted-store/-/svelte-persisted-store-0.7.0.tgz#7c29ab092d0ef12c370bde899cfa22772d229680"
+  integrity sha512-PczYS60ysScQ0DmTCPXQm5rwt8FfQzSlx0lCbljbE6hTCKqXaw2bP8KH1+B7QTPmuiy/QbAk4pjYpNCmZhjyRw==
+
 svelte-preprocess@^5.0.0:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-5.0.3.tgz#431d538d457d3a5ba470a5ae5754a5aeb76579c8"
@@ -3995,6 +4000,11 @@ svelte@^3.55.0:
   version "3.57.0"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.57.0.tgz#a3969cfe51f25f2a55e75f7b98dbd02c3af0980b"
   integrity sha512-WMXEvF+RtAaclw0t3bPDTUe19pplMlfyKDsixbHQYgCWi9+O9VN0kXU1OppzrB9gPAvz4NALuoca2LfW2bOjTQ==
+
+sveltekit-superforms@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/sveltekit-superforms/-/sveltekit-superforms-1.8.0.tgz#a816508a716f058c17e19f707bf866e1c7d65e85"
+  integrity sha512-ig4SJNe72UNlmL2FjXk6Z3I7WYEm+qerA8PB4WOjQkOirztiDNJrY/bs1lF8VLxc56TSG9JQkCtZkgUdlH3yYA==
 
 svgo@^2.7.0:
   version "2.8.0"
@@ -4381,3 +4391,8 @@ zod@^3.21.4:
   version "3.21.4"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.21.4.tgz#10882231d992519f0a10b5dd58a38c9dabbb64db"
   integrity sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==
+
+zod@^3.22.4:
+  version "3.22.4"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
+  integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==

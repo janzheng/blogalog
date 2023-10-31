@@ -18,7 +18,7 @@
     
     <!-- profile -->
     {#if profileImage}
-    <div class="ProfileImage-Container | relative bg-slate-100 | min-h-[12rem] sm:min-h-[7rem] ">
+    <div class="ProfileImage-Container | relative bg-slate-50 | min-h-[12rem] sm:min-h-[7rem] ">
       <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 ">
         <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
         <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-[36rem]">
@@ -32,7 +32,7 @@
     {/if}
   
     {#if socialDescription || shortDescription}
-      <div class="bg-slate-100 p-4 content-notion-wide">
+      <div class="bg-slate-50 p-4 content-notion-wide">
         <!-- profile area -->
         {#if socialDescription}
           <div class="mb-4">
@@ -64,14 +64,21 @@
   {#each pageOrder as page}
     <div class="Profile-Item | my-2 content-notion-wide | overflow-hidden | ">
       {#if page.Type?.includes('Main') && !page.Hide}
-        <div class="MainPage | p-4 bg-slate-50 ">
-          {#if page.Type.includes("#noheader") == false}
-            {#if page.Name !=='undefined'}
-              <h2 class="pt-0 mt-0">{page.Name}</h2>
+        {#if page.Type.includes("Private") && !$userData['email']}
+          <!-- alternatively show an error message for Private pages when user isn't logged in -->
+          <!-- <div class="text-red-500">This page is private. Please log in to view.</div> -->
+        {:else if page.Type.includes("Public") && $userData['email']}
+          <!-- hide public pages when user is logged in -->
+        {:else}
+          <div class="MainPage | p-4 bg-slate-50 ">
+            {#if page.Type.includes("#noheader") == false}
+              {#if page.Name !=='undefined'}
+                <h2 class="pt-0 mt-0">{page.Name}</h2>
+              {/if}
             {/if}
-          {/if}
-          <Notion blocks={page.pageBlocks} />
-        </div>
+            <Notion blocks={page.pageBlocks} />
+          </div>
+        {/if}
       {:else if page.Type?.includes('Group')}
         <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
           <div class="p-4 bg-slate-50">
@@ -85,9 +92,39 @@
       {:else if page.Type?.includes('Posts') && !page.Hide}
         <!-- loose posts are NOT grouped together unless given a section -->
         <div class="TypeContainer | p-4 bg-slate-50">
-          <!-- <h4 class="pt-0 mt-0">{page.Name}</h4> -->
           <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
         </div>
+      {:else if page.Type?.includes('Component') && !page.Hide}
+        {#if page.Name == "Unlock"}
+          <div class="ComponentContent | p-4 bg-slate-50 ">
+            <Notion blocks={page.pageBlocks} />
+            {#if $userData['email']}
+              Logged in as {$userData['email']}. <button on:click={()=>{
+                $userData['email'] = null;
+              }} class="Btn-link --short">Log out</button>
+            {:else}
+              <Email cta="Log in" message={unlockMessage}
+                onError={({ result }) => {
+                  unlockMessage = result.error.message;
+                }}
+                onUpdated={({ form }) => {
+                  if (form.valid) {
+                    if(form.data.email) {
+                      $userData['email'] = form.data.email;
+                      unlockMessage = "Success!";
+                    }
+                  } else {
+                    unlockMessage = "Email doesn‘t exist";
+                  }
+                }}
+                onSubmit={({ action, formData, formElement, controller, submitter, cancel }) => {
+                  formData.set('notion', page.Content); // use page.Content as the notionId
+                  unlockMessage = "Logging in...";
+                }} 
+              />
+            {/if}
+          </div>
+        {/if}
       {/if}
     </div>
   {/each}
@@ -124,16 +161,20 @@
 
 
 <script>
-  // import Notion from '@yawnxyz/sveltekit-notion';
-  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import { browser } from '$app/environment';
   import { page } from '$app/stores';
   import { getNotionImageLink } from '$lib/helpers.js'
+
+  import Email from '$lib/components/forms/Email.svelte';
+  import { userData } from '$lib/stores.js'
 
   import { marked } from 'marked';
   marked.use({
     breaks: true,
   });
+
 
   import Posts from '$lib/components/Posts.svelte';
 
@@ -146,7 +187,9 @@
   let shortDescription = cytosis?.['site-data']?.LongDescription?.['Content'];
   let mainPageBlocks = cytosis?.['site-pages']?.find(page => page.Type?.includes("Main"))?.pageBlocks;
   let sitePages = cytosis?.['site-pages'];
-  let blogpath = $page.data?.pathArr ? `/${$page.data?.path}/` : "/"
+  let blogpath = $page.data?.pathArr ? `/${$page.data?.path}/` : "/";
+  let unlockMessage;
+
 
   
   let sitePageByType = {}, sitePageTypes = [];
@@ -159,7 +202,7 @@
   });
   sitePageTypes = [...new Set(sitePageTypes)]; 
 
-  // if(browser) console.log('%% PROFILE PageData', $page.data)
+  if(browser && $page.data) console.log('%% PROFILE PageData', $page.data)
 
   // build a Page Order where different sections are grouped together and placed where the first instance of that section appears
   let pageOrder = [], sections = [];

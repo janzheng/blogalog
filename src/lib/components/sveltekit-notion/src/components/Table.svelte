@@ -1,5 +1,8 @@
 <script>
 	import { browser } from '$app/environment';
+    import {
+        textToHtml
+    } from '../subcomponents/FormattedText.svelte'
   
   export let block = {};
   export let api = null; api;
@@ -51,7 +54,8 @@
             {#each rows as col, j}
               <td class:header={block.format['table_block_column_header'] && j==0}
                   style={"width:"+col.width+"px"}>
-                {col.content}
+                <!-- {col.content} -->
+                {@html textToHtml(col.content)}
               </td>
             {/each}
           </tr>

@@ -10,7 +10,7 @@
   export let clientHeight;
 </script>
 
-<footer bind:clientHeight={clientHeight} class="Footer | mt-4 | content-pad | bg-slate-100 ">
+<footer bind:clientHeight={clientHeight} class="Footer | mt-4 | content-pad | bg-slate-50 ">
   {#if content}
     <div class="Content pfix text-center">
       {@html marked(content)}

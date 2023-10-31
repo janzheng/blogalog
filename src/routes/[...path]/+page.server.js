@@ -6,6 +6,9 @@ import { loadBlogalogFromPath  } from '$lib/blogalog'
 
 
 
+
+
+
 export const load = async (settings) => {
   try {
   
@@ -17,6 +20,8 @@ export const load = async (settings) => {
     let pageContent
 
     console.log('[path/load] path array:', pathArr,)
+
+    const form = await superValidate(schema);
 
     // is it a sub blog we've already loaded?
     if (parentData) {
@@ -53,6 +58,7 @@ export const load = async (settings) => {
     let obj = {
       path: path,
       pathArr,
+      form,
     }
     if(cytosis) obj['cytosis'] = cytosis;
     if(isBlogalogHome) obj['isBlogalogHome'] = isBlogalogHome;
@@ -71,3 +77,66 @@ export const load = async (settings) => {
 
   throw error(404, 'Page Not Found');
 }
+
+
+
+
+
+
+
+
+import { z } from 'zod';
+import { fail } from '@sveltejs/kit';
+import { message, superValidate } from 'sveltekit-superforms/server';
+import { endo, endoloader } from '$plasmid/modules/cytosis2';
+const schema = z.object({
+  // name: z.string().default('Hello world!?'),
+  notion: z.string(),
+  email: z.string().email().default('hello@example.com')
+});
+
+export const actions = {
+  email: async ({ request }) => {
+    const form = await superValidate(request, schema);
+    // console.log('POST', form);
+
+    if (!form.valid) {
+      // Again, always return { form } and things will just work.
+      return fail(400, { form });
+    }
+
+    let emailData;
+    if (form?.data?.notion) {
+      let email = form?.data?.email
+      emailData = await endo({
+        "sources": [
+          {
+            "name": "users",
+            "type": "cfnotion",
+            "path": `/collection/${form?.data?.notion}`,
+            "loaders": {
+              "notionPageId": "id"
+            },
+          },
+        ]
+      })
+      console.log('srcData::', emailData)
+      let users = emailData.users
+      // find email in emailData.users
+      let user = users.find(user => user.Email === email)
+      console.log('USER::::', user)
+      if(!user) {
+        // return fail(400, { form });
+        return message(form, `Email doesn't exist`, { status: 400 });
+      }
+      return { form }
+
+    }
+
+
+    // TODO: Do something with the validated form.data
+
+    // Yep, return { form } here too
+    return { form };
+  }
+};
