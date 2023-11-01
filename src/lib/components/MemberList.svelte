@@ -1,10 +1,7 @@
 
 <!-- {#await getMembers(id) then members} -->
-  <Loader />
-
-
 {#if isLoading}
-  <Loader />
+  <h2 style="padding-top:0"><Loader /> Loading members</h2>
 {:else}
   {#if members}
     <div class="Members | grid grid-cols-2 gap-4">
