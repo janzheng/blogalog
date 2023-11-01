@@ -43,36 +43,23 @@ export const POST = async ({ request }) => {
 
   settings = parseMetadata(settings)
 
-  let result = await endoloader(config, {
-    url: PUBLIC_ENDOCYTOSIS_URL,
-    key: `${PUBLIC_PROJECT_NAME}-id-${id}`
-    // saveCache: false, // handled by cachet
-  })
+  let result
+  let key = `${PUBLIC_PROJECT_NAME}-id-${id}`
+  
   // NO CACHING
+  // result = await endoloader(config, {
+  //   url: PUBLIC_ENDOCYTOSIS_URL,
+  //   key: key
+  // })
 
-  // result = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
-  //   let data = await endoloader(blogalog_config, {
-  //     url: PUBLIC_ENDOCYTOSIS_URL,
-  //     key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
-  //     // saveCache: false, // handled by cachet
-  //   })
-  //   return data
-  // },
-  //   { // used to cache bust the (very resilient) blog config!
-  //     // // skipCache: true,
-  //     // // setFuzzy: false,
-  //     // // ttr: 0, ttl: 0, 
-  //     // ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-  //     // ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
-  //     // bgFn: () => {
-  //     //   // cacheClear(`${PUBLIC_PROJECT_NAME}-blogalog_config`)
-  //     //   endoloader(blogalog_config, {
-  //     //     url: PUBLIC_ENDOCYTOSIS_URL,
-  //     //     key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
-  //     //   })
-  //     // }
-  //   }
-  // )
+  // CACHING
+  result = await cachet(`${key}`, async () => {
+    let data = await endoloader(config, {
+      url: PUBLIC_ENDOCYTOSIS_URL,
+      key: key
+    })
+    return data
+  })
 
   if (result) {
     // console.log('LOADER result::', result)
