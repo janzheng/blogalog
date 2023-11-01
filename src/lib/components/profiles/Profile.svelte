@@ -59,7 +59,6 @@
 
 
 
-
   <!-- {#each sitePages as page} -->
   {#each pageOrder as page}
     <div class="Profile-Item | my-2 content-notion-wide | overflow-hidden | ">
@@ -96,7 +95,7 @@
         </div>
       {:else if page.Type?.includes('Component') && !page.Hide}
         {#if page.Name == "Unlock"}
-          <div class="ComponentContent | p-4 bg-slate-50 ">
+          <div class="Component-Unlock | p-4 bg-slate-50 ">
             <Notion blocks={page.pageBlocks} />
             {#if $userData['email']}
               Logged in as {$userData['email']}. <button on:click={()=>{
@@ -123,6 +122,11 @@
                 }} 
               />
             {/if}
+          </div>
+        {:else if page.Name == "Members"}
+          <div class="Component-Members | p-4 bg-slate-50 ">
+            <Notion blocks={page.pageBlocks} />
+            <MemberList id={page.Content} settings={page.Data} />
           </div>
         {/if}
       {/if}
@@ -167,8 +171,9 @@
   import { page } from '$app/stores';
   import { getNotionImageLink } from '$lib/helpers.js'
 
-  import Email from '$lib/components/forms/Email.svelte';
   import { userData } from '$lib/stores.js'
+  import Email from '$lib/components/forms/Email.svelte';
+  import MemberList from '$lib/components/MemberList.svelte';
 
   import { marked } from 'marked';
   marked.use({
@@ -248,6 +253,10 @@
   //     }
   //   })
   // } buildMetadata();
+
+
+
+
 </script>
 
 

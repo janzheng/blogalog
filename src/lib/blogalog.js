@@ -25,10 +25,11 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
     Load all the Config Blog Data
   
   */
+  let blogConfigData
 
   if (!blogs || blogs.length < 1) {
     // blogs might have been passed down from layout (already loaded)
-    let blogConfigData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
+    blogConfigData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
         let data = await endoloader(blogalog_config, {
           url: PUBLIC_ENDOCYTOSIS_URL,
           key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,

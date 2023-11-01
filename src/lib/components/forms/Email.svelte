@@ -17,11 +17,12 @@
 
 
 <div class="{classes}">
-  <form method="POST" action="?/email" use:enhance >
+  <form method="POST" action="/api/actions/?/email" use:enhance >
     <label for="email">Email</label>
     <input
       type="email"
       name="email"
+      placeholder="jane@example.com"
       aria-invalid={$errors.email ? 'true' : undefined}
       bind:value={$form.email}
       {...$constraints.email} />

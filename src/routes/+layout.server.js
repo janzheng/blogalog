@@ -12,7 +12,7 @@ import { config as jz_config } from '$plasmid/modules/cytosis2/configs/cytosis.c
 import { config as js2_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.jessbio2.js';
 
 import { loadBlogalogFromPath } from '$lib/blogalog'
-import FuzzyKey from '$plasmid/utils/fuzzykey'
+// import FuzzyKey from '$plasmid/utils/fuzzykey'
 import { cachet } from '$plasmid/utils/cachet'
 
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
