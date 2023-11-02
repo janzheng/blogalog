@@ -43,10 +43,4 @@
 	{/if}
 </svelte:head>
 
-
-<div class="HeadSimple Header {classes}">
-  <a href="/">
-    <img class="{imgClasses}" alt="evergreen 2023 logo" src="/evg23-full-logo.png" width="250px" />
-  </a>
-</div>
 <!-- <h2>Simple head here — test SEO stuff!!!??!!!</h2> -->

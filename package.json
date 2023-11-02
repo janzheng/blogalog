@@ -1,5 +1,5 @@
 {
-  "name": "phagefound",
+  "name": "blogalog",
   "version": "0.1.0",
   "type": "module",
   "scripts": {
@@ -14,9 +14,6 @@
     "commit": "git add . -A ; git commit ; git push origin main ",
     "commitprod": "git add . -A ; git commit ; git push origin prod ",
     "prod": "link vercel directly to prod branch; don't push to prod",
-    "--output": "node ./src/lib/cytosis2/output.js ./cytosis.config.janzheng.js ./prod.json",
-    "--evg-affs": "node ./src/lib/cytosis2/output.js ./evg.affiliations.cytosis.config.js ./evg.affiliations.csv",
-    "--evg-auth": "node ./src/lib/cytosis2/output.js ./evg.authors.cytosis.config.js ./evg.authors.json",
     "stage": "yarn install; vercel",
     "plasmid": "yarn add --dev git+https://github.com/janzheng/plasmid.git",
     "ln-plasmid": "ln -s ../../../plasmid/",

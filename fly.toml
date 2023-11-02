@@ -1,6 +1,6 @@
 # fly.toml file generated for reviewer-two on 2023-03-20T15:04:51+11:00
 
-app = "evergreen-23"
+app = "blogalog"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
