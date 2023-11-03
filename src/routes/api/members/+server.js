@@ -13,7 +13,11 @@ import { hjson } from '$plasmid/utils/sveltekit-helpers'
 import { json } from '@sveltejs/kit';
 import { cachet } from '$plasmid/utils/cachet'
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
-import { parseMetadata } from '$plasmid/utils/helpers';
+import { parseMetadata, keyRemap } from '$plasmid/utils/helpers';
+
+import YAML from 'yaml'
+
+
 
 
 export const GET = async ({ request }) => {
@@ -22,14 +26,6 @@ export const GET = async ({ request }) => {
 
 export const POST = async ({ request }) => {
   let { config = {}, id, settings } = await request.json()
-  // console.log('extractor request::', request)
-  // const data = await request.formData(); // or .json(), or .text(), etc
-  // const form = Object.fromEntries(data);
-  // const file = data.get('file')
-  // const type = data?.get('type');
-  // const url = data?.get('url');
-
-
 
   config = {
     "sources": [
@@ -41,7 +37,9 @@ export const POST = async ({ request }) => {
     ]
   }
 
-  settings = parseMetadata(settings)
+  // settings = parseMetadata(settings)
+  if(settings)
+    settings = YAML.parse(settings)
 
   let result
   let key = `${PUBLIC_PROJECT_NAME}-id-${id}`
@@ -61,20 +59,22 @@ export const POST = async ({ request }) => {
     return data
   })
 
+
   if (result) {
-    // console.log('LOADER result::', result)
     let value = result?.value?.value ? JSON.parse(result?.value?.value) : result?.value // bug in endocytosis I don't feel like fixing
     let members = value?.members.map(mem => {
-      let { Email, id, format, ...rest } = mem;
-      return {
-        ...rest,
-        ShowProfile: mem[`May we include your profile in WIP's online member directory? It would be an honor.`],
-        Short: mem[`Short Bio`],
-        Story: mem[`(Story) How you have begun Bacteriophage research- inspire other young females :D`],
-        Photo: mem?.Photo?.[0]?.rawUrl,
-      };
-    })
+      if(settings?.mapping) {
+        let remappedMem = keyRemap(mem, settings?.mapping);
+        if (remappedMem.Photo && Array.isArray(remappedMem.Photo)) {
+          remappedMem.Photo = remappedMem.Photo[0]?.rawUrl;
+        }
+        return remappedMem;
+      }
+      return mem
+    });
     members = members.filter(mem => mem[`ShowProfile`])
+
+
 
     if (settings.filter) {
       // Split the settings.filter string into an array of names
@@ -83,6 +83,7 @@ export const POST = async ({ request }) => {
       // Filter the members array
       members = members.filter(mem => filterNames.includes(mem['Name']));
     }
+
 
     return hjson({ success: true, members })
   }

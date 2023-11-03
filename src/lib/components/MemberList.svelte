@@ -52,6 +52,7 @@
 
   export let id, members, settings, isLoading;
   
+  console.log('members:::', members)
 
   const getMembers = async (id) => {
     isLoading = true
@@ -62,7 +63,6 @@
 			if(response.ok) {
         result = await response.json()
         result = result.members
-        console.log('result:', result)
 			}
 		} catch(err) {
       console.error('getMembers', err)

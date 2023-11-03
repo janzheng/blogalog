@@ -62,7 +62,7 @@
   <!-- {#each sitePages as page} -->
   {#each pageOrder as page}
     <div class="Profile-Item | my-2 content-notion-wide | overflow-hidden | ">
-      {#if page.Type?.includes('Main') && !page.Hide}
+      {#if page.Type?.includes('Main') && page.Hide !== true}
         {#if page.Type.includes("Private") && !$userData['email']}
           <!-- alternatively show an error message for Private pages when user isn't logged in -->
           <!-- <div class="text-red-500">This page is private. Please log in to view.</div> -->
@@ -78,7 +78,7 @@
             <Notion blocks={page.pageBlocks} />
           </div>
         {/if}
-      {:else if page.Type?.includes('Group')}
+      {:else if page.Type?.includes('Group') && page.Hide !== true}
         <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
           <div class="p-4 bg-slate-50">
             <h5 class="pt-0 mt-0">{page.Group}</h5>
@@ -88,12 +88,12 @@
             {/each} -->
           </div>
         </div>
-      {:else if page.Type?.includes('Posts') && !page.Hide}
+      {:else if page.Type?.includes('Posts') && page.Hide !== true}
         <!-- loose posts are NOT grouped together unless given a section -->
         <div class="TypeContainer | p-4 bg-slate-50">
           <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
         </div>
-      {:else if page.Type?.includes('Component') && !page.Hide}
+      {:else if page.Type?.includes('Component') && page.Hide !== true}
         {#if page.Name == "Unlock"}
           <div class="Component-Unlock | p-4 bg-slate-50 ">
             <Notion blocks={page.pageBlocks} />
@@ -126,7 +126,11 @@
         {:else if page.Name == "Members"}
           <div class="Component-Members | p-4 bg-slate-50 ">
             <Notion blocks={page.pageBlocks} />
-            <MemberList id={page.Content} settings={page.Data} />
+            <MemberList id={page.Content} settings={page.YAML} />
+          </div>
+        {:else if page.Name == "Expander"}
+          <div class="Component-Expander | p-4 bg-slate-50 ">
+            <Expander {page} />
           </div>
         {/if}
       {/if}
@@ -174,6 +178,7 @@
   import { userData } from '$lib/stores.js'
   import Email from '$lib/components/forms/Email.svelte';
   import MemberList from '$lib/components/MemberList.svelte';
+  import Expander from '$lib/components/Expander.svelte';
 
   import { marked } from 'marked';
   marked.use({

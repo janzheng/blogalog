@@ -36,17 +36,18 @@ export const compareVersions = (version1, version2) => {
 
 
 // input is either a valid JSON string of a bunch of \n key:value pairs
-export function parseMetadata(metadataInput="key:value") {
+export function parseMetadata(metadataInput = "key:value", splitChar = '\n') {
   let metadata = {};
+  // let { splitChar } = options;
   if (!metadataInput || metadataInput.length == 0)
     return {}
-    
+
   if (typeof input === 'string' && metadataInput.trim().startsWith('{')) {
     // Metadata is a JSON string
     metadata = JSON.parse(metadataInput);
   } else if (typeof metadataInput === 'string') {
-    // Metadata is a \n separated list of key/val pairs
-    metadataInput?.split('\n').forEach(pair => {
+    // Metadata is a splitChar separated list of key/val pairs
+    metadataInput?.split(splitChar).forEach(pair => {
       const [key, value] = pair.split(':');
       if (key && value) {
         metadata[key.trim()] = value.trim();
@@ -55,6 +56,7 @@ export function parseMetadata(metadataInput="key:value") {
   }
   return metadata;
 }
+
 
 
 export function getNotionImageLink(notionImage) {
