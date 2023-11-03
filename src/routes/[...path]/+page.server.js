@@ -3,6 +3,8 @@ import { head, seo } from '$lib/config.js'
 import { PUBLIC_MULTIBLOG } from '$env/static/public';
 
 import { loadBlogalogFromPath  } from '$lib/blogalog'
+// import { cachet } from '$plasmid/utils/cachet'
+// import { endo, endoloader } from '$plasmid/modules/cytosis2';
 
 
 import { z } from 'zod';
@@ -20,7 +22,7 @@ export const load = async (settings) => {
   try {
   
     let hostname = settings.url?.hostname
-    let path = settings.params.path;
+    let path = settings.params.path, subPath;
     let pathArr = settings.params.path.split('/')
     let _head, cytosis, isBlogalogHome, blogs;
     let parentData = await settings.parent()
@@ -36,6 +38,7 @@ export const load = async (settings) => {
       cytosis = parentData?.cytosis
       blogs = parentData?.blogs
       pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
+
     }
 
 
@@ -49,9 +52,17 @@ export const load = async (settings) => {
         ({ _head, cytosis, isBlogalogHome } = newCytosis);
       }
 
-      if (pathArr.length > 1) {// load a leaf blog instead of base blog
-        console.log("LEAF POST", pathArr)  
+      if (pathArr.length > 1) { // load a leaf blog instead of base blog
         pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
+
+
+        let depth = 2
+        if (pathArr.length > depth) { // deep path
+          let index = depth-1
+          pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[index]);
+          subPath = pathArr?.[depth]
+          console.log("DEEP PATH --**", pathArr, subPath)  
+        }
         path = pathArr[1]; // set the home path to the first one, e.g. jessbio only when in multiblog
         isBlogalogHome = false
       } else if (cytosis?.['site-data']) {
@@ -61,9 +72,13 @@ export const load = async (settings) => {
       }
     }
 
-    console.log("PAGE SERVER PATH:", pathArr, path)
+
+
+
+    // console.log("PAGE SERVER PATH:", pathArr, path)
     let obj = {
       path: path,
+      subPath,
       pathArr,
       form,
     }
@@ -73,7 +88,8 @@ export const load = async (settings) => {
     if(pageContent) obj['pageContent'] = pageContent;
 
     if(!pageContent) {
-      console.error('[path/page] Page Content not Found!', JSON.stringify(cytosis, 0, 2))
+      // console.error('[path/page] Page Content not Found!', JSON.stringify(cytosis, 0, 2))
+      console.error('[path/page] Page Content not Found!')
       throw error(404, 'Page Not Found');
     }
 

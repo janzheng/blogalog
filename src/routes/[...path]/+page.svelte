@@ -13,81 +13,103 @@
   <Profile />
 {/if}
 
-{#if $page.data.path && $page?.data.pageContent && $page?.data.isBlogalogHome!==true}
-  <!-- blog post or sub-page post -->
-  <div class="PagePath PageContent content-pad _content-wide">
 
 
-    <!-- BACK LINK -->
-    {#if PUBLIC_BLOGMODE!=='janzheng'}
-      <div class="ProfileStack | ">
+
+
+<!-- blog post or sub-page post, from a leaf route -->
+{#if $page.data.path && $page.data.pageContent && $page.data.isBlogalogHome!==true}
+
+  {#if $page?.data.pageContent['Type'] == 'Component' &&  ['Members'].includes($page?.data.pageContent['Name'])}
+    <!-- SPECIAL COMPONENT HERE: {$page?.data.pageContent['Name']} | {$page.data.path} | {$page.data.subPath} -->
+    <!-- this is for SUBPATHS like member/slug or products loaded from separate databases -->
+    <div class="PagePath PageContent content-pad _content-wide">
+      <div class="ProfileStack | mb-4">
         <a href={blogPath} style="" class="flex items-center">
           {#if profileImage}
             <div class="ProfileImage |">
               <img class="w-16 h-16 | inline-block | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
             </div>
-          {/if}<div class="text-lg font-medium | inline-block ml-2">{author}</div>
+          {/if}
+          <div class="text-lg font-medium | inline-block ml-2">{author}</div>
         </a>
       </div>
-    {/if}
+      <Member id={pageContent.Content} settings={pageContent.YAML + `\nfilter: ${$page.data.subPath}`} search={$page.data.subPath} />
+    </div>
+  {:else}
+    <div class="PagePath PageContent content-pad _content-wide">
+
+      <!-- BACK LINK -->
+      {#if PUBLIC_BLOGMODE!=='janzheng'}
+        <div class="ProfileStack | ">
+          <a href={blogPath} style="" class="flex items-center">
+            {#if profileImage}
+              <div class="ProfileImage |">
+                <img class="w-16 h-16 | inline-block | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
+              </div>
+            {/if}<div class="text-lg font-medium | inline-block ml-2">{author}</div>
+          </a>
+        </div>
+      {/if}
 
 
 
-    {#if pageCover}
-      <div class="CoverImage-container | mt-4">
-        <img alt="CoverImage header " src="{pageCover}" />
-      </div>
-    {/if}
+      {#if pageCover}
+        <div class="CoverImage-container | mt-4">
+          <img alt="CoverImage header " src="{pageCover}" />
+        </div>
+      {/if}
 
 
-    {#if $page?.data.pageContent?.Name}
-      <h1 class="PageContent-Name mb-0 pt-2 pb-2">{@html marked($page?.data.pageContent?.Name || '')}</h1>
-    {/if}
+      {#if $page?.data.pageContent?.Name}
+        <h1 class="PageContent-Name mb-0 pt-2 pb-2">{@html marked($page?.data.pageContent?.Name || '')}</h1>
+      {/if}
 
-    {#if $page?.data.pageContent?.Content}
-      <div class="PageContent-Content text-xl">{$page?.data.pageContent?.Content}</div>
-    {/if}
+      {#if $page?.data.pageContent?.Content}
+        <div class="PageContent-Content text-xl">{$page?.data.pageContent?.Content}</div>
+      {/if}
 
-    {#if $page?.data.pageContent?.Link}
-      <div class="PageContent-Link my-4">Project Link: <a href="{$page?.data.pageContent?.Link}">{$page?.data.pageContent?.Link}</a></div>
-    {/if}
-    
-    {#if $page?.data.pageContent?.pageBlocks}
-      <div class="PageContent-Blocks post | mt-4 mb-16">
-        <Notion classes="notion" loud={true} blocks={$page?.data.pageContent?.pageBlocks} ></Notion>
-      </div>
-    {/if} 
+      {#if $page?.data.pageContent?.Link}
+        <div class="PageContent-Link my-4">Project Link: <a href="{$page?.data.pageContent?.Link}">{$page?.data.pageContent?.Link}</a></div>
+      {/if}
+      
+      {#if $page?.data.pageContent?.pageBlocks}
+        <div class="PageContent-Blocks post | mt-4 mb-16">
+          <Notion classes="notion" loud={true} blocks={$page?.data.pageContent?.pageBlocks} ></Notion>
+        </div>
+      {/if} 
 
-    <!-- create an html details / summary example here -->
-    <!-- skip if only one version -->
-    <!-- {#if pageContent && $page?.data.pageContent?.versions && $page?.data.pageContent?.versions.length > 1}
-      <div class="PageContent-Versions mt-4">
-        <details>
-          <summary>Versions</summary>
-          {#each $page?.data.pageContent?.versions.slice(1) as version}
-            <div class="post-version | mt-4 pl-8">
-              <details>
-                <summary>
-                  {#if version.Version}<span class="text-sm">{version.Version}</span> {/if}
-                  {#if version.VersionNotes}<span class="text-sm">{version.VersionNotes}</span>
+      <!-- create an html details / summary example here -->
+      <!-- skip if only one version -->
+      <!-- {#if pageContent && $page?.data.pageContent?.versions && $page?.data.pageContent?.versions.length > 1}
+        <div class="PageContent-Versions mt-4">
+          <details>
+            <summary>Versions</summary>
+            {#each $page?.data.pageContent?.versions.slice(1) as version}
+              <div class="post-version | mt-4 pl-8">
+                <details>
+                  <summary>
+                    {#if version.Version}<span class="text-sm">{version.Version}</span> {/if}
+                    {#if version.VersionNotes}<span class="text-sm">{version.VersionNotes}</span>
+                    {/if}
+                    {#if version.Description}
+                      <span class=""> — {version.Description}</span>
+                    {/if}
+                  </summary>
+                  {#if version.pageBlocks}
+                    <div class="pl-8">
+                      <Notion classes="notion" blocks={version.pageBlocks}></Notion>
+                    </div>
                   {/if}
-                  {#if version.Description}
-                    <span class=""> — {version.Description}</span>
-                  {/if}
-                </summary>
-                {#if version.pageBlocks}
-                  <div class="pl-8">
-                    <Notion classes="notion" blocks={version.pageBlocks}></Notion>
-                  </div>
-                {/if}
-              </details>  
-            </div>
-          {/each}
-        </details>
-      </div>
-    {/if} -->
+                </details>  
+              </div>
+            {/each}
+          </details>
+        </div>
+      {/if} -->
 
-  </div>
+    </div>
+  {/if}
 {/if}
 
 
@@ -104,6 +126,7 @@
   import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
 
   import Profile from '$lib/components/profiles/Profile.svelte';
+  import Member from '$lib/components/Member.svelte';
   import { plainRenderer } from '$plasmid/utils/marked';
 
   import { page } from '$app/stores'
