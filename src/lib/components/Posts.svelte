@@ -57,6 +57,18 @@
             {/if}
           </div>
         {/if}
+
+        {#if post.Categories }
+          {#if Array.isArray(post.Categories) && post.Categories.length > 0}
+            <!-- {#each post.Categories.split(",").map(cat => cat.trim()) as cat} -->
+            {#each post.Categories as cat}
+              <span class="Category Btn --tag text-sm p-1 text-gray-600 border-gray-400 | mr-2">{cat}</span>
+            {/each}
+          {:else}
+            <span class="Category Btn --tag text-sm p-1 text-gray-600 border-gray-400 | mr-2">{post.Categories}</span>
+          {/if}
+        {/if}
+
       </div>
     {/each}
   </div>

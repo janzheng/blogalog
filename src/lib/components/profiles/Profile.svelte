@@ -24,7 +24,7 @@
         <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-[36rem]">
           <div class="text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>
           <!-- <div class="text">{siteDesc || ''}</div> -->
-          <div class="text">{@html marked(siteDesc) || ''}</div>
+          <div class="text">{@html marked(siteDesc || '') }</div>
           <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
         </div>
       </div>
@@ -58,7 +58,6 @@
   {/if} -->
 
 
-
   <!-- {#each sitePages as page} -->
   {#each pageOrder as page}
     <div class="Profile-Item | my-2 content-notion-wide | overflow-hidden | ">
@@ -79,59 +78,83 @@
           </div>
         {/if}
       {:else if page.Type?.includes('Group') && page.Hide !== true}
-        <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
-          <div class="p-4 bg-slate-50">
-            <h5 class="pt-0 mt-0">{page.Group}</h5>
-            {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
-            <Posts posts={page.Pages.filter(page => page.Type?.includes("Posts") && !page.Hide)} pathBase={blogpath}></Posts>
-            <!-- {#each page.pages as groupPage}
-            {/each} -->
+        {#if page.Type.includes("Private") && !$userData['email']}
+          <!-- do nothing -->
+        {:else if page.Type.includes("Public") && $userData['email']}
+          <!-- do nothing -->
+        {:else}
+          <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
+            <div class="p-4 bg-slate-50">
+              <h5 class="pt-0 mt-0">{page.Group}</h5>
+              {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
+              <Posts posts={page.Pages.filter(page => page.Type?.includes("Posts") && !page.Hide)} pathBase={blogpath}></Posts>
+              <!-- {#each page.pages as groupPage}
+              {/each} -->
+            </div>
           </div>
-        </div>
+        {/if}
       {:else if page.Type?.includes('Posts') && page.Hide !== true}
-        <!-- loose posts are NOT grouped together unless given a section -->
-        <div class="TypeContainer | p-4 bg-slate-50">
-          <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
-        </div>
+        {#if page.Type.includes("Private") && !$userData['email']}
+          <!-- do nothing -->
+        {:else if page.Type.includes("Public") && $userData['email']}
+          <!-- do nothing -->
+        {:else}
+          <!-- loose posts are NOT grouped together unless given a section -->
+          <div class="TypeContainer | p-4 bg-slate-50">
+            <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
+          </div>
+        {/if}
       {:else if page.Type?.includes('Component') && page.Hide !== true}
-        {#if page.Name == "Unlock"}
-          <div class="Component-Unlock | p-4 bg-slate-50 ">
-            <Notion blocks={page.pageBlocks} />
-            {#if $userData['email']}
-              Logged in as {$userData['email']}. <button on:click={()=>{
-                $userData['email'] = null;
-              }} class="Btn-link --short">Log out</button>
-            {:else}
-              <Email cta="Log in" message={unlockMessage}
-                onError={({ result }) => {
-                  unlockMessage = result.error.message;
-                }}
-                onUpdated={({ form }) => {
-                  if (form.valid) {
-                    if(form.data.email) {
-                      $userData['email'] = form.data.email;
-                      unlockMessage = "Success!";
+
+        {#if page.Type.includes("Private") && !$userData['email']}
+          <!-- do nothing -->
+        {:else if page.Type.includes("Public") && $userData['email']}
+          <!-- do nothing -->
+        {:else}
+          {#if page.Name == "Unlock"}
+            <div class="Component-Unlock | p-4 bg-slate-50 ">
+              <Notion blocks={page.pageBlocks} />
+              {#if $userData['email']}
+                Logged in as {$userData['email']}. <button on:click={()=>{
+                  $userData['email'] = null;
+                }} class="Btn-link --short">Log out</button>
+              {:else}
+                <Email cta="Log in" message={unlockMessage}
+                  onError={({ result }) => {
+                    unlockMessage = result.error.message;
+                  }}
+                  onUpdated={({ form }) => {
+                    if (form.valid) {
+                      if(form.data.email) {
+                        $userData['email'] = form.data.email;
+                        unlockMessage = "Success!";
+                      }
+                    } else {
+                      unlockMessage = "Email doesn‘t exist";
                     }
-                  } else {
-                    unlockMessage = "Email doesn‘t exist";
-                  }
-                }}
-                onSubmit={({ action, formData, formElement, controller, submitter, cancel }) => {
-                  formData.set('notion', page.Content); // use page.Content as the notionId
-                  unlockMessage = "Logging in...";
-                }} 
-              />
-            {/if}
-          </div>
-        {:else if page.Name == "Members"}
-          <div class="Component-Members | p-4 bg-slate-50 ">
-            <Notion blocks={page.pageBlocks} />
-            <MemberList id={page.Content} settings={page.YAML} />
-          </div>
-        {:else if page.Name == "Expander"}
-          <div class="Component-Expander | p-4 bg-slate-50 ">
-            <Expander {page} />
-          </div>
+                  }}
+                  onSubmit={({ action, formData, formElement, controller, submitter, cancel }) => {
+                    formData.set('notion', page.Content); // use page.Content as the notionId
+                    unlockMessage = "Logging in...";
+                  }} 
+                />
+              {/if}
+            </div>
+          <!-- {:else if page.Name == "Members"}
+            <div class="Component-Members | p-4 bg-slate-50 ">
+              <Notion blocks={page.pageBlocks} />
+              <MemberList id={page.Content} settings={page.YAML} />
+            </div> -->
+          {:else if page.Name == "Grid"}
+            <div class="Component-Grid | p-4 bg-slate-50 ">
+              <Notion blocks={page.pageBlocks} />
+              <GridItems id={page.Content} settings={page.YAML} />
+            </div>
+          {:else if page.Name == "Expander"}
+            <div class="Component-Expander | p-4 bg-slate-50 ">
+              <Expander {page} />
+            </div>
+          {/if}
         {/if}
       {/if}
     </div>
@@ -178,6 +201,7 @@
   import { userData } from '$lib/stores.js'
   import Email from '$lib/components/forms/Email.svelte';
   import MemberList from '$lib/components/MemberList.svelte';
+  import GridItems from '$lib/components/GridItems.svelte';
   import Expander from '$lib/components/Expander.svelte';
 
   import { marked } from 'marked';

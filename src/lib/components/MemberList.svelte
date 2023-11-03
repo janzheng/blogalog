@@ -27,7 +27,7 @@
                   <img class="rounded-full w-24 h-24" src={member.Photo} alt="{member.Name} Profile" />
                 </div>
               {/if}
-              <div class="Member-Name">{member.Name}</div>
+              <div class="Member-Name"><h2 class="pt-0">{member.Name}</h2></div>
               <div class="Member-Affiliation">{member.Affiliation||''}</div>
               <div class="Member-ShortBio">{member['Short']||''}</div>
               <div class="Member-Story whitespace-pre-line mt-4">{@html member['Story']||'No story provided'}</div>

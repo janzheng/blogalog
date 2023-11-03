@@ -1,9 +1,9 @@
 
 /* 
 
-  Members / 
+  items / 
   Make into a generic Endoloader / Cache Loader?
-  - might open up more attack vectors; keep to members just now
+  - might open up more attack vectors; keep to items just now
 
 */
 
@@ -30,7 +30,7 @@ export const POST = async ({ request }) => {
   config = {
     "sources": [
       {
-        "name": "members",
+        "name": "items",
         "type": "cfnotion",
         "path": `/collection/${id}`
       },
@@ -62,17 +62,22 @@ export const POST = async ({ request }) => {
 
   if (result) {
     let value = result?.value?.value ? JSON.parse(result?.value?.value) : result?.value // bug in endocytosis I don't feel like fixing
-    let members = value?.members.map(mem => {
+    let items = value?.items.map(item => {
       if(settings?.mapping) {
-        let remappedMem = keyRemap(mem, settings?.mapping);
+        let remappedMem = keyRemap(item, settings?.mapping);
+
+        // maybe generalize this?
         if (remappedMem.Photo && Array.isArray(remappedMem.Photo)) {
           remappedMem.Photo = remappedMem.Photo[0]?.rawUrl;
         }
         return remappedMem;
       }
-      return mem
+      return item
     });
-    members = members.filter(mem => mem[`ShowProfile`])
+
+
+    console.log('---->>>!!!!!!  griditems !!!', items)
+    items = items?.filter(mem => !mem[`Hide`])
 
 
 
@@ -80,12 +85,11 @@ export const POST = async ({ request }) => {
       // Split the settings.filter string into an array of names
       let filterNames = settings.filter.split(',').map(name => name.trim());
 
-      // Filter the members array
-      members = members.filter(mem => filterNames.includes(mem['Name']));
+      // Filter the items array
+      items = items?.filter(mem => filterNames.includes(mem['Name']));
     }
 
-
-    return hjson({ success: true, members })
+    return hjson({ success: true, items })
   }
 
   return hjson({ success: false, })
