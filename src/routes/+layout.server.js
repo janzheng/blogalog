@@ -145,7 +145,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
     // hostname = "janzheng.com"; // url?.hostname
     // hostname = "somethingwrong.com"; // url?.hostname
     // hostname = "open.phage.directory"; // url?.hostname
-    console.log('---&& [hostname]:', hostname, url);
+    // console.log('---&& [hostname]:', hostname, url);
 
     // let fuzzy = FuzzyKey({ url: PUBLIC_FUZZYKEY_URL })
     // // let add = await fuzzy.set("banana/rama", {fruit:"bannnnanana!!"})
