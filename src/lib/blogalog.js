@@ -180,9 +180,7 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
         //   "versionKey": "Version", // version name / number field
         // }
       }])
-
-      console.log("BURPPPP site-pages:", cytosis['site-pages'])
-
+      
       // extract metadata
       cytosis['site-pages'].forEach((page, i) => {
         if (page.Metadata) {

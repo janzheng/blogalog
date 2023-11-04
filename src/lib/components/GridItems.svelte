@@ -11,23 +11,30 @@
   <h2 style="padding-top:0"><Loader /> Loading Items</h2>
 {:else}
   {#if items && settings}
-    <div class="Items | {settings?.items.class || 'grid grid-cols-2 gap-4'}">
+    <div class="Items | {settings?.items?.class || 'grid grid-cols-2 gap-4'}">
       {#each items as item}
-        <div class="Item | p-4 bg-slate-50 {settings?.item.class} | {settings?.modal ? 'cursor-pointer' : ''}"
-          on:click={()=>browser && settings.modal && getModal(item.Name).open()} 
-          on:keyup={()=>browser && settings.modal && getModal(item.Name).open()}
+        <div class="Item | p-4 bg-slate-50 {settings?.item?.class} | {settings?.modal ? 'cursor-pointer' : ''}"
+          on:click={()=>browser && settings.modal && getModal(item?.Name).open()} 
+          on:keyup={()=>browser && settings.modal && getModal(item?.Name).open()}
           >
-          {#each Object.keys(item) as key}
-            {#if key === 'id'}<!-- do nothing for ids -->
+          {#each getOrderedKeys(item) as key}
+            {#if key === 'id' || key === 'format'}
+              <!-- do nothing for ids -->
             {:else}
-              {#if settings?.schema?.[key]?.type === 'image'}
+              {#if settings?.schema?.[key]?.type === 'image' && item[key]?.[0]?.rawUrl || item[key]?.[0]?.url}
                 <div class="Item-{key} | mb-2">
-                  <img class="{settings?.schema?.[key]?.class||'rounded-full w-24 h-24'}" src={item[key]} alt="{item.Name}" />
+                  <img class="{settings?.schema?.[key]?.class||'rounded-full w-24 h-24'}" src={item[key]?.[0]?.rawUrl || item[key]?.[0]?.url} alt="{item?.Name}" />
                 </div>
               {:else if settings?.schema?.[key]?.type === 'html'}
-                <div class="Item-{key} | flex content-center {settings?.schema?.[key]?.class||'text-sm'}">{@html item[key]||''}</div>
+                <div class="Item-{key} | mb-2 {settings?.schema?.[key]?.class||'text-sm'}">{@html item[key]||''}</div>
+              {:else if settings?.schema?.[key]?.type === 'link'}
+                <div class="Item-{key} | mb-2 {settings?.schema?.[key]?.class||'text-sm'}">
+                  <a href="{item[key]}">{item[key]}</a>
+                </div>
+              {:else if settings?.schema?.[key]?.type === 'markdown'}
+                <div class="Item-{key} | mb-2 {settings?.schema?.[key]?.class||'text-sm'}">{@html marked(item[key]||'')}</div>
               {:else}
-                <div class="Item-{key} | {settings?.schema?.[key]?.class||'text-sm'}">{item[key]||''}</div>
+                <div class="Item-{key} | mb-2 {settings?.schema?.[key]?.class||'text-sm'}">{item[key]||''}</div>
               {/if}
             {/if}
           {/each}
@@ -61,7 +68,8 @@
 <script>
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
-  import { fetchPost } from "$plasmid/utils/fetch-helpers"
+  import { marked } from 'marked';
+  import { fetchPost } from "$plasmid/utils/fetch-helpers";
   import Modal, {getModal} from '$lib/components/Modal.svelte';
   import Loader from '$plasmid/components/icons/loader.svelte';
 
@@ -80,7 +88,12 @@
       console.error('getItems', err)
     }
     isLoading = false
-    return result
+    let items = [...result.items]
+
+    return {
+      items: items,
+      settings: result.settings || {}
+    }
 	};
 
   $: if(!settings) {
@@ -94,4 +107,14 @@
     console.log('Items + Settings:::', items, settings)
   });
 
+  function getOrderedKeys (items) {
+    const keys = Object.keys(items);
+    if(settings?.order) {
+      return [
+        ...settings.order.filter(key => keys.includes(key)), // ordered keys
+        ...keys.filter(key => !settings.order.includes(key)) // remaining keys
+      ];
+    }
+    return keys;
+  }
 </script>
