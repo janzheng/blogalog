@@ -23,9 +23,6 @@
 />
 
 <svelte:head>
-  <!-- this is wrong; has to be served from ssr, but too lazy -->
-  <!-- <meta property="og:image:url" content={'https://janzheng.com/janzheng-card-sm.jpg'}> -->
-  <!-- <meta property="og:image" content={'https://janzheng.com/janzheng-card-sm.jpg'}> -->
 	{#if head }
 		{#if head?.meta}
 			{#each head?.meta as meta}

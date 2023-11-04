@@ -32,7 +32,7 @@ async function initContent(_head, hostname) {
   console.log('[initContent] initializing:', PUBLIC_BLOGMODE)
   let cytosis, config, mode, blogs
 
-  if (PUBLIC_BLOGMODE == 'blogalog' && !hostname.includes('janzheng')) {
+  if (PUBLIC_BLOGMODE == 'blogalog') {
     // ({ _head, cytosis } = await loadBlogalogFromPath('blogalog', hostname)); // previously, needed to specify blogalog; now uses the hostname/domain
     let blogalog = await loadBlogalogFromPath({hostname});
 
@@ -51,88 +51,85 @@ async function initContent(_head, hostname) {
 
 
 
-
-
-
   } else {
-    // custom pages
-    if (PUBLIC_BLOGMODE == 'janzheng' || hostname.includes('janzheng')) {
-      config = jz_config
-      mode = 'janzheng'
-    } else if (PUBLIC_BLOGMODE == 'jessbio') {
-      config = js2_config
-      mode = 'jessbio'
-    }
+    // // custom pages
+    // if (PUBLIC_BLOGMODE == 'janzheng' || hostname.includes('janzheng')) {
+    //   config = jz_config
+    //   mode = 'janzheng'
+    // } else if (PUBLIC_BLOGMODE == 'jessbio') {
+    //   config = js2_config
+    //   mode = 'jessbio'
+    // }
 
-    console.log('mode::', mode)
-    cytosis = await cachet(`${PUBLIC_PROJECT_NAME}-${mode}`, async () => {
-      let data = await endoloader(config, {
-        url: PUBLIC_ENDOCYTOSIS_URL
-      })
-      return data
-      // return data?.value
-    }, {
-      skipCache: false,
-      ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
-      ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-      bgFn: () => endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${mode}` })
-    })
+    // console.log('mode::', mode)
+    // cytosis = await cachet(`${PUBLIC_PROJECT_NAME}-${mode}`, async () => {
+    //   let data = await endoloader(config, {
+    //     url: PUBLIC_ENDOCYTOSIS_URL
+    //   })
+    //   return data
+    //   // return data?.value
+    // }, {
+    //   skipCache: false,
+    //   ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
+    //   ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+    //   bgFn: () => endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${mode}` })
+    // })
 
-    // make sure this is ABOVE the _head code, since it references the transformed array object
-    // Experiment: trying to combine the two notion dbs into ONE
-    // if combined site-pagedata, we want to unroll it into site-data and sitepages
-    //     results = applyTransformers(results, src.transformers)
-    if (cytosis?.['site-pagedata']?.length > 0) {
-      cytosis['site-data'] = applyTransformers(cytosis['site-pagedata'], [{
-        "function": "transformArrayToObjectByKey",
-        "settings": {
-          "objectKey": "Name"
-        }
-      }])
-      cytosis['site-pages'] = applyTransformers(cytosis['site-pagedata'].filter(p => p.Type), [{
-        "function": "transformArrayVersionedObjects",
-        "settings": {
-          "uniqueKey": "Path", // unique field to track versions against
-          "versionKey": "Version", // version name / number field
-        }
-      }])
+    // // make sure this is ABOVE the _head code, since it references the transformed array object
+    // // Experiment: trying to combine the two notion dbs into ONE
+    // // if combined site-pagedata, we want to unroll it into site-data and sitepages
+    // //     results = applyTransformers(results, src.transformers)
+    // if (cytosis?.['site-pagedata']?.length > 0) {
+    //   cytosis['site-data'] = applyTransformers(cytosis['site-pagedata'], [{
+    //     "function": "transformArrayToObjectByKey",
+    //     "settings": {
+    //       "objectKey": "Name"
+    //     }
+    //   }])
+    //   cytosis['site-pages'] = applyTransformers(cytosis['site-pagedata'].filter(p => p.Type), [{
+    //     "function": "transformArrayVersionedObjects",
+    //     "settings": {
+    //       "uniqueKey": "Path", // unique field to track versions against
+    //       "versionKey": "Version", // version name / number field
+    //     }
+    //   }])
 
-      // extract metadata
-      cytosis['site-pages'].forEach((page, i) => {
-        if (page.Metadata) {
-          cytosis['site-pages'][i].MetaObj = parseMetadata(page.Metadata)
-        }
-      })
-    } 
+    //   // extract metadata
+    //   cytosis['site-pages'].forEach((page, i) => {
+    //     if (page.Metadata) {
+    //       cytosis['site-pages'][i].MetaObj = parseMetadata(page.Metadata)
+    //     }
+    //   })
+    // } 
 
-    if (cytosis && (mode !== 'janzheng')) {
-      _head = mode !== "janzheng" ? {
-        title: cytosis?.['site-data']?.['SiteTitle']?.Content,
-        author: cytosis?.['site-data']?.['Author']?.Content,
-        description: cytosis?.['site-data']?.['SiteDescription']?.Content,
-        url: cytosis?.['site-data']?.['URL']?.Content,
-        canonical: cytosis?.['site-data']?.['URL']?.Content,
-        title: cytosis?.['site-data']?.['SiteTitle']?.Content,
-        ico: getNotionImageLink(cytosis?.['site-data']?.['IconImage']),
-        image: {
-          url: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), 
-          width: 850,
-          height: 650,
-        },
-        meta: [
-          { name: "twitter:site", content: cytosis?.['site-data']?.['TwitterHandle']?.Content },
-          { name: "twitter:title", content: cytosis?.['site-data']?.['SiteTitle']?.Content },
-          { name: "twitter:description", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
-          { name: "twitter:image", content: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), },
-          { name: "twitter:image:alt", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
-          { property: "og:image:url", content: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), },
-          { property: "og:image", content: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), },
-        ],
-        links: [
-          { rel: 'icon', type: 'image/png', href: getNotionImageLink(cytosis?.['site-data']?.['IconImage']), }
-        ]
-      } : null // head
-    }
+    // if (cytosis && (mode !== 'janzheng')) {
+    //   _head = mode !== "janzheng" ? {
+    //     title: cytosis?.['site-data']?.['SiteTitle']?.Content,
+    //     author: cytosis?.['site-data']?.['Author']?.Content,
+    //     description: cytosis?.['site-data']?.['SiteDescription']?.Content,
+    //     url: cytosis?.['site-data']?.['URL']?.Content,
+    //     canonical: cytosis?.['site-data']?.['URL']?.Content,
+    //     title: cytosis?.['site-data']?.['SiteTitle']?.Content,
+    //     ico: getNotionImageLink(cytosis?.['site-data']?.['IconImage']),
+    //     image: {
+    //       url: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), 
+    //       width: 850,
+    //       height: 650,
+    //     },
+    //     meta: [
+    //       { name: "twitter:site", content: cytosis?.['site-data']?.['TwitterHandle']?.Content },
+    //       { name: "twitter:title", content: cytosis?.['site-data']?.['SiteTitle']?.Content },
+    //       { name: "twitter:description", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
+    //       { name: "twitter:image", content: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), },
+    //       { name: "twitter:image:alt", content: cytosis?.['site-data']?.['SiteDescription']?.Content },
+    //       { property: "og:image:url", content: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), },
+    //       { property: "og:image", content: getNotionImageLink(cytosis?.['site-data']?.['CardImage']), },
+    //     ],
+    //     links: [
+    //       { rel: 'icon', type: 'image/png', href: getNotionImageLink(cytosis?.['site-data']?.['IconImage']), }
+    //     ]
+    //   } : null // head
+    // }
 
   }
 

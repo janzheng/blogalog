@@ -50,7 +50,8 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
             url: PUBLIC_ENDOCYTOSIS_URL,
             key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
           })
-      }}
+        }
+      }
     )
     // let endoData = await endoloader(blogalog_config, {
     //   url: PUBLIC_ENDOCYTOSIS_URL,
@@ -180,7 +181,7 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
         //   "versionKey": "Version", // version name / number field
         // }
       }])
-      
+
       // extract metadata
       cytosis['site-pages'].forEach((page, i) => {
         if (page.Metadata) {
