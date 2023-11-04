@@ -62,10 +62,10 @@
           {#if Array.isArray(post.Categories) && post.Categories.length > 0}
             <!-- {#each post.Categories.split(",").map(cat => cat.trim()) as cat} -->
             {#each post.Categories as cat}
-              <span class="Category Btn --tag text-sm p-1 text-gray-600 border-gray-400 | mr-2">{cat}</span>
+              <span class="Category text-xs py-2 px-2 text-gray-800 bg-gray-100 border-gray-100 | mr-2">{cat}</span>
             {/each}
           {:else}
-            <span class="Category Btn --tag text-sm p-1 text-gray-600 border-gray-400 | mr-2">{post.Categories}</span>
+            <span class="Category text-xs py-2 px-2 text-gray-800 bg-gray-100 border-gray-100 | mr-2">{post.Categories}</span>
           {/if}
         {/if}
 
@@ -81,7 +81,7 @@
 
   export let posts;
   export let pathBase = "/";
-  export let PostItemClasses = "mb-4";
+  export let PostItemClasses = "";
 
   function getCover(post) {
     console.log('post cover:', post, 'derp', getNotionImageLink(post))
@@ -114,6 +114,10 @@
           text-decoration: underline;
         }
       }
+    }
+
+    &+.Post-item {
+      @apply mt-4;
     }
   }
   // .Post-content {

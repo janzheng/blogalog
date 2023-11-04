@@ -40,6 +40,8 @@ export const POST = async ({ request }) => {
   // settings = parseMetadata(settings)
   if(settings)
     settings = YAML.parse(settings)
+  else
+    settings = {}
 
   let result
   let key = `${PUBLIC_PROJECT_NAME}-id-${id}`
@@ -76,7 +78,7 @@ export const POST = async ({ request }) => {
     });
 
 
-    console.log('---->>>!!!!!!  griditems !!!', items)
+    console.log('---->>>!!!!!!  griditems !!!', items, settings)
     items = items?.filter(mem => !mem[`Hide`])
 
 
@@ -89,7 +91,7 @@ export const POST = async ({ request }) => {
       items = items?.filter(mem => filterNames.includes(mem['Name']));
     }
 
-    return hjson({ success: true, items })
+    return hjson({ success: true, items, settings })
   }
 
   return hjson({ success: false, })

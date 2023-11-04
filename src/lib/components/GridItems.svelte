@@ -7,28 +7,35 @@
 
 
 <!-- {#await getItems(id) then Items} -->
-{#if isLoading}
+{#if isLoading || !items || !settings}
   <h2 style="padding-top:0"><Loader /> Loading Items</h2>
 {:else}
-  {#if items}
-    <div class="Items | grid grid-cols-2 gap-4">
+  {#if items && settings}
+    <div class="Items | {settings?.items.class || 'grid grid-cols-2 gap-4'}">
       {#each items as item}
-        <div class="Item | p-4 bg-slate-50 | cursor-pointer"
-          on:click={()=>browser && getModal(item.Name).open()} 
-          on:keyup={()=>browser && getModal(item.Name).open()}
+        <div class="Item | p-4 bg-slate-50 {settings?.item.class} | {settings?.modal ? 'cursor-pointer' : ''}"
+          on:click={()=>browser && settings.modal && getModal(item.Name).open()} 
+          on:keyup={()=>browser && settings.modal && getModal(item.Name).open()}
           >
-          {#if item.Photo}
-            <div class="Item-Photo | mb-2">
-              <img class="rounded-full w-24 h-24" src={item.Photo} alt="{item.Name} Profile" />
-            </div>
-          {/if}
-          <div class="Item-Name">{item.Name}</div>
-          <div class="Item-Affiliation | text-sm">{item.Affiliation||''}</div>
-          <div class="Item-ShortBio | text-sm">{item['Short']||''}</div>
+          {#each Object.keys(item) as key}
+            {#if key === 'id'}<!-- do nothing for ids -->
+            {:else}
+              {#if settings?.schema?.[key]?.type === 'image'}
+                <div class="Item-{key} | mb-2">
+                  <img class="{settings?.schema?.[key]?.class||'rounded-full w-24 h-24'}" src={item[key]} alt="{item.Name}" />
+                </div>
+              {:else if settings?.schema?.[key]?.type === 'html'}
+                <div class="Item-{key} | flex content-center {settings?.schema?.[key]?.class||'text-sm'}">{@html item[key]||''}</div>
+              {:else}
+                <div class="Item-{key} | {settings?.schema?.[key]?.class||'text-sm'}">{item[key]||''}</div>
+              {/if}
+            {/if}
+          {/each}
+
           <!-- <button on:click={()=>browser && getModal(Item.Name).open()}>
             Open {Item.Name}
           </button> -->
-          <!-- {#if browser}
+          <!-- {#if browser && settings.modal}
             <Modal id={item.Name}>
               {#if item.Photo}
                 <div class="Item-Photo | mb-2">
@@ -48,7 +55,7 @@
   {/if}
 {/if}
 <!-- {/await} -->
-
+ 
 
 
 <script>
@@ -59,8 +66,6 @@
   import Loader from '$plasmid/components/icons/loader.svelte';
 
   export let id, items, settings, isLoading;
-  
-  console.log('Items:::', items)
 
   const getItems = async (id) => {
     isLoading = true
@@ -70,7 +75,6 @@
       response = await fetchPost(url, {id, settings}, fetch)
 			if(response.ok) {
         result = await response.json()
-        result = result.items
 			}
 		} catch(err) {
       console.error('getItems', err)
@@ -79,8 +83,15 @@
     return result
 	};
 
+  $: if(!settings) {
+    (async ()=> {
+      ({items, settings} = await getItems(id, settings))
+    })()
+  }
+
   onMount(async () => {
-    items = await getItems(id, settings)
+    ({items, settings} = await getItems(id, settings))
+    console.log('Items + Settings:::', items, settings)
   });
 
 </script>
