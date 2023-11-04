@@ -104,7 +104,6 @@
 
   onMount(async () => {
     ({items, settings} = await getItems(id, settings))
-    console.log('Items + Settings:::', items, settings)
   });
 
   function getOrderedKeys (items) {
