@@ -75,7 +75,7 @@ export function getNotionImageLink(notionImage) {
   if (!url) url = fileObj?.url
   // console.log('url2:',url)
   if( !url) url = notionImage?.Cover
-  if (!url) url = notionImage
+  if (!url && notionImage.includes && notionImage.includes("http")) url = notionImage
   
   return url
 }

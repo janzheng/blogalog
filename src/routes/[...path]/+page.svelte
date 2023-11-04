@@ -52,8 +52,6 @@
         </div>
       {/if}
 
-
-
       {#if pageCover}
         <div class="CoverImage-container | mt-4">
           <img alt="CoverImage header " src="{pageCover}" />
@@ -118,7 +116,7 @@
 
   import { marked } from 'marked'
 	import { onMount } from 'svelte';
-  import { browser } from '$app/environment'; 
+  import { dev, browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
   import { getNotionImageLink } from '$lib/helpers.js'
   // import Notion from '@yawnxyz/sveltekit-notion'
@@ -139,7 +137,7 @@
     blogPath = $page?.data?.pathArr?.length>1 ? `/${$page?.data?.pathArr[0]}` : "/"
     cytosis = $page?.data.cytosis; // await streamed cytosis, and set it here
     pageContent = $page?.data.pageContent
-    if (browser) console.log('[path-*] pageContent: ', pageContent)
+    if (dev && browser) console.log('[path-*] pageContent: ', pageContent)
     profileImage = getNotionImageLink(cytosis?.['site-data']?.['ProfileImage'])
     pageCover = getNotionImageLink(pageContent) || pageContent?.['Cover']
     author = cytosis?.['site-data'].Author?.['Content'];
