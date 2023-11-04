@@ -11,7 +11,7 @@
   <h2 style="padding-top:0"><Loader /> Loading Items</h2>
 {:else}
   {#if items && settings}
-    <div class="Items | {settings?.items?.class || 'grid grid-cols-2 gap-4'}">
+    <div class="Items | {settings?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
       {#each items as item}
         <div class="Item | p-4 bg-slate-50 {settings?.item?.class} | {settings?.modal ? 'cursor-pointer' : ''}"
           on:click={()=>browser && settings.modal && getModal(item?.Name).open()} 

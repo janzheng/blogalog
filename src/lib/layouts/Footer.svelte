@@ -13,7 +13,12 @@
 <footer bind:clientHeight={clientHeight} class="Footer | mt-4 | content-pad | bg-slate-50 ">
   {#if content}
     <div class="Content pfix text-center">
-      {@html marked(content)}
+      <div class="Content-Custom">
+        {@html marked(content)}
+      </div>
+      <div class="Content-Blogalog | text-center mt-2">
+        Built with <a href="https://blogalog.net">Blogalog</a>
+      </div>
     </div>
   {:else}
     <div class=" ">
