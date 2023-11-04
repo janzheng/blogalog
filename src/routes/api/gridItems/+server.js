@@ -53,22 +53,22 @@ export const POST = async ({ request }) => {
   // })
 
   // CACHING
-  console.log("gridItems key:", key)
+  console.log("[gridItems] loading key:", key, PUBLIC_CACHET_TTR)
   result = await cachet(`${key}`, async () => {
     let data = await endoloader(config, {
       url: PUBLIC_ENDOCYTOSIS_URL,
       key: key
-    }, {
-      ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-      ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
-      bgFn: () => {
-        endoloader(config, {
-          url: PUBLIC_ENDOCYTOSIS_URL,
-          key: key
-        })
-      }
     })
     return data
+  }, {
+    ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+    ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
+    bgFn: () => {
+      endoloader(config, {
+        url: PUBLIC_ENDOCYTOSIS_URL,
+        key: key
+      })
+    }
   })
 
 

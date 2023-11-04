@@ -22,9 +22,10 @@
       <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 ">
         <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
         <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-[36rem]">
-          <div class="text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>
+          {#if author}<div class="Author text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>{/if}
           <!-- <div class="text">{siteDesc || ''}</div> -->
-          <div class="text">{@html marked(siteDesc || '') }</div>
+          {#if shortDesc}<div class="ShortDesc text">{@html marked(shortDesc || '') }</div>{/if}
+          {#if location}<div class="Location text">{@html marked(location || '') }</div>{/if}
           <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
         </div>
       </div>
@@ -140,11 +141,11 @@
                 />
               {/if}
             </div>
-          <!-- {:else if page.Name == "Members"}
+          {:else if page.Name == "Members"}
             <div class="Component-Members | p-4 bg-slate-50 ">
               <Notion blocks={page.pageBlocks} />
               <MemberList id={page.Content} settings={page.YAML} />
-            </div> -->
+            </div>
           {:else if page.Name == "Grid"}
             <div class="Component-Grid | p-4 bg-slate-50 ">
               <Notion blocks={page.pageBlocks} />
@@ -216,7 +217,8 @@
   let profileImage = getNotionImageLink(cytosis?.['site-data']?.['ProfileImage']);
   let coverImage = getNotionImageLink(cytosis?.['site-data']?.['CoverImage']);
   let author = cytosis?.['site-data']?.Author?.['Content'];
-  let siteDesc = cytosis?.['site-data']?.ShortDescription?.['Content'];
+  let shortDesc = cytosis?.['site-data']?.ShortDescription?.['Content'];
+  let location = cytosis?.['site-data']?.Location?.['Content'];
   let socialDescription = cytosis?.['site-data']?.SocialDescription?.['Content'];
   let shortDescription = cytosis?.['site-data']?.LongDescription?.['Content'];
   let mainPageBlocks = cytosis?.['site-pages']?.find(page => page.Type?.includes("Main"))?.pageBlocks;

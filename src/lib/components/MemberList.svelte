@@ -24,7 +24,7 @@
             <Modal id={member.Name}>
               {#if member.Photo}
                 <div class="Member-Photo | mb-2">
-                  <img class="rounded-full w-24 h-24" src={member.Photo} alt="{member.Name} Profile" />
+                  <img class="rounded-full w-24 h-24" src={getNotionImageLink(member.Photo)} alt="{member.Name} Profile" />
                 </div>
               {/if}
               <div class="Member-Name"><h2 class="pt-0">{member.Name}</h2></div>
@@ -49,6 +49,7 @@
   import { fetchPost } from "$plasmid/utils/fetch-helpers"
   import Modal, {getModal} from '$lib/components/Modal.svelte';
   import Loader from '$plasmid/components/icons/loader.svelte';
+  import { getNotionImageLink } from '$lib/helpers.js'
 
   export let id, members, settings, isLoading;
   
