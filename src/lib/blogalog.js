@@ -175,11 +175,13 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
       }])
       cytosis['site-pages'] = applyTransformers(cytosis['site-pagedata'].filter(p => p.Type), [{
         "function": "transformArrayVersionedObjects",
-        "settings": {
-          "uniqueKey": "Path", // unique field to track versions against
-          "versionKey": "Version", // version name / number field
-        }
+        // "settings": {
+        //   "uniqueKey": "Path", // unique field to track versions against
+        //   "versionKey": "Version", // version name / number field
+        // }
       }])
+
+      console.log("BURPPPP site-pages:", cytosis['site-pages'])
 
       // extract metadata
       cytosis['site-pages'].forEach((page, i) => {

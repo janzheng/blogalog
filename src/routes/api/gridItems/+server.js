@@ -77,11 +77,7 @@ export const POST = async ({ request }) => {
       return item
     });
 
-
-    console.log('---->>>!!!!!!  griditems !!!', items, settings)
     items = items?.filter(mem => !mem[`Hide`])
-
-
 
     if (settings?.filter) {
       // Split the settings.filter string into an array of names

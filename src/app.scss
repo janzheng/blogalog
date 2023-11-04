@@ -63,6 +63,19 @@
 @mixin notionStyles {
   .notion {
     font-family: Inter, sans-serif !important;
+    
+    h1 {
+      margin-top: 0;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    h3 {
+      margin-top: 0;
+    }
+    h4 {
+      margin-top: 0;
+    }
   }
   .notion-list, .notion-list-disc {
     ul { padding-inline-start: 0; }
