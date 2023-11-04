@@ -23,7 +23,7 @@
             {:else}
               {#if settings?.schema?.[key]?.type === 'image' && item[key]?.[0]?.rawUrl || item[key]?.[0]?.url}
                 <div class="Item-{key} | mb-2">
-                  <img class="{settings?.schema?.[key]?.class||'rounded-full w-24 h-24'}" src={getNotionImageLink(item[key]?.[0])} alt="{item?.Name}" />
+                  <img class="bg-slate-200 {settings?.schema?.[key]?.class || 'rounded-full w-24 h-24'}" src={getNotionImageLink(item[key]?.[0])} alt="{item?.Name}" />
                 </div>
               {:else if settings?.schema?.[key]?.type === 'html'}
                 <div class="Item-{key} | mb-2 {settings?.schema?.[key]?.class||'text-sm'}">{@html item[key]||''}</div>
