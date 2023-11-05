@@ -36,6 +36,8 @@
       </div>
       <Member id={pageContent.Content} settings={pageContent.YAML + `\nfilter: ${$page.data.subPath}`} search={$page.data.subPath} />
     </div>
+
+    
   {:else}
     <div class="PagePath PageContent content-pad _content-wide">
 

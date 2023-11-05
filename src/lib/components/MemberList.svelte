@@ -53,8 +53,6 @@
 
   export let id, members, settings, isLoading;
   
-  console.log('members:::', members)
-
   const getMembers = async (id) => {
     isLoading = true
     let url = `/api/members/`
@@ -74,6 +72,7 @@
 
   onMount(async () => {
     members = await getMembers(id, settings)
+    console.log('members:::', members)
   });
 
 </script>

@@ -84,7 +84,6 @@
   export let PostItemClasses = "";
 
   function getCover(post) {
-    console.log('post cover:', post, 'derp', getNotionImageLink(post))
     return getNotionImageLink(post);
   }
 

@@ -38,9 +38,9 @@ export const POST = async ({ request }) => {
   }
 
   // settings = parseMetadata(settings)
-  if(settings)
+  if (typeof settings === 'string')
     settings = YAML.parse(settings)
-  else
+  else if (!settings)
     settings = {}
 
   let result
@@ -53,7 +53,6 @@ export const POST = async ({ request }) => {
   // })
 
   // CACHING
-  console.log("[gridItems] loading key:", key, PUBLIC_CACHET_TTR)
   result = await cachet(`${key}`, async () => {
     let data = await endoloader(config, {
       url: PUBLIC_ENDOCYTOSIS_URL,
@@ -74,20 +73,20 @@ export const POST = async ({ request }) => {
 
   if (result) {
     let value = result?.value?.value ? JSON.parse(result?.value?.value) : result?.value // bug in endocytosis I don't feel like fixing
-    let items = value?.items.map(item => {
+    let items = value?.items?.map(item => {
       if(settings?.mapping) {
         let remappedMem = keyRemap(item, settings?.mapping);
 
         // maybe generalize this?
-        if (remappedMem.Photo && Array.isArray(remappedMem.Photo)) {
-          remappedMem.Photo = remappedMem.Photo[0]?.rawUrl;
-        }
+        // if (remappedMem.Photo && Array.isArray(remappedMem.Photo)) {
+        //   remappedMem.Photo = remappedMem.Photo[0]?.rawUrl;
+        // }
         return remappedMem;
       }
       return item
     });
-
-    items = items?.filter(mem => !mem[`Hide`])
+    items = items.filter(mem => mem[`Show`] ? mem[`Show`] : true)
+    items = items.filter(mem => mem[`Hide`] ? !mem[`Hide`] : true)
 
     if (settings?.filter) {
       // Split the settings.filter string into an array of names

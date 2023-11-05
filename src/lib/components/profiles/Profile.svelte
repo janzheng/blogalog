@@ -149,7 +149,9 @@
           {:else if page.Name == "Grid"}
             <div class="Component-Grid | p-4 bg-slate-50 ">
               <Notion blocks={page.pageBlocks} />
-              <GridItems id={page.Content} settings={page.YAML} />
+              <div class="GridItems | mt-2">
+                <GridItems id={page.Content} settings={page.YAML} />
+              </div>
             </div>
           {:else if page.Name == "Expander"}
             <div class="Component-Expander | p-4 bg-slate-50 ">

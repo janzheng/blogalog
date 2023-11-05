@@ -5,6 +5,10 @@
   Make into a generic Endoloader / Cache Loader?
   - might open up more attack vectors; keep to members just now
 
+
+  DEPRECATED
+  Use "gridItems" as a more generalized version of this!
+
 */
 
 import { PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_CACHET_TTL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
@@ -81,7 +85,8 @@ export const POST = async ({ request }) => {
       }
       return mem
     });
-    members = members.filter(mem => mem[`ShowProfile`])
+    members = members.filter(mem => mem[`Show`] ? mem[`Show`] : true)
+    members = members.filter(mem => mem[`Hide`] ? !mem[`Hide`] : true)
 
 
 
