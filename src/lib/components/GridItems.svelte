@@ -21,17 +21,17 @@
           {#each getOrderedKeys(item) as key}
             <GridItemRow {item} {key} schema={settings?.schema} />
           {/each}
-
           <!-- <button on:click={()=>browser && getModal(Item.Name).open()}>
             Open {Item.Name}
           </button> -->
 
           {#if browser && settings.modal}
+            <!-- pageblocks are only opened on modal, to prevent loading too many pages -->
             <Modal id={item.Name}>
               {#each getOrderedKeys(item, settings?.modal?.order||[]) as key}
                 <GridItemRow {item} {key} schema={settings?.modal?.schema} />
               {/each}
-              {#if settings.modal.loadNotionPage}
+              {#if settings.modal.loadNotionPage && pageBlocks}
                 <Notion blocks={pageBlocks} />
               {/if}
             </Modal>
@@ -123,7 +123,7 @@
 
   async function handleOpenModal (item) {
     if(browser && settings.modal) {
-      if(settings.modal.loadNotionPage) {
+      if(!pageBlocks && (settings.loadNotionPage || settings.modal.loadNotionPage)) {
         pageBlocks = await loadPage(item.id);
       }
 
