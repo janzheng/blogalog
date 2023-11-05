@@ -74,26 +74,28 @@ export const POST = async ({ request }) => {
   if (result) {
     let value = result?.value?.value ? JSON.parse(result?.value?.value) : result?.value // bug in endocytosis I don't feel like fixing
     let items = value?.items?.map(item => {
+      if (settings?.disallow) {
+        settings.disallow.forEach(field => {
+          delete item[field]
+        })
+      }
+
       if(settings?.mapping) {
         let remappedMem = keyRemap(item, settings?.mapping);
-
-        // maybe generalize this?
-        // if (remappedMem.Photo && Array.isArray(remappedMem.Photo)) {
-        //   remappedMem.Photo = remappedMem.Photo[0]?.rawUrl;
-        // }
         return remappedMem;
       }
       return item
     });
-    items = items.filter(mem => mem[`Show`] ? mem[`Show`] : true)
-    items = items.filter(mem => mem[`Hide`] ? !mem[`Hide`] : true)
+    items = items?.filter(mem => mem[`Show`] ? mem[`Show`] : true)
+    items = items?.filter(mem => mem[`Hide`] ? !mem[`Hide`] : true)
 
     if (settings?.filter) {
       // Split the settings.filter string into an array of names
-      let filterNames = settings.filter.split(',').map(name => name.trim());
+      let filterNames = settings?.filter.split(',')?.map(name => name.trim());
 
       // Filter the items array
-      items = items?.filter(mem => filterNames.includes(mem['Name']));
+      if(filterNames)
+        items = items?.filter(mem => filterNames.includes(mem['Name']));
     }
 
     return hjson({ success: true, items, settings })

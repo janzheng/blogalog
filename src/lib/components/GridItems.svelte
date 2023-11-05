@@ -11,6 +11,7 @@
   <h2 style="padding-top:0"><Loader /> {settings?.loading || "Loading"}</h2>
 {:else}
   {#if items && settings}
+    <!-- <div class="Items | " style="{twi(settings?.items?.class || 'grid grid-cols-2 md:grid-cols-2 gap-4')}"> -->
     <div class="Items | {settings?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
       {#each items as item}
         <div class="Item | p-4 bg-slate-50 {settings?.item?.class} | {settings?.modal ? 'cursor-pointer' : ''}"
@@ -56,13 +57,13 @@
   import Modal, {getModal} from '$lib/components/Modal.svelte';
   import GridItemRow from '$lib/components/GridItemRow.svelte';
   import Loader from '$plasmid/components/icons/loader.svelte';
+  import { twi } from "tw-to-css";
 
   export let id, items, settings, isLoading, pageBlocks;
 
 
   if(settings) {
     settings = YAML.parse(settings)
-    console.log('Grid settings', id, settings)
   }
    
   const getItems = async (id) => {
@@ -104,9 +105,9 @@
 
 
 
+
   onMount(async () => {
     ({items} = await getItems(id, settings))
-    console.log('GridItems:', items)
   });
 
   function getOrderedKeys (items, order=settings?.order) {
@@ -125,7 +126,6 @@
       if(settings.modal.loadNotionPage) {
         pageBlocks = await loadPage(item.id);
       }
-      console.log('pageBlocks:', pageBlocks)
 
       getModal(item.Name).open()
     }

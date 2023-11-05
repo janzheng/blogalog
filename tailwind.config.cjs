@@ -15,6 +15,8 @@ function withOpacityValue(variable) {
 }
 
 module.exports = {
+
+
   // add this section
   content: [
     // './src/**/*.{html,js}',
@@ -149,6 +151,34 @@ module.exports = {
       addBase({
         ':root': extractColorVars(theme('colors')),
       });
+    },
+  ],
+
+
+
+
+
+
+
+  // always compile these!
+  // https://tailwindcss.com/docs/content-configuration#using-regular-expressions
+  safelist: [
+    // 'text-2xl',
+    // {
+    //   pattern: /bg-(red|green|blue)-(100|200|300)/,
+    //   variants: ['lg', 'hover', 'focus', 'lg:hover'],
+    // },
+    {
+      pattern: /text-(sm|base|lg|xl|2xl|3xl|4xl)/,
+      variants: ['xs', 'md', 'lg', 'xl'],
+    },
+    {
+      pattern: /grid-cols-(2|3|4)/,
+      variants: ['xs', 'md', 'lg', 'xl'],
+    },
+    {
+      pattern: /(w|h)-(2|3|4|8|10|12|14|20|24|32|36|40|48|60|64)/,
+      variants: ['xs', 'md', 'lg', 'xl'],
     },
   ],
 }
