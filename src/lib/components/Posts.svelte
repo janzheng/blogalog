@@ -116,7 +116,7 @@
     }
 
     &+.Post-item {
-      @apply mt-6;
+      @apply mt-8;
     }
   }
   // .Post-content {
