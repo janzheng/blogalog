@@ -1,5 +1,8 @@
 
 <script>
+
+  import Icon from '@iconify/svelte';
+	import SocialBox from '$plasmid/components/SocialBox2.svelte'
 	import { page } from '$app/stores';
   import { marked } from "marked";
 	// import logo from './svelte-logo.svg';
@@ -8,14 +11,26 @@
   export let content;
 
   export let clientHeight;
+
+  let cytosis = $page.data.cytosis;
+  let email = cytosis?.['site-data']?.Email?.['Content'];
+  let socialLinks = cytosis?.['site-data']?.SocialLinks?.['Content'];
 </script>
 
 <footer bind:clientHeight={clientHeight} class="Footer | mt-4 | content-pad | bg-slate-50 ">
   {#if content}
     <div class="Content pfix text-center">
-      <div class="Content-Custom">
+
+      {#if socialLinks}
+        <div class="text-2xl | mb-2">
+          <SocialBox {email} socialText={socialLinks} />
+        </div>
+      {/if}
+      
+      <div class="Content-Custom | my-2">
         {@html marked(content)}
       </div>
+
       <div class="Content-Blogalog | text-center mt-2">
         Built with <a href="https://blogalog.net">Blogalog</a>
       </div>

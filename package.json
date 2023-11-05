@@ -28,6 +28,7 @@
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.14.7",
     "@babel/runtime": "^7.9.2",
+    "@iconify/svelte": "^3.1.4",
     "@json2csv/plainjs": "^7.0.1",
     "@json2csv/transforms": "^7.0.1",
     "@notionhq/client": "^2.2.3",

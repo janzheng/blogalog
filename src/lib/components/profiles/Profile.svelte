@@ -24,8 +24,13 @@
         <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-[36rem]">
           {#if author}<div class="Author text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>{/if}
           <!-- <div class="text">{siteDesc || ''}</div> -->
+          {#if socialLinks}
+            <div class="text-2xl | mb-4">
+              <SocialBox {email} socialText={socialLinks} />
+            </div>
+          {/if}
           {#if shortDesc}<div class="ShortDesc text">{@html marked(shortDesc || '') }</div>{/if}
-          {#if location}<div class="Location text">{@html marked(location || '') }</div>{/if}
+          {#if location}<div class="Location text pfix">{@html marked(location || '') }</div>{/if}
           <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
         </div>
       </div>
@@ -35,13 +40,16 @@
     {#if socialDescription || shortDescription}
       <div class="bg-slate-50 p-4 content-notion-wide">
         <!-- profile area -->
-        {#if socialDescription}
-          <div class="mb-4">
+        <!-- DEPRECATED: Use socialLinks instead
+          {#if socialDescription}
+          <div class="SocialDescription mb-4">
             {@html marked(socialDescription || '')}
           </div>
-        {/if}
+        {/if} -->
         {#if shortDescription}
-          {@html marked(shortDescription || '')}
+          <div class="ShortDescription">
+            {@html marked(shortDescription || '')}
+          </div>
         {/if}
       </div>
     {/if}
@@ -206,6 +214,7 @@
   import MemberList from '$lib/components/MemberList.svelte';
   import GridItems from '$lib/components/GridItems.svelte';
   import Expander from '$lib/components/Expander.svelte';
+	import SocialBox from '$plasmid/components/SocialBox2.svelte'
 
   import { marked } from 'marked';
   marked.use({
@@ -224,6 +233,8 @@
   let socialDescription = cytosis?.['site-data']?.SocialDescription?.['Content'];
   let shortDescription = cytosis?.['site-data']?.LongDescription?.['Content'];
   let mainPageBlocks = cytosis?.['site-pages']?.find(page => page.Type?.includes("Main"))?.pageBlocks;
+  let email = cytosis?.['site-data']?.Email?.['Content'];
+  let socialLinks = cytosis?.['site-data']?.SocialLinks?.['Content'];
   let sitePages = cytosis?.['site-pages'];
   let blogpath = $page.data?.pathArr ? `/${$page.data?.path}/` : "/";
   let unlockMessage;
