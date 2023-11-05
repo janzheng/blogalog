@@ -1,5 +1,4 @@
 
-
 <svelte:head>
   {#if $page.data.head}
     <title>{$page.data.head?.title}</title>
@@ -164,6 +163,10 @@
           {:else if page.Name == "Expander"}
             <div class="Component-Expander | p-4 bg-slate-50 ">
               <Expander {page} />
+            </div>
+          {:else if page.Name == "HTML"}
+            <div class="Component-HTML | p-4 bg-slate-50 ">
+              {@html page.Content}
             </div>
           {/if}
         {/if}
