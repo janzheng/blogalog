@@ -19,7 +19,8 @@
     <div class="ProfileImage-Container | relative bg-slate-50 | min-h-[12rem] sm:min-h-[7rem] ">
       <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 ">
         <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
-        <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-[36rem]">
+        <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36">
+        <!-- <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-[36rem]"> -->
           {#if author}<div class="Author text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>{/if}
           <!-- <div class="text">{siteDesc || ''}</div> -->
           {#if socialLinks}
