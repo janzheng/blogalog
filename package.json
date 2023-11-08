@@ -16,7 +16,7 @@
     "prod": "link vercel directly to prod branch; don't push to prod",
     "stage": "yarn install; vercel",
     "plasmid": "yarn add --dev git+https://github.com/janzheng/plasmid.git",
-    "ln-plasmid": "ln -s ../../../plasmid/",
+    "ln-plasmid": "ln -s /Users/janzheng/Desktop/Projects/phagedir/plasmid /Users/janzheng/Desktop/Projects/blogalog/src ",
     "fly": "fly deploy --config fly.toml --dockerfile Dockerfile",
     "start": "node build/index.js "
   },

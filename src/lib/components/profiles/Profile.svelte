@@ -5,14 +5,13 @@
   {/if}
 </svelte:head>
 
-
 <div class="Profile">
   <div class="Profile-Header | content-notion-wide | mt-0 md:mt-2 lg:mt-4 rounded-sm overflow-hidden  ">
     <!-- cover -->
     {#if coverImage}
       <div class="CoverImage | min-h-[4rem] overflow-hidden">
         <img class="w-full object-left-top object-contain" src="{coverImage}" alt="Cover" />
-      </div>
+      </div> 
     {/if}
     
     <!-- profile -->

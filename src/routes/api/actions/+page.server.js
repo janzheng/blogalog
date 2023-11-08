@@ -37,7 +37,7 @@ export const actions = {
           },
         ]
       })
-      console.log('srcData::', emailData)
+      // console.log('srcData::', emailData)
       let users = emailData.users
       // find email in emailData.users
       let user = users.find(user => user.Email === email)

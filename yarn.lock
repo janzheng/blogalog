@@ -3323,8 +3323,8 @@ pirates@^4.0.1:
   integrity sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==
 
 "plasmid@git+https://github.com/janzheng/plasmid.git":
-  version "0.0.116"
-  resolved "git+https://github.com/janzheng/plasmid.git#22139c5a98e11a037b1e572538a757e77936a746"
+  version "0.0.122"
+  resolved "git+https://github.com/janzheng/plasmid.git#5f8954a3a2111004582be4c20966575414c128ed"
   dependencies:
     "@polka/send" "^0.4.0"
     "@polka/send-type" "^0.5.2"
