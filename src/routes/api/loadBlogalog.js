@@ -14,7 +14,7 @@ export const loadBlogalog = async (settings) => {
     let _head, cytosis, isBlogalogHome, blogs, subPath;
     let pageContent
 
-    console.log('[path/load] path / pathArr:', path pathArr)
+    console.log('[path/load] path / pathArr:', path, pathArr)
 
 
     if (!pageContent && PUBLIC_MULTIBLOG == "true") {
