@@ -23,7 +23,6 @@
 // this will add the airtable_id to the stripe callback
 
 
-
 import { json } from '@sveltejs/kit';
 import Stripe from 'stripe'
 

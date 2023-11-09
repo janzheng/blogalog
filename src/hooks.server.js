@@ -20,7 +20,7 @@ export const corsHeaders = {
 export async function corsHandler({ event, resolve }) {
   let origin = event.request.headers.get('Origin');
 
-  console.log("ORIGIN:", origin)
+  // console.log("ORIGIN:", origin)
   // if (allowedOrigins.includes(origin)) {
     if (event.request.method !== 'OPTIONS') {
       const response = await resolve(event);

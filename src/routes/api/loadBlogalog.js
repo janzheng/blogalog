@@ -9,8 +9,8 @@ export const loadBlogalog = async (settings) => {
   try {
 
     let hostname = settings.url?.hostname;
-    let path = settings.params.path;
-    let pathArr = settings.params.path.split('/')
+    let path = settings.params?.path;
+    let pathArr = settings.params?.path?.split('/')
     let _head, cytosis, isBlogalogHome, blogs, subPath;
     let pageContent
 
