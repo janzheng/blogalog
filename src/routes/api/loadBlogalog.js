@@ -43,7 +43,7 @@ export const loadBlogalog = async (settings) => {
       } else if (cytosis?.['site-data']) {
         // console.log("BASE POST", pathArr)  
         pageContent = cytosis?.['site-data'];
-        path = pathArr[0]; // set the home path to the first one, e.g. jessbio only when in multiblog
+        path = pathArr?.[0] || "/"; // set the home path to the first one, e.g. jessbio only when in multiblog
       }
     }
 
