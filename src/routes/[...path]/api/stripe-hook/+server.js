@@ -69,7 +69,6 @@ async function handleStripeCompleted(session, request) {
 
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-// const endpointSecret = "whsec_855847124717851fee142dd06cf17c666be999500c767822f14183bb4d168294";
 
 // public
 const endpointSecret = process.env.STRIPE_WHSEC;

@@ -18,10 +18,6 @@
 // stripe listen --forward-to localhost:3053/api/stripe-hook
 // stripe trigger checkout.session.completed
 
-// note: call the payment links with client_reference_id like so:
-// buy.stripe.com/fZe3e0cmk6r5fpm5kk?client_reference_id=ticket_id
-// this will add the airtable_id to the stripe callback
-
 
 import { json } from '@sveltejs/kit';
 import Stripe from 'stripe'
@@ -68,7 +64,6 @@ async function handleStripeCompleted(session, request) {
 
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-// const endpointSecret = "whsec_855847124717851fee142dd06cf17c666be999500c767822f14183bb4d168294";
 
 // public
 const endpointSecret = process.env.STRIPE_WHSEC;

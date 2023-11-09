@@ -15,8 +15,7 @@ export const loadBlogalog = async (req) => {
     let _head, cytosis, isBlogalogHome, blogs, subPath;
     let pageContent
 
-    console.log('---> [api/loadBlogalog] hostname / path / pathArr:', hostname, req.path)
-
+    // console.log('---> [api/loadBlogalog] hostname / path / pathArr:', hostname, req.path)
 
     if (!pageContent && PUBLIC_MULTIBLOG == "true") {
       // if we want to enable "blogalog routing"
