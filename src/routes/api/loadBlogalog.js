@@ -1,45 +1,20 @@
-import { error } from '@sveltejs/kit'
-import { head, seo } from '$lib/config.js'
+
+
 import { PUBLIC_MULTIBLOG } from '$env/static/public';
 
-import { loadBlogalogFromPath  } from '$lib/blogalog'
-// import { cachet } from '$plasmid/utils/cachet'
-// import { endo, endoloader } from '$plasmid/modules/cytosis2';
+import { loadBlogalogFromPath } from '$lib/blogalog'
 
 
-import { z } from 'zod';
-// used for the Email.svelte form, but need to be refactored out
-import { message, superValidate } from 'sveltekit-superforms/server';
-const schema = z.object({
-  notion: z.string(),
-  email: z.string().email()
-});
-
-
-
-
-export const load = async (settings) => {
+export const loadBlogalog = async (settings) => {
   try {
-  
-    let hostname = settings.url?.hostname
-    let path = settings.params.path, subPath;
+
+    let hostname = settings.url?.hostname;
+    let path = settings.params.path;
     let pathArr = settings.params.path.split('/')
-    let _head, cytosis, isBlogalogHome, blogs;
-    let parentData = await settings.parent()
+    let _head, cytosis, isBlogalogHome, blogs, subPath;
     let pageContent
 
     console.log('[path/load] path array:', pathArr,)
-
-    const form = await superValidate(schema);
-
-    // is it a sub blog we've already loaded?
-    if (parentData) {
-      _head = parentData?.head
-      cytosis = parentData?.cytosis
-      blogs = parentData?.blogs
-      pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
-
-    }
 
 
     if (!pageContent && PUBLIC_MULTIBLOG == "true") {
@@ -47,8 +22,8 @@ export const load = async (settings) => {
       // this loads blogs as SUB PATHS
       // otherwise we just get the data back from the layout
       // problem is sometimes you load blogalog/postSlug, it does NOT have parent data cached, so now you're loading both localhost AND a subpath post slug
-      let newCytosis = await loadBlogalogFromPath({blogPath: pathArr[0], blogs}); // 
-      if(newCytosis) {
+      let newCytosis = await loadBlogalogFromPath({ blogPath: pathArr[0], blogs }); // 
+      if (newCytosis) {
         ({ _head, cytosis, isBlogalogHome } = newCytosis);
       }
 
@@ -58,10 +33,10 @@ export const load = async (settings) => {
 
         let depth = 2
         if (pathArr.length > depth) { // deep path
-          let index = depth-1
+          let index = depth - 1
           pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[index]);
           subPath = pathArr?.[depth]
-          console.log("DEEP PATH --**", pathArr, subPath)  
+          console.log("DEEP PATH --**", pathArr, subPath)
         }
         path = pathArr[1]; // set the home path to the first one, e.g. jessbio only when in multiblog
         isBlogalogHome = false
@@ -78,14 +53,12 @@ export const load = async (settings) => {
       path: path,
       subPath,
       pathArr,
-      form,
     }
-    if(cytosis) obj['cytosis'] = cytosis;
-    if(isBlogalogHome) obj['isBlogalogHome'] = isBlogalogHome;
-    if(_head) obj['head'] = _head;
-    if(pageContent) obj['pageContent'] = pageContent;
+    if (cytosis) obj['cytosis'] = cytosis;
+    if (isBlogalogHome) obj['isBlogalogHome'] = isBlogalogHome;
+    if (pageContent) obj['pageContent'] = pageContent;
 
-    if(!pageContent) {
+    if (!pageContent) {
       // console.error('[path/page] Page Content not Found!', JSON.stringify(cytosis, 0, 2))
       console.error('[path/page] Page Content not Found!')
       throw error(404, 'Page Not Found');
@@ -98,9 +71,4 @@ export const load = async (settings) => {
 
   throw error(404, 'Page Not Found');
 }
-
-
-
-
-
 
