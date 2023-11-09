@@ -80,6 +80,7 @@ export const POST = async (req) => {
 
   let stripeEvent;
 
+  console.log("TEST SK:", process.env.STRIPE_SK)
   try {
     stripeEvent = stripe.webhooks.constructEvent(body, sig, endpointSecret);
   } catch (err) {
