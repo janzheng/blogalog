@@ -1,20 +1,21 @@
 
 
+import { json, error } from '@sveltejs/kit';
 import { PUBLIC_MULTIBLOG } from '$env/static/public';
 
 import { loadBlogalogFromPath } from '$lib/blogalog'
 
 
-export const loadBlogalog = async (settings) => {
+export const loadBlogalog = async (req) => {
   try {
 
-    let hostname = settings.url?.hostname;
-    let path = settings.params?.path || '/';
-    let pathArr = settings.params?.path?.split('/')
+    let hostname = req.url.hostname;
+    let path = req.params?.path || '/';
+    let pathArr = req.params?.path?.split('/')
     let _head, cytosis, isBlogalogHome, blogs, subPath;
     let pageContent
 
-    console.log('[path/load] path / pathArr:', path, pathArr)
+    console.log('---> [api/loadBlogalog] hostname / path / pathArr:', hostname, req.path)
 
 
     if (!pageContent && PUBLIC_MULTIBLOG == "true") {
@@ -22,10 +23,17 @@ export const loadBlogalog = async (settings) => {
       // this loads blogs as SUB PATHS
       // otherwise we just get the data back from the layout
       // problem is sometimes you load blogalog/postSlug, it does NOT have parent data cached, so now you're loading both localhost AND a subpath post slug
-      let newCytosis = await loadBlogalogFromPath({ blogPath: pathArr?.[0], blogs }); // 
+      let newCytosis
+      if(pathArr) {
+        newCytosis = await loadBlogalogFromPath({ blogPath: pathArr?.[0], blogs }); // 
+      } else {
+        newCytosis = await loadBlogalogFromPath({ hostname })
+      }
       if (newCytosis) {
         ({ _head, cytosis, isBlogalogHome } = newCytosis);
       }
+
+
 
       if (pathArr && pathArr.length > 1) { // load a leaf blog instead of base blog
         pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);

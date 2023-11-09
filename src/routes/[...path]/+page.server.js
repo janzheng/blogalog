@@ -21,14 +21,14 @@ const schema = z.object({
 export const load = async (settings) => {
   try {
   
-    let hostname = settings.url?.hostname
+    // let hostname = settings.url?.hostname
     let path = settings.params.path, subPath;
     let pathArr = settings.params.path.split('/')
     let _head, cytosis, isBlogalogHome, blogs;
     let parentData = await settings.parent()
     let pageContent
 
-    console.log('[path/load] path array:', pathArr,)
+    console.log('[path/page.server.js/path/load] path array:', pathArr)
 
     const form = await superValidate(schema);
 

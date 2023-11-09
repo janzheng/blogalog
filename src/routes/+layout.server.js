@@ -34,6 +34,7 @@ async function initContent(_head, hostname) {
 
   if (PUBLIC_BLOGMODE == 'blogalog') {
     // ({ _head, cytosis } = await loadBlogalogFromPath('blogalog', hostname)); // previously, needed to specify blogalog; now uses the hostname/domain
+    console.log('hostname:', hostname)
     let blogalog = await loadBlogalogFromPath({hostname});
 
     if(blogalog) {
