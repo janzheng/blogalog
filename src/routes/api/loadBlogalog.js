@@ -9,7 +9,7 @@ export const loadBlogalog = async (settings) => {
   try {
 
     let hostname = settings.url?.hostname;
-    let path = settings.params?.path;
+    let path = settings.params?.path || '/';
     let pathArr = settings.params?.path?.split('/')
     let _head, cytosis, isBlogalogHome, blogs, subPath;
     let pageContent
@@ -27,7 +27,7 @@ export const loadBlogalog = async (settings) => {
         ({ _head, cytosis, isBlogalogHome } = newCytosis);
       }
 
-      if (pathArr.length > 1) { // load a leaf blog instead of base blog
+      if (pathArr && pathArr.length > 1) { // load a leaf blog instead of base blog
         pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
 
 
