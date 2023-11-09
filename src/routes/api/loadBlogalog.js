@@ -14,7 +14,7 @@ export const loadBlogalog = async (settings) => {
     let _head, cytosis, isBlogalogHome, blogs, subPath;
     let pageContent
 
-    console.log('[path/load] path array:', pathArr,)
+    console.log('[path/load] path / pathArr:', path pathArr)
 
 
     if (!pageContent && PUBLIC_MULTIBLOG == "true") {
@@ -22,7 +22,7 @@ export const loadBlogalog = async (settings) => {
       // this loads blogs as SUB PATHS
       // otherwise we just get the data back from the layout
       // problem is sometimes you load blogalog/postSlug, it does NOT have parent data cached, so now you're loading both localhost AND a subpath post slug
-      let newCytosis = await loadBlogalogFromPath({ blogPath: pathArr[0], blogs }); // 
+      let newCytosis = await loadBlogalogFromPath({ blogPath: pathArr?.[0], blogs }); // 
       if (newCytosis) {
         ({ _head, cytosis, isBlogalogHome } = newCytosis);
       }
