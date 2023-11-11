@@ -16,8 +16,8 @@
     
     <!-- profile -->
     {#if profileImage}
-    <div class="ProfileImage-Container | relative bg-slate-50 | min-h-[12rem] sm:min-h-[7rem] ">
-      <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 ">
+    <div class="ProfileImage-Container | relative bg-slate-50 | md:min-h-[10rem] sm:min-h-[7rem] ">
+      <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 |">
         <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
         <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36">
         <!-- <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-[36rem]"> -->
@@ -70,10 +70,10 @@
   {#each pageOrder as page}
     <div class="Profile-Item | my-2 content-notion-wide | overflow-hidden | ">
       {#if page.Type?.includes('Main') && page.Hide !== true}
-        {#if page.Type.includes("Private") && !$userData['email']}
+        {#if page.Type.includes("Private") && !$userData['Email']}
           <!-- alternatively show an error message for Private pages when user isn't logged in -->
           <!-- <div class="text-red-500">This page is private. Please log in to view.</div> -->
-        {:else if page.Type.includes("Public") && $userData['email']}
+        {:else if page.Type.includes("Public") && $userData['Email']}
           <!-- hide public pages when user is logged in -->
         {:else}
           <div class="MainPage | p-4 bg-slate-50 ">
@@ -86,9 +86,9 @@
           </div>
         {/if}
       {:else if page.Type?.includes('Group') && page.Hide !== true}
-        {#if page.Type.includes("Private") && !$userData['email']}
+        {#if page.Type.includes("Private") && !$userData['Email']}
           <!-- do nothing -->
-        {:else if page.Type.includes("Public") && $userData['email']}
+        {:else if page.Type.includes("Public") && $userData['Email']}
           <!-- do nothing -->
         {:else}
           <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
@@ -102,9 +102,9 @@
           </div>
         {/if}
       {:else if page.Type?.includes('Posts') && page.Hide !== true}
-        {#if page.Type.includes("Private") && !$userData['email']}
+        {#if page.Type.includes("Private") && !$userData['Email']}
           <!-- do nothing -->
-        {:else if page.Type.includes("Public") && $userData['email']}
+        {:else if page.Type.includes("Public") && $userData['Email']}
           <!-- do nothing -->
         {:else}
           <!-- loose posts are NOT grouped together unless given a section -->
@@ -114,27 +114,37 @@
         {/if}
       {:else if page.Type?.includes('Component') && page.Hide !== true}
 
-        {#if page.Type.includes("Private") && !$userData['email']}
+        {#if page.Type.includes("Private") && !$userData['Email']}
           <!-- do nothing -->
-        {:else if page.Type.includes("Public") && $userData['email']}
+        {:else if page.Type.includes("Public") && $userData['Email']}
           <!-- do nothing -->
         {:else}
           {#if page.Name == "Unlock"}
             <div class="Component-Unlock | p-4 bg-slate-50 ">
               <Notion blocks={page.pageBlocks} />
-              {#if $userData['email']}
-                Logged in as {$userData['email']}. <button on:click={()=>{
-                  $userData['email'] = null;
-                }} class="Btn-link --short">Log out</button>
+              {#if $userData['Email']}
+                <div class="Component-Unlock-Status">
+                  Logged in as {$userData['Email']}. <button on:click={()=>{
+                    $userData['Email'] = null;
+                  }} class="Btn-link --short">Log out</button>
+                </div>
+                <div class="Component-Unlock-Details">
+                  {#if $userData['Payments']}
+                    ✅ All Paid! Receipt: <span class="text-slate-400">{$userData['Payments']}</span>
+                  {/if}
+                </div>
               {:else}
+                emailForm: {JSON.stringify(emailForm)}
                 <Email cta="Log in" message={unlockMessage}
+                  bind:formData={emailForm}
                   onError={({ result }) => {
                     unlockMessage = result.error.message;
                   }}
-                  onUpdated={({ form }) => {
+                  onUpdated={({ form, user, banana }) => {
                     if (form.valid) {
                       if(form.data.email) {
-                        $userData['email'] = form.data.email;
+                        // $userData['Email'] = form.data.email;
+                        $userData = emailForm.user;
                         unlockMessage = "Success!";
                       }
                     } else {
@@ -150,8 +160,9 @@
             </div>
           {:else if page.Name == "Members"}
             <div class="Component-Members | p-4 bg-slate-50 ">
-              <Notion blocks={page.pageBlocks} />
-              <MemberList id={page.Content} settings={page.YAML} />
+              <!-- deprecated -->
+              <!-- <Notion blocks={page.pageBlocks} /> -->
+              <!-- <MemberList id={page.Content} settings={page.YAML} /> -->
             </div>
           {:else if page.Name == "Grid"}
             <div class="Component-Grid | p-4 bg-slate-50 ">
@@ -224,7 +235,6 @@
     breaks: true,
   });
 
-
   import Posts from '$lib/components/Posts.svelte';
 
   let cytosis = $page.data.cytosis;
@@ -239,7 +249,7 @@
   let email = cytosis?.['site-data']?.Email?.['Content'];
   let socialLinks = cytosis?.['site-data']?.SocialLinks?.['Content'];
   let sitePages = cytosis?.['site-pages'];
-  let blogpath = $page.data?.pathArr ? `/${$page.data?.path}/` : "/";
+  let blogpath = $page.data?.pathSegments ? `/${$page.data?.path}/` : "/";
   let unlockMessage;
 
 
@@ -289,6 +299,8 @@
     pageOrder = pageOrder.filter(item => (!item.Section || item.Section == ' '));
     // console.log('pageOrder:', pageOrder, sections);
   } buildPageOrer()
+
+  export let emailForm;
 
   // function buildMetadata() {
   //   /*

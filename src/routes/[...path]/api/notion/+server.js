@@ -1,7 +1,7 @@
 
 
 import { json, error } from '@sveltejs/kit';
-import { getDbPage, updatePage } from './utils.js'
+import { getDbPage, updatePage } from '$lib/notion.js'
 
 
 export const GET = async (request) => {
@@ -19,7 +19,7 @@ export const GET = async (request) => {
       "rich_text": [
         {
           "text": {
-            "content": "HELL JESSICA!!!!! FREEDOM!!!"
+            "content": "HELLO JESSICA!!!!! FREEDOM!!!"
           }
         }
       ]

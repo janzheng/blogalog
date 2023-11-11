@@ -4,6 +4,7 @@
 
   import { page } from '$app/stores';
   export let data = $page.data, cta="Submit", showDebug = false, classes="radius-xs border-red-10 bg-slate-50";
+  export let formData;
 
   export let onUpdated, onSubmit, onError, message
 
@@ -13,8 +14,13 @@
     onUpdated,
     onError
   });
-</script>
 
+  $: if($page.form) {
+    formData = $page.form
+  }
+
+
+</script>
 
 <div class="{classes}">
   <form method="POST" action="/api/actions/?/email" use:enhance >

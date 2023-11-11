@@ -15,8 +15,176 @@ import { parseMetadata } from '$lib/helpers.js'
 import { cacheClear } from "$plasmid/utils/cache.js";
 
 
-// blogPath is something like /jessbio/
-export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, blogs=[]}={}) => {
+
+
+
+/* 
+
+  Loads a blogalog from a URL
+
+  - blogPath is something like "ivom" or "jessbio"
+  - hostname is something like jess.bio, or blogalog.net
+
+  Loading Modes
+
+  - Blog Base (default)
+    - the root is a blog (jess.bio), and each blog can have multiple pages
+    - https://blogalog.net, https://jess.bio — loads the main blogalog
+    - https://blogalog.net/blog-name, https://jess.bio/blog-name — loads the subpath blogalog
+
+  - Multiblog Base
+    - the root can host multiple blogs, and each blog can have multiple pages
+    - https://blogalog.net/jessbio — loads the hosted blogalog
+    - https://blogalog.net/jessbio/blog-name — loads a path indicated within blogalog
+
+
+  - loads base blogs index (e.g. blogalog.net index)
+    response = await loadBlogalogFromPath({hostname: "/"})
+
+  - returns root source of the current site (localhost, or blogalog.net, etc.)
+    response = await loadBlogalogFromPath({hostname: "ivom.phage.directory"})
+
+  - loads base blogs index + sub blog hosted on blogalog (e.g. blogalog.net/yawnxyz)
+    -response = await loadBlogalogFromPath({ hostname: "/", blogPath: "yawnxyz" })
+
+  - blog posts are NOT loaded from this function; they need to be handled by the loading function (e.g. layout.server)
+
+
+
+  Quirks
+  - if no blog is found at blog path, an array of all blogs is returned
+
+
+  Returns
+  - return { cytosis, _head, blogs, isBlogalogHome }
+  - { cytosis } contains all the blog information
+
+*/
+
+
+
+
+// these don't really work if a table is publicly shared already!
+export const filterSecretsObj = (obj) => {
+  if(!obj) return null
+  let newObj = {}
+  Object.keys(obj).forEach(key => {
+    if (obj[key].Secret !== true)
+      newObj[key] = obj[key]
+  })
+  return newObj
+}
+
+export const filterSecretsArr = (arr) => {
+  if(!arr) return null
+  let newArr = []
+  arr.forEach(item => {
+    if (item.Secret !== true)
+      newArr.push(item)
+  })
+  return newArr
+}
+
+
+// add the ability to get a blogalog slug or from a db id, not just host name?
+export const loadBlogalog = async ({ 
+  hostname, path, req,
+  settings = {
+    getBlogs: false,
+    getCytosis: false
+  }
+} = {}) => {
+
+  let blogalogData
+
+  hostname = hostname || req.url?.hostname; // localhost:3055; blogalog.net; jess.bio
+  path = path || req.params?.path // [localhost:3055] -> /yawnxyz/biobank-db
+  let blogPath = null;
+  let pageContent; // content of a specific page / blog post
+  // load the base blog to see if it's the blog's Home
+  blogalogData = await loadBlogalogFromPath({ hostname, blogPath })
+
+  let pathSegments = path?.split('/'); // ["yawnxyz", "biobank-db"]
+
+  console.log('[base blog]:', hostname, path, pathSegments)
+
+  if (blogalogData.isBlogalogHome && path) {
+    /* 
+      these paths could look like
+      [localhost:3055] /
+        yawnxyz/biobank-db
+        biobank-db
+
+      so we check if there's a blogalog at that hostname
+    */
+    // NOT used w/ landing pages like [jess.bio], since looking @ params;
+    // only appears when going to sub-pages localhost:3055/yawnxyz/biobank-db
+    // when using sveltekit [...path]; they'll show up here
+    // note: do this recursively when introducing nested Blogalogs
+    let depth = pathSegments.length - 1;
+    blogPath = pathSegments[0]; // yawnxyz -> sub blog
+    let subBlogalogData = await loadBlogalogFromPath({ hostname, blogPath })
+    if (subBlogalogData.cytosis) {
+      blogalogData = subBlogalogData
+      // if there's a sub blog, use that instead
+      // otherwise use the previous route's blogalog data
+    }
+    // console.log('[sub blog check]:', hostname, "//", blogPath, blogalogData)
+
+    // after we've loaded the deepest blogalog, we check for the next segment and if there's a post there
+    // todo: do this recursively?
+    // either go one deeper if the path exists, or stay at the same depth
+    let slug = pathSegments[depth + 1] || pathSegments[depth]; // biobank-db
+    if (slug) {
+      // load a specific page post from a slug
+      pageContent = blogalogData?.cytosis?.['site-pages']?.find(item => item.Path === slug);
+    }
+  }
+
+  blogalogData = {
+    hostname,
+    path,
+    blogPath,
+    pathSegments,
+    isBlogalogHome: blogalogData.isBlogalogHome,
+    secrets: filterSecretsObj(blogalogData.cytosis?.["secrets"]), // type: "Secret"
+    siteData: filterSecretsObj(blogalogData.cytosis?.["site-data"]), // main blogalog post page
+    sitePages: filterSecretsArr(blogalogData.cytosis?.["site-pages"]), // post and other pages
+    pageContent, // content of a blog post, if it exists
+    cytosis: settings?.getCytosis && blogalogData.cytosis, // only for inspection!
+    blogs: settings?.getBlogs && blogalogData.blogs, // this is the list of blogs from blogalog index
+    head: blogalogData._head,
+  }
+
+  return blogalogData
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, blogs: blogalogs=[]}={}) => {
   let cytosis, cytosisData, isBlogalogHome, _head = {};
   console.log('[loadBlogalogFromPath] path:', blogPath, 'hostname', hostname)
 
@@ -27,18 +195,18 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
   */
   let blogConfigData
 
-  if (!blogs || blogs.length < 1) {
+  if (!blogalogs || blogalogs.length < 1) {
     // blogs might have been passed down from layout (already loaded)
     blogConfigData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
         let data = await endoloader(blogalog_config, {
           url: PUBLIC_ENDOCYTOSIS_URL,
           key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
-          // saveCache: false, // handled by cachet
         })
         console.log("blogalog_config data:", data)
         return data
       }, 
-      { // used to cache bust the (very resilient) blog config!
+      { 
+        // used to cache bust the (very resilient) blog config!
         // skipCache: true,
         // setFuzzy: false,
         // ttr: 0, ttl: 0, 
@@ -59,11 +227,11 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
     //   // saveCache: false, // handled by cachet
     // })
 
-    blogs = blogConfigData?.value?.['blogalog'] 
+    blogalogs = blogConfigData?.value?.['blogalog'] 
     // console.log('[endoLoaderData///blogList]:', blogs)
   }
 
-  if(!blogs || blogs.length < 1) {
+  if(!blogalogs || blogalogs.length < 1) {
     console.error("Blogalog data not loaded", blogConfigData)
     return
   }
@@ -79,7 +247,7 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
     Load the Blog pages themselves
   
   */
-  cytosisData = await Promise.all(blogs.map(async (blog) => {
+  cytosisData = await Promise.all(blogalogs.map(async (blog) => {
     if (loadAll==false && !(
       (blogPath && blog?.Slug == blogPath) || 
       (blog.URLs && blog.URLs?.split(',').map(url => url.trim()).includes(hostname))
@@ -168,13 +336,23 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
     // sometimes this trips up and loads the base blogalog page instead of the leaf page (esp. on localhost)
 
     if (cytosis?.['site-pagedata']?.length > 0) {
-      cytosis['site-data'] = applyTransformers(cytosis['site-pagedata'], [{
+    // all page data settings do NOT have a "type"; these are accessible by key
+      cytosis['site-data'] = applyTransformers(cytosis['site-pagedata'].filter(p => !Array.isArray(p.Type)), [{
         "function": "transformArrayToObjectByKey",
         "settings": {
           "objectKey": "Name"
         }
       }])
-      cytosis['site-pages'] = applyTransformers(cytosis['site-pagedata'].filter(p => p.Type), [{
+
+      cytosis['secrets'] = applyTransformers(cytosis['site-pagedata'].filter(p => p.Type && p.Type.includes("Secret")), [{
+        "function": "transformArrayToObjectByKey",
+        "settings": {
+          "objectKey": "Name"
+        }
+      }])
+
+      // every "page" has a type; otherwise it's a setting; these are an
+      cytosis['site-pages'] = applyTransformers(cytosis['site-pagedata'].filter(p => p.Type && !p.Type.includes("Secret")), [{
         "function": "transformArrayVersionedObjects",
         // "settings": {
         //   "uniqueKey": "Path", // unique field to track versions against
@@ -219,5 +397,5 @@ export const loadBlogalogFromPath = async ({blogPath, hostname, loadAll=false, b
   }
 
   // console.log('[cytosisData] object:', cytosis)
-  return { cytosis, _head, blogs, isBlogalogHome }
+  return { cytosis, _head, blogs: blogalogs, isBlogalogHome }
 }

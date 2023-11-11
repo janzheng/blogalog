@@ -22,7 +22,7 @@
 import { json } from '@sveltejs/kit';
 import Stripe from 'stripe'
 
-import { getDbPage, updatePage } from '../notion/utils.js'
+import { getDbPage, updatePage } from '$lib/notion.js'
 
 // import { handleStripeCompleted } from '../stripe/stripe.js'
 

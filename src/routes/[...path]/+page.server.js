@@ -12,7 +12,7 @@ import { z } from 'zod';
 import { message, superValidate } from 'sveltekit-superforms/server';
 const schema = z.object({
   notion: z.string(),
-  email: z.string().email()
+  email: z.string().email().default("stripe@example.com")
 });
 
 
@@ -23,12 +23,12 @@ export const load = async (settings) => {
   
     // let hostname = settings.url?.hostname
     let path = settings.params.path, subPath;
-    let pathArr = settings.params.path.split('/')
+    let pathSegments = settings.params.path.split('/')
     let _head, cytosis, isBlogalogHome, blogs;
     let parentData = await settings.parent()
     let pageContent
 
-    console.log('[path/page.server.js/path/load] path array:', pathArr)
+    console.log('[path/page.server.js/path/load] path array:', pathSegments)
 
     const form = await superValidate(schema);
 
@@ -37,7 +37,7 @@ export const load = async (settings) => {
       _head = parentData?.head
       cytosis = parentData?.cytosis
       blogs = parentData?.blogs
-      pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
+      pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathSegments?.[pathSegments?.length - 1]);
 
     }
 
@@ -47,37 +47,37 @@ export const load = async (settings) => {
       // this loads blogs as SUB PATHS
       // otherwise we just get the data back from the layout
       // problem is sometimes you load blogalog/postSlug, it does NOT have parent data cached, so now you're loading both localhost AND a subpath post slug
-      let newCytosis = await loadBlogalogFromPath({blogPath: pathArr[0], blogs}); // 
+      let newCytosis = await loadBlogalogFromPath({blogPath: pathSegments[0], blogs}); // 
       if(newCytosis) {
         ({ _head, cytosis, isBlogalogHome } = newCytosis);
       }
 
-      if (pathArr.length > 1) { // load a leaf blog instead of base blog
-        pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[pathArr?.length - 1]);
+      if (pathSegments.length > 1) { // load a leaf blog instead of base blog
+        pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathSegments?.[pathSegments?.length - 1]);
 
 
         let depth = 2
-        if (pathArr.length > depth) { // deep path
+        if (pathSegments.length > depth) { // deep path
           let index = depth-1
-          pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathArr?.[index]);
-          subPath = pathArr?.[depth]
-          console.log("DEEP PATH --**", pathArr, subPath)  
+          pageContent = cytosis?.['site-pages']?.find(item => item.Path === path || item.Path === pathSegments?.[index]);
+          subPath = pathSegments?.[depth]
+          console.log("DEEP PATH --**", pathSegments, subPath)  
         }
-        path = pathArr[1]; // set the home path to the first one, e.g. jessbio only when in multiblog
+        path = pathSegments[1]; // set the home path to the first one, e.g. jessbio only when in multiblog
         isBlogalogHome = false
       } else if (cytosis?.['site-data']) {
-        // console.log("BASE POST", pathArr)  
+        // console.log("BASE POST", pathSegments)  
         pageContent = cytosis?.['site-data'];
-        path = pathArr[0]; // set the home path to the first one, e.g. jessbio only when in multiblog
+        path = pathSegments[0]; // set the home path to the first one, e.g. jessbio only when in multiblog
       }
     }
 
 
-    // console.log("PAGE SERVER PATH:", pathArr, path)
+    // console.log("PAGE SERVER PATH:", pathSegments, path)
     let obj = {
       path: path,
       subPath,
-      pathArr,
+      pathSegments,
       form,
     }
     if(cytosis) obj['cytosis'] = cytosis;

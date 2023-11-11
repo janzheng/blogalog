@@ -2,7 +2,7 @@
 <script>
   import { page } from '$app/stores';
 
-  let blogPath = $page.data?.pathArr?.length>1 ? `/${$page.data?.pathArr[0]}` : "/";
+  let blogPath = $page.data?.pathSegments?.length>1 ? `/${$page.data?.pathSegments[0]}` : "/";
 
 </script>
 

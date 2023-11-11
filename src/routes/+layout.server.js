@@ -182,7 +182,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
 
     return {
       path: params?.path,
-      pathArr: params?.path?.split('/'),
+      pathSegments: params?.path?.split('/'),
       hostname, 
       origin: url?.origin,
       plainUrl: removePrefixFromHostname(url),

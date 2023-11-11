@@ -20,7 +20,7 @@
 <!-- blog post or sub-page post, from a leaf route -->
 {#if $page.data.path && $page.data.pageContent && $page.data.isBlogalogHome!==true}
 
-  {#if $page?.data.pageContent['Type'] == 'Component' &&  ['Members'].includes($page?.data.pageContent['Name'])}
+  {#if $page?.data.pageContent['Type'] == 'Component' &&  ['Grid'].includes($page?.data.pageContent['Name'])}
     <!-- SPECIAL COMPONENT HERE: {$page?.data.pageContent['Name']} | {$page.data.path} | {$page.data.subPath} -->
     <!-- this is for SUBPATHS like member/slug or products loaded from separate databases -->
     <div class="PagePath PageContent content-pad _content-wide">
@@ -34,7 +34,9 @@
           <div class="text-lg font-medium | inline-block ml-2">{author}</div>
         </a>
       </div>
-      <Member id={pageContent.Content} settings={pageContent.YAML + `\nfilter: ${$page.data.subPath}`} search={$page.data.subPath} />
+      (deprecated [path: {$page.data.path}] [subpath: {$page.data.subPath}])
+      <!-- deprecated -->
+      <!-- <Member id={pageContent.Content} settings={pageContent.YAML + `\nfilter: ${$page.data.subPath}`} search={$page.data.subPath} /> -->
     </div>
 
     
@@ -136,7 +138,7 @@
   let blogPath, cytosis, pageContent, profileImage, author, pageCover
 
   $: if($page?.data) {
-    blogPath = $page?.data?.pathArr?.length>1 ? `/${$page?.data?.pathArr[0]}` : "/"
+    blogPath = $page?.data?.pathSegments?.length>1 ? `/${$page?.data?.pathSegments[0]}` : "/"
     cytosis = $page?.data.cytosis; // await streamed cytosis, and set it here
     pageContent = $page?.data.pageContent
     if (dev && browser) console.log('[path-*] pageContent: ', pageContent)
@@ -147,7 +149,7 @@
   }
   // needs to catch both /base/project/post vs. /project/post and go one step up
   
-  // $: pageContent = $page?.data.cytosis?.['site-pages'].find(item => item.Path === $page?.data.path || item.Path === $page?.data.pathArr?.[$page?.data.pathArr?.length -1]);
+  // $: pageContent = $page?.data.cytosis?.['site-pages'].find(item => item.Path === $page?.data.path || item.Path === $page?.data.pathSegments?.[$page?.data.pathSegments?.length -1]);
   // if($page?.data.pageContent) pageContent = $page?.data.pageContent
 
 

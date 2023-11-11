@@ -5,8 +5,6 @@
 
  -->
 
-
-<!-- {#await getItems(id) then Items} -->
 {#if isLoading || !items || !settings}
   <h2 style="padding-top:0"><Loader /> {settings?.loading || "Loading"}</h2>
 {:else}
@@ -14,9 +12,9 @@
     <!-- <div class="Items | " style="{twi(settings?.items?.class || 'grid grid-cols-2 md:grid-cols-2 gap-4')}"> -->
     <div class="Items | {settings?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
       {#each items as item}
-        <div class="Item | p-4 bg-slate-50 {settings?.item?.class} | {settings?.modal ? 'cursor-pointer' : ''}"
-          on:click={()=>handleOpenModal(item)} 
-          on:keyup={()=>handleOpenModal(item)}
+        <div class="Item | p-4 bg-slate-50 {settings?.item?.class} | {settings?.modal || settings?.item?.click ? 'cursor-pointer' : ''}"
+          on:click={(e)=>handleItemClick(item, e)} 
+          on:keyup={(e)=>handleItemClick(item, e)}
           >
           {#each getOrderedKeys(item) as key}
             <GridItemRow {item} {key} schema={settings?.schema} />
@@ -42,13 +40,12 @@
     </div>
   {/if}
 {/if}
-<!-- {/await} -->
  
 
 
 <script>
   import { onMount } from 'svelte';
-  import { browser } from '$app/environment';
+  import { browser, dev } from '$app/environment';
   import { marked } from 'marked';
   import YAML from 'yaml'
   import { getNotionImageLink } from '$lib/helpers.js'
@@ -65,6 +62,10 @@
   if(settings) {
     settings = YAML.parse(settings)
   }
+
+  $: if (browser && settings && dev) {
+    console.log('Grid settings:', settings)
+  }
    
   const getItems = async (id) => {
     isLoading = true
@@ -79,7 +80,7 @@
       console.error('[getItems] error', err)
     }
     isLoading = false
-    let items = [...result.items]
+    let items = [...result?.items]
 
     return {
       items: items,
@@ -121,15 +122,19 @@
     return keys;
   }
 
-  async function handleOpenModal (item) {
+  async function handleItemClick (item, e) {
     if(browser && settings.modal) {
       if(!pageBlocks && (settings.loadNotionPage || settings.modal.loadNotionPage)) {
         pageBlocks = await loadPage(item.id);
       }
 
       getModal(item.Name).open()
+    } else if (browser && settings.item?.click) {
+      if(e) e.preventDefault();
+      if(settings.item?.itemLink) {
+        window.location.href = item[settings.item?.itemLink];
+      }
     }
   }
 
-  
 </script>

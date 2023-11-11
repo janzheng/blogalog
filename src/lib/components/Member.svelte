@@ -1,4 +1,10 @@
 
+<!-- 
+
+  DEPRECATED — use GRID INSTEAD
+
+
+ -->
 {#if isLoading}
   <h2 style="padding-top:0"><Loader /> Loading Member ...</h2>
 {:else}
@@ -15,7 +21,7 @@
       <div class="Member-Story whitespace-pre-line mt-4">{@html member['Story']||'No story provided'}</div>
     </div>
   {:else}
-    <h2>No member found at "{search}"</h2>
+    <h2>No member found at "{slug}"</h2>
   {/if}
 {/if}
 
@@ -29,7 +35,7 @@
   import Loader from '$plasmid/components/icons/loader.svelte';
   import { getNotionImageLink } from '$lib/helpers.js'
 
-  export let id, member={}, settings, isLoading, search;
+  export let id, member={}, settings, isLoading, slug;
 
 
   const loadData = async (id, settings) => {
