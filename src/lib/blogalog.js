@@ -98,12 +98,20 @@ export const filterSecretsArr = (arr) => {
 
 
 export const buildBlogPage = (blogDataArr, index) => {
+
+  let blog
+  if (!Array.isArray(blogDataArr)) {
+    // can pass in a single blog object instead of an arr
+    blogDataArr = [blogDataArr];
+  }
+  
   if (!index)
-    index = blogDataArr.length - 1
+    index = blogDataArr.length > 0 ? blogDataArr.length - 1 : 0;
+
   // the blog data arr could have more than one blog;
   // here we just build the LAST blog in the arr
   // this is helpful bc we might just be getting a recursive list of blogs, and this is the last / deepest
-  let blog = blogDataArr[index]?.value
+  blog = blogDataArr[index]?.value
   // sometimes this trips up and loads the base blogalog page instead of the leaf page (esp. on localhost)
 
   if (blog?.['site-pagedata']?.length > 0) {
@@ -259,7 +267,7 @@ export const loadBlogalogPages = async () => {
 
 // this fn pulls the data from Notion / KV Cache
 // can use this directly to pull non-blogalog-indexed pages
-export const loadBlogalogFromPageId = async (pageId, slug) => {
+export const loadBlogalogFromPageId = async ({pageId, slug}) => {
   // pull the data
   // return await endo({
   //   "sources": [
@@ -292,7 +300,7 @@ export const loadBlogalogFromPageId = async (pageId, slug) => {
     ]
   }
 
-  // console.log('[blogalog] loading:', slug, blog['URLs'], 'hostname:', hostname, 'cache key:', `${PUBLIC_PROJECT_NAME}-${slug}`, 'config:', endoloader_config)
+  console.log('[loadBlogalogFromPageId] loading:', slug, pageId, endoloader_config)
 
 
   let finalData = await cachet(`${PUBLIC_PROJECT_NAME}-${slug}`, async () => {
@@ -361,7 +369,7 @@ export const loadBlogalogData = async ({ blogalogPages, blogPath, hostname, load
       throw new Error(`No Pagedata ID for [${blog['Pagedata ID']}] provided; \n${JSON.stringify(blog, 0, 2)}`)
     }
 
-    let blogData = await loadBlogalogFromPageId(blog['Pagedata ID'], blog['Slug'])
+    let blogData = await loadBlogalogFromPageId({pageId: blog['Pagedata ID'], slug: blog['Slug']})
     return blogData
   }))
 

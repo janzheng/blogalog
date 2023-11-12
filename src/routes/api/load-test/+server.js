@@ -1,7 +1,7 @@
 
 import { json } from '@sveltejs/kit';
 
-import { loadBlogalog } from '$lib/blogalog'
+import { loadBlogalog, loadBlogalogFromPageId, buildBlogPage, buildBlogHead } from '$lib/blogalog'
 // import { loadBlogalog } from '../loadBlogalog.js'
 
 /* 
@@ -42,37 +42,41 @@ export const GET = async (req) => {
   // }
 
   // testing
-  blogalogData = await loadBlogalog({ 
-    req: {
-      // returns blogalog home page; isBlogalogHome = true
-      url: { hostname: "localhost" },
-      params: { },
+  // blogalogData = await loadBlogalog({ 
+  //   req: {
+  //     // returns blogalog home page; isBlogalogHome = true
+  //     url: { hostname: "localhost" },
+  //     params: { },
 
-      // returns yawnxyz as sub blog
-      // url: { hostname: "localhost" },
-      // params: { path: "yawnxyz" },
+  //     // returns yawnxyz as sub blog
+  //     // url: { hostname: "localhost" },
+  //     // params: { path: "yawnxyz" },
 
-      // returns yawnxyz as sub blog w/ blog post
-      // url: { hostname: "localhost" },
-      // params: { path: "yawnxyz/biobank-db" },
+  //     // returns yawnxyz as sub blog w/ blog post
+  //     // url: { hostname: "localhost" },
+  //     // params: { path: "yawnxyz/biobank-db" },
 
-      // returns yawnxyz as main blog
-      // url: { hostname: "janzheng.com" },
-      // params: { },
+  //     // returns yawnxyz as main blog
+  //     // url: { hostname: "janzheng.com" },
+  //     // params: { },
 
-      // returns yawnxyz as main blog w/ blog post
-      // url: { hostname: "janzheng.com" },
-      // params: { path: "biobank-db" },
+  //     // returns yawnxyz as main blog w/ blog post
+  //     // url: { hostname: "janzheng.com" },
+  //     // params: { path: "biobank-db" },
 
-      // returns blog list on failure
-      // url: { hostname: "localhost:3055" },
-      // params: { path: "banana" }
-    } 
-  })
+  //     // returns blog list on failure
+  //     // url: { hostname: "localhost:3055" },
+  //     // params: { path: "banana" }
+  //   } 
+  // })
+
+  blogalogData = await loadBlogalogFromPageId({ pageId: "64c8b0211d2a4e85939c679e8002ab8d" })
+  let blog = buildBlogPage(blogalogData)
+  let head = buildBlogHead(blog)
+  response = {blog, head}
 
 
   // response = blogData
-  response = blogalogData
   // response = await loadBlogalog(req)
   // response = await loadBlogalogFromPath({ hostname: req.url.hostname })
 
