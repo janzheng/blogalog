@@ -97,8 +97,13 @@ export const filterSecretsArr = (arr) => {
 
 
 
-export const buildBlogPage = (blogData) => {
-  let blog = blogData[blogData.length - 1]?.value
+export const buildBlogPage = (blogDataArr, index) => {
+  if (!index)
+    index = blogDataArr.length - 1
+  // the blog data arr could have more than one blog;
+  // here we just build the LAST blog in the arr
+  // this is helpful bc we might just be getting a recursive list of blogs, and this is the last / deepest
+  let blog = blogDataArr[index]?.value
   // sometimes this trips up and loads the base blogalog page instead of the leaf page (esp. on localhost)
 
   if (blog?.['site-pagedata']?.length > 0) {
@@ -356,57 +361,8 @@ export const loadBlogalogData = async ({ blogalogPages, blogPath, hostname, load
       throw new Error(`No Pagedata ID for [${blog['Pagedata ID']}] provided; \n${JSON.stringify(blog, 0, 2)}`)
     }
 
-    // pull the data
-    // return await endo({
-    //   "sources": [
-    //     {
-    //       "name": "site-pagedata",
-    //       "type": "cfnotion",
-    //       "path": `/collection/${blog['Pagedata ID']}`,
-    //       "loaders": {
-    //         "notionPageId": "id"
-    //       },
-    //     },
-    //   ]
-    // })
-    let endoloader_config = {
-      "sources": [
-        {
-          "name": "site-pagedata",
-          "type": "cfnotion",
-          "path": `/collection/${blog['Pagedata ID']}`,
-          "loaders": {
-            "notionPageId": "id"
-          },
-        },
-      ]
-    }
-
-    // console.log('[blogalog] loading:', blog['Slug'], blog['URLs'], 'hostname:', hostname, 'cache key:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, 'config:', endoloader_config)
-
-
-    let finalData = await cachet(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`, async () => {
-      console.log('[blogalog] Loading Endo:', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`)
-      let data = await endoloader(endoloader_config, {
-        key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
-        url: PUBLIC_ENDOCYTOSIS_URL,
-        saveCache: false, // handled by cachet
-      })
-      return data
-    },
-      {
-        // skipCache: true,
-        // setFuzzy: false,
-        ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
-        ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-        bgFn: () => {
-          // cacheClear(`${PUBLIC_PROJECT_NAME}-${blog['Slug']}`)÷
-          // console.log('[blogalog] << Reloading Endo >> ', `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`)
-          endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}` });
-        }
-      })
-
-    return finalData
+    let blogData = await loadBlogalogFromPageId(blog['Pagedata ID'], blog['Slug'])
+    return blogData
   }))
 
   // one or more matched blog posts; could be ALL blog posts!
@@ -518,12 +474,13 @@ export const loadBlogalogFromPath = async ({
   blogalogPages = [], // table of blogalog data / e.g. the Blogalog Page List
 }={}
   ) => {
-  let blog, blogData, isBlogalogHome, head = {};
+  let blog, blogDataArr, isBlogalogHome, head = {};
   console.log('[loadBlogalogFromPath] path:', {hostname, blogPath, loadAll })
   // console.log('[loadBlogalogFromPath] path:', {hostname, blogPath, loadAll, blogalogPages})
 
   if (!blogalogPages || blogalogPages.length < 1) {
-    blogalogPages = await loadBlogalogPages() // these are official blogalogs from the Blogalog PageList
+    blogalogPages = await loadBlogalogPages() 
+    // these are official blogalog indexed pages from the Blogalog PageList
   }
 
   if(!blogalogPages || blogalogPages.length < 1) {
@@ -531,11 +488,12 @@ export const loadBlogalogFromPath = async ({
     throw new Error("Blogalog data not loaded");
   }
   
-  blogData = await loadBlogalogData({ blogalogPages, blogPath, hostname, loadAll })
+  // get the actual blog page data in an array
+  blogDataArr = await loadBlogalogData({ blogalogPages, blogPath, hostname, loadAll })
   isBlogalogHome = true // todo: is this still necessary?
 
-  if (blogData?.length > 0) {
-    blog = buildBlogPage(blogData)
+  if (blogDataArr?.length > 0) {
+    blog = buildBlogPage(blogDataArr)
     head = buildBlogHead(blog)
   }
 
