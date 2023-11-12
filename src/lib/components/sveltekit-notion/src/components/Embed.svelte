@@ -73,7 +73,7 @@
       });
   }
 
-  console.log('src:', src, block.properties.source[0])
+  // console.log('src:', src, block.properties.source[0])
 
 </script>
 

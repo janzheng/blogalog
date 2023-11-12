@@ -34,7 +34,7 @@
           <div class="text-lg font-medium | inline-block ml-2">{author}</div>
         </a>
       </div>
-      (deprecated [path: {$page.data.path}] [subpath: {$page.data.subPath}])
+      <RenderComponent page={pageContent} />
       <!-- deprecated -->
       <!-- <Member id={pageContent.Content} settings={pageContent.YAML + `\nfilter: ${$page.data.subPath}`} search={$page.data.subPath} /> -->
     </div>
@@ -126,6 +126,7 @@
   // import Notion from '@yawnxyz/sveltekit-notion'
   // import Notion from '@yawnxyz/sveltekit-notion/src/Notion.svelte'
   import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  import RenderComponent from '$lib/components/RenderComponent.svelte';
 
   import Profile from '$lib/components/profiles/Profile.svelte';
   import Member from '$lib/components/Member.svelte';
@@ -146,6 +147,7 @@
     pageCover = getNotionImageLink(pageContent) || pageContent?.['Cover']
     author = blog?.['site-data'].Author?.['Content'];
 
+    console.log('[path] pageContent', pageContent)
   }
   // needs to catch both /base/project/post vs. /project/post and go one step up
   
