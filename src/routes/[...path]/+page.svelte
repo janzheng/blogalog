@@ -135,21 +135,21 @@
   // if(browser)
   //   console.log('-* pageData: ', $page?.data)
 
-  let blogPath, cytosis, pageContent, profileImage, author, pageCover
+  let blogPath, blog, pageContent, profileImage, author, pageCover
 
   $: if($page?.data) {
     blogPath = $page?.data?.pathSegments?.length>1 ? `/${$page?.data?.pathSegments[0]}` : "/"
-    cytosis = $page?.data.cytosis; // await streamed cytosis, and set it here
+    blog = $page?.data.blog; // await streamed blog, and set it here
     pageContent = $page?.data.pageContent
     if (dev && browser) console.log('[path-*] pageContent: ', pageContent)
-    profileImage = getNotionImageLink(cytosis?.['site-data']?.['ProfileImage'])
+    profileImage = getNotionImageLink(blog?.['site-data']?.['ProfileImage'])
     pageCover = getNotionImageLink(pageContent) || pageContent?.['Cover']
-    author = cytosis?.['site-data'].Author?.['Content'];
+    author = blog?.['site-data'].Author?.['Content'];
 
   }
   // needs to catch both /base/project/post vs. /project/post and go one step up
   
-  // $: pageContent = $page?.data.cytosis?.['site-pages'].find(item => item.Path === $page?.data.path || item.Path === $page?.data.pathSegments?.[$page?.data.pathSegments?.length -1]);
+  // $: pageContent = $page?.data.blog?.['site-pages'].find(item => item.Path === $page?.data.path || item.Path === $page?.data.pathSegments?.[$page?.data.pathSegments?.length -1]);
   // if($page?.data.pageContent) pageContent = $page?.data.pageContent
 
 
@@ -157,13 +157,13 @@
   // if(browser) {
       // console.log('blog path DATA?!?!!??!:', data, pageContent)
   //   (async () => {
-  //     cytosis = await $page?.data.streamed?.cytosis
-  //     console.log('----> cytosis:', cytosis)
+  //     blog = await $page?.data.streamed?.blog
+  //     console.log('----> blog:', blog)
   //   })()
   // }
 
-  // $: if(browser && $page?.data.streamed?.cytosis) {
-  //   console.log('streamed.cytosis:', $page?.data.streamed?.cytosis)
+  // $: if(browser && $page?.data.streamed?.blog) {
+  //   console.log('streamed.blog:', $page?.data.streamed?.blog)
   // }
 
 </script>

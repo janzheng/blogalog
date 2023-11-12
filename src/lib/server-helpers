@@ -5,6 +5,9 @@ import { cacheClear } from "$plasmid/utils/cache.js";
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
 import { PUBLIC_PROJECT_NAME, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
 
+
+// this just deletes the cache; doesn't reload
+// most likely you'll want to use reload instead!
 export async function resetBlog(key) {
   // don't forget to add project-name before the key (in the calling function!)
   cacheClear(key)
@@ -42,7 +45,6 @@ export async function reloadBlog(blog) {
   })
   // return data
 
-  // await loadBlogalogFromPath({blogPath: key, blogs})
   console.log('[api/reload]: reloaded 👍', blog['Slug'])
   return true
 }

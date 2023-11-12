@@ -38,7 +38,7 @@ export const GET = async (req) => {
   // blogalogData = await loadBlogalogFromPath({ hostname, blogPath: "yawnxyz" })
   // if(slug) {
   //   // load a specific page post from a slug
-  //   post = blogalogData?.cytosis?.['site-pages']?.find(item => item.Path === slug);
+  //   post = blogalogData?.blog?.['site-pages']?.find(item => item.Path === slug);
   // }
 
   // testing

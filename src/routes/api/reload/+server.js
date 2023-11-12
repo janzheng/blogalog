@@ -19,17 +19,17 @@ export async function GET({ url }) {
     console.time('[api/reload] Total reload time');
     let hostname = url?.hostname;
     let blogalog = await loadBlogalogFromPath({ hostname });
-    let blogs=[];
+    let blogalogPages=[];
 
     if (blogalog) {
-      ({ blogs } = blogalog);
+      ({ blogalogPages } = blogalog);
     }
 
     // note we don't reset the blogalog_config!!
 
     let blogList = []
-    if(blogs && blogs.length > 0) {
-      blogList = await Promise.all(blogs.map(async blog => {
+    if(blogalogPages && blogalogPages.length > 0) {
+      blogList = await Promise.all(blogalogPages.map(async blog => {
         let slug = `${PUBLIC_PROJECT_NAME}-${blog.Slug}`
         await resetBlog(slug);
         await reloadBlog(blog);

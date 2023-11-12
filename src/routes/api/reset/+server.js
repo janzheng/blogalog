@@ -1,4 +1,13 @@
 
+/* 
+
+  Resets the KV cache for blog pages
+  Useful for testing; 
+  
+  Use /reload instead to force prod pages to get latest data
+
+*/
+
 import { json, error } from '@sveltejs/kit'
 import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
 import { loadBlogalogFromPath } from '$lib/blogalog'
@@ -16,19 +25,19 @@ export async function GET({ url }) {
     
     let hostname = url?.hostname;
     let blogalog = await loadBlogalogFromPath({ hostname });
-    let blogs=[];
+    let blogalogPages=[];
 
     if (blogalog) {
-      ({ blogs } = blogalog);
+      ({ blogalogPages } = blogalog);
     }
 
 
     // temp
-    blogs.push({Slug: `blogalog_config`})
+    blogalogPages.push({Slug: `blogalog_config`})
 
     let blogList = []
-    if(blogs && blogs.length > 0) {
-      blogList = await Promise.all(blogs.map(async blog => {
+    if(blogalogPages && blogalogPages.length > 0) {
+      blogList = await Promise.all(blogalogPages.map(async blog => {
         let slug = `${PUBLIC_PROJECT_NAME}-${blog.Slug}`
         await resetBlog(slug);
         return slug;

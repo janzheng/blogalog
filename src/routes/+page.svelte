@@ -8,8 +8,8 @@
     <div class="Hero | content-pad | bg-slate-50 | overflow-hidden ">
       <div class="relative container max-w-7xl mx-auto w-full h-full; | md:grid grid-cols-3-2">
         <div>
-          {#if false && cytosis['site-data']?.['hero']?.Content}
-            {@html marked(cytosis['site-data']?.['hero']?.Content || '')}
+          {#if false && blog['site-data']?.['hero']?.Content}
+            {@html marked(blog['site-data']?.['hero']?.Content || '')}
           {:else}
             <h2 class="h2-1 antialiased pt-4 pb- mb-0" >Hey hey,</h2>
             <h2 class="h2-2 pt-0 leading-12 antialiased">I’m Jan, a product designer who uses code and good product design practices to tackle challenging, data-centric problems.</h2>
@@ -24,19 +24,19 @@
     </div>
 
     <div class="content-pad _content-wide">
-      {#if cytosis && cytosis[1]}
+      {#if blog && blog[1]}
         <div class="my-16">
-          <!-- <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Posts")} ></Posts> -->
-          <Posts posts={cytosis[1].filter(page => page.Type == "Posts")} ></Posts>
+          <!-- <Posts posts={blog['site-pages'].filter(page => page.Type == "Posts")} ></Posts> -->
+          <Posts posts={blog[1].filter(page => page.Type == "Posts")} ></Posts>
         </div>
       {/if}
       <div class="my-16">
         <Companies ></Companies>
       </div>
 
-      <!-- {#if cytosis && cytosis['site-pages']}
+      <!-- {#if blog && blog['site-pages']}
         <div class="my-16">
-          <CaseStudies caseStudies={cytosis['site-pages'].filter(page => page.Type == "Case Study")} ></CaseStudies>
+          <CaseStudies caseStudies={blog['site-pages'].filter(page => page.Type == "Case Study")} ></CaseStudies>
         </div>
       {/if} -->
       
@@ -60,18 +60,18 @@
   // import CaseStudies from '$lib/components/CaseStudies.svelte';
   import Posts from '$lib/components/Posts.svelte';
 
-  let cytosis = $page.data.cytosis // doesn't wait
-  // streamed cytosis (loads in after page loads)
+  let blog = $page.data.blog // doesn't wait
+  // streamed blog (loads in after page loads)
   // if(browser) {
   //   (async () => {
   //     console.log('----> streamed:', $page.data.streamed)
-  //     // cytosis = await $page.data.streamed?.cytosis
-  //     // console.log('----> cytosis:', cytosis)
+  //     // blog = await $page.data.streamed?.blog
+  //     // console.log('----> blog:', blog)
   //   })()
   // }
 
-  // $: if(browser && $page.data.streamed?.cytosis) {
-  //   console.log('streamed.cytosis:', $page.data.streamed?.cytosis)
+  // $: if(browser && $page.data.streamed?.blog) {
+  //   console.log('streamed.blog:', $page.data.streamed?.blog)
   // }
 
 

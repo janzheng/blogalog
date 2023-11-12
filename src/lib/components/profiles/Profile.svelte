@@ -56,11 +56,11 @@
   
   <!-- display posts before anything else, if we don't have subsections -->
   <!-- update: instead of grouping them, now allowing multiple sections of posts, if theye're inserted at diff. places -->
-  <!-- {#if cytosis && cytosis['site-pages'] && sections.length == 0}
+  <!-- {#if blog && blog['site-pages'] && sections.length == 0}
     <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
       <div class="p-4 bg-slate-50">
         <h2 class="pt-0 mt-0">{"Posts"}</h2>
-        <Posts posts={cytosis['site-pages'].filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
+        <Posts posts={blog['site-pages'].filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
       </div>
     </div>
   {/if} -->
@@ -134,7 +134,6 @@
                   {/if}
                 </div>
               {:else}
-                emailForm: {JSON.stringify(emailForm)}
                 <Email cta="Log in" message={unlockMessage}
                   bind:formData={emailForm}
                   onError={({ result }) => {
@@ -237,25 +236,25 @@
 
   import Posts from '$lib/components/Posts.svelte';
 
-  let cytosis = $page.data.cytosis;
-  let profileImage = getNotionImageLink(cytosis?.['site-data']?.['ProfileImage']);
-  let coverImage = getNotionImageLink(cytosis?.['site-data']?.['CoverImage']);
-  let author = cytosis?.['site-data']?.Author?.['Content'];
-  let shortDesc = cytosis?.['site-data']?.ShortDescription?.['Content'];
-  let location = cytosis?.['site-data']?.Location?.['Content'];
-  let socialDescription = cytosis?.['site-data']?.SocialDescription?.['Content'];
-  let shortDescription = cytosis?.['site-data']?.LongDescription?.['Content'];
-  let mainPageBlocks = cytosis?.['site-pages']?.find(page => page.Type?.includes("Main"))?.pageBlocks;
-  let email = cytosis?.['site-data']?.Email?.['Content'];
-  let socialLinks = cytosis?.['site-data']?.SocialLinks?.['Content'];
-  let sitePages = cytosis?.['site-pages'];
+  let blog = $page.data.blog;
+  let profileImage = getNotionImageLink(blog?.['site-data']?.['ProfileImage']);
+  let coverImage = getNotionImageLink(blog?.['site-data']?.['CoverImage']);
+  let author = blog?.['site-data']?.Author?.['Content'];
+  let shortDesc = blog?.['site-data']?.ShortDescription?.['Content'];
+  let location = blog?.['site-data']?.Location?.['Content'];
+  let socialDescription = blog?.['site-data']?.SocialDescription?.['Content'];
+  let shortDescription = blog?.['site-data']?.LongDescription?.['Content'];
+  let mainPageBlocks = blog?.['site-pages']?.find(page => page.Type?.includes("Main"))?.pageBlocks;
+  let email = blog?.['site-data']?.Email?.['Content'];
+  let socialLinks = blog?.['site-data']?.SocialLinks?.['Content'];
+  let sitePages = blog?.['site-pages'];
   let blogpath = $page.data?.pathSegments ? `/${$page.data?.path}/` : "/";
   let unlockMessage;
 
 
   
   let sitePageByType = {}, sitePageTypes = [];
-  cytosis?.['site-pages']?.forEach(page => {
+  blog?.['site-pages']?.forEach(page => {
     sitePageTypes = [...sitePageTypes, ...page.Type];
     if(!sitePageByType[page.Type]) {
       sitePageByType[page.Type] = [];

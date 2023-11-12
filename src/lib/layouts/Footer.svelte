@@ -12,9 +12,9 @@
 
   export let clientHeight;
 
-  let cytosis = $page.data.cytosis;
-  let email = cytosis?.['site-data']?.Email?.['Content'];
-  let socialLinks = cytosis?.['site-data']?.SocialLinks?.['Content'];
+  let blog = $page.data.blog;
+  let email = blog?.['site-data']?.Email?.['Content'];
+  let socialLinks = blog?.['site-data']?.SocialLinks?.['Content'];
 </script>
 
 <footer bind:clientHeight={clientHeight} class="Footer | mt-4 | content-pad | bg-slate-50 ">

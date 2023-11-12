@@ -3,20 +3,18 @@ import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
 import { PUBLIC_PROJECT_NAME, PUBLIC_BLOGMODE, PUBLIC_FUZZYKEY_URL, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_CACHET_TTR, PUBLIC_CACHET_TTL } from '$env/static/public';
 
 import { head, seo } from '$lib/config.js'
-import { parseMetadata, getNotionImageLink } from '$lib/helpers.js'
-
-
-import { config as blogalog_config } from '$plasmid/modules/cytosis2/configs/blogalog.config.js';
-import { config as jz_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.janzheng.js';
-// import { config as js_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.jessbio.js';
-import { config as js2_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.jessbio2.js';
-
 import { loadBlogalogFromPath } from '$lib/blogalog'
-// import FuzzyKey from '$plasmid/utils/fuzzykey'
-import { cachet } from '$plasmid/utils/cachet'
+// import { parseMetadata, getNotionImageLink } from '$lib/helpers.js'
 
-import { endo, endoloader } from '$plasmid/modules/cytosis2';
-import { applyTransformers } from '$plasmid/modules/cytosis2/transformers';
+
+// import { config as blogalog_config } from '$plasmid/modules/cytosis2/configs/blogalog.config.js';
+// import { config as jz_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.janzheng.js';
+// // import { config as js_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.jessbio.js';
+// import { config as js2_config } from '$plasmid/modules/cytosis2/configs/cytosis.config.jessbio2.js';
+
+// import { cachet } from '$plasmid/utils/cachet'
+// import { endo, endoloader } from '$plasmid/modules/cytosis2';
+// import { applyTransformers } from '$plasmid/modules/cytosis2/transformers';
 
 function removePrefixFromHostname(url) {
   let hostname = url.hostname;
@@ -28,17 +26,17 @@ function removePrefixFromHostname(url) {
 
 
 
-async function initContent(_head, hostname) {
+async function initContent(head, hostname) {
   console.log('[initContent] initializing:', PUBLIC_BLOGMODE)
-  let cytosis, config, mode, blogs
+  let blog, config, mode, blogalogPages
 
   if (PUBLIC_BLOGMODE == 'blogalog') {
-    // ({ _head, cytosis } = await loadBlogalogFromPath('blogalog', hostname)); // previously, needed to specify blogalog; now uses the hostname/domain
-    console.log('hostname:', hostname)
+    // ({ head, cytosis } = await loadBlogalogFromPath('blogalog', hostname)); // previously, needed to specify blogalog; now uses the hostname/domain
+    // console.log('hostname:', hostname)
     let blogalog = await loadBlogalogFromPath({hostname});
 
     if(blogalog) {
-      ({ _head, cytosis, blogs } = blogalog);
+      ({ head, blog, blogalogPages } = blogalog);
     }
     else {
       // NOTE: don't do this if on a subpath; or maybe just don't do this at all?
@@ -135,7 +133,7 @@ async function initContent(_head, hostname) {
   }
 
   // console.log('[layout] cytosis:', cytosis)
-  return { cytosis, _head, blogs }
+  return { blog, head, blogalogPages }
 }
 
 
@@ -166,8 +164,8 @@ export const load = async ({ url, params, setHeaders, locals}) => {
     
 
     // let {cytosis, _head} = await initContent(head)
-    let cytosis, _head, blogs
-    ({ cytosis, _head, blogs } = await initContent(head, hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
+    let blog, head, blogalogPages
+    ({ blog, head, blogalogPages } = await initContent(head, hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
     // example of how to cachet at the top:
     // ({ cytosis, _head } = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_BLOGMODE}`, async ()=>{
     //    return await initContent(head)
@@ -187,11 +185,12 @@ export const load = async ({ url, params, setHeaders, locals}) => {
       origin: url?.origin,
       plainUrl: removePrefixFromHostname(url),
       
-      head: _head,
+      head: head,
       seo: PUBLIC_BLOGMODE == "janzheng" && seo, // need to generalize this more
       user: locals?.user,
-      cytosis: cytosis, // testing all
-      blogs,
+      // cytosis: blog, // testing all
+      blog: blog, // testing all
+      blogalogPages,
       // ... await endo(config, {sourceNames: ['site-data']}),
       // streamed: {
       //   // cytosis: endo(config, {sourceNames: ['site-pages']}) // streamed await

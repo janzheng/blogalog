@@ -27,7 +27,7 @@
 
 	// $: currentPage.set(data.path);
   // $user = $page.data?.user || null
-  $: if(dev && browser) console.log('[routes][+layout.svelte] $page.data:', $page.data, $page.data.cytosis)
+  $: if(dev && browser) console.log('[routes][+layout.svelte] $page.data:', $page.data, $page.data.blog)
 
   let heightOfFooter
 </script>
@@ -69,7 +69,7 @@
       >
         <slot />
       </main>
-      <Footer bind:clientHeight={heightOfFooter} content={$page.data.cytosis?.['site-data']?.['Footer']?.Content} />
+      <Footer bind:clientHeight={heightOfFooter} content={$page.data.blog?.['site-data']?.['Footer']?.Content} />
     </div>
   </div>
 
@@ -187,7 +187,7 @@
 
 
   // nav
-  // re-declare these here instead of cytosis for faster load
+  // re-declare these here instead of blog for faster load
   $base: 22px;
   $border-line: 1px;
   $color-silver-light: #eeeeee;

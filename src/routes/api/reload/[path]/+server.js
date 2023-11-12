@@ -1,5 +1,9 @@
 
-// performs reload on something like /api/reload/jessbio
+/* 
+
+  Reloads a blog site like /api/reload/jessbio
+
+*/
 
 import { json, error } from '@sveltejs/kit'
 import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
