@@ -138,3 +138,10 @@
   }
 
 </script>
+
+
+<style lang="scss">
+  .itemHover {
+    @apply hover:bg-slate-100 rounded-md;
+  }
+</style>
