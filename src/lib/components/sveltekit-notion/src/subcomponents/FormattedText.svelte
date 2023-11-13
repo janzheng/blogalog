@@ -22,7 +22,7 @@
                 s: `<s>${av}</s>`,
                 b: `<b>${av}</b>`,
                 h: `<span class="notion-${cv[1]}">${av}</span>`,
-                a: `<a class="notion-link" href="${cv[1]}">woop woop ${av}</a>`,
+                a: `<a class="notion-link" href="${cv[1]}">${av}</a>`,
               }[cv[0]]),
             text[0]
             )
@@ -32,7 +32,6 @@
 
       if(browser) {
         // makes for faster loads if the same origin
-        // console.log(">>>>>>>::: text", window.location.origin, text)
         text = text.replace(/window.location.origin/g, '');
       }
       return text
@@ -40,8 +39,8 @@
   };
 
   export const textToHtml = text =>
-    text[1]
-      ? text[1].reduceRight(
+    {
+      let data = text[1] ? text[1].reduceRight(
         (av, cv) =>
           ({
             i: `<em>${av}</em>`,
@@ -49,12 +48,17 @@
             s: `<s>${av}</s>`,
             b: `<b>${av}</b>`,
             h: `<span class="notion-${cv[1]}">${av}</span>`,
-            a: `<a class="notion-link" href="${cv[1]}">boop  ${av}</a>`,
+            a: `<a class="notion-link" href="${cv[1]}">${av}</a>`,
           }[cv[0]]),
         text[0]
         )
       : text[0];
-
+      if(browser) {
+        // makes for faster loads if the same origin
+        data = data.replace(/window.location.origin/g, '');
+      }
+      return data
+    };
 </script>
 
 <script>
