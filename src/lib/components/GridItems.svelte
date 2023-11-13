@@ -64,7 +64,7 @@
   }
 
   $: if (browser && settings && dev) {
-    console.log('Grid settings:', settings)
+    console.log('[dev] Grid settings:', settings)
   }
    
   const getItems = async (id) => {

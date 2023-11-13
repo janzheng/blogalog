@@ -4,6 +4,10 @@
   {#if $page?.data.pageContent}
     <title>{marked($page?.data.pageContent?.Name || '', {renderer: plainRenderer()})}</title>
   {/if}
+  {#if $page?.data.pageContent['Type'] == 'Component'} 
+    <!-- temp hack -->
+    <title>{$page?.data.head.title}</title>
+  {/if}
 </svelte:head>
 
 
@@ -142,12 +146,10 @@
     blogPath = $page?.data?.pathSegments?.length>1 ? `/${$page?.data?.pathSegments[0]}` : "/"
     blog = $page?.data.blog; // await streamed blog, and set it here
     pageContent = $page?.data.pageContent
-    if (dev && browser) console.log('[path-*] pageContent: ', pageContent)
     profileImage = getNotionImageLink(blog?.['site-data']?.['ProfileImage'])
     pageCover = getNotionImageLink(pageContent) || pageContent?.['Cover']
     author = blog?.['site-data'].Author?.['Content'];
-
-    console.log('[path] pageContent', pageContent)
+    if (dev && browser) console.log('[dev][path] pageContent: ', $page?.data, pageContent)
   }
   // needs to catch both /base/project/post vs. /project/post and go one step up
   
