@@ -152,8 +152,8 @@
   import { browser } from '$app/environment';
   import { page } from '$app/stores';
   
-  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
-  // import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  import Notion from '@yawnxyz/sveltekit-notion';
   import { getNotionImageLink } from '$lib/helpers.js'
   import { userData } from '$lib/stores.js'
 

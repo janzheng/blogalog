@@ -1597,10 +1597,10 @@
     node-gyp-build "^4.2.2"
     resolve-from "^5.0.0"
 
-"@yawnxyz/sveltekit-notion@^0.0.540":
-  version "0.0.540"
-  resolved "https://registry.yarnpkg.com/@yawnxyz/sveltekit-notion/-/sveltekit-notion-0.0.540.tgz#c474f9f3286ba5c4aa86144e49d65a3d78a0c915"
-  integrity sha512-LkmFVWpMsQ5dqrjceemcXRDTja48E14RXzplNvNwYrcB3CuiEZSDEl8goYfOW+vMoQRsM6pTWqEllPHXYqDRDg==
+"@yawnxyz/sveltekit-notion@^0.0.541":
+  version "0.0.541"
+  resolved "https://registry.yarnpkg.com/@yawnxyz/sveltekit-notion/-/sveltekit-notion-0.0.541.tgz#e48adc82c35289ec40259e8ba4875c6c0cf070e0"
+  integrity sha512-mqURiSxtXJHVZVqB/DWBS8x0IKwQ9ZvGLtpml0e78AdJRa6LGMcNULfk8aZG9qcFTITswUPHzkF9oHg615rWqQ==
 
 abab@^2.0.6:
   version "2.0.6"
