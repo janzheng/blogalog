@@ -77,10 +77,8 @@
           <!-- hide public pages when user is logged in -->
         {:else}
           <div class="MainPage | p-4 bg-slate-50 ">
-            {#if page.Type.includes("#noheader") == false}
-              {#if page.Name !=='undefined'}
-                <h2 class="pt-0 mt-0">{page.Name}</h2>
-              {/if}
+            {#if !page.Type.includes("#noheader") && page.Name !=='undefined'}
+              <h2 class="pt-0 mt-0">{page.Name}</h2>
             {/if}
             <Notion blocks={page.pageBlocks} />
           </div>
@@ -112,7 +110,8 @@
             <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
           </div>
         {/if}
-      {:else if page.Type?.includes('Component') && page.Hide !== true}
+      <!-- {:else if page.Type?.includes('Component') && page.Hide !== true} -->
+      {:else if page['Type']?.some(type => componentTypes.includes(type)) && page.Hide !== true}
         <RenderComponent {page} />
       {/if}
     </div>
@@ -170,6 +169,7 @@
     breaks: true,
   });
 
+  import { componentTypes } from '$lib/componentTypes.js';
   import Posts from '$lib/components/Posts.svelte';
 
   let blog = $page.data.blog;

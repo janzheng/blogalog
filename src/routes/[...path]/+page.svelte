@@ -24,7 +24,8 @@
 <!-- blog post or sub-page post, from a leaf route -->
 {#if $page.data.path && $page.data.pageContent && $page.data.isBlogalogHome!==true}
 
-  {#if $page?.data.pageContent['Type'] == 'Component' &&  ['Grid'].includes($page?.data.pageContent['Name'])}
+  <!-- {#if $page?.data.pageContent['Type'] == 'Component'  ['Grid'].includes($page?.data.pageContent['Name'])} -->
+  {#if $page?.data.pageContent['Type']?.some(type => componentTypes.includes(type)) || ['Grid'].includes($page?.data.pageContent['Name'])}
     <!-- SPECIAL COMPONENT HERE: {$page?.data.pageContent['Name']} | {$page.data.path} | {$page.data.subPath} -->
     <!-- this is for SUBPATHS like member/slug or products loaded from separate databases -->
     <div class="PagePath PageContent content-pad _content-wide">
@@ -132,6 +133,7 @@
   import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import RenderComponent from '$lib/components/RenderComponent.svelte';
 
+  import { componentTypes } from '$lib/componentTypes.js';
   import Profile from '$lib/components/profiles/Profile.svelte';
   import Member from '$lib/components/Member.svelte';
   import { plainRenderer } from '$plasmid/utils/marked';
@@ -150,6 +152,8 @@
     pageCover = getNotionImageLink(pageContent) || pageContent?.['Cover']
     author = blog?.['site-data'].Author?.['Content'];
     if (dev && browser) console.log('[dev][path] pageContent: ', $page?.data, pageContent)
+
+    // console.log('blergh:', $page?.data.pageContent['Type'], componentTypes, $page?.data.pageContent['Type']?.some(type => componentTypes.includes(type)))
   }
   // needs to catch both /base/project/post vs. /project/post and go one step up
   

@@ -31,7 +31,7 @@
   {:else if page.Type.includes("Public") && $userData['Email']}
     <!-- do nothing -->
   {:else}
-    {#if page.Name == "Unlock"}
+    {#if page.Name == "Unlock" || page.Type.includes("Unlock")}
       <div class="Component-Unlock | p-4 bg-slate-50 ">
         <Notion blocks={page.pageBlocks} />
         {#if $userData['Email']}
@@ -69,24 +69,28 @@
           />
         {/if}
       </div>
-    {:else if page.Name == "Members"}
+    {:else if page.Name == "Members" || page.Type.includes("Members")}
       <div class="Component-Members | p-4 bg-slate-50 ">
         <!-- deprecated -->
         <!-- <Notion blocks={page.pageBlocks} /> -->
         <!-- <MemberList id={page.Content} settings={page.YAML} /> -->
       </div>
-    {:else if page.Name == "Grid"}
+    {:else if page.Name == "Grid" || page.Type.includes("Grid")}
       <div class="Component-Grid | p-4 bg-slate-50 ">
+
+        {#if !page.Type.includes("#noheader") && page.Name !== "Grid" && page.Name !=='undefined'}
+          <h2 class="pt-0 mt-0">{page.Name}</h2>
+        {/if}
         <Notion blocks={page.pageBlocks} />
         <div class="GridItems | mt-2">
           <GridItems id={page.Content} settings={page.YAML} />
         </div>
       </div>
-    {:else if page.Name == "Expander"}
+    {:else if page.Name == "Expander" || page.Type.includes("Expander")}
       <div class="Component-Expander | p-4 bg-slate-50 ">
         <Expander {page} />
       </div>
-    {:else if page.Name == "HTML"}
+    {:else if page.Name == "HTML" || page.Type.includes("Unlock")}
       <div class="Component-HTML | p-4 bg-slate-50 ">
         {@html page.Content}
       </div>
