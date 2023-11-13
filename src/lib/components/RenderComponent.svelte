@@ -88,9 +88,13 @@
       </div>
     {:else if page.Name == "Expander" || page.Type.includes("Expander")}
       <div class="Component-Expander | p-4 bg-slate-50 ">
+
+        {#if !page.Type.includes("#noheader") && page.Name !== "Grid" && page.Name !=='undefined'}
+          <h2 class="pt-0 mt-0">{page.Name}</h2>
+        {/if}
         <Expander {page} />
       </div>
-    {:else if page.Name == "HTML" || page.Type.includes("Unlock")}
+    {:else if page.Name == "HTML" || page.Type.includes("HTML")}
       <div class="Component-HTML | p-4 bg-slate-50 ">
         {@html page.Content}
       </div>
