@@ -6,10 +6,10 @@
   import { userData } from '$lib/stores.js'
 
   import Email from '$lib/components/forms/Email.svelte';
-  import MemberList from '$lib/components/MemberList.svelte';
   import GridItems from '$lib/components/GridItems.svelte';
   import Expander from '$lib/components/Expander.svelte';
-	import SocialBox from '$plasmid/components/SocialBox2.svelte'
+  // import MemberList from '$lib/components/MemberList.svelte';
+	// import SocialBox from '$plasmid/components/SocialBox2.svelte'
 
 
   export let page;
