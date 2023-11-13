@@ -11,8 +11,8 @@
 
 <script context="module">
   export const formatText = property => {
-    if(property && property.length > 0)
-      return property.map(text =>
+    if(property && property.length > 0) {
+      let text = property.map(text =>
         text[1]
           ? text[1].reduceRight(
             (av, cv) =>
@@ -22,12 +22,21 @@
                 s: `<s>${av}</s>`,
                 b: `<b>${av}</b>`,
                 h: `<span class="notion-${cv[1]}">${av}</span>`,
-                a: `<a class="notion-link" href="${cv[1]}">${av}</a>`,
+                a: `<a class="notion-link" href="${cv[1]}">woop woop ${av}</a>`,
               }[cv[0]]),
             text[0]
             )
           : text[0]
       ).join('')
+
+
+      if(browser) {
+        // makes for faster loads if the same origin
+        // console.log(">>>>>>>::: text", window.location.origin, text)
+        text = text.replace(/window.location.origin/g, '');
+      }
+      return text
+    }
   };
 
   export const textToHtml = text =>
@@ -40,7 +49,7 @@
             s: `<s>${av}</s>`,
             b: `<b>${av}</b>`,
             h: `<span class="notion-${cv[1]}">${av}</span>`,
-            a: `<a class="notion-link" href="${cv[1]}">${av}</a>`,
+            a: `<a class="notion-link" href="${cv[1]}">boop  ${av}</a>`,
           }[cv[0]]),
         text[0]
         )
@@ -49,8 +58,10 @@
 </script>
 
 <script>
-    export let block = {}
-    export let blocks = []; blocks;
-    export let api = null; api
+  import { browser } from '$app/environment';
+
+  export let block = {}
+  export let blocks = []; blocks;
+  export let api = null; api
 
 </script>

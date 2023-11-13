@@ -300,11 +300,11 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
     ]
   }
 
-  console.log('[loadBlogalogFromPageId] loading:', slug, pageId, endoloader_config)
+  // console.log('[loadBlogalogFromPageId] loading:', slug, pageId, endoloader_config)
 
 
   let finalData = await cachet(`${PUBLIC_PROJECT_NAME}-${slug}`, async () => {
-    console.log('[blogalog] Loading Endo:', `${PUBLIC_PROJECT_NAME}-${slug}`)
+    // console.log('[blogalog] Loading Endo:', `${PUBLIC_PROJECT_NAME}-${slug}`)
     let data = await endoloader(endoloader_config, {
       key: `${PUBLIC_PROJECT_NAME}-${slug}`,
       url: PUBLIC_ENDOCYTOSIS_URL,
@@ -355,15 +355,15 @@ export const loadBlogalogData = async ({ blogalogPages, blogPath, hostname, load
       return
     }
 
-    console.log('<loadBlogalogData Retrieval> --- ', { blogPath, hostname })
-    console.log(blog)
-    // base blogalog + sub blog: localhost/ivom, blogalog.net/ivom
-    console.log("1:", blog?.Slug == blogPath, 'path:', blogPath, 'blogSlug:', blog?.Slug) // 
-    // host blogalog: blogalog.net, jess.bio
-    console.log("2:", blog?.URLs?.split(',').map(url => url.trim()).includes(hostname), 'hostname:', hostname, 'URLs:', blog?.URLs)
-    // this is generally true; always true for localhost; could be false if host doesn't exist in list of blog urls
-    console.log("3:", blog?.Slug == blogPath || blog?.URLs?.split(',').map(url => url.trim()).includes(hostname))
-    console.log('</Blog Data>')
+    // console.log('<loadBlogalogData Retrieval> --- ', { blogPath, hostname })
+    // console.log(blog)
+    // // base blogalog + sub blog: localhost/ivom, blogalog.net/ivom
+    // console.log("1:", blog?.Slug == blogPath, 'path:', blogPath, 'blogSlug:', blog?.Slug) // 
+    // // host blogalog: blogalog.net, jess.bio
+    // console.log("2:", blog?.URLs?.split(',').map(url => url.trim()).includes(hostname), 'hostname:', hostname, 'URLs:', blog?.URLs)
+    // // this is generally true; always true for localhost; could be false if host doesn't exist in list of blog urls
+    // console.log("3:", blog?.Slug == blogPath || blog?.URLs?.split(',').map(url => url.trim()).includes(hostname))
+    // console.log('</Blog Data>')
 
     if (!blog['Pagedata ID']) {
       throw new Error(`No Pagedata ID for [${blog['Pagedata ID']}] provided; \n${JSON.stringify(blog, 0, 2)}`)

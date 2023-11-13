@@ -2,6 +2,7 @@
 
 <script>
   import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '$lib/components//sveltekit-notion';
 
   import { userData } from '$lib/stores.js'
 
