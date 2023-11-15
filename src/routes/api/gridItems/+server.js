@@ -17,6 +17,45 @@ import { parseMetadata, keyRemap } from '$plasmid/utils/helpers';
 
 import YAML from 'yaml'
 
+import { NOTION_API } from '$env/static/private';
+import { Client, iteratePaginatedAPI } from '@notionhq/client';
+import { notionObjToFlatJson } from '$lib/notion';
+const notion = new Client({ auth: NOTION_API });
+
+
+
+// This function processes and filters items
+function processItems(items, settings) {
+  items = items?.map(item => {
+    if (settings?.disallow) {
+      settings.disallow.forEach(field => {
+        delete item[field]
+      })
+    }
+
+    if (settings?.mapping) {
+      let remappedMem = keyRemap(item, settings?.mapping);
+      return remappedMem;
+    }
+    return item
+  });
+
+  items = items?.filter(mem => mem[`Show`] ? mem[`Show`] : true)
+  items = items?.filter(mem => mem[`Hide`] ? !mem[`Hide`] : true)
+
+  if (settings?.filter) {
+    // Split the settings.filter string into an array of names
+    let filterNames = settings?.filter?.split(',')?.map(name => name.trim());
+
+    // Filter the items array
+    if (filterNames)
+      items = items?.filter(mem => filterNames.includes(mem['Name']));
+  }
+
+  return items;
+}
+
+
 
 
 
@@ -25,82 +64,108 @@ export const GET = async ({ request }) => {
 }
 
 export const POST = async ({ request }) => {
-  let { config = {}, id, settings } = await request.json()
+  let { config, id, settings, pageNumber = 1, startCursor } = await request.json()
 
-  config = {
-    "sources": [
-      {
-        "name": "items",
-        "type": "cfnotion",
-        "path": `/collection/${id}`
-      },
-    ]
-  }
+  try {
+    if(!config) {
+      config = {
+        "sources": [
+          {
+            "name": "items",
+            "type": "cfnotion",
+            "path": `/collection/${id}`
+          },
+        ]
+      }
+    }
 
-  // settings = parseMetadata(settings)
-  if (typeof settings === 'string')
-    settings = YAML.parse(settings)
-  else if (!settings)
-    settings = {}
 
-  let result
-  let key = `${PUBLIC_PROJECT_NAME}-id-${id}`
-  
-  // NO CACHING
-  // result = await endoloader(config, {
-  //   url: PUBLIC_ENDOCYTOSIS_URL,
-  //   key: key
-  // })
+    // settings = parseMetadata(settings)
+    if (typeof settings === 'string')
+      settings = YAML.parse(settings)
+    else if (!settings)
+      settings = {}
 
-  // CACHING
-  result = await cachet(`${key}`, async () => {
-    let data = await endoloader(config, {
-      url: PUBLIC_ENDOCYTOSIS_URL,
-      key: key
-    })
-    return data
-  }, {
-    ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-    ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
-    bgFn: () => {
-      endoloader(config, {
+    let result
+    let key = `${PUBLIC_PROJECT_NAME}-id-${id}`
+
+    // NO CACHING
+    // result = await endoloader(config, {
+    //   url: PUBLIC_ENDOCYTOSIS_URL,
+    //   key: key
+    // })
+
+
+    // use native Notion API loader; default
+    // if (id && settings.loader == 'notion') {
+    if (id && settings.loader?.type == 'notion') {
+      const pageSize = settings.loader?.pageSize || 10;
+
+      let response, items=[];
+
+      key = `${key}-pageSize:${pageSize}-pageNumber:${pageNumber}-cursor:${startCursor}`
+      let result = await cachet(key, async () => {
+        let _items = []; // INNER ITEMS
+        for (let i = 0; i < pageNumber; i++) {
+          response = await notion.databases.query({
+            page_size: pageSize,
+            start_cursor: startCursor,
+            database_id: id,
+            filter: settings.loader?.filter || {},
+            sorts: settings.loader?.sorts || [],
+          });
+
+          if (i === pageNumber - 1) {
+            const pageItems = response.results.map(item => notionObjToFlatJson(item));
+            _items = processItems(pageItems, settings);
+          }
+
+          startCursor = response.next_cursor;
+          if (!startCursor) break; // Exit the loop if there are no more pages
+        }
+        return {items:_items, startCursor}
+      })
+
+        console.log('last response:', key, pageSize, pageNumber, result.items.length, result.startCursor) // will show if more items are around, etc.
+      // console.log('NOTION API RESPONSE:: ITEMS', items)
+      return hjson({ success: true, startCursor: result.startCursor, items: result.items, settings })
+    }
+
+
+
+
+
+    // CACHING
+    result = await cachet(`${key}`, async () => {
+      let data = await endoloader(config, {
         url: PUBLIC_ENDOCYTOSIS_URL,
         key: key
       })
-    }
-  })
-
-
-  if (result) {
-    let value = result?.value?.value ? JSON.parse(result?.value?.value) : result?.value // bug in endocytosis I don't feel like fixing
-    let items = value?.items?.map(item => {
-      if (settings?.disallow) {
-        settings.disallow.forEach(field => {
-          delete item[field]
+      return data
+    }, {
+      ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+      ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
+      bgFn: () => {
+        endoloader(config, {
+          url: PUBLIC_ENDOCYTOSIS_URL,
+          key: key
         })
       }
+    })
 
-      if(settings?.mapping) {
-        let remappedMem = keyRemap(item, settings?.mapping);
-        return remappedMem;
-      }
-      return item
-    });
-    items = items?.filter(mem => mem[`Show`] ? mem[`Show`] : true)
-    items = items?.filter(mem => mem[`Hide`] ? !mem[`Hide`] : true)
 
-    if (settings?.filter) {
-      // Split the settings.filter string into an array of names
-      let filterNames = settings?.filter.split(',')?.map(name => name.trim());
-
-      // Filter the items array
-      if(filterNames)
-        items = items?.filter(mem => filterNames.includes(mem['Name']));
+    if (result) {
+      let value = result?.value?.value ? JSON.parse(result?.value?.value) : result?.value
+      let items = value?.items;
+      items = processItems(items, settings);
+      return hjson({ success: true, items, settings })
     }
 
-    return hjson({ success: true, items, settings })
-  }
+    return hjson({ success: false, })
 
-  return hjson({ success: false, })
+  } catch (e) {
+    console.error('[api/gridItems] error', e)
+    return hjson({ success: false, })
+  }
 }
 

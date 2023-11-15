@@ -72,6 +72,8 @@ export const updatePage = async (pageId, properties) => {
 
 
 export const notionRichTextToHTML = (richText) => {
+  if(!richText || richText.length == 0) return null;
+  
   let html = '';
   for (let item of richText) {
     let content = item.text.content;
@@ -95,7 +97,7 @@ export const notionRichTextToHTML = (richText) => {
 
 
 
-export const notionToFlatJson = (notionObject) => {
+export const notionObjToFlatJson = (notionObject) => {
   let flatJson = {};
   let dbProperties = notionObject.properties
 
@@ -104,11 +106,11 @@ export const notionToFlatJson = (notionObject) => {
       const property = dbProperties[key];
       flatJson[key] = {
         id: property.id,
-        // name: property.name,
+        // name: property?.name,
         type: property.type
       };
 
-      console.log(`${key}:`, property)
+      // console.log(`[notionObjToFlatJson]: ${key}:`, property)
       switch (property.type) {
         case "title":
           flatJson[key].value = property.title[0].text.content;
@@ -125,6 +127,9 @@ export const notionToFlatJson = (notionObject) => {
         case "url":
           flatJson[key].value = property.url;
           break;
+        case "created_by":
+          flatJson[key].value = property.created_by;
+          break;
         case "created_time":
           flatJson[key].value = property.created_time;
           break;
@@ -138,21 +143,21 @@ export const notionToFlatJson = (notionObject) => {
           flatJson[key].value = property.phone_number;
           break;
         case "select":
-          flatJson[key].value = property.select.name;
+          flatJson[key].value = property.select?.name;
           break;
         case "multi_select":
-          flatJson[key].value = property.multi_select.map(item => item.name);
+          flatJson[key].value = property.multi_select.map(item => item?.name);
           break;
         case "unique_id":
           flatJson[key].value = property.unique_id.prefix + property.unique_id.number;
           break;
         case "status":
-          flatJson[key].value = property.status.name;
+          flatJson[key].value = property.status?.name;
           break;
         case "files":
           flatJson[key].value = property.files.map(file => {
             return {
-              name: file.name,
+              name: file?.name,
               url: file.file.url || file.file.external.url
             }
           });

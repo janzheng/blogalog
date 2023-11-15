@@ -4,7 +4,7 @@ import { fail } from '@sveltejs/kit';
 
 import { z } from 'zod';
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
-import { getDbPage, notionToFlatJson } from '$lib/notion.js'
+import { getDbPage, notionObjToFlatJson } from '$lib/notion.js'
 import { message, superValidate } from 'sveltekit-superforms/server';
 const schema = z.object({
   // name: z.string().default('Hello world!?'),
@@ -38,7 +38,7 @@ export const actions = {
         }
       })
       let record = page?.results[0];
-      let user = notionToFlatJson(record);
+      let user = notionObjToFlatJson(record);
 
 
       if (!user) {

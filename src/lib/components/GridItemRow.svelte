@@ -2,21 +2,38 @@
 {#if key === 'id' || key === 'format' || key === 'Show' || key === 'Hide'}
   <!-- do nothing for ids -->
 {:else}
-  <!-- key:{key} | {item[key]} | {schema?.[key]?.type} | {schema?.[key]?.class} -->
-  {#if schema?.[key]?.type === 'image' && item[key]?.[0]?.rawUrl || item[key]?.[0]?.url}
-    <div class="Item-{key} | mb-2">
-      <img class="bg-slate-100 {schema?.[key]?.class || 'rounded-full w-24 h-24'}" src={getNotionImageLink(item[key]?.[0])} alt="{item?.Name}" />
-    </div>
-  {:else if schema?.[key]?.type === 'html'}
-    <div class="Item-{key} | mb-2 {schema?.[key]?.class||''}">{@html item[key]||''}</div>
-  {:else if schema?.[key]?.type === 'link'}
-    <div class="Item-{key} | mb-2 {schema?.[key]?.class||''}">
-      <a href="{item[key]}">{item[key]}</a>
-    </div>
-  {:else if schema?.[key]?.type === 'markdown'}
-    <div class="Item-{key} | mb-2 {schema?.[key]?.class||''}">{@html marked(item[key]||'')}</div>
-  {:else}
-    <div class="Item-{key} | mb-2 {schema?.[key]?.class||''}">{item[key]||''}</div>
+  <!-- if schema is provided, ONLY show what's on the schema? -->
+  {#if schema?.[key]}
+    <!-- key:{key} | {item[key]} | {schema?.[key]?.type} | {schema?.[key]?.class} -->
+    {#if schema?.[key]?.type === 'image' && item[key]?.[0]?.rawUrl || item[key]?.[0]?.url}
+      <div class="Item-type-image Item-{key} | mb-2">
+        <img class="bg-slate-100 {schema?.[key]?.class || 'rounded-full w-24 h-24'}" src={getNotionImageLink(item[key]?.[0])} alt="{item?.[itemKey]}" />
+      </div>
+    {:else if schema?.[key]?.type === 'html'}
+      <div class="Item-type-html Item-{key} | mb-2 {schema?.[key]?.class||''}">{@html item[key]||''}</div>
+    {:else if schema?.[key]?.type === 'link'}
+      <div class="Item-link Item-{key} | mb-2 {schema?.[key]?.class||''}">
+        {#if schema?.[key]?.onlyShowOrigin}
+          <a class="Item-link-href--origin" href="{item[key]}">{item[key]?.split('/')[2]}</a>
+        {:else}
+          <a class="Item-link-href" href="{item[key]}">{item[key]}</a>
+        {/if}
+      </div>
+    {:else if schema?.[key]?.type === 'tag'}
+      <div class="Item-type-tag Item-{key} | mb-2 {schema?.[key]?.class||''}">
+        <span class="{schema?.[key]?.tagClass ||  'bg-zinc-100 text-xs rounded-md text-slate-800 px-2 py-1 mr-1 mb-1'}">{item[key]}</span>
+      </div>
+    {:else if schema?.[key]?.type === 'tagText'}
+      <div class="Item-type-tagText Item-{key} | mb-2 {schema?.[key]?.class||''}">
+        <!-- {#each item[key]?.split(',').map(tag => tag.trim()) as tag}
+          <span class="{schema?.[key]?.tagClass ||  'bg-slate-100 text-xs rounded-md text-slate-800 px-2 py-1 mr-1 mb-1'}">{tag}</span>
+        {/each} -->
+      </div>
+    {:else if schema?.[key]?.type === 'markdown'}
+      <div class="Item-type-markdown Item-{key} | {schema?.[key]?.class||''}">{@html marked(item[key]||'')}</div>
+    {:else}
+      <div class="Item-type-default Item-{key} | mb-2 {schema?.[key]?.class||''}">{item[key]||''}</div>
+    {/if}
   {/if}
 {/if}
 
@@ -33,6 +50,6 @@
   import Modal, {getModal} from '$lib/components/Modal.svelte';
   import Loader from '$plasmid/components/icons/loader.svelte';
 
-  export let item, key, schema;
+  export let item, key, schema, itemKey="Name";
 
 </script>
