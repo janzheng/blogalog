@@ -99,11 +99,11 @@ export const POST = async ({ request }) => {
     // use native Notion API loader; default
     // if (id && settings.loader == 'notion') {
     if (id && settings.loader?.type == 'notion') {
-      const pageSize = settings.loader?.pageSize || 10;
+      let pageSize = settings.loader?.pageSize || 10;
 
       let response, items=[];
 
-      key = `${key}-pageSize:${pageSize}-pageNumber:${pageNumber}-cursor:${startCursor}`
+      key = `${key}-pageSize_${pageSize}-pageNumber_${pageNumber}-cursor_${startCursor}`
       let result = await cachet(key, async () => {
         let _items = []; // INNER ITEMS
         for (let i = 0; i < pageNumber; i++) {
@@ -123,9 +123,20 @@ export const POST = async ({ request }) => {
           startCursor = response.next_cursor;
           if (!startCursor) break; // Exit the loop if there are no more pages
         }
-        return {items:_items, startCursor}
+        console.log('ITEMS ::::', _items.length, startCursor)
+        return {items: _items, startCursor}
+      }, {
+        // ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
+        ttl: 60, // 60s cache
+        // skipCache: true,
       })
 
+      // if cached, the value will be stored as result.value
+      if(result.value) {
+        result = result.value
+      }
+
+        // console.log('last response RESULT:', key, pageSize, pageNumber, result) // will show if more items are around, etc.
         console.log('last response:', key, pageSize, pageNumber, result.items.length, result.startCursor) // will show if more items are around, etc.
       // console.log('NOTION API RESPONSE:: ITEMS', items)
       return hjson({ success: true, startCursor: result.startCursor, items: result.items, settings })

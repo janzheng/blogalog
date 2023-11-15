@@ -70,7 +70,7 @@
 
   export let id, items=[], settings, isLoading, isLoadingMore, pageBlocks, startCursor;
   export let itemKey = 'Name';
-  export let pageNumber = 12;
+  export let pageNumber = 1;
 
 
   if(settings) {
@@ -97,7 +97,7 @@
   const getItems = async (id) => {
     if(isLoadingMore != true)
       isLoading = true
-    
+
     let url = `/api/gridItems/`
     let response, result
 		try {
