@@ -55,7 +55,7 @@
 // Additional project styling
 @import "$plasmid/themes/tw";
 
-
+$tabsize: 1.3rem;
 
 /* 
   Reused, compartmentalized styles
@@ -63,10 +63,28 @@
 @mixin notionStyles {
   .notion {
     font-family: Inter, sans-serif !important;
-    
+    ol > li { list-style-type: decimal; }
+    ul > li { list-style-type: disc; }
   }
+
   .notion-list, .notion-list-disc {
-    ul { padding-inline-start: 0; }
+    // easy nested ul / ol lists!
+    ul, ol { 
+      padding-inline-start: $tabsize * 1; 
+
+      // already recursive, so this messes it up further...
+      // ul, ol {
+      //   // padding-inline-start: $tabsize * 2;
+
+      //   ul, ol {
+      //     // padding-inline-start: $tabsize * 2;
+
+      //     ul, ol {
+      //       // padding-inline-start: $tabsize * 2;
+      //     }
+      //   }
+      // }
+    }
     li { list-style-position: outside;}
   }
 
@@ -120,6 +138,7 @@
     }
   }
 }
+
 @mixin postStyles {
   .Posts {
     .Post-name { @apply text-xl; }
@@ -146,6 +165,9 @@
 // }
 
 
+
+
+
 /* 
 
   Base BLOGALOG themes
@@ -155,9 +177,10 @@
   // general styles
   font-family: Inter, sans-serif;
   font-size: 1em;
+  line-height: 1.5;
   color: var(--color-base);
   p {
-    @apply pb-3 mt-0 pt-0;
+    @apply pb-4 mt-0 pt-0;
   }
   // Add any other styles you want
   a,._link { 
@@ -231,6 +254,16 @@
   h6 {
     @apply text-xs tracking-wide uppercase mb-2;
   }
+
+  ul, ol {
+    padding-inline-start: $tabsize * 1;
+  }
+
+  li {
+    list-style-position: outside;
+  }
+
+  
 
   @include notionStyles;
   @include postStyles;
