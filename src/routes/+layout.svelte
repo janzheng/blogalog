@@ -27,7 +27,7 @@
 
 	// $: currentPage.set(data.path);
   // $user = $page.data?.user || null
-  $: if(dev && browser) console.log('[routes][+layout.svelte] $page.data:', $page.data, $page.data.blog)
+  $: if(dev && browser) console.log('[dev][routes][+layout.svelte] $page.data:', $page.data, $page.data.blog)
 
   let heightOfFooter
 </script>

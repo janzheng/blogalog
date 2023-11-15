@@ -23,6 +23,9 @@
               <div class="flex justify-between gap-4">
                 <div>
                   <span class="Post-name text-lg pfix">{@html marked(post.Name)}</span>
+                  {#if post.Date}
+                    <span class="Post-date text-lg pfix">{@html marked(post.Date)}</span>
+                  {/if}
                   {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
                 </div>
                 {#if post.Cover}
@@ -40,6 +43,9 @@
                 </div>
               {/if}
               <span class="Post-name text-lg pfix">{@html marked(post.Name)}</span>
+              {#if post.Date}
+                <span class="Post-date text text-base text-sm pfix">{post.Date.start_date}</span>
+              {/if}
               {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
             {/if}
           </a>

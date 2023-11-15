@@ -67,10 +67,14 @@
         </div>
       {/if}
 
+      {#if $page?.data.pageContent?.Date}
+        <div class="PageContent-Date mb-0 pt-16">{@html marked($page?.data.pageContent?.Date.start_date || '')}</div>
+      {/if}
 
       {#if $page?.data.pageContent?.Name}
-        <h1 class="PageContent-Name mb-0 pt-2 pb-2">{@html marked($page?.data.pageContent?.Name || '')}</h1>
+        <h1 class="PageContent-Name mb-0" style="padding-top: 0;">{@html marked($page?.data.pageContent?.Name || '')}</h1>
       {/if}
+
 
       {#if $page?.data.pageContent?.Content}
         <div class="PageContent-Content text-xl">{$page?.data.pageContent?.Content}</div>

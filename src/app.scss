@@ -65,6 +65,9 @@ $tabsize: 1.3rem;
     font-family: Inter, sans-serif !important;
     ol > li { list-style-type: decimal; }
     ul > li { list-style-type: disc; }
+    p + ul, p + ol {
+      margin-top: -0.5rem;
+    }
   }
 
   .notion-list, .notion-list-disc {
