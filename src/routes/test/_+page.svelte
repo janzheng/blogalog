@@ -2,7 +2,7 @@
 <script>
   export let data;
 
-  console.log('data:', data)
+  // console.log('data:', data)
 </script>
 
 <div class="flex flex-col p-5">
