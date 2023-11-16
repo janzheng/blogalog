@@ -45,13 +45,9 @@ function processItems(items, settings) {
     // Filter the items array
     if (filterNames) {
       let filterKey = settings?.filterKey || 'Name';
-
-      console.log('fffffilter: ', filterNames, filterKey)
       items = items?.filter(mem => filterNames.includes(mem[filterKey]));
     }
   }
-
-
   items = items?.map(item => {
     if (settings?.disallow) {
       settings.disallow.forEach(field => {

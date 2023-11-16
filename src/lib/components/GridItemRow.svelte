@@ -30,7 +30,7 @@
         {/each} -->
       </div>
     {:else if schema?.[key]?.type === 'markdown'}
-      <div class="Item-type-markdown Item-{key} | {schema?.[key]?.class||''}">{@html marked(item[key]||'')}</div>
+      <div class="Item-type-markdown pfix Item-{key} | {schema?.[key]?.class||''}">{@html marked(item[key]||'')}</div>
     {:else}
       <div class="Item-type-default Item-{key} | mb-2 {schema?.[key]?.class||''}">{item[key]||''}</div>
     {/if}
