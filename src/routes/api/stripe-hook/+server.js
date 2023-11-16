@@ -18,6 +18,11 @@
 // stripe listen --forward-to localhost:3053/api/stripe-hook
 // stripe trigger checkout.session.completed
 
+// note: call the payment links with client_reference_id like so:
+// buy.stripe.com/fZe3e0cmk6r5fpm5kk?client_reference_id=ticket_id
+// this will add the airtable_id to the stripe callback
+
+
 
 import { json } from '@sveltejs/kit';
 import Stripe from 'stripe'
@@ -32,18 +37,21 @@ const stripe = Stripe(process.env.STRIPE_SK);
 async function handleStripeCompleted(session, request) {
 
   const email = session.customer_details.email
-  const paymentIntent = session.payment_intent
+  const paymentIntent = session.payment_intent || session.id
   console.log('[handleStripeCompleted] Data:', email, request)
 
   if (!email || !paymentIntent) return false
 
   let page
-  page = await getDbPage(request, {
+  // hard code the secret value for now
+  page = await getDbPage(request, "stripe-hook", {
     property: "Email",
     rich_text: {
       equals: email
     }
   })
+
+  console.log(":::::::SEARING FOR:::::", email, page, request)
   let result = page.results[0]
   if (!result) return;
 
@@ -74,7 +82,6 @@ export const POST = async (req) => {
 
   let stripeEvent;
 
-  console.log("TEST SK:", process.env.STRIPE_SK)
   try {
     stripeEvent = stripe.webhooks.constructEvent(body, sig, endpointSecret);
   } catch (err) {
@@ -106,7 +113,8 @@ export const POST = async (req) => {
 
 
   console.log('[stripe] wrapping up checkout')
-  return json({ sig, stripeEvent })
+  // return json({ sig, stripeEvent })
+  return json({ received: true })
 }
 
 
