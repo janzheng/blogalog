@@ -27,11 +27,6 @@ const notion = new Client({ auth: NOTION_API });
 // This function processes and filters items
 function processItems(items, settings) {
   items = items?.map(item => {
-    if (settings?.disallow) {
-      settings.disallow.forEach(field => {
-        delete item[field]
-      })
-    }
 
     if (settings?.mapping) {
       let remappedMem = keyRemap(item, settings?.mapping);
@@ -48,9 +43,24 @@ function processItems(items, settings) {
     let filterNames = settings?.filter?.split(',')?.map(name => name.trim());
 
     // Filter the items array
-    if (filterNames)
-      items = items?.filter(mem => filterNames.includes(mem['Name']));
+    if (filterNames) {
+      let filterKey = settings?.filterKey || 'Name';
+
+      console.log('fffffilter: ', filterNames, filterKey)
+      items = items?.filter(mem => filterNames.includes(mem[filterKey]));
+    }
   }
+
+
+  items = items?.map(item => {
+    if (settings?.disallow) {
+      settings.disallow.forEach(field => {
+        if(item[field])
+          delete item[field]
+      })
+    }
+    return item
+  })
 
   return items;
 }

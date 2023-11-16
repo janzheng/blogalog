@@ -16,13 +16,17 @@
           on:click={(e)=>handleItemClick(item, e)} 
           on:keyup={(e)=>handleItemClick(item, e)}
           >
-          {#each getOrderedKeys(item) as key}
-            <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
-          {/each}
-          <!-- <button on:click={()=>browser && getModal(Item[itemKey]).open()}>
-            Open {Item[itemKey]}
-          </button> -->
-
+          {#if settings.item?.type == 'link'}
+            <a href="{item[settings.item?.itemLink]}" target="_blank">
+              {#each getOrderedKeys(item) as key}
+                <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
+              {/each}
+            </a>  
+          {:else}
+            {#each getOrderedKeys(item) as key}
+              <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
+            {/each}
+          {/if}
           {#if browser && settings.modal}
             <!-- pageblocks are only opened on modal, to prevent loading too many pages -->
             <Modal id={item[itemKey]}>
@@ -109,19 +113,24 @@
       console.error('[getItems] error', err)
     }
 
-    // for pagination w/ Notion
-    if(result.startCursor)
-      startCursor = result.startCursor
+    try {
+      // for pagination w/ Notion
+      if(result.startCursor)
+        startCursor = result.startCursor
 
-    items = [...items, ...result?.items]
+      items = [...items, ...result?.items]
 
-    if(browser && dev)
-      console.log('[dev][getItems] Items:', items)
+      if(browser && dev)
+        console.log('[dev][getItems] Items:', items)
 
-    isLoading = false
-    return {
-      items: items || [],
+      isLoading = false
+      return {
+        items: items || [],
+      }
+    } catch (e) {
+      console.error('[getItems] error', e, 'result:', result)
     }
+
 	};
 
   const loadPage = async (id) => {
@@ -166,7 +175,7 @@
       }
 
       getModal(item.Name).open()
-    } else if (browser && settings.item?.click) {
+    } else if (browser && settings.item?.click || settings.item?.type == 'click') {
       if(e) e.preventDefault();
       if(settings.item?.itemLink) {
         window.location.href = item[settings.item?.itemLink];

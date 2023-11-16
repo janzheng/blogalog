@@ -1,1 +1,1 @@
-export let componentTypes = ['Component', 'Private', 'Public', 'Unlock', 'Members', 'Grid', 'Expander', 'HTML']
+export let componentTypes = ['Component', 'Banner', 'Private', 'Public', 'Unlock', 'Members', 'Grid', 'Expander', 'HTML']

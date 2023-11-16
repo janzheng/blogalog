@@ -7,7 +7,7 @@
     <!-- key:{key} | {item[key]} | {schema?.[key]?.type} | {schema?.[key]?.class} -->
     {#if schema?.[key]?.type === 'image' && item[key]?.[0]?.rawUrl || item[key]?.[0]?.url}
       <div class="Item-type-image Item-{key} | mb-2">
-        <img class="bg-slate-100 {schema?.[key]?.class || 'rounded-full w-24 h-24'}" src={getNotionImageLink(item[key]?.[0])} alt="{item?.[itemKey]}" />
+        <img class="{schema?.[key]?.class || 'rounded-full w-24 h-24 bg-slate-100'}" src={getNotionImageLink(item[key]?.[0])} alt="{item?.[itemKey]}" />
       </div>
     {:else if schema?.[key]?.type === 'html'}
       <div class="Item-type-html Item-{key} | mb-2 {schema?.[key]?.class||''}">{@html item[key]||''}</div>

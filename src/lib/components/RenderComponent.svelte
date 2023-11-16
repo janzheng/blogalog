@@ -2,6 +2,7 @@
 
 <script>
   import Notion from '@yawnxyz/sveltekit-notion';
+  import { getNotionImageLink } from '$lib/helpers.js'
   // import Notion from '$lib/components//sveltekit-notion';
 
   import { userData } from '$lib/stores.js'
@@ -97,6 +98,12 @@
     {:else if page.Name == "HTML" || page.Type.includes("HTML")}
       <div class="Component-HTML | p-4 bg-slate-50 ">
         {@html page.Content}
+      </div>
+    {:else if page.Name == "Banner" || page.Type.includes("Banner")}
+      <div class="Component-Banner | p-4 bg-slate-50 ">
+        <a href={page.Content}>
+          <img src="{getNotionImageLink(page)}" alt="{page.Name}" />
+        </a>
       </div>
     {/if}
   {/if}
