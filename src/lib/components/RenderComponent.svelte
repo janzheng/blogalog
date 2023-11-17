@@ -7,7 +7,7 @@
 
   import { userData } from '$lib/stores.js'
 
-  import Email from '$lib/components/forms/Email.svelte';
+  import Email from '$lib/components/forms/Login.svelte';
   import GridItems from '$lib/components/GridItems.svelte';
   import Expander from '$lib/components/Expander.svelte';
   // import MemberList from '$lib/components/MemberList.svelte';
@@ -33,16 +33,16 @@
   {:else if page.Type.includes("Public") && $userData['Email']}
     <!-- do nothing -->
   {:else}
-    {#if page.Name == "Unlock" || page.Type.includes("Unlock")}
-      <div class="Component-Unlock | p-4 bg-slate-50 ">
+    {#if page.Name == "Unlock" || page.Type.includes("Unlock") || page.Name == "Login" || page.Type.includes("Login")}
+      <div class="Component-Login | p-4 bg-slate-50 ">
         <Notion blocks={page.pageBlocks} />
         {#if $userData['Email']}
-          <div class="Component-Unlock-Status">
+          <div class="Component-Login-Status">
             Logged in as {$userData['Email']}. <button on:click={()=>{
               $userData['Email'] = null;
             }} class="Btn-link --short">Log out</button>
           </div>
-          <div class="Component-Unlock-Details">
+          <div class="Component-Login-Details">
             {#if $userData['Payments']}
               ✅ All Paid! Receipt: <span class="text-slate-400">{$userData['Payments']}</span>
             {/if}
@@ -89,7 +89,6 @@
       </div>
     {:else if page.Name == "Expander" || page.Type.includes("Expander")}
       <div class="Component-Expander | p-4 bg-slate-50 ">
-
         {#if !page.Type.includes("#noheader") && page.Name !== "Grid" && page.Name !=='undefined'}
           <h2 class="pt-0 mt-0">{page.Name}</h2>
         {/if}
@@ -101,6 +100,7 @@
       </div>
     {:else if page.Name == "Banner" || page.Type.includes("Banner")}
       <div class="Component-Banner | p-4 bg-slate-50 ">
+        <Notion blocks={page.pageBlocks} />
         <a href={page.Content}>
           <img src="{getNotionImageLink(page)}" alt="{page.Name}" />
         </a>

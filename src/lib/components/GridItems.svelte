@@ -5,57 +5,61 @@
 
  -->
 
-{#if (isLoading) || !items || !settings}
-  <h2 style="padding-top:0"><Loader /> {settings?.loading || "Loading"}</h2>
-{:else}
-  {#if items && items.length > 0 && settings}
-    <!-- <div class="Items | " style="{twi(settings?.items?.class || 'grid grid-cols-2 md:grid-cols-2 gap-4')}"> -->
-    <div class="Items | {settings?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
-      {#each items as item}
-        <div class="Item | {settings?.item?.class || "p-4 bg-slate-50"} | {settings?.modal || settings?.item?.click ? 'cursor-pointer' : ''}"
-          on:click={(e)=>handleItemClick(item, e)} 
-          on:keyup={(e)=>handleItemClick(item, e)}
-          >
-          {#if settings.item?.type == 'link'}
-            <a href="{item[settings.item?.itemLink]}" target="_blank">
+<div class="GridItems">
+  {#if (isLoading) || !items || !settings}
+    <div class="GridItems-loading">
+      <h2 style="padding-top:0"><Loader /> {settings?.loading || "Loading"}</h2>
+    </div>
+  {:else}
+    {#if items && items.length > 0 && settings}
+      <!-- <div class="Items | " style="{twi(settings?.items?.class || 'grid grid-cols-2 md:grid-cols-2 gap-4')}"> -->
+      <div class="GridItem | {settings?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
+        {#each items as item}
+          <div class="Item | {settings?.item?.class || "p-4 bg-slate-50"} | {settings?.modal || settings?.item?.click ? 'cursor-pointer' : ''}"
+            on:click={(e)=>handleItemClick(item, e)} 
+            on:keyup={(e)=>handleItemClick(item, e)}
+            >
+            {#if settings.item?.type == 'link'}
+              <a class="GridItem-link" href="{item[settings.item?.itemLink]}" target="_blank">
+                {#each getOrderedKeys(item) as key}
+                  <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
+                {/each}
+              </a>  
+            {:else}
               {#each getOrderedKeys(item) as key}
                 <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
               {/each}
-            </a>  
-          {:else}
-            {#each getOrderedKeys(item) as key}
-              <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
-            {/each}
-          {/if}
-          {#if browser && settings.modal}
-            <!-- pageblocks are only opened on modal, to prevent loading too many pages -->
-            <Modal id={item[itemKey]}>
-              {#each getOrderedKeys(item, settings?.modal?.order||[]) as key}
-                <GridItemRow {item} {key} {itemKey} schema={settings?.modal?.schema} />
-              {/each}
-              {#if settings.modal.loadNotionPage && pageBlocks}
-                <Notion blocks={pageBlocks} />
-              {/if}
-            </Modal>
-          {/if}
-
-        </div>
-      {/each}
-      {#if startCursor}
-        <!-- notion loader feature -->
-        <button class="Btn-outline" on:click={loadMoreItems} disabled={isLoadingMore}>
-          {#if isLoadingMore}
-            <Loader /> Loading...
-          {:else}
-            Load More
-          {/if}
-        </button>
-      {/if}
-    </div>
-  {:else}
-    <h2 style="padding-top:0">No items found</h2>
+            {/if}
+            {#if browser && settings.modal}
+              <!-- pageblocks are only opened on modal, to prevent loading too many pages -->
+              <Modal id={item[itemKey]}>
+                {#each getOrderedKeys(item, settings?.modal?.order||[]) as key}
+                  <GridItemRow {item} {key} {itemKey} schema={settings?.modal?.schema} />
+                {/each}
+                {#if settings.modal.loadNotionPage && pageBlocks}
+                  <Notion blocks={pageBlocks} />
+                {/if}
+              </Modal>
+            {/if}
+  
+          </div>
+        {/each}
+        {#if startCursor}
+          <!-- notion loader feature -->
+          <button class="Btn-outline" on:click={loadMoreItems} disabled={isLoadingMore}>
+            {#if isLoadingMore}
+              <Loader /> Loading...
+            {:else}
+              Load More
+            {/if}
+          </button>
+        {/if}
+      </div>
+    {:else}
+      <h2 style="padding-top:0">No items found</h2>
+    {/if}
   {/if}
-{/if}
+</div>
  
  
 
@@ -186,8 +190,22 @@
 </script>
 
 
-<style lang="scss">
+<style lang="scss" global>
   .itemHover {
     @apply hover:bg-slate-100 rounded-md;
+  }
+
+  // this wraps a link around a lot of content; change the link color / hover behavior
+  a.GridItem-link {
+    @apply hover:no-underline;
+
+    &:hover {
+      .Item-Title {
+        @apply underline;
+      }
+    }
+    *:not(.Item-Title) {
+      @apply text-slate-900 no-underline hover:no-underline;
+    }
   }
 </style>

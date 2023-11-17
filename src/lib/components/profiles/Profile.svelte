@@ -68,53 +68,57 @@
 
   <!-- {#each sitePages as page} -->
   {#each pageOrder as page}
-    <div class="Profile-Item | my-2 content-notion-wide | overflow-hidden | ">
-      {#if page.Type?.includes('Main') && page.Hide !== true}
-        {#if page.Type.includes("Private") && !$userData['Email']}
-          <!-- alternatively show an error message for Private pages when user isn't logged in -->
-          <!-- <div class="text-red-500">This page is private. Please log in to view.</div> -->
-        {:else if page.Type.includes("Public") && $userData['Email']}
-          <!-- hide public pages when user is logged in -->
-        {:else}
-          <div class="MainPage | p-4 bg-slate-50 ">
-            {#if !page.Type.includes("#noheader") && page.Name !=='undefined'}
-              <h2 class="pt-0 mt-0">{page.Name}</h2>
-            {/if}
-            <Notion blocks={page.pageBlocks} />
-          </div>
-        {/if}
-      {:else if page.Type?.includes('Group') && page.Hide !== true}
-        {#if page.Type.includes("Private") && !$userData['Email']}
-          <!-- do nothing -->
-        {:else if page.Type.includes("Public") && $userData['Email']}
-          <!-- do nothing -->
-        {:else}
-          <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
-            <div class="p-4 bg-slate-50">
-              <h5 class="pt-0 mt-0">{page.Group}</h5>
-              {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
-              <Posts posts={page.Pages.filter(page => page.Type?.includes("Posts") && !page.Hide)} pathBase={blogpath}></Posts>
-              <!-- {#each page.pages as groupPage}
-              {/each} -->
+    {@const settings = page?.YAML && YAML.parse(page?.YAML) || {}}
+    {#if page.Name && page.Hide !== true}
+      <!-- each row NEEDS something in the name -->
+      <div class="Profile-Item | {settings?.itemClass || 'my-2 content-notion-wide'} | overflow-hidden | ">
+        {#if page.Type?.includes('Main')}
+          {#if page.Type.includes("Private") && !$userData['Email']}
+            <!-- alternatively show an error message for Private pages when user isn't logged in -->
+            <!-- <div class="text-red-500">This page is private. Please log in to view.</div> -->
+          {:else if page.Type.includes("Public") && $userData['Email']}
+            <!-- hide public pages when user is logged in -->
+          {:else}
+            <div class="MainPage | p-4 bg-slate-50 ">
+              {#if !page.Type.includes("#noheader") && page.Name !=='undefined'}
+                <h2 class="pt-0 mt-0">{page.Name}</h2>
+              {/if}
+              <Notion blocks={page.pageBlocks} />
             </div>
-          </div>
+          {/if}
+        {:else if page.Type?.includes('Group')}
+          {#if page.Type.includes("Private") && !$userData['Email']}
+            <!-- do nothing -->
+          {:else if page.Type.includes("Public") && $userData['Email']}
+            <!-- do nothing -->
+          {:else}
+            <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
+              <div class="p-4 bg-slate-50">
+                <h5 class="pt-0 mt-0">{page.Group}</h5>
+                {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
+                <Posts posts={page.Pages.filter(page => page.Type?.includes("Posts") && !page.Hide)} pathBase={blogpath}></Posts>
+                <!-- {#each page.pages as groupPage}
+                {/each} -->
+              </div>
+            </div>
+          {/if}
+        {:else if page.Type?.includes('Posts')}
+          {#if page.Type.includes("Private") && !$userData['Email']}
+            <!-- do nothing -->
+          {:else if page.Type.includes("Public") && $userData['Email']}
+            <!-- do nothing -->
+          {:else}
+            <!-- loose posts are NOT grouped together unless given a section -->
+            <div class="TypeContainer | p-4 bg-slate-50">
+              <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
+            </div>
+          {/if}
+        <!-- {:else if page.Type?.includes('Component') && page.Hide !== true} -->
+        {:else if page['Type']?.some(type => componentTypes.includes(type))}
+          <RenderComponent {page} />
         {/if}
-      {:else if page.Type?.includes('Posts') && page.Hide !== true}
-        {#if page.Type.includes("Private") && !$userData['Email']}
-          <!-- do nothing -->
-        {:else if page.Type.includes("Public") && $userData['Email']}
-          <!-- do nothing -->
-        {:else}
-          <!-- loose posts are NOT grouped together unless given a section -->
-          <div class="TypeContainer | p-4 bg-slate-50">
-            <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
-          </div>
-        {/if}
-      <!-- {:else if page.Type?.includes('Component') && page.Hide !== true} -->
-      {:else if page['Type']?.some(type => componentTypes.includes(type)) && page.Hide !== true}
-        <RenderComponent {page} />
-      {/if}
-    </div>
+      </div>
+    {/if}
   {/each}
   
   
@@ -157,12 +161,15 @@
   import { getNotionImageLink } from '$lib/helpers.js'
   import { userData } from '$lib/stores.js'
 
-  import Email from '$lib/components/forms/Email.svelte';
+  import Email from '$src';
   import RenderComponent from '$lib/components/RenderComponent.svelte';
   import MemberList from '$lib/components/MemberList.svelte';
   import GridItems from '$lib/components/GridItems.svelte';
   import Expander from '$lib/components/Expander.svelte';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
+
+  import YAML from 'yaml'
+
 
   import { marked } from 'marked';
   marked.use({

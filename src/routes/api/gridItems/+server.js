@@ -129,7 +129,7 @@ export const POST = async ({ request }) => {
           startCursor = response.next_cursor;
           if (!startCursor) break; // Exit the loop if there are no more pages
         }
-        console.log('ITEMS ::::', _items.length, startCursor)
+        // console.log('ITEMS ::::', _items.length, startCursor)
         return {items: _items, startCursor}
       }, {
         // ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
@@ -143,7 +143,7 @@ export const POST = async ({ request }) => {
       }
 
         // console.log('last response RESULT:', key, pageSize, pageNumber, result) // will show if more items are around, etc.
-        console.log('last response:', key, pageSize, pageNumber, result.items.length, result.startCursor) // will show if more items are around, etc.
+        // console.log('last response:', key, pageSize, pageNumber, result.items.length, result.startCursor) // will show if more items are around, etc.
       // console.log('NOTION API RESPONSE:: ITEMS', items)
       return hjson({ success: true, startCursor: result.startCursor, items: result.items, settings })
     }

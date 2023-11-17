@@ -18,10 +18,23 @@
       <div class="Post-item | {PostItemClasses} coverStyle_{post.MetaObj?.coverStyle} | {""}">
         <div class="">
           <a href={`${pathBase}${post.Path}`}>
-            {#if post.MetaObj?.coverStyle == "inline"}
-              <!-- small inline cover where it's on the right side -->
-              <!-- <div class="flex justify-between gap-4"> -->
-              <div class="flex justify-between gap-4 | md:grid md:grid-cols-1-3">
+            {#if post.Type?.includes("CoverPost")}
+              <!-- large image cover -->
+              {#if post.Cover || post.Files}
+                <div class="Cover-image-container | pb-2">
+                  <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
+                </div>
+              {/if}
+              <span class="Post-name text-lg pfix">{@html marked(post.Name)}</span>
+              {#if post.Date}
+                <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
+              {/if}
+              {#if post.Content}<div class="Post-content text pfix my-2 text-base">{@html marked(post.Content || '')}</div>{/if}
+            
+            {:else}
+              <!-- default -->
+              <!-- small inline cover where it's on the left side -->
+              <div class="flex justify-between gap-4 | {(post.Cover || post.Files) && "md:grid md:grid-cols-1-3"}">
                 {#if post.Cover || post.Files}
                   <div class="Cover-image-container | pb-2 max-w-sm">
                     <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
@@ -30,24 +43,11 @@
                 <div>
                   <span class="Post-name text-lg pfix">{@html marked(post.Name||'')}</span>
                   {#if post?.Date}
-                    <span class="Post-date text text-base text-sm pfix">{post.Date?.start_date}</span>
+                    <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
                   {/if}
                   {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
                 </div>
               </div>
-
-            {:else}
-              <!-- large image cover // regular -->
-              {#if post.Cover || post.Files}
-                <div class="Cover-image-container | pb-2">
-                  <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
-                </div>
-              {/if}
-              <span class="Post-name text-lg pfix">{@html marked(post.Name)}</span>
-              {#if post.Date}
-                <span class="Post-date text text-base text-sm pfix">{post.Date?.start_date}</span>
-              {/if}
-              {#if post.Content}<div class="Post-content text pfix my-2 text-base">{@html marked(post.Content || '')}</div>{/if}
             {/if}
           </a>
         </div>
@@ -85,7 +85,7 @@
 <script>
   import { marked } from 'marked';
   import { getNotionImageLink } from '$lib/helpers.js'
-  import YAML from 'yaml'
+  import { niceDate } from '$plasmid/utils/date'
 
   export let posts;
   export let settings;

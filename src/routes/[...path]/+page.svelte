@@ -68,11 +68,11 @@
       {/if}
 
       {#if $page?.data.pageContent?.Date}
-        <div class="PageContent-Date mb-0 pt-16">{@html marked($page?.data.pageContent?.Date.start_date || '')}</div>
+        <div class="PageContent-Date mb-1 pt-16">{niceDate($page?.data.pageContent?.Date.start_date)}</div>
       {/if}
 
       {#if $page?.data.pageContent?.Name}
-        <h1 class="PageContent-Name mb-0" style="padding-top: 0;">{@html marked($page?.data.pageContent?.Name || '')}</h1>
+        <h1 class="PageContent-Name mb-0 pfix" style="padding-top: 0; padding-bottom: 0;">{@html marked($page?.data.pageContent?.Name || '')}</h1>
       {/if}
 
 
@@ -132,6 +132,7 @@
   import { dev, browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
   import { getNotionImageLink } from '$lib/helpers.js'
+  import { niceDate } from '$plasmid/utils/date'
 
   import Notion from '@yawnxyz/sveltekit-notion'
   // import Notion from '@yawnxyz/sveltekit-notion/src/Notion.svelte'

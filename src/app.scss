@@ -68,6 +68,7 @@ $tabsize: 1.3rem;
     p + ul, p + ol {
       margin-top: -0.5rem;
     }
+    
   }
 
   .notion-list, .notion-list-disc {
@@ -121,17 +122,17 @@ $tabsize: 1.3rem;
 
     h2 {
       margin-top: 1rem;
-      padding-top: 1rem;
+      // padding-top: 1rem;
     }
 
     h3 {
       margin-top: 1rem;
-      padding-top: 1rem;
+      // padding-top: 1rem;
     }
 
     h4 {
-      margin-top: 1rem;
-      padding-top: 1rem;
+      // margin-top: 1rem;
+      // padding-top: 1rem;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -152,9 +153,27 @@ $tabsize: 1.3rem;
     --notion-page-width: var(--blogalog-page-width);
   }
 
+  // Post Page
   .PagePath {
     // max-width: var(--notion-page-width);
     @apply relative container max-w-4xl mx-auto w-full h-full;
+    
+
+    h1 {
+      @apply font-sans leading-tight text-4xl lg:leading-tight mb-4 font-extrabold tracking-tight;
+    }
+    
+    h2 {
+      @apply font-sans leading-tight text-3xl mb-2 font-semibold tracking-tight;
+    }
+  
+    h3 {
+      @apply font-sans text-2xl font-semibold tracking-tight leading-12 mb-2 text-slate-800;
+    }
+  
+    h4 {
+      @apply text-xl font-semibold mb-2;
+    }
   }
 
   .PagePath .notion-page {
@@ -267,7 +286,6 @@ $tabsize: 1.3rem;
   }
 
   
-
   @include notionStyles;
   @include postStyles;
   // @include profileStyles;
