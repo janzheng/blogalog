@@ -8,7 +8,7 @@ const ACCOUNT_COOKIE = env['ACCOUNT_COOKIE'];
 // CORS
 // import Blob from 'cross-blob';
 
-const allowedOrigins = ['https://restfox.dev', 'https://blogalog.net', 'https://makereal.tldraw.com/'];
+// const allowedOrigins = ['https://restfox.dev', 'https://blogalog.net', 'https://makereal.tldraw.com'];
 
 
 export const corsHeaders = {
