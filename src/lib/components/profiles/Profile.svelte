@@ -161,11 +161,11 @@
   import { getNotionImageLink } from '$lib/helpers.js'
   import { userData } from '$lib/stores.js'
 
-  import Email from '$src';
   import RenderComponent from '$lib/components/RenderComponent.svelte';
-  import MemberList from '$lib/components/MemberList.svelte';
-  import GridItems from '$lib/components/GridItems.svelte';
-  import Expander from '$lib/components/Expander.svelte';
+  // import Login from '$lib/components/forms/Login.svelte';
+  // import MemberList from '$lib/components/MemberList.svelte';
+  // import GridItems from '$lib/components/GridItems.svelte';
+  // import Expander from '$lib/components/Expander.svelte';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
 
   import YAML from 'yaml'
