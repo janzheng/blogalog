@@ -35,19 +35,20 @@
   {:else}
     {#if page.Name == "Unlock" || page.Type.includes("Unlock") || page.Name == "Login" || page.Type.includes("Login")}
       <div class="Component-Login | p-4 bg-slate-50 ">
-        <Notion blocks={page.pageBlocks} />
         {#if $userData['Email']}
           <div class="Component-Login-Status">
             Logged in as {$userData['Email']}. <button on:click={()=>{
               $userData['Email'] = null;
             }} class="Btn-link --short">Log out</button>
           </div>
-          <div class="Component-Login-Details">
+          <div class="Component-Login-Details | mt-2">
             {#if $userData['Payments']}
-              ✅ All Paid! Receipt: <span class="text-slate-400">{$userData['Payments']}</span>
+              ✅ You are fully Paid!  
+              <div class="text-sm" >Receipt: <span class="text-slate-400">{$userData['Payments']}</span></div>
             {/if}
           </div>
         {:else}
+          <Notion blocks={page.pageBlocks} />
           <Email cta="Log in" message={unlockMessage}
             bind:formData={emailForm}
             onError={({ result }) => {
