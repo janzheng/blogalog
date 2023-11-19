@@ -55,7 +55,8 @@
               <td class:header={block.format['table_block_column_header'] && j==0}
                   style={"width:"+col.width+"px"}>
                 <!-- {col.content} -->
-                {@html textToHtml(col.content)}
+                <!-- empty cells need a space to fill the row -->
+                {@html textToHtml(col.content)||'<span class="notion-empty-cell">&nbsp;</span>'}
               </td>
             {/each}
           </tr>

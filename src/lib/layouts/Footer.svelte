@@ -32,7 +32,7 @@
       </div>
 
       <div class="Content-Blogalog | text-center mt-2">
-        Built with <a href="https://blogalog.net">Blogalog</a>
+        Get your own <a href="https://blogalog.net">own blog, CV, or lab page on Blogalog</a>
       </div>
     </div>
   <!-- don't default to Jan's stuff; show nothing if empty -->

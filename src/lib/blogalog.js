@@ -116,7 +116,7 @@ export const buildBlogPage = (blogDataArr, index) => {
 
   if (blog?.['site-pagedata']?.length > 0) {
     // all page data settings do NOT have a "type"; these are accessible by key
-    blog['site-data'] = applyTransformers(blog['site-pagedata'].filter(p => !Array.isArray(p.Type)), [{
+    blog['site-data'] = applyTransformers(blog['site-pagedata'].filter(p => (!Array.isArray(p.Type) || p.Type?.includes('Settings'))), [{
       "function": "transformArrayToObjectByKey",
       "settings": {
         "objectKey": "Name"
@@ -131,7 +131,7 @@ export const buildBlogPage = (blogDataArr, index) => {
     }])
 
     // every "page" has a type; otherwise it's a setting; these are an
-    blog['site-pages'] = applyTransformers(blog['site-pagedata'].filter(p => p.Type && !p.Type.includes("Secret")), [{
+    blog['site-pages'] = applyTransformers(blog['site-pagedata'].filter(p => p.Type && !["Secret", "Settings"].some(type => p.Type.includes(type))), [{
       "function": "transformArrayVersionedObjects",
       // "settings": {
       //   "uniqueKey": "Path", // unique field to track versions against

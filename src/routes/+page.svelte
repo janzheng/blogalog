@@ -1,5 +1,6 @@
 <div class="Home">
 
+  <!-- main profile page, e.g. jessbio or blogalog.net -->
   <Profile />
   
 

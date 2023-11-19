@@ -13,7 +13,7 @@
 
 <!-- {#if $page?.data.isBlogalogHome && !pageContent} -->
 {#if $page?.data.isBlogalogHome}
-  <!-- blogalog profile / main home pag-->
+  <!-- main profile slug page, e.g. blogalog.net/jessbio or /yawnxyz -->
   <Profile />
 {/if}
 

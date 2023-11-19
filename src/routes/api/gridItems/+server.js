@@ -133,7 +133,10 @@ export const POST = async ({ request }) => {
         return {items: _items, startCursor}
       }, {
         // ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
-        ttl: 60, // 60s cache
+        // ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 60 * 10, // ttr won't work if not on cytosis
+        // ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600, // refresh / reload every 30m
+        ttl: 60 * 30, // refresh in-browser / reload every 30m
+
         // skipCache: true,
       })
 

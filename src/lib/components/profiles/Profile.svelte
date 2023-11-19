@@ -72,6 +72,7 @@
     {#if page.Name && page.Hide !== true}
       <!-- each row NEEDS something in the name -->
       <div class="Profile-Item | {settings?.itemClass || 'my-2 content-notion-wide'} | overflow-hidden | ">
+        <!-- {page.Name} -->
         {#if page.Type?.includes('Main')}
           {#if page.Type.includes("Private") && !$userData['Email']}
             <!-- alternatively show an error message for Private pages when user isn't logged in -->
