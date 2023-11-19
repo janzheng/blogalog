@@ -232,7 +232,7 @@
       if (page.Section && !pageOrder.find(pageOrderPage => pageOrderPage.Group === page.Section)) {
         const section = sections.find(section => section.Section === page.Section);
         if (section) {
-          const newObject = { Group: section.Section, Type: ['Group'], Pages: section.pages, SectionDescription: section.SectionDescription };
+          const newObject = { Name: section.Section, Group: section.Section, Type: ['Group'], Pages: section.pages, SectionDescription: section.SectionDescription };
           pageOrder.push(newObject);
         }
       }

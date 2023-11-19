@@ -35,7 +35,8 @@
         Built with <a href="https://blogalog.net">Blogalog</a>
       </div>
     </div>
-  {:else}
+  <!-- don't default to Jan's stuff; show nothing if empty -->
+  <!-- {:else}
     <div class=" ">
       <div class="">
         <span class="inline mx-2"><a class="_margin-right" href="https://github.com/janzheng">Github</a></span>
@@ -44,7 +45,7 @@
         <span class="inline mx-2"><a class="_margin-right" href="/resume.pdf">resume</a></span>
         <span class="inline mx-2"><a class="_block-xs _padding-top-xs" href="mailto:hello@janzheng.com">hello@janzheng.com</a></span>
       </div>
-    </div>
+    </div> -->
   {/if}
 </footer>
 
