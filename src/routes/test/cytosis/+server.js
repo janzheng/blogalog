@@ -4,6 +4,8 @@ import { json } from '@sveltejs/kit';
 // import { loadBlogalog, loadBlogalogFromPageId, buildBlogPage, buildBlogHead } from '$lib/blogalog'
 
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
+import { PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_CACHET_TTL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
+
 
 
 export const GET = async (req) => {
@@ -21,9 +23,10 @@ export const GET = async (req) => {
   // all C&T links collection; 3MB total; lots of unneeded data
   // (timeout; this won't load; crashes CF w/ timeout)
   // view=Atifs%20Links&limit=999&payload=rows
-  
+
+  // https://notion-cloudflare-worker.yawnxyz.workers.dev/v1/collection/f2ca2eb92d184200b0d371f822af1856?view=Atifs%20Links&limit=5&payload=rows
   console.log('loading endo...',pageId)
-  response = await endo({
+  let config = {
     "sources": [
       {
         "name": "results",
@@ -34,6 +37,12 @@ export const GET = async (req) => {
         // },
       },
     ]
+  }
+
+  response = await endoloader(config, {
+    key: `${PUBLIC_PROJECT_NAME}-${pageId}?view=Atifs%20Links&limit=12&payload=rows`,
+    url: PUBLIC_ENDOCYTOSIS_URL,
+    saveCache: true, // handled by cachet
   })
 
 

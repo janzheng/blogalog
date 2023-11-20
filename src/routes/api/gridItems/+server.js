@@ -66,6 +66,121 @@ function processItems(items, settings) {
   return items;
 }
 
+// load using the Notion API, which is really slow
+async function gridLoadNotion({ id, settings, pageNumber, startCursor, key }) {
+  let pageSize = settings.loader?.pageSize || 10;
+
+  let response, items = [];
+
+  key = `${key}-pageSize_${pageSize}-pageNumber_${pageNumber}-cursor_${startCursor}`
+  let result = await cachet(key, async () => {
+    let _items = []; // INNER ITEMS
+    for (let i = 0; i < pageNumber; i++) {
+      response = await notion.databases.query({
+        page_size: pageSize,
+        start_cursor: startCursor,
+        database_id: id,
+        filter: settings.loader?.filter || {},
+        sorts: settings.loader?.sorts || [],
+      });
+
+      if (i === pageNumber - 1) {
+        const pageItems = response.results.map(item => notionObjToFlatJson(item));
+        _items = processItems(pageItems, settings);
+      }
+
+      startCursor = response.next_cursor;
+      if (!startCursor) break; // Exit the loop if there are no more pages
+    }
+    // console.log('ITEMS ::::', _items.length, startCursor)
+    return { items: _items, startCursor }
+  }, {
+    // ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
+    // ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 60 * 10, // ttr won't work if not on cytosis
+    // ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600, // refresh / reload every 30m
+    ttl: 60 * 30, // refresh in-browser / reload every 30m
+
+    // skipCache: true,
+  })
+
+  // if cached, the value will be stored as result.value
+  if (result.value) {
+    result = result.value
+  }
+
+  return { success: true, startCursor: result.startCursor, items: result.items, settings }
+  // return hjson({ success: true, startCursor: result.startCursor, items: result.items, settings })
+}
+
+// loads using cf-notion, which is also really slow haha
+// but at least it's caching aggressively
+async function gridEndoLoader({ id, settings, pageNumber, key }) {
+  let pageId = id
+  let view = settings?.loader?.view;
+  let limit = settings?.loader?.pageSize || 999;
+  let payload = settings?.loader?.payload || 'rows';
+  pageNumber = pageNumber || settings?.loader?.pageNumber || 1;
+
+  let pagesToPreload = 3; // number of pages to preload
+
+  // calculate the initial page number for the given page number
+  let initialPageNumber = Math.floor((pageNumber - 1) / pagesToPreload) * pagesToPreload + 1;
+
+  // calculate total limit based on initial page number
+  let totalLimit = limit * (initialPageNumber + pagesToPreload - 1);
+
+
+  let config = {
+    "sources": [
+      {
+        "name": "items",
+        "type": "cfnotion",
+        "path": `collection/${pageId}?${view ? `view=${view}&` : ''}limit=${totalLimit}&payload=${payload}`,
+      },
+    ]
+  }
+  key += `-limit_${totalLimit}` // use totalLimit instead of limit
+  if (view) {
+    key += `-view_${view}`
+  }
+  if (payload) {
+    key += `-payload_${payload}`
+  }
+
+  console.log('endoLoading:', key, config, "pagesToPreload", pagesToPreload, "totalLimit:", totalLimit, )
+
+  let result
+  result = await cachet(`${key}`, async () => {
+    let data = await endoloader(config, {
+      url: PUBLIC_ENDOCYTOSIS_URL,
+      key: key
+    })
+    return data
+  }, {
+    // cytosis notion loader
+    ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 5, // reload every 5
+    ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
+    bgFn: () => {
+      endoloader(config, {
+        url: PUBLIC_ENDOCYTOSIS_URL,
+        key: key
+      })
+    }
+  })
+
+  if (result) {
+    let value = result?.value?.value ? JSON.parse(result?.value?.value) : result?.value
+    let items = value?.items;
+    items = processItems(items, settings);
+    // Limit the items to the newest pageNumber * limit
+    let startIndex = (pageNumber - 1) * limit;
+    let endIndex = pageNumber * limit;
+    items = items.slice(startIndex, endIndex);
+
+    return { success: true, items, settings, startCursor: pageNumber }
+  }
+}
+
 
 
 
@@ -73,6 +188,7 @@ function processItems(items, settings) {
 export const GET = async ({ request }) => {
   return json({success: true})
 }
+
 
 export const POST = async ({ request }) => {
   let { config, id, settings, pageNumber, startCursor } = await request.json()
@@ -85,40 +201,7 @@ export const POST = async ({ request }) => {
     else if (!settings)
       settings = {}
 
-
     let key = `${PUBLIC_PROJECT_NAME}-id-${id}`
-    let pageId = id
-    let view = settings?.loader?.view;
-    let limit = settings?.loader?.pageSize || 10;
-    let payload = settings?.loader?.payload || 'rows';
-    pageNumber = pageNumber || settings?.loader?.pageNumber || 1;
-    
-    if(!config) {
-      config = {
-        "sources": [
-          {
-            "name": "items",
-            "type": "cfnotion",
-            "path": `collection/${pageId}?${view ? `view=${view}&` : ''}limit=${limit * pageNumber}&payload=${payload}`,
-          },
-        ]
-      }
-
-      if(pageNumber) {
-        key += `-pageNumber_${pageNumber}`
-      }
-      if(limit) {
-        key += `-limit_${limit}`
-      }
-      if(view) {
-        key += `-view_${view}`
-      }
-      if(payload) {
-        key += `-payload_${payload}`
-      }
-    }
-
-
     let result
 
     // NO CACHING
@@ -131,90 +214,15 @@ export const POST = async ({ request }) => {
     // use native Notion API loader; default
     // if (id && settings.loader == 'notion') {
     if (id && settings.loader?.type == 'notion') {
-      let pageSize = settings.loader?.pageSize || 10;
-
-      let response, items=[];
-
-      key = `${key}-pageSize_${pageSize}-pageNumber_${pageNumber}-cursor_${startCursor}`
-      let result = await cachet(key, async () => {
-        let _items = []; // INNER ITEMS
-        for (let i = 0; i < pageNumber; i++) {
-          response = await notion.databases.query({
-            page_size: pageSize,
-            start_cursor: startCursor,
-            database_id: id,
-            filter: settings.loader?.filter || {},
-            sorts: settings.loader?.sorts || [],
-          });
-
-          if (i === pageNumber - 1) {
-            const pageItems = response.results.map(item => notionObjToFlatJson(item));
-            _items = processItems(pageItems, settings);
-          }
-
-          startCursor = response.next_cursor;
-          if (!startCursor) break; // Exit the loop if there are no more pages
-        }
-        // console.log('ITEMS ::::', _items.length, startCursor)
-        return {items: _items, startCursor}
-      }, {
-        // ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
-        // ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 60 * 10, // ttr won't work if not on cytosis
-        // ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600, // refresh / reload every 30m
-        ttl: 60 * 30, // refresh in-browser / reload every 30m
-
-        // skipCache: true,
-      })
-
-      // if cached, the value will be stored as result.value
-      if(result.value) {
-        result = result.value
-      }
-
-        // console.log('last response RESULT:', key, pageSize, pageNumber, result) // will show if more items are around, etc.
-        // console.log('last response:', key, pageSize, pageNumber, result.items.length, result.startCursor) // will show if more items are around, etc.
-      // console.log('NOTION API RESPONSE:: ITEMS', items)
-      return hjson({ success: true, startCursor: result.startCursor, items: result.items, settings })
-    } else {
-      // endoloader
-      // CACHING
-      result = await cachet(`${key}`, async () => {
-        let data = await endoloader(config, {
-          url: PUBLIC_ENDOCYTOSIS_URL,
-          key: key
-        })
-        return data
-      }, {
-        ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-        ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
-        bgFn: () => {
-          endoloader(config, {
-            url: PUBLIC_ENDOCYTOSIS_URL,
-            key: key
-          })
-        }
-      })
-  
-  
-      if (result) {
-        let value = result?.value?.value ? JSON.parse(result?.value?.value) : result?.value
-        let items = value?.items;
-        items = processItems(items, settings);
-        // Limit the items to the newest pageNumber * limit
-        let startIndex = (pageNumber - 1) * limit;
-        let endIndex = pageNumber * limit;
-        items = items.slice(startIndex, endIndex);
-
-        startCursor = pageNumber
-        return hjson({ success: true, items, settings, startCursor })
-      }
-
+      result = await gridLoadNotion({ id, settings, pageNumber, startCursor, key })
+      return hsjon(result)
     }
-
-
-
-
-    return hjson({ success: false, })
+    
+    // endoloader / cytosis
+    else {
+      result = await gridEndoLoader({ id, settings, pageNumber, key })
+      return hjson(result)
+    }
 
   } catch (e) {
     console.error('[api/gridItems] error', e)
