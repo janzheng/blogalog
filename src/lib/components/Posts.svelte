@@ -29,7 +29,7 @@
               {#if post.Date}
                 <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
               {/if}
-              {#if post.Content}<div class="Post-content text pfix my-2 text-base">{@html marked(post.Content || '')}</div>{/if}
+              {#if post.Content}<div class="Post-content text pfix mt-1 mb-2 text-base">{@html marked(post.Content || '')}</div>{/if}
             
             {:else}
               <!-- default -->
@@ -125,7 +125,7 @@
     }
 
     &+.Post-item {
-      @apply mt-6;
+      @apply mt-8;
     }
   }
   // .Post-content {
