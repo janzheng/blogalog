@@ -11,6 +11,7 @@ node_modules
 .vercel_build_output
 /deta/.env
 .npmrc
+._vercel
 
 
 evg.*

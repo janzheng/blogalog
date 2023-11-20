@@ -119,7 +119,7 @@
 
     try {
       // for pagination w/ Notion
-      if(result.startCursor)
+      if(result?.startCursor)
         startCursor = result.startCursor
 
       items = [...items, ...result?.items]

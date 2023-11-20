@@ -31,7 +31,9 @@ const config = {
   // vercel; regular deployment
   kit: {
     // adapter: adapter_auto(),
-    adapter: adapter_vercel(),
+    adapter: adapter_vercel({
+      // runtime: 'edge'
+    }),
     // adapter: adapter_static(),
     // adapter: adapter_node(),
 

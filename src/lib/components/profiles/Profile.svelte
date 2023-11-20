@@ -1,144 +1,150 @@
 
 <svelte:head>
   {#if $page.data.head}
-    <title>{$page.data.head?.title}</title>
+    <title>{$page.data.head?.title || 'Blog not found!'}</title>
   {/if}
 </svelte:head>
 
-<div class="Profile">
-  <div class="Profile-Header | content-notion-wide | mt-0 md:mt-2 lg:mt-4 rounded-sm overflow-hidden  ">
-    <!-- cover -->
-    {#if coverImage}
-      <div class="CoverImage | min-h-[4rem] overflow-hidden">
-        <img class="w-full object-left-top object-contain" src="{coverImage}" alt="Cover" />
-      </div> 
-    {/if}
-    
-    <!-- profile -->
-    {#if profileImage}
-    <div class="ProfileImage-Container | relative bg-slate-50 | md:min-h-[10rem] sm:min-h-[7rem] ">
-      <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 |">
-        <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
-        <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36">
-        <!-- <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-[36rem]"> -->
-          {#if author}<div class="Author text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>{/if}
-          <!-- <div class="text">{siteDesc || ''}</div> -->
-          {#if socialLinks}
-            <div class="text-2xl | mb-4">
-              <SocialBox {email} socialText={socialLinks} />
-            </div>
-          {/if}
-          {#if shortDesc}<div class="ShortDesc text">{@html marked(shortDesc || '') }</div>{/if}
-          {#if location}<div class="Location text pfix">{@html marked(location || '') }</div>{/if}
-          <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
-        </div>
-      </div>
-    </div>
-    {/if}
-  
-    {#if socialDescription || shortDescription}
-      <div class="bg-slate-50 p-4 content-notion-wide">
-        <!-- profile area -->
-        <!-- DEPRECATED: Use socialLinks instead
-          {#if socialDescription}
-          <div class="SocialDescription mb-4">
-            {@html marked(socialDescription || '')}
-          </div>
-        {/if} -->
-        {#if shortDescription}
-          <div class="ShortDescription">
-            {@html marked(shortDescription || '')}
-          </div>
-        {/if}
-      </div>
-    {/if}
+{#if !blog}
+  <div class="Profile-Header | content-notion-wide | mt-24 rounded-sm overflow-hidden text-center">
+    <h1>Blog not found!</h1>
   </div>
-  
-  <!-- display posts before anything else, if we don't have subsections -->
-  <!-- update: instead of grouping them, now allowing multiple sections of posts, if theye're inserted at diff. places -->
-  <!-- {#if blog && blog['site-pages'] && sections.length == 0}
-    <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
-      <div class="p-4 bg-slate-50">
-        <h2 class="pt-0 mt-0">{"Posts"}</h2>
-        <Posts posts={blog['site-pages'].filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
-      </div>
-    </div>
-  {/if} -->
-
-
-  <!-- {#each sitePages as page} -->
-  {#each pageOrder as page}
-    {@const settings = page?.YAML && YAML.parse(page?.YAML) || {}}
-    {#if page.Name && page.Hide !== true}
-      <!-- each row NEEDS something in the name -->
-      <div class="Profile-Item | {settings?.itemClass || 'my-2 content-notion-wide'} | overflow-hidden | ">
-        <!-- {page.Name} -->
-        {#if page.Type?.includes('Main')}
-          {#if page.Type.includes("Private") && !$userData['Email']}
-            <!-- alternatively show an error message for Private pages when user isn't logged in -->
-            <!-- <div class="text-red-500">This page is private. Please log in to view.</div> -->
-          {:else if page.Type.includes("Public") && $userData['Email']}
-            <!-- hide public pages when user is logged in -->
-          {:else}
-            <div class="MainPage | p-4 bg-slate-50 ">
-              {#if (!page.Type.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !=='undefined'}
-                <h2 class="pt-0 mt-0">{page.Name}</h2>
-              {/if}
-              <Notion blocks={page.pageBlocks} />
-            </div>
-          {/if}
-        {:else if page.Type?.includes('Group')}
-          {#if page.Type.includes("Private") && !$userData['Email']}
-            <!-- do nothing -->
-          {:else if page.Type.includes("Public") && $userData['Email']}
-            <!-- do nothing -->
-          {:else}
-            <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
-              <div class="p-4 bg-slate-50">
-                <h5 class="pt-0 mt-0">{page.Group}</h5>
-                {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
-                <Posts posts={page.Pages.filter(page => page.Type?.includes("Posts") && !page.Hide)} pathBase={blogpath}></Posts>
-                <!-- {#each page.pages as groupPage}
-                {/each} -->
+{:else}
+  <div class="Profile">
+    <div class="Profile-Header | content-notion-wide | mt-0 md:mt-2 lg:mt-4 rounded-sm overflow-hidden  ">
+      <!-- cover -->
+      {#if coverImage}
+        <div class="CoverImage | min-h-[4rem] overflow-hidden">
+          <img class="w-full object-left-top object-contain" src="{coverImage}" alt="Cover" />
+        </div> 
+      {/if}
+      
+      <!-- profile -->
+      {#if profileImage}
+      <div class="ProfileImage-Container | relative bg-slate-50 | md:min-h-[10rem] sm:min-h-[7rem] ">
+        <div class="ProfileImage | px-4 pt-4 | relative md:relative z-20 |">
+          <img class="w-32 h-32 | bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
+          <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36">
+          <!-- <div class="ProfileShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36 md:w-[36rem]"> -->
+            {#if author}<div class="Author text-2xl sm:text-4xl font-bold py-2">{author || ''}</div>{/if}
+            <!-- <div class="text">{siteDesc || ''}</div> -->
+            {#if socialLinks}
+              <div class="text-2xl | mb-4">
+                <SocialBox {email} socialText={socialLinks} />
               </div>
-            </div>
-          {/if}
-        {:else if page.Type?.includes('Posts')}
-          {#if page.Type.includes("Private") && !$userData['Email']}
-            <!-- do nothing -->
-          {:else if page.Type.includes("Public") && $userData['Email']}
-            <!-- do nothing -->
-          {:else}
-            <!-- loose posts are NOT grouped together unless given a section -->
-            <div class="TypeContainer | p-4 bg-slate-50">
-              <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
-            </div>
-          {/if}
-        <!-- {:else if page.Type?.includes('Component') && page.Hide !== true} -->
-        {:else if page['Type']?.some(type => componentTypes.includes(type))}
-          <RenderComponent {page} />
-        {/if}
-      </div>
-    {/if}
-  {/each}
-  
-  
-  <!-- 
-  {#each sitePageTypes as type}
-    <div class="TypeSection | my-2 content-notion-wide | overflow-hidden | ">
-      {#if type=='Main'}
-        <div class="MainPage | p-4 bg-slate-50 ">
-          <h2 class="pt-0 mt-0">{type}</h2>
-          <Notion blocks={mainPageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
+            {/if}
+            {#if shortDesc}<div class="ShortDesc text">{@html marked(shortDesc || '') }</div>{/if}
+            {#if location}<div class="Location text pfix">{@html marked(location || '') }</div>{/if}
+            <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
+          </div>
         </div>
-      {:else}
-        <div class="TypeContainer | p-4 bg-slate-50">
-          <h2 class="pt-0 mt-0">{type}</h2>
+      </div>
+      {/if}
+    
+      {#if socialDescription || shortDescription}
+        <div class="bg-slate-50 p-4 content-notion-wide">
+          <!-- profile area -->
+          <!-- DEPRECATED: Use socialLinks instead
+            {#if socialDescription}
+            <div class="SocialDescription mb-4">
+              {@html marked(socialDescription || '')}
+            </div>
+          {/if} -->
+          {#if shortDescription}
+            <div class="ShortDescription">
+              {@html marked(shortDescription || '')}
+            </div>
+          {/if}
         </div>
       {/if}
     </div>
-  {/each} -->
-</div>
+    
+    <!-- display posts before anything else, if we don't have subsections -->
+    <!-- update: instead of grouping them, now allowing multiple sections of posts, if theye're inserted at diff. places -->
+    <!-- {#if blog && blog['site-pages'] && sections.length == 0}
+      <div class="Posts | my-2 | content-notion-wide | overflow-hidden ">
+        <div class="p-4 bg-slate-50">
+          <h2 class="pt-0 mt-0">{"Posts"}</h2>
+          <Posts posts={blog['site-pages'].filter(page => page.Type == "Posts" && !page.Hide)} pathBase={blogpath}></Posts>
+        </div>
+      </div>
+    {/if} -->
+
+
+    <!-- {#each sitePages as page} -->
+    {#each pageOrder as page}
+      {@const settings = page?.YAML && YAML.parse(page?.YAML) || {}}
+      {#if page.Name && page.Hide !== true}
+        <!-- each row NEEDS something in the name -->
+        <div class="Profile-Item | {settings?.itemClass || 'my-2 content-notion-wide'} | overflow-hidden | ">
+          <!-- {page.Name} -->
+          {#if page.Type?.includes('Main')}
+            {#if page.Type.includes("Private") && !$userData['Email']}
+              <!-- alternatively show an error message for Private pages when user isn't logged in -->
+              <!-- <div class="text-red-500">This page is private. Please log in to view.</div> -->
+            {:else if page.Type.includes("Public") && $userData['Email']}
+              <!-- hide public pages when user is logged in -->
+            {:else}
+              <div class="MainPage | p-4 bg-slate-50 ">
+                {#if (!page.Type.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !=='undefined'}
+                  <h2 class="pt-0 mt-0">{page.Name}</h2>
+                {/if}
+                <Notion blocks={page.pageBlocks} />
+              </div>
+            {/if}
+          {:else if page.Type?.includes('Group')}
+            {#if page.Type.includes("Private") && !$userData['Email']}
+              <!-- do nothing -->
+            {:else if page.Type.includes("Public") && $userData['Email']}
+              <!-- do nothing -->
+            {:else}
+              <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
+                <div class="p-4 bg-slate-50">
+                  <h5 class="pt-0 mt-0">{page.Group}</h5>
+                  {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
+                  <Posts posts={page.Pages.filter(page => page.Type?.includes("Posts") && !page.Hide)} pathBase={blogpath}></Posts>
+                  <!-- {#each page.pages as groupPage}
+                  {/each} -->
+                </div>
+              </div>
+            {/if}
+          {:else if page.Type?.includes('Posts')}
+            {#if page.Type.includes("Private") && !$userData['Email']}
+              <!-- do nothing -->
+            {:else if page.Type.includes("Public") && $userData['Email']}
+              <!-- do nothing -->
+            {:else}
+              <!-- loose posts are NOT grouped together unless given a section -->
+              <div class="TypeContainer | p-4 bg-slate-50">
+                <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
+              </div>
+            {/if}
+          <!-- {:else if page.Type?.includes('Component') && page.Hide !== true} -->
+          {:else if page['Type']?.some(type => componentTypes.includes(type))}
+            <RenderComponent {page} />
+          {/if}
+        </div>
+      {/if}
+    {/each}
+    
+    
+    <!-- 
+    {#each sitePageTypes as type}
+      <div class="TypeSection | my-2 content-notion-wide | overflow-hidden | ">
+        {#if type=='Main'}
+          <div class="MainPage | p-4 bg-slate-50 ">
+            <h2 class="pt-0 mt-0">{type}</h2>
+            <Notion blocks={mainPageBlocks} api="//notion-cloudflare-worker.yawnxyz.workers.dev"></Notion>
+          </div>
+        {:else}
+          <div class="TypeContainer | p-4 bg-slate-50">
+            <h2 class="pt-0 mt-0">{type}</h2>
+          </div>
+        {/if}
+      </div>
+    {/each} -->
+  </div>
+{/if}
 
 
 

@@ -37,14 +37,20 @@ async function initContent(head, hostname) {
 
     if(blogalog) {
       ({ head, blog, blogalogPages } = blogalog);
-    }
-    else {
+    } else {
       // NOTE: don't do this if on a subpath; or maybe just don't do this at all?
       // otherwise will load base blog AND sub blog, which is slowwww
       // for default or wrong hostnames, pull default blogalog
       // console.error('[layout] No custom blog or page found; defaulting to load [BLOGALOG]')
       // blogalog = await loadBlogalogFromPath("blogalog");
       // if (blogalog) ({ _head, cytosis } = blogalog);
+    }
+
+    if(!blogalog) {
+      // this happens on preview paths, where the hostname is not the same as the blogalog
+      // this will load the "preview" mode which is normally blogalog (Set on "pages")
+      blogalog = await loadBlogalogFromPath({ hostname: "preview" });
+      ({ head, blog, blogalogPages } = blogalog);
     }
 
 

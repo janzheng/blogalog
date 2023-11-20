@@ -1,4 +1,9 @@
 
+export const config = {
+  runtime: 'edge'
+};
+
+
 /* 
 
   items / 
