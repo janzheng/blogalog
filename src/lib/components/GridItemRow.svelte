@@ -11,8 +11,19 @@
       </div>
     {:else if schema?.[key]?.type === 'html'}
       <div class="Item-type-html Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html item[key]||''}</div>
+    {:else if schema?.[key]?.type === 'createdBy' || schema?.[key]?.type === 'lastEditedBy'}
+      {#if item[key] && item[key].length > 0}
+        {#each item[key] as user}
+          <div class="Item-byline Item-{key} | mt-2 mb-2 {schema?.[key]?.class||''}">
+            {#if user?.profilePhoto}
+              <img class="Item-byline-profilePhoto mr-2 inline-block | rounded-full w-8 h-8" src={getNotionImageLink(user?.profilePhoto)} alt="{user?.fullName}" />
+            {/if}
+            <span lcass="Item-byline-fullName">{user?.fullName}</span>
+          </div>
+        {/each}
+      {/if}
     {:else if schema?.[key]?.type === 'link'}
-      <div class="Item-link Item-{key} | mb-1 {schema?.[key]?.class||''}">
+      <div class="Item-link Item-{key} |  mb-1 {schema?.[key]?.class||''}">
         {#if schema?.[key]?.onlyShowOrigin}
           <a class="Item-link-href--origin" href="{item[key]}">{item[key]?.split('/')[2]}</a>
         {:else}
@@ -21,7 +32,7 @@
       </div>
     {:else if schema?.[key]?.type === 'tag'}
       <div class="Item-type-tag Item-{key} | mb-1 {schema?.[key]?.class||''}">
-        <span class="{schema?.[key]?.tagClass ||  'bg-zinc-100 text-xs rounded-md text-slate-800 px-2 py-1 mr-1 mb-1'}">{item[key]}</span>
+        <span class="{schema?.[key]?.tagClass ||  'bg-zinc-200/50 text-xs rounded-md text-slate-800 px-2 py-1 mr-1 mb-1'}">{item[key]}</span>
       </div>
     {:else if schema?.[key]?.type === 'tagText'}
       <div class="Item-type-tagText Item-{key} | mb-1 {schema?.[key]?.class||''}">
@@ -31,7 +42,7 @@
       </div>
     {:else if schema?.[key]?.type === 'markdown'}
       <!-- <div class="Item-type-markdown pfix Item-{key} | {schema?.[key]?.class||''}">{@html marked(item[key]||'')}</div> -->
-  <div class="Item-type-markdown pfix Item-{key} | {schema?.[key]?.class||''}">{@html marked(fixMarkdownLinks(item[key]||''))}</div>
+  <div class="Item-type-markdown pfix Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html marked(fixMarkdownLinks(item[key]||''))}</div>
     {:else}
       <div class="Item-type-default Item-{key} | {schema?.[key]?.class||''}">{item[key]||''}</div>
     {/if}
@@ -55,10 +66,16 @@
 
   // fixes Markdown in Notion which auto-converts links to embedded links
   function fixMarkdownLinks(md) {
-    const regex = /\[(.*?)\]\s*\(<a class="notion-link" href="(.*?)"\>(.*?)<\/a>\)/g;
-    let result = md.replace(regex, '[$1]($2)');
+    // const regex = /\[(.*?)\]\s*\(<a class="notion-link" href="(.*?)"\>(.*?)<\/a>\)/g;
+    // let result = md.replace(regex, '[$1]($2)');
 
     // console.log('result:', result)
+    const regex = /\[(.*?)\]\s*\(<a class="notion-link" href="(.*?)"\>(.*?)<\/a>\)/g;
+    let result = md.replace(regex, '[$1]($2)');
+    const stripTagsRegex = /<a.*?href="(.*?)".*?>(.*?)<\/a>/g;
+    result = result.replace(stripTagsRegex, '[$2]($1)');
+    // console.log('result:', result);
+    
     return result
   }
 

@@ -144,7 +144,7 @@ async function gridEndoLoader({ id, settings, pageNumber, key }) {
   // this ends up loading the next batch of data into the cache
   if (pageNumber > pagesToPreload - 2) {
     let newLimit = limit * pagesToPreload + totalLimit
-    console.log('Loading More:', newLimit)
+    // console.log('Loading More:', newLimit)
     let _config = {
       "sources": [
         {
@@ -170,7 +170,7 @@ async function gridEndoLoader({ id, settings, pageNumber, key }) {
   if (view) { key += `-view_${view}` }
   if (payload) { key += `-payload_${payload}` }
 
-  console.log('endoLoading:', key, config, "pagesToPreload", pagesToPreload, "totalLimit:", totalLimit, "pageNumber", pageNumber, "initialPageNumber", initialPageNumber, "limit", limit)
+  // console.log('endoLoading:', key, config, "pagesToPreload", pagesToPreload, "totalLimit:", totalLimit, "pageNumber", pageNumber, "initialPageNumber", initialPageNumber, "limit", limit)
 
 
   let result

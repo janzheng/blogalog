@@ -207,5 +207,8 @@
     *:not(.Item-Title) {
       @apply text-slate-900 no-underline hover:no-underline;
     }
+    .Item-link a {
+      @apply text-slate-500 no-underline hover:no-underline;
+    }
   }
 </style>
