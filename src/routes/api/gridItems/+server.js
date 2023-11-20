@@ -139,15 +139,39 @@ async function gridEndoLoader({ id, settings, pageNumber, key }) {
       },
     ]
   }
-  key += `-limit_${totalLimit}` // use totalLimit instead of limit
-  if (view) {
-    key += `-view_${view}`
-  }
-  if (payload) {
-    key += `-payload_${payload}`
+
+  // preload more pages before the end of the pagination
+  // this ends up loading the next batch of data into the cache
+  if (pageNumber > pagesToPreload - 2) {
+    let newLimit = limit * pagesToPreload + totalLimit
+    console.log('Loading More:', newLimit)
+    let _config = {
+      "sources": [
+        {
+          "name": "items",
+          "type": "cfnotion",
+          "path": `collection/${pageId}?${view ? `view=${view}&` : ''}limit=${newLimit}&payload=${payload}`,
+        },
+      ]
+    }
+    let _key = key + `-limit_${newLimit}` // use totalLimit instead of limit
+    if (view) { _key += `-view_${view}` }
+    if (payload) { _key += `-payload_${payload}` }
+    // send off the job w/o waiting on it
+    endoloader(config, {
+      url: PUBLIC_ENDOCYTOSIS_URL,
+      key: key
+    })
   }
 
-  console.log('endoLoading:', key, config, "pagesToPreload", pagesToPreload, "totalLimit:", totalLimit, )
+
+
+  key += `-limit_${totalLimit}` // use totalLimit instead of limit
+  if (view) { key += `-view_${view}` }
+  if (payload) { key += `-payload_${payload}` }
+
+  console.log('endoLoading:', key, config, "pagesToPreload", pagesToPreload, "totalLimit:", totalLimit, "pageNumber", pageNumber, "initialPageNumber", initialPageNumber, "limit", limit)
+
 
   let result
   result = await cachet(`${key}`, async () => {
