@@ -44,7 +44,7 @@
   
           </div>
         {/each}
-        {#if startCursor}
+        {#if startCursor && settings.loader?.loadMore}
           <!-- notion loader feature -->
           <button class="Btn-outline" on:click={loadMoreItems} disabled={isLoadingMore}>
             {#if isLoadingMore}

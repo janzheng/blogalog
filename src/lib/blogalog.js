@@ -268,7 +268,8 @@ export const loadBlogalogPages = async () => {
 // this fn pulls the data from Notion / KV Cache
 // can use this directly to pull non-blogalog-indexed pages
 export const loadBlogalogFromPageId = async ({pageId, slug}) => {
-  // pull the data
+  // pull the data from local
+  // prefer using endoloader, the CF version
   // return await endo({
   //   "sources": [
   //     {

@@ -81,7 +81,7 @@
             <!-- hide public pages when user is logged in -->
           {:else}
             <div class="MainPage | p-4 bg-slate-50 ">
-              {#if !page.Type.includes("#noheader") && page.Name !=='undefined'}
+              {#if (!page.Type.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !=='undefined'}
                 <h2 class="pt-0 mt-0">{page.Name}</h2>
               {/if}
               <Notion blocks={page.pageBlocks} />

@@ -70,21 +70,9 @@ export const GET = async ({ request }) => {
 }
 
 export const POST = async ({ request }) => {
-  let { config, id, settings, pageNumber = 1, startCursor } = await request.json()
+  let { config, id, settings, pageNumber, startCursor } = await request.json()
 
   try {
-    if(!config) {
-      config = {
-        "sources": [
-          {
-            "name": "items",
-            "type": "cfnotion",
-            "path": `/collection/${id}`
-          },
-        ]
-      }
-    }
-
 
     // settings = parseMetadata(settings)
     if (typeof settings === 'string')
@@ -92,8 +80,41 @@ export const POST = async ({ request }) => {
     else if (!settings)
       settings = {}
 
-    let result
+
     let key = `${PUBLIC_PROJECT_NAME}-id-${id}`
+    let pageId = id
+    let view = settings?.loader?.view;
+    let limit = settings?.loader?.pageSize || 10;
+    let payload = settings?.loader?.payload || 'rows';
+    pageNumber = pageNumber || settings?.loader?.pageNumber || 1;
+    
+    if(!config) {
+      config = {
+        "sources": [
+          {
+            "name": "items",
+            "type": "cfnotion",
+            "path": `collection/${pageId}?${view ? `view=${view}&` : ''}limit=${limit * pageNumber}&payload=${payload}`,
+          },
+        ]
+      }
+
+      if(pageNumber) {
+        key += `-pageNumber_${pageNumber}`
+      }
+      if(limit) {
+        key += `-limit_${limit}`
+      }
+      if(view) {
+        key += `-view_${view}`
+      }
+      if(payload) {
+        key += `-payload_${payload}`
+      }
+    }
+
+
+    let result
 
     // NO CACHING
     // result = await endoloader(config, {
@@ -149,37 +170,44 @@ export const POST = async ({ request }) => {
         // console.log('last response:', key, pageSize, pageNumber, result.items.length, result.startCursor) // will show if more items are around, etc.
       // console.log('NOTION API RESPONSE:: ITEMS', items)
       return hjson({ success: true, startCursor: result.startCursor, items: result.items, settings })
-    }
-
-
-
-
-
-    // CACHING
-    result = await cachet(`${key}`, async () => {
-      let data = await endoloader(config, {
-        url: PUBLIC_ENDOCYTOSIS_URL,
-        key: key
-      })
-      return data
-    }, {
-      ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
-      ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
-      bgFn: () => {
-        endoloader(config, {
+    } else {
+      // endoloader
+      // CACHING
+      result = await cachet(`${key}`, async () => {
+        let data = await endoloader(config, {
           url: PUBLIC_ENDOCYTOSIS_URL,
           key: key
         })
+        return data
+      }, {
+        ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+        ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
+        bgFn: () => {
+          endoloader(config, {
+            url: PUBLIC_ENDOCYTOSIS_URL,
+            key: key
+          })
+        }
+      })
+  
+  
+      if (result) {
+        let value = result?.value?.value ? JSON.parse(result?.value?.value) : result?.value
+        let items = value?.items;
+        items = processItems(items, settings);
+        // Limit the items to the newest pageNumber * limit
+        let startIndex = (pageNumber - 1) * limit;
+        let endIndex = pageNumber * limit;
+        items = items.slice(startIndex, endIndex);
+
+        startCursor = pageNumber
+        return hjson({ success: true, items, settings, startCursor })
       }
-    })
 
-
-    if (result) {
-      let value = result?.value?.value ? JSON.parse(result?.value?.value) : result?.value
-      let items = value?.items;
-      items = processItems(items, settings);
-      return hjson({ success: true, items, settings })
     }
+
+
+
 
     return hjson({ success: false, })
 
