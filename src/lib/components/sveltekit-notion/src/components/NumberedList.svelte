@@ -41,6 +41,4 @@
   export let api = null; api;
 
   const start = getListNumber(block, blocks);
-
-  console.log('block::', block)
 </script>

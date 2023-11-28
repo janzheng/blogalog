@@ -134,9 +134,9 @@
   import { getNotionImageLink } from '$lib/helpers.js'
   import { niceDate } from '$plasmid/utils/date'
 
-  // import Notion from '@yawnxyz/sveltekit-notion'
+  import Notion from '@yawnxyz/sveltekit-notion'
   // import Notion from '@yawnxyz/sveltekit-notion/src/Notion.svelte'
-  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   
   import RenderComponent from '$lib/components/RenderComponent.svelte';
 
