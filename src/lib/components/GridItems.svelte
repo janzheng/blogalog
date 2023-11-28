@@ -174,7 +174,7 @@
 
   async function handleItemClick (item, e) {
     if(browser && settings.modal) {
-      if(!pageBlocks && (settings.loadNotionPage || settings.modal.loadNotionPage)) {
+      if(settings.loadNotionPage || settings.modal.loadNotionPage) {
         pageBlocks = await loadPage(item.id);
       }
 
