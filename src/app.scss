@@ -391,19 +391,20 @@ $tabsize: 1.3rem;
 // non-project specific /// future baseline styles
 // 
 
-.code {
-  position: relative;
-}
+// messes with notion code
+// .code {
+//   position: relative;
+// }
 
-code {
-  display: inline-block;
-  padding: 0.4em;
-  font-size: 14px;
-  line-height: 14px * 1.4;
-  font-family: "fira-mono", monospace;
-  background: #333;
-  color: #fdce93;
-}
+// code {
+//   display: inline-block;
+//   padding: 0.4em;
+//   font-size: 14px;
+//   line-height: 14px * 1.4;
+//   font-family: "fira-mono", monospace;
+//   background: #333;
+//   color: #fdce93;
+// }
 
 .snug, .psnug, .pfix, .paraWrap {
   // removes padding of last paragraph of a rendered markdown block
