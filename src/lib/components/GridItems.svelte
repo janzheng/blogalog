@@ -36,8 +36,12 @@
                 {#each getOrderedKeys(item, settings?.modal?.order||[]) as key}
                   <GridItemRow {item} {key} {itemKey} schema={settings?.modal?.schema} />
                 {/each}
-                {#if settings.modal.loadNotionPage && pageBlocks}
-                  <Notion blocks={pageBlocks} />
+                {#if settings.modal.loadNotionPage}
+                  {#if pageBlocks}
+                   <Notion blocks={pageBlocks} />
+                  {:else}
+                    Loading content...
+                  {/if}
                 {/if}
               </Modal>
             {/if}
@@ -174,11 +178,14 @@
 
   async function handleItemClick (item, e) {
     if(browser && settings.modal) {
+
+      getModal(item.Name).open()
+
       if(settings.loadNotionPage || settings.modal.loadNotionPage) {
+        pageBlocks = null;
         pageBlocks = await loadPage(item.id);
       }
 
-      getModal(item.Name).open()
     } else if (browser && settings.item?.click || settings.item?.type == 'click') {
       if(e) e.preventDefault();
       if(settings.item?.itemLink) {

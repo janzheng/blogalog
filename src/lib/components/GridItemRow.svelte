@@ -53,14 +53,14 @@
 
 
 <script>
-  import { onMount } from 'svelte';
-  import { browser } from '$app/environment';
+  // import { onMount } from 'svelte';
+  // import { browser } from '$app/environment';
   import { marked } from 'marked';
-  import YAML from 'yaml'
+  // import YAML from 'yaml'
   import { getNotionImageLink } from '$lib/helpers.js'
-  import { fetchPost } from "$plasmid/utils/fetch-helpers";
-  import Modal, {getModal} from '$lib/components/Modal.svelte';
-  import Loader from '$plasmid/components/icons/loader.svelte';
+  // import { fetchPost } from "$plasmid/utils/fetch-helpers";
+  // import Modal, {getModal} from '$lib/components/Modal.svelte';
+  // import Loader from '$plasmid/components/icons/loader.svelte';
 
   export let item, key, schema, itemKey="Name";
 
