@@ -502,7 +502,7 @@ img.notion-page-icon {
   font-size: var(--notion-smaller);
   line-height: calc(var(--notion-smaller) * 1.6);
   opacity: 0.6;
-  height: 32px;
+  height: 36px;
   overflow: hidden;
 }
 
