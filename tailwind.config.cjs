@@ -61,6 +61,9 @@ module.exports = {
       borderRadius: {
         'xs': '1px'
       },
+      gridColumn: {
+        'span-full': 'span 2 / span 2', // Ensures the element spans two columns
+      },
       gridTemplateColumns: {
         '3-1': '3fr 1fr',
         '3-2': '3fr 2fr',
@@ -111,7 +114,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      gridColumn: ['first', 'nth-child-2'], // Add custom variants
+    },
   },
   plugins: [
     require('tailwindcss/nesting'),
@@ -163,7 +168,32 @@ module.exports = {
   // always compile these!
   // https://tailwindcss.com/docs/content-configuration#using-regular-expressions
   safelist: [
-    // 'text-2xl',
+
+    // grid / flex / template / col
+    'col-span-full',
+    {
+      pattern: /grid-cols-(2|3|4|5|6)/,
+      variants: ['xs', 'md', 'lg', 'xl'],
+    },
+
+
+    // padding
+    {
+      pattern: /p-(0|1|2|3|4|5|6|8|10|12|16|20|24|32|40|48|56|64)/,
+      variants: ['responsive', 'hover', 'focus'],
+    },
+    // margins
+    {
+      pattern: /m-(0|1|2|3|4|5|6|8|10|12|16|20|24|32|40|48|56|64)/,
+      variants: ['responsive', 'hover', 'focus'],
+    },
+    // grid/flex options
+    'items-center',
+    'justify-center',
+    'flex-row',
+    'flex-col',
+
+    // typograph
     // {
     //   pattern: /bg-(red|green|blue)-(100|200|300)/,
     //   variants: ['lg', 'hover', 'focus', 'lg:hover'],
@@ -173,12 +203,19 @@ module.exports = {
       variants: ['xs', 'md', 'lg', 'xl'],
     },
     {
-      pattern: /grid-cols-(2|3|4)/,
+      pattern: /(w|h|max-h|max-w)-(2|3|4|8|10|12|14|20|24|32|36|40|48|60|64)/,
       variants: ['xs', 'md', 'lg', 'xl'],
     },
+
+    // bg colors
     {
-      pattern: /(w|h)-(2|3|4|8|10|12|14|20|24|32|36|40|48|60|64)/,
-      variants: ['xs', 'md', 'lg', 'xl'],
+      pattern: /bg-(white|black|slate|gray|zinc|neutral|stone|red|yellow|green|emerald|sky|blue|indigo|purple|pink)-(50|100|200|300|400|500|600|700|800|900)/,
+      variants: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
+    },
+    // text colors
+    {
+      pattern: /text-(white|black|slate|gray|zinc|neutral|stone|red|yellow|green|emerald|sky|blue|indigo|purple|pink)-(50|100|200|300|400|500|600|700|800|900)/,
+      variants: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
     },
   ],
 }

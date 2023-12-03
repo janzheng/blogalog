@@ -13,9 +13,9 @@
   {:else}
     {#if items && items.length > 0 && settings}
       <!-- <div class="Items | " style="{twi(settings?.items?.class || 'grid grid-cols-2 md:grid-cols-2 gap-4')}"> -->
-      <div class="GridItem | {settings?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
-        {#each items as item}
-          <div class="Item | {settings?.item?.class || "p-4 bg-slate-50"} | {settings?.modal || settings?.item?.click ? 'cursor-pointer' : ''}"
+      <div class="GridItem-Grid | {settings?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
+        {#each items as item, index}
+          <div class="Item hello | {settings?.item?.class || "p-4 bg-slate-50"} | {settings?.items?.[index]?.class||''} | {settings?.modal || settings?.item?.click ? 'cursor-pointer' : ''}"
             on:click={(e)=>handleItemClick(item, e)} 
             on:keyup={(e)=>handleItemClick(item, e)}
             >
@@ -71,7 +71,6 @@
   import { onMount } from 'svelte';
   import { browser, dev } from '$app/environment';
   import { marked } from 'marked';
-  import YAML from 'yaml'
   import { getNotionImageLink } from '$lib/helpers.js'
   import Notion from '@yawnxyz/sveltekit-notion';
   import { fetchPost } from "$plasmid/utils/fetch-helpers";
@@ -85,13 +84,10 @@
   export let pageNumber = 1;
 
 
-  if(settings) {
-    settings = YAML.parse(settings)
     
-    if(settings?.itemKey) {
-      itemKey = settings.itemKey
-      // defaults to "Name" as the main key, but can be re-specified with itemKey
-    }
+  if(settings?.itemKey) {
+    itemKey = settings.itemKey
+    // defaults to "Name" as the main key, but can be re-specified with itemKey
   }
 
   $: if (browser && settings && dev) {
@@ -126,12 +122,17 @@
       if(result?.startCursor)
         startCursor = result.startCursor
 
-      items = [...items, ...result?.items]
+        if(Array.isArray(items)) {
+          items = [...items, ...result?.items]
+        } else {
+          items = [...result?.items]
+        }
+
+      isLoading = false
 
       if(browser && dev)
         console.log('[dev][getItems] Items:', items)
 
-      isLoading = false
       return {
         items: items || [],
       }

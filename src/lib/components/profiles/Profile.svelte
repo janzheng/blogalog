@@ -75,55 +75,64 @@
     {#each pageOrder as page}
       {@const settings = page?.YAML && YAML.parse(page?.YAML) || {}}
       {#if page.Name && page.Hide !== true}
-        <!-- each row NEEDS something in the name -->
-        <div class="Profile-Item | {settings?.itemClass || 'my-2 content-notion-wide'} | overflow-hidden | ">
-          <!-- {page.Name} -->
-          {#if page.Type?.includes('Main')}
-            {#if page.Type.includes("Private") && !$userData['Email']}
-              <!-- alternatively show an error message for Private pages when user isn't logged in -->
-              <!-- <div class="text-red-500">This page is private. Please log in to view.</div> -->
-            {:else if page.Type.includes("Public") && $userData['Email']}
-              <!-- hide public pages when user is logged in -->
-            {:else}
-              <div class="MainPage | p-4 bg-slate-50 ">
-                {#if (!page.Type.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !=='undefined'}
-                  <h2 class="pt-0 mt-0">{page.Name}</h2>
-                {/if}
-                <Notion blocks={page.pageBlocks} />
-              </div>
-            {/if}
-          {:else if page.Type?.includes('Group')}
-            {#if page.Type.includes("Private") && !$userData['Email']}
-              <!-- do nothing -->
-            {:else if page.Type.includes("Public") && $userData['Email']}
-              <!-- do nothing -->
-            {:else}
-              <div class="Profile-Posts | my-2 | content-notion-wide | overflow-hidden ">
-                <div class="p-4 bg-slate-50">
+
+        <!-- special rows outside of standard row; for formatting usually -->
+        {#if page.Type?.includes('Header')}
+          <div class="Profile-Row--Header | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | ">
+            <div class="Header | {settings?.row?.class || 'p-4 bg-slate-50'} ">
+              <div class="{settings?.row?.header?.class || ' font-sans leading-tight text-lg mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
+            </div>
+          </div>
+        {:else}
+          <!-- each row NEEDS something in the name -->
+          <div class="Profile-Row | {settings?.row?.container?.class || 'mb-2 content-notion-wide'} | overflow-hidden | ">
+            <!-- {page.Name} -->
+            {#if page.Type?.includes('Main')}
+              {#if page.Type.includes("Private") && !$userData['Email']}
+                <!-- alternatively show an error message for Private pages when user isn't logged in -->
+                <!-- <div class="text-red-500">This page is private. Please log in to view.</div> -->
+              {:else if page.Type.includes("Public") && $userData['Email']}
+                <!-- hide public pages when user is logged in -->
+              {:else}
+                <div class="MainPage | {settings?.row?.class || 'p-4 bg-slate-50'} ">
+                  {#if (!page.Type.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !=='undefined'}
+                    <!-- used to be h2 -->
+                    <div class="{settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
+                  {/if}
+                  <Notion blocks={page.pageBlocks} />
+                </div>
+              {/if}
+            {:else if page.Type?.includes('Group')}
+              {#if page.Type.includes("Private") && !$userData['Email']}
+                <!-- do nothing -->
+              {:else if page.Type.includes("Public") && $userData['Email']}
+                <!-- do nothing -->
+              {:else}
+                <div class="Profile-Posts | {settings?.row?.class || 'my-2 p-4 | bg-slate-50 | overflow-hidden'} ">
                   <h5 class="pt-0 mt-0">{page.Group}</h5>
                   {#if page.SectionDescription}<p class="pb-8">{page.SectionDescription}</p>{/if}
                   <Posts posts={page.Pages.filter(page => page.Type?.includes("Posts") && !page.Hide)} pathBase={blogpath}></Posts>
                   <!-- {#each page.pages as groupPage}
                   {/each} -->
                 </div>
-              </div>
+              {/if}
+            {:else if page.Type?.includes('Posts')}
+              {#if page.Type.includes("Private") && !$userData['Email']}
+                <!-- do nothing -->
+              {:else if page.Type.includes("Public") && $userData['Email']}
+                <!-- do nothing -->
+              {:else}
+                <!-- loose posts are NOT grouped together unless given a section -->
+                <div class="TypeContainer | {settings?.row?.class || 'p-4 bg-slate-50'}">
+                  <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
+                </div>
+              {/if}
+            <!-- {:else if page.Type?.includes('Component') && page.Hide !== true} -->
+            {:else if page['Type']?.some(type => componentTypes.includes(type))}
+              <RenderComponent {page} />m
             {/if}
-          {:else if page.Type?.includes('Posts')}
-            {#if page.Type.includes("Private") && !$userData['Email']}
-              <!-- do nothing -->
-            {:else if page.Type.includes("Public") && $userData['Email']}
-              <!-- do nothing -->
-            {:else}
-              <!-- loose posts are NOT grouped together unless given a section -->
-              <div class="TypeContainer | p-4 bg-slate-50">
-                <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
-              </div>
-            {/if}
-          <!-- {:else if page.Type?.includes('Component') && page.Hide !== true} -->
-          {:else if page['Type']?.some(type => componentTypes.includes(type))}
-            <RenderComponent {page} />
-          {/if}
-        </div>
+          </div>
+        {/if}
       {/if}
     {/each}
     

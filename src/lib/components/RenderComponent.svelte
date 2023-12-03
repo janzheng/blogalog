@@ -4,6 +4,7 @@
   import Notion from '@yawnxyz/sveltekit-notion';
   import { getNotionImageLink } from '$lib/helpers.js'
   // import Notion from '$lib/components//sveltekit-notion';
+  import YAML from 'yaml'
 
   import { userData } from '$lib/stores.js'
 
@@ -16,6 +17,16 @@
 
   export let page;
   export let emailForm, unlockMessage;
+  export let componentClasses = 'p-4 bg-slate-50'
+
+  let settings = {};
+  if(page?.YAML) {
+    settings = YAML.parse(page?.YAML)
+
+    if(settings?.component) {
+      componentClasses = settings?.component?.class;
+    }
+  }
 
 </script>
 
@@ -26,7 +37,7 @@
 
 
 
-<div class="RenderComponent">
+<div class="RenderComponent | {settings?.component?.container?.class} " style={settings?.component?.container?.style} >
   
   {#if page.Type.includes("Private") && !$userData['Email']}
     <!-- do nothing -->
@@ -34,7 +45,7 @@
     <!-- do nothing -->
   {:else}
     {#if page.Name == "Unlock" || page.Type.includes("Unlock") || page.Name == "Login" || page.Type.includes("Login")}
-      <div class="Component-Login | p-4 bg-slate-50 ">
+      <div class="Component-Login | {componentClasses} ">
         {#if $userData['Email']}
           <div class="Component-Login-Status">
             Logged in as {$userData['Email']}. <button on:click={()=>{
@@ -73,34 +84,34 @@
         {/if}
       </div>
     {:else if page.Name == "Members" || page.Type.includes("Members")}
-      <div class="Component-Members | p-4 bg-slate-50 ">
+      <div class="Component-Members | {componentClasses} ">
         <!-- deprecated -->
         <!-- <Notion blocks={page.pageBlocks} /> -->
         <!-- <MemberList id={page.Content} settings={page.YAML} /> -->
       </div>
     {:else if page.Name == "Grid" || page.Type.includes("Grid")}
-      <div class="Component-Grid | p-4 bg-slate-50 ">
+      <div class="Component-Grid | {componentClasses} ">
         {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
           <h2 class="pt-0 mt-0">{page.Name}</h2>
         {/if}
         <Notion blocks={page.pageBlocks} />
-        <div class="GridItems | mt-2">
-          <GridItems id={page.Content} settings={page.YAML} />
+        <div class="Component-GridItems | mt-2">
+          <GridItems id={page.Content} {settings} />
         </div>
       </div>
     {:else if page.Name == "Expander" || page.Type.includes("Expander")}
-      <div class="Component-Expander | p-4 bg-slate-50 ">
+      <div class="Component-Expander | {componentClasses} ">
         {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
           <h2 class="pt-0 mt-0">{page.Name}</h2>
         {/if}
         <Expander {page} />
       </div>
     {:else if page.Name == "HTML" || page.Type.includes("HTML")}
-      <div class="Component-HTML | p-4 bg-slate-50 ">
+      <div class="Component-HTML |{componentClasses} ">
         {@html page.Content}
       </div>
     {:else if page.Name == "Banner" || page.Type.includes("Banner")}
-      <div class="Component-Banner | p-4 bg-slate-50 ">
+      <div class="Component-Banner | {componentClasses} ">
         <Notion blocks={page.pageBlocks} />
         <a href={page.Content}>
           <img src="{getNotionImageLink(page)}" alt="{page.Name}" />
