@@ -208,9 +208,17 @@
   let socialLinks = blog?.['site-data']?.SocialLinks?.['Content'];
   let sitePages = blog?.['site-pages'];
   let blogpath = $page.data?.pathSegments ? `/${$page.data?.path}/` : "/";
+  let styles = blog?.['site-data']?.Styles?.['YAML'];
 
-
-  
+  if (browser && styles) {
+    styles = YAML.parse(styles);
+    if (styles?.css) {
+      Object.entries(styles.css).forEach(([key, value]) => {
+        document.documentElement.style.setProperty(key, value);
+      });
+    }
+  }
+ 
   let sitePageByType = {}, sitePageTypes = [];
   blog?.['site-pages']?.forEach(page => {
     sitePageTypes = [...sitePageTypes, ...page.Type];

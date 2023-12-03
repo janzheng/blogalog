@@ -205,9 +205,11 @@ $tabsize: 1.3rem;
     @apply pb-4 mt-0 pt-0;
   }
   // Add any other styles you want
-  a,._link { 
-    @apply no-underline text-blue-600 cursor-pointer;
-    &:hover { @apply underline text-blue-600/80; }
+  a, ._link { 
+    &:not(.Btn-solid, .Btn-outline) { 
+      @apply no-underline text-blue-600 cursor-pointer;
+      &:hover { @apply underline text-blue-600/80; }
+    }
   }
   ._link-reset {
     @apply no-underline hover:no-underline text-inherit;

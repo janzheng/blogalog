@@ -28,6 +28,17 @@
     }
   }
 
+  // import { marked } from 'marked';
+  // marked.use({
+  //   breaks: true,
+  // });
+
+  // use markdownit instead of marked, for attrs
+  import MarkdownIt from 'markdown-it';
+  import markdownItAttrs from 'markdown-it-attrs';
+  const md = new MarkdownIt();
+  md.use(markdownItAttrs);
+
 </script>
 
 
@@ -109,6 +120,16 @@
     {:else if page.Name == "HTML" || page.Type.includes("HTML")}
       <div class="Component-HTML |{componentClasses} ">
         {@html page.Content}
+      </div>
+    {:else if page.Name == "Markdown" || page.Type.includes("Markdown")}
+      <div class="Component-Markdown | {componentClasses} ">
+        <div class="Component-Markdown-Name {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
+        <div class="Component-Markdown-Content">
+          {@html md.render(page.Content||'')}
+        </div>
+        <div class="Component-Markdown-Blocks">
+          <Notion blocks={page.pageBlocks} />
+        </div>
       </div>
     {:else if page.Name == "Banner" || page.Type.includes("Banner")}
       <div class="Component-Banner | {componentClasses} ">
