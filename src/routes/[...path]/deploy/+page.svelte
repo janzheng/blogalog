@@ -26,6 +26,9 @@
   {:else if isDone}
     <div class="Deploy-done">
       <h2 style="padding-top:0">Site Reloaded!</h2>
+      <button class="Btn-solid" on:click={fetchData}>
+        Refresh Page
+      </button>
     </div>
   {:else}
     <button class="Btn-solid" on:click={fetchData}>
