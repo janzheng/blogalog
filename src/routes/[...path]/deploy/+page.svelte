@@ -6,11 +6,9 @@
   let isLoading = false;
   let isDone = false;
 
-  console.log('data path:', data);
-
   async function fetchData() {
     isLoading = true;
-    const response = await fetch(`http://blogalog.net/api/reload/${data.path}`);
+    const response = await fetch(`https://www.blogalog.net/api/reload/${data.path}`);
     data = await response.json();
     console.log(data);
     isLoading = false;
@@ -19,19 +17,19 @@
 </script>
 
 
-<div class="Deploy | content-notion-wide mx-auto my-24">
+<div class="Deploy | content-notion-wide mx-auto my-6">
   {#if isLoading}
-    <div class="GridItems-loading">
+    <div class="Deploy-loading">
       <Loader /> 
       <h2 style="padding-top:0">Loading...</h2>
     </div>
   {:else if isDone}
-    <div class="GridItems-done">
-      <h2 style="padding-top:0">Done loading!</h2>
+    <div class="Deploy-done">
+      <h2 style="padding-top:0">Site Reloaded!</h2>
     </div>
   {:else}
     <button class="Btn-solid" on:click={fetchData}>
-      Fetch Data
+      Refresh Page
     </button>
   {/if}
 </div>
