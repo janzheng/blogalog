@@ -99,7 +99,18 @@
                     <!-- used to be h2 -->
                     <div class="{settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
                   {/if}
-                  <Notion blocks={page.pageBlocks} />
+                  <Notion 
+                    blocks={page.pageBlocks} 
+                    settings={{
+                      video: {
+                        // turning all of these on turns a video into a gif
+                        autoplay: true,
+                        muted: true, // true: necessary for autoplay
+                        playsinline: true, // for mobile so it doesn't full-screen
+                        loop: true,
+                      }
+                    }} 
+                  />
                 </div>
               {/if}
             {:else if page.Type?.includes('Group')}

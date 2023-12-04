@@ -6,7 +6,9 @@
     {blocks}
     {block}
     {doExternalRequest}
-    {fullPage}>
+    {settings}
+    {fullPage}
+    >
     {#if block.content}
       {#each block.content as subblock}
         {#if search(subblock, blocks)}
@@ -15,6 +17,7 @@
             {blocks}
             {api}
             {doExternalRequest}
+            {settings}
             block={search(subblock, blocks)} />
         {/if}
       {/each}
@@ -51,6 +54,7 @@
 
   export let block = {};
   export let blocks = [];
+  export let settings = null;
   export let fullPage = false;
   export let api, doExternalRequest;
 

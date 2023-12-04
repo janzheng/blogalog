@@ -13,52 +13,76 @@
   {:else}
     {#if items && items.length > 0 && settings}
       <!-- <div class="Items | " style="{twi(settings?.items?.class || 'grid grid-cols-2 md:grid-cols-2 gap-4')}"> -->
-      <div class="GridItem-Grid | {settings?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
-        {#each items as item, index}
-          <div class="Item hello | {settings?.item?.class || "p-4 bg-slate-50"} | {settings?.items?.[index]?.class||''} | {settings?.modal || settings?.item?.click ? 'cursor-pointer' : ''}"
-            on:click={(e)=>handleItemClick(item, e)} 
-            on:keyup={(e)=>handleItemClick(item, e)}
-            >
-            {#if settings.item?.type == 'link'}
-              <a class="GridItem-link" href="{item[settings.item?.itemLink]}" target="_blank">
+
+      {#if settings?.items?.type == 'marquee'}
+        <div class="GridItem-Marquee | ">
+          <div class="relative overflow-x-hidden ">
+            <div class="animate-marquee inline-block whitespace-nowrap">
+              {#each items as item}
                 {#each getOrderedKeys(item) as key}
                   <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
                 {/each}
-              </a>  
-            {:else}
-              {#each getOrderedKeys(item) as key}
-                <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
               {/each}
-            {/if}
-            {#if browser && settings.modal}
-              <!-- pageblocks are only opened on modal, to prevent loading too many pages -->
-              <Modal id={item[itemKey]}>
-                {#each getOrderedKeys(item, settings?.modal?.order||[]) as key}
-                  <GridItemRow {item} {key} {itemKey} schema={settings?.modal?.schema} />
+            </div>
+            <div class="absolute top-0 animate-marquee2 inline-block whitespace-nowrap">
+              {#each items as item}
+                {#each getOrderedKeys(item) as key}
+                  <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
                 {/each}
-                {#if settings.modal.loadNotionPage}
-                  {#if pageBlocks}
-                   <Notion blocks={pageBlocks} />
-                  {:else}
-                    Loading content...
-                  {/if}
-                {/if}
-              </Modal>
-            {/if}
-  
+              {/each}
+            </div>
           </div>
-        {/each}
-        {#if startCursor && settings.loader?.loadMore}
-          <!-- notion loader feature -->
-          <button class="Btn-outline" on:click={loadMoreItems} disabled={isLoadingMore}>
-            {#if isLoadingMore}
-              <Loader /> Loading...
-            {:else}
-              Load More
-            {/if}
-          </button>
-        {/if}
-      </div>
+        </div>
+
+
+      {:else}
+        <div class="GridItem-Grid | {settings?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
+          {#each items as item, index}
+            <div class="Item | {settings?.item?.class || "p-4 bg-slate-50"} | {settings?.items?.[index]?.class||''} | {settings?.modal || settings?.item?.click ? 'cursor-pointer' : ''}"
+              on:click={(e)=>handleItemClick(item, e)} 
+              on:keyup={(e)=>handleItemClick(item, e)}
+              >
+              {#if settings.item?.type == 'link'}
+                <a class="GridItem-link" href="{item[settings.item?.itemLink]}" target="_blank">
+                  {#each getOrderedKeys(item) as key}
+                    <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
+                  {/each}
+                </a>  
+              {:else}
+                {#each getOrderedKeys(item) as key}
+                  <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
+                {/each}
+              {/if}
+              {#if browser && settings.modal}
+                <Modal id={item[itemKey]}>
+                  {#each getOrderedKeys(item, settings?.modal?.order||[]) as key}
+                    <GridItemRow {item} {key} {itemKey} schema={settings?.modal?.schema} />
+                  {/each}
+                  {#if settings.modal.loadNotionPage}
+                    {#if pageBlocks}
+                    <Notion blocks={pageBlocks} />
+                    {:else}
+                      Loading content...
+                    {/if}
+                  {/if}
+                </Modal>
+              {/if}
+    
+            </div>
+          {/each}
+          {#if startCursor && settings.loader?.loadMore}
+            <!-- notion loader feature -->
+            <button class="Btn-outline" on:click={loadMoreItems} disabled={isLoadingMore}>
+              {#if isLoadingMore}
+                <Loader /> Loading...
+              {:else}
+                Load More
+              {/if}
+            </button>
+          {/if}
+        </div>
+      {/if}
+
     {:else}
       <h2 style="padding-top:0">No items found</h2>
     {/if}
@@ -132,6 +156,9 @@
 
       if(browser && dev)
         console.log('[dev][getItems] Items:', items)
+
+
+      // items = [items[0]]
 
       return {
         items: items || [],
@@ -217,6 +244,35 @@
     }
     .Item-link a {
       @apply text-slate-500 no-underline hover:no-underline;
+    }
+  }
+
+
+
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+  @keyframes marquee2 {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+  }
+
+
+  .animate-marquee {
+    display: inline-block; 
+    white-space: nowrap;
+    animation: marquee 24s linear infinite;
+    img {
+      max-width: unset;
+    }
+  }
+
+  .animate-marquee2 {
+    animation: marquee2 24s linear infinite;
+    img {
+      max-width: unset;
     }
   }
 </style>

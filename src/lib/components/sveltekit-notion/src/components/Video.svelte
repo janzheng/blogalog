@@ -12,7 +12,16 @@
       {#if videoType == 'iframe'}
         <iframe class="notion-image-inset" src={src} title={alt} style="min-height: 360px"/>
       {:else}
-        <video width="640" height="360" controls>
+        <!-- <video autoplay={true} playsinline={true} loop={true} muted={true}  controls> -->
+        <video 
+          autoplay={settings?.video?.autoplay} 
+          playsinline={settings?.video?.playsinline} 
+          loop={settings?.video?.loop} 
+          muted={settings?.video?.muted} 
+          controls={settings?.video?.controls} 
+          width={settings?.video?.width || "640"} 
+          height={settings?.video?.height || "360"} 
+          >
           <source src="{src}">
           Your browser does not support the video tag.
         </video>
@@ -34,6 +43,15 @@
     export let api = null; api;
     export let siteSrc; siteSrc;
     export let videoType = null; videoType;
+    export let settings = {
+      video: {
+        // turning all of these on turns a video into a gif
+        autoplay: false,
+        muted: false, // true: necessary for autoplay
+        playsinline: false, // for mobile so it doesn't full-screen
+        loop: false,
+      }
+    };
 
     const format = block.format ? block.format : null;
 

@@ -5,7 +5,6 @@
 
   import "./styles.css";
   import Render from "./subcomponents/Render.svelte";
-  export let fullPage = false;
   export let siteSrc = "https://phagedirectory.notion.site"; // required for images and links
   // export let api = "https://notion-api.splitbee.io";
   export let api = PUBLIC_NOTION_API_URL || "//notion-cloudflare-worker.yawnxyz.workers.dev";
@@ -19,6 +18,12 @@
     // console.log('id stripped:', id)
   }
     
+  export let fullPage = false;
+
+  // for passing settings like video.autoplay down to components
+  // these aren't set in notion but requires the parent components to set defaults
+  export let settings = null;
+
   export let classes="notion", loadingClasses,
     loadingMsg = "Loading ...",
     headers = null,
@@ -78,6 +83,7 @@
     {#if blocks}
       <Render
         {fullPage}
+        {settings}
         {blocks}
         {api}
         {doExternalRequest}
@@ -92,6 +98,7 @@
         <!-- svelte-specific -->
         <Render
           {fullPage}
+          {settings}
           {blocks}
           {api}
           {doExternalRequest}

@@ -131,6 +131,7 @@
           <Notion blocks={page.pageBlocks} />
         </div>
       </div>
+    
     {:else if page.Name == "Banner" || page.Type.includes("Banner")}
       <div class="Component-Banner | {componentClasses} ">
         <Notion blocks={page.pageBlocks} />

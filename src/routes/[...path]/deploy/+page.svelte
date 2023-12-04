@@ -17,18 +17,18 @@
 </script>
 
 
-<div class="Deploy | content-notion-wide mx-auto my-6">
+<div class="Deploy | ">
   {#if isLoading}
     <div class="Deploy-loading">
       <Loader /> 
-      <h2 style="padding-top:0">Loading...</h2>
+      <h2 style="padding-top:0">Starting refresh...</h2>
     </div>
   {:else if isDone}
     <div class="Deploy-done">
-      <h2 style="padding-top:0">Site Reloaded!</h2>
       <button class="Btn-solid" on:click={fetchData}>
         Refresh Page
       </button>
+      <div class="font-bold font-sans font-2xl inline-block">Site is refreshing. Check back in ~15s.</h2>
     </div>
   {:else}
     <button class="Btn-solid" on:click={fetchData}>

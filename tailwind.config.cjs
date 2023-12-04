@@ -203,7 +203,7 @@ module.exports = {
       variants: ['xs', 'md', 'lg', 'xl'],
     },
     {
-      pattern: /(w|h|max-h|max-w)-(2|3|4|8|10|12|14|20|24|32|36|40|48|60|64)/,
+      pattern: /(w|h|max-h|max-w|mx|my|mt|mr|mb|ml|px|py|pt|pr|pb|pl)-(2|3|4|6|8|10|12|14|20|24|32|36|40|48|60|64)/,
       variants: ['xs', 'md', 'lg', 'xl'],
     },
 
