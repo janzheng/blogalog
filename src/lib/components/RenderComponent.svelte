@@ -161,7 +161,7 @@
     {:else if page.Type.includes("Twitter")}
       <div class="Component-Twitter | {componentClasses} ">
         <!-- <div class="Profile-Title Component-Links-Name {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->
-        <Twitter />
+        <Twitter name={page.Name} />
       </div>
 
     {:else if page.Name == "Banner" || page.Type.includes("Banner")}
