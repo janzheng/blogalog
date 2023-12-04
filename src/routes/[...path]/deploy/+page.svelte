@@ -31,7 +31,7 @@
   {#if isLoading}
     <div class="Deploy-loading">
       <Loader /> 
-      <div class="font-sans font-2xl inline-block">{message}</div>
+      <div class="inline-block pl-6 font-sans font-2xl inline-block">{message}</div>
     </div>
   {:else if isDone}
     <div class="Deploy-done">
@@ -39,7 +39,7 @@
         Refresh Page
       </button>
       {#if message}
-        <div class="font-sans font-2xl inline-block">{message}</div>
+        <div class="inline-block pl-6 font-sans font-2xl inline-block">{message}</div>
       {/if}
     </div>
   {:else}
@@ -47,7 +47,7 @@
       Refresh Page
     </button>
       {#if message}
-        <div class="font-sans font-2xl inline-block">{message}</div>
+        <div class="inline-block pl-6 font-sans font-2xl inline-block">{message}</div>
       {/if}
   {/if}
 </div>

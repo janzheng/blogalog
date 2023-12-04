@@ -1,9 +1,9 @@
 
 
 <script>
-  import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '@yawnxyz/sveltekit-notion';
+  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import { getNotionImageLink } from '$lib/helpers.js'
-  // import Notion from '$lib/components//sveltekit-notion';
   import YAML from 'yaml'
 
   import { userData } from '$lib/stores.js'
@@ -38,6 +38,25 @@
   import markdownItAttrs from 'markdown-it-attrs';
   const md = new MarkdownIt();
   md.use(markdownItAttrs);
+
+
+  // dynamically add classes to Lists
+  // todo: open this up to other components?
+  export function addClasses(node) {
+    const links = node.getElementsByTagName('a');
+    if(settings?.list?.class) {
+      for (let link of links) {
+        console.log(':::: link:', link, settings?.list?.class)
+        const classes = settings?.list?.class?.split(' ').filter(Boolean); // filter out empty strings
+        link?.classList?.add("link-custom", ...classes);
+      }
+    }
+    return {
+      destroy() {
+        // cleanup if necessary
+      }
+    };
+  }
 
 </script>
 
@@ -123,7 +142,7 @@
       </div>
     {:else if page.Name == "Markdown" || page.Type.includes("Markdown")}
       <div class="Component-Markdown | {componentClasses} ">
-        <div class="Component-Markdown-Name {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
+        <div class="Profile-Title Component-Markdown-Name {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
         <div class="Component-Markdown-Content">
           {@html md.render(page.Content||'')}
         </div>
@@ -132,6 +151,12 @@
         </div>
       </div>
     
+    {:else if page.Name == "Links" || page.Type.includes("Links")}
+      <div class="Component-Links | _link-reset {componentClasses} " use:addClasses>
+        <!-- <div class="Profile-Title Component-Links-Name {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->
+        <Notion blocks={page.pageBlocks} />
+      </div>
+
     {:else if page.Name == "Banner" || page.Type.includes("Banner")}
       <div class="Component-Banner | {componentClasses} ">
         <Notion blocks={page.pageBlocks} />
@@ -145,3 +170,13 @@
 
 
 </div>
+
+<style lang="scss" global>
+
+
+// .Component-Links {
+//   a {
+//     @apply border-2 border-slate-400 rounded-md p-2 block mb-2 no-underline hover:no-underline text-2xl font-serif;
+//   }
+// }
+</style>

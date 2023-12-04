@@ -298,8 +298,10 @@ img.notion-page-icon-offset {
   /* border-top: none; */
   border-color: rgba(55, 53, 47, 0.09);
 }
+
+  /* color: inherit; */
+  /* color: inherit overrides from being added to it */
 .notion-link {
-  color: inherit;
   word-break: break-all;
   text-decoration: underline;
   text-decoration-color: inherit;

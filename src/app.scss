@@ -205,16 +205,23 @@ $tabsize: 1.3rem;
     @apply pb-4 mt-0 pt-0;
   }
   // Add any other styles you want
+
   a, ._link { 
-    &:not(.Btn-solid, .Btn-outline) { 
+    &:not(.Btn-solid, .Btn-outline, .link-custom) { 
       @apply no-underline text-blue-600 cursor-pointer;
       &:hover { @apply underline text-blue-600/80; }
     }
   }
   ._link-reset {
-    @apply no-underline hover:no-underline text-inherit;
-    text-decoration: none !important;
-    color: var(--color-base);
+    &, a {
+      @apply no-underline hover:no-underline;
+      text-decoration: none !important;
+      // color: inherit;
+
+      // these prevent new colors from being added using tw classes
+      // @apply no-underline hover:no-underline text-inherit;
+      // color: var(--color-base);
+    }
   }
 
   // specific component styles
@@ -302,72 +309,6 @@ $tabsize: 1.3rem;
   @include sharedStyles;
 }
 
-
-
-
-// janzheng.com-specific styles
-.style-janzheng {
-  @include sharedStyles;
-
-  h1 {
-    @apply font-serif leading-tight text-4xl lg:leading-tight pb-8 font-light;
-  }
-    h1.article-title  {
-      @apply text-6xl md:text-5xl font-display font-bold leading-tight pb-8
-    }
-  h2 {
-    @apply font-serif text-2xl leading-12 pb-6 ;
-
-    &.--extra {
-      @apply text-4xl pb-2 tracking-tight;
-    }
-
-    // &~h3 { messes with faq pages; only do this for nearest neighb
-    &+h3 {
-      padding-top: 0;
-    }
-  }
-    *>h1,*>h2,*>h3,*>h5,*>h6 { 
-      @apply pt-12
-    }
-  h3 {
-    // @apply text-xl pb-6
-    @apply font-serif text-xl pt-8 pb-2 text-jan;
-  }
-  h4 {
-    @apply text-lg pb-4;
-  }
-  h5 {
-    @apply font-bold pb-4;
-  }
-  h6 {
-    @apply text-xs tracking-wide uppercase pb-2;
-  }
-
-  p {
-    @apply pb-4;
-  }
-
-
-  a, ._link {
-    @apply no-underline text-jan cursor-pointer;
-
-  }
-    a:hover {
-      @apply underline text-jan;
-    }
-
-    ._link-reset {
-      @apply no-underline hover:no-underline text-inherit;
-      text-decoration: none !important;
-      color: var(--color-base);
-    }
-    
-
-  .text-jan-i {
-    color: #971f1f !important;
-  }
-}
 
 
 

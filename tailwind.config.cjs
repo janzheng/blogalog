@@ -176,6 +176,7 @@ module.exports = {
       variants: ['xs', 'md', 'lg', 'xl'],
     },
 
+    
 
     // padding
     {
@@ -207,6 +208,18 @@ module.exports = {
       variants: ['xs', 'md', 'lg', 'xl'],
     },
 
+    // rounded, block, no-underline
+    'rounded',
+    'block',
+    'no-underline',
+    'hover:no-underline',
+    // font styles
+    'font-sans',
+    'font-serif',
+    'font-display',
+
+
+
     // bg colors
     {
       pattern: /bg-(white|black|slate|gray|zinc|neutral|stone|red|yellow|green|emerald|sky|blue|indigo|purple|pink)-(50|100|200|300|400|500|600|700|800|900)/,
@@ -215,6 +228,16 @@ module.exports = {
     // text colors
     {
       pattern: /text-(white|black|slate|gray|zinc|neutral|stone|red|yellow|green|emerald|sky|blue|indigo|purple|pink)-(50|100|200|300|400|500|600|700|800|900)/,
+      variants: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
+    },
+    // border width
+    {
+      pattern: /border-(0|1|2|3|4|5|6|8)/,
+      variants: ['responsive', 'hover', 'focus'],
+    },
+    // border colors
+    {
+      pattern: /border-(white|black|slate|gray|zinc|neutral|stone|red|yellow|green|emerald|sky|blue|indigo|purple|pink)-(50|100|200|300|400|500|600|700|800|900)/,
       variants: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
     },
   ],

@@ -80,7 +80,7 @@
         {#if page.Type?.includes('Header')}
           <div class="Profile-Row--Header | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | ">
             <div class="Header | {settings?.row?.class || 'p-4 bg-slate-50'} ">
-              <div class="{settings?.row?.header?.class || ' font-sans leading-tight text-lg mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
+              <div class="Profile-Header {settings?.row?.header?.class || ' font-sans leading-tight text-lg mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
             </div>
           </div>
         {:else}
@@ -97,7 +97,7 @@
                 <div class="MainPage | {settings?.row?.class || 'p-4 bg-slate-50'} ">
                   {#if (!page.Type.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !=='undefined'}
                     <!-- used to be h2 -->
-                    <div class="{settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
+                    <div class="Profile-Title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
                   {/if}
                   <Notion 
                     blocks={page.pageBlocks} 
@@ -183,8 +183,8 @@
   import { browser } from '$app/environment';
   import { page } from '$app/stores';
   
-  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
-  import Notion from '@yawnxyz/sveltekit-notion';
+  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  // import Notion from '@yawnxyz/sveltekit-notion';
   import { getNotionImageLink } from '$lib/helpers.js'
   import { userData } from '$lib/stores.js'
 
