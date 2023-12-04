@@ -1,7 +1,9 @@
 
 <div class="Expander">
   {#if settings?.cta}
-    {@html marked(page.Content)}
+    {#if page.Content}
+      {@html marked(page.Content)}
+    {/if}
     <button class="Btn-solid | Component-Expander-cta cursor-pointer pb-0 | {isOpen && "--open"} pfix " on:click={()=>isOpen=!isOpen}>{settings?.cta}</button>
     <div class:isOpen class="Component-Expander-body pt-4 | {!isOpen && "hidden"}">
       <Notion blocks={page.pageBlocks} />
@@ -29,7 +31,7 @@
   });
   
   export let page, isOpen=false
-  page.Content = page.Content.replace(/\\n/g, '\n');
+  page.Content = page?.Content?.replace(/\\n/g, '\n');
 
   let settings
   if(page.YAML)
