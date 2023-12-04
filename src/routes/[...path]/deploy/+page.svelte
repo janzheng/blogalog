@@ -1,19 +1,29 @@
 <script>
   // import { onMount } from 'svelte';
+  import { browser, dev } from '$app/environment';
   import Loader from '$plasmid/components/icons/loader.svelte';
   
   export let data;
   let isLoading = false;
   let isDone = false;
+  let message = `Refresh data for: ${data.head?.title}`;
 
   async function fetchData() {
     isLoading = true;
+    message = 'Queuing refresh...'
     const response = await fetch(`https://www.blogalog.net/api/reload/${data.path}`);
+    message = 'Site is refreshing. Check the site in ~15s.'
     data = await response.json();
     console.log(data);
     isLoading = false;
     isDone = true;
   }
+
+
+  $: if (browser && dev) {
+    console.log('[dev] Page Data:', data)
+  }
+   
 </script>
 
 
@@ -21,19 +31,24 @@
   {#if isLoading}
     <div class="Deploy-loading">
       <Loader /> 
-      <h2 style="padding-top:0">Starting refresh...</h2>
+      <div class="font-sans font-2xl inline-block">{message}</div>
     </div>
   {:else if isDone}
     <div class="Deploy-done">
       <button class="Btn-solid" on:click={fetchData}>
         Refresh Page
       </button>
-      <div class="font-bold font-sans font-2xl inline-block">Site is refreshing. Check back in ~15s.</h2>
+      {#if message}
+        <div class="font-sans font-2xl inline-block">{message}</div>
+      {/if}
     </div>
   {:else}
     <button class="Btn-solid" on:click={fetchData}>
       Refresh Page
     </button>
+      {#if message}
+        <div class="font-sans font-2xl inline-block">{message}</div>
+      {/if}
   {/if}
 </div>
 
