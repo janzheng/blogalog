@@ -14,6 +14,8 @@
   // import MemberList from '$lib/components/MemberList.svelte';
 	// import SocialBox from '$plasmid/components/SocialBox2.svelte'
 
+	import Twitter from '$plasmid/components/TwitterTimeline.svelte'
+
 
   export let page;
   export let emailForm, unlockMessage;
@@ -68,7 +70,6 @@
 
 
 <div class="RenderComponent | {settings?.component?.container?.class} " style={settings?.component?.container?.style} >
-  
   {#if page.Type.includes("Private") && !$userData['Email']}
     <!-- do nothing -->
   {:else if page.Type.includes("Public") && $userData['Email']}
@@ -155,6 +156,13 @@
       <div class="Component-Links | _link-reset {componentClasses} " use:addClasses>
         <!-- <div class="Profile-Title Component-Links-Name {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->
         <Notion blocks={page.pageBlocks} />
+      </div>
+
+    {:else if page.Type.includes("Twitter")}
+      Twitter Component
+      <div class="Component-Twitter | {componentClasses} ">
+        <!-- <div class="Profile-Title Component-Links-Name {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->
+        <Twitter />
       </div>
 
     {:else if page.Name == "Banner" || page.Type.includes("Banner")}

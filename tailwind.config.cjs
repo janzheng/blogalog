@@ -204,7 +204,7 @@ module.exports = {
       variants: ['xs', 'md', 'lg', 'xl'],
     },
     {
-      pattern: /(w|h|max-h|max-w|mx|my|mt|mr|mb|ml|px|py|pt|pr|pb|pl)-(2|3|4|6|8|10|12|14|20|24|32|36|40|48|60|64)/,
+      pattern: /(w|h|max-h|max-w|mx|my|mt|mr|mb|ml|px|py|pt|pr|pb|pl)-(2|3|4|6|8|10|12|14|20|24|32|36|40|48|60|64|72|80|96|1\/3|2\/3|1\/4|1\/2|full|screen|min|max)/,
       variants: ['xs', 'md', 'lg', 'xl'],
     },
 
@@ -217,6 +217,9 @@ module.exports = {
     'font-sans',
     'font-serif',
     'font-display',
+    'overflow-scroll',
+    'overflow-x-scroll',
+    'overflow-y-scroll',
 
 
 

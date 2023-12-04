@@ -73,8 +73,6 @@
       });
   }
 
-  // console.log('src:', src, block.properties.source[0])
-
 </script>
 
 {#if false}
@@ -90,6 +88,15 @@
     <a href={display_source} alt="download file">{filename}</a>
   </div>
 {:else}
+<!-- 
+
+  notion-asset-wrapper notion-embed
+    height: 500px;
+    overflow: scroll;
+
+
+ -->
+
   <figure
     id={`_block-${block.id}`}
     class="notion-asset-wrapper notion-embed"

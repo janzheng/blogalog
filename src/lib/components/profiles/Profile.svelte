@@ -85,7 +85,7 @@
           </div>
         {:else}
           <!-- each row NEEDS something in the name -->
-          <div class="Profile-Row | {settings?.row?.container?.class || 'mb-2 content-notion-wide'} | overflow-hidden | ">
+          <div class="Profile-Row | {settings?.row?.container?.class || 'mb-2 content-notion-wide '}  | ">
             <!-- {page.Name} -->
             {#if page.Type?.includes('Main')}
               {#if page.Type.includes("Private") && !$userData['Email']}

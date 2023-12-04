@@ -12,13 +12,16 @@
     isLoading = true;
     message = 'Queuing refresh...'
     const response = await fetch(`https://www.blogalog.net/api/reload/${data.path}`);
-    message = 'Site is refreshing. Check the site in ~15s.'
     data = await response.json();
+    message = 'Site is Actively Refreshing. Reload the site in ~15s.'
     console.log(data);
     isLoading = false;
     isDone = true;
-  }
 
+    setTimeout(() => {
+      message = `Refresh data for: ${data.head?.title}`;
+    }, 15000);
+  }
 
   $: if (browser && dev) {
     console.log('[dev] Page Data:', data)
