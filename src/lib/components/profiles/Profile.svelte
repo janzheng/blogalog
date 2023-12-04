@@ -139,7 +139,7 @@
                 </div>
               {/if}
             <!-- {:else if page.Type?.includes('Component') && page.Hide !== true} -->
-            {:else if page['Type']?.some(type => componentTypes.includes(type))}
+            {:else if page['Type']?.some(type => componentTypes.includes(type)) && !page.Hide }
               <RenderComponent {page} />
             {/if}
           </div>
