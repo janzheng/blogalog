@@ -6,7 +6,8 @@
   export let data;
   let isLoading = false;
   let isDone = false;
-  let message = `Refresh data for: ${data.head?.title}`;
+  let title = data.head?.title
+  let message = `Refresh data for: ${title}`;
 
   async function fetchData() {
     isLoading = true;
@@ -19,7 +20,7 @@
     isDone = true;
 
     setTimeout(() => {
-      message = `Refresh data for: ${data.head?.title}`;
+      message = `Refresh data for: ${title}`;
     }, 15000);
   }
 

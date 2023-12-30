@@ -16,10 +16,19 @@ const schema = z.object({
 });
 
 
+// import builderClub from '$lib/data/builderclub.js';
+
+
 
 
 export const load = async (settings) => {
+  // console.log('>>>>>> [...path]/+page.sever.js / load')
   try {
+
+    // offline testing
+    // console.log('[[[[[ path/page.server ]]]]] data/builderClub.js')
+    // return builderClub;
+
   
     // let hostname = settings.url?.hostname
     let path = settings.params.path, subPath;
@@ -31,6 +40,7 @@ export const load = async (settings) => {
     console.log('[path/page.server.js/path/load] path array:', pathSegments)
 
     const form = await superValidate(schema);
+    let freshBlogalog
 
     // is it a sub blog we've already loaded?
     if (parentData) {
@@ -47,7 +57,8 @@ export const load = async (settings) => {
       // this loads blogs as SUB PATHS
       // otherwise we just get the data back from the layout
       // problem is sometimes you load blogalog/postSlug, it does NOT have parent data cached, so now you're loading both localhost AND a subpath post slug
-      let freshBlogalog = await loadBlogalogFromPath({ blogPath: pathSegments[0], blogalogPages }); // 
+      freshBlogalog = await loadBlogalogFromPath({ blogPath: pathSegments[0], blogalogPages }); // 
+      
       if(freshBlogalog) {
         ({ head, blog, isBlogalogHome } = freshBlogalog);
       }
@@ -92,7 +103,8 @@ export const load = async (settings) => {
       throw error(404, 'Page Not Found');
     }
 
-    return obj
+
+    return obj;
   } catch (err) {
     console.error('[page] router error', err, err.message)
   }

@@ -1,8 +1,8 @@
 
 
 <script>
-  // import Notion from '@yawnxyz/sveltekit-notion';
-  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import { getNotionImageLink } from '$lib/helpers.js'
   import YAML from 'yaml'
 
@@ -11,6 +11,8 @@
   import Email from '$lib/components/forms/Login.svelte';
   import GridItems from '$lib/components/GridItems.svelte';
   import Expander from '$lib/components/Expander.svelte';
+  import Markdown from '$lib/components/Markdown.svelte';
+  import Cta from '$lib/components/Cta.svelte';
   // import MemberList from '$lib/components/MemberList.svelte';
 	// import SocialBox from '$plasmid/components/SocialBox2.svelte'
 
@@ -20,17 +22,19 @@
   export let page;
   export let emailForm, unlockMessage;
   export let componentClasses = 'p-4 bg-slate-50'
+  export let componentContainerClasses = ''
 
-  let settings = {};
+  let settings = {};2
   if(page?.YAML) {
     settings = YAML.parse(page?.YAML)
 
     if(settings?.component) {
       componentClasses = settings?.component?.class;
+      componentContainerClasses = settings?.component?.containerClass;
     }
   }
 
-  // import { marked } from 'marked';
+  // import { marked } from 'marked';c
   // marked.use({
   //   breaks: true,
   // });
@@ -69,14 +73,14 @@
 
 
 
-<div class="RenderComponent | {settings?.component?.container?.class} " style={settings?.component?.container?.style} >
+<div class="RenderComponent | {settings?.component?.container?.class || ''} " style={settings?.component?.container?.style||''} >
   {#if page.Type.includes("Private") && !$userData['Email']}
     <!-- do nothing -->
   {:else if page.Type.includes("Public") && $userData['Email']}
     <!-- do nothing -->
   {:else}
     {#if page.Name == "Unlock" || page.Type.includes("Unlock") || page.Name == "Login" || page.Type.includes("Login")}
-      <div class="Component-Login | {componentClasses} ">
+      <div class="Component-Login | {componentClasses || ''} ">
         {#if $userData['Email']}
           <div class="Component-Login-Status">
             Logged in as {$userData['Email']}. <button on:click={()=>{
@@ -115,57 +119,74 @@
         {/if}
       </div>
     {:else if page.Name == "Members" || page.Type.includes("Members")}
-      <div class="Component-Members | {componentClasses} ">
+      <div class="Component-Members | {componentClasses || ''} ">
         <!-- deprecated -->
         <!-- <Notion blocks={page.pageBlocks} /> -->
         <!-- <MemberList id={page.Content} settings={page.YAML} /> -->
       </div>
+
     {:else if page.Name == "Grid" || page.Type.includes("Grid")}
-      <div class="Component-Grid | {componentClasses} ">
-        {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
-          <h2 class="pt-0 mt-0">{page.Name}</h2>
-        {/if}
-        <Notion blocks={page.pageBlocks} />
-        <div class="Component-GridItems | mt-2">
-          <GridItems id={page.Content} {settings} />
+      <div class="Component-Grid | {componentClasses||''} ">
+        <div class="Component-Grid-Container {componentContainerClasses||''}">
+          {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
+            <h2 class="pt-0 mt-0">{page.Name}</h2>
+          {/if}
+          {#if page.pageBlocks && page.pageBlocks.length > 5}
+            <div class="Component-Grid-Blocks | {settings?.component?.blocks?.class} ">
+              <Notion blocks={page.pageBlocks} />
+            </div>
+          {/if}
+        </div>
+        <div class="Component-Grid-Items | {settings?.component?.items?.container?.class || 'mt-2'}">
+          <GridItems {page} id={page.Content} {settings} />
         </div>
       </div>
+
+
     {:else if page.Name == "Expander" || page.Type.includes("Expander")}
-      <div class="Component-Expander | {componentClasses} ">
-        {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
+      <div class="Component-Expander | {componentClasses || ''} ">
+        <!-- {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
           <h2 class="pt-0 mt-0">{page.Name}</h2>
-        {/if}
-        <Expander {page} />
+        {/if} -->
+        <Expander {page} {settings} />
       </div>
+
+    {:else if page.Name == "CTA" || page.Type.includes("CTA")}
+      <div class="Component-CTA | {componentClasses || ''} ">
+        <Cta {page} {settings} />
+      </div>
+
     {:else if page.Name == "HTML" || page.Type.includes("HTML")}
-      <div class="Component-HTML |{componentClasses} ">
+      <div class="Component-HTML |{componentClasses || ''} ">
         {@html page.Content}
       </div>
+
     {:else if page.Name == "Markdown" || page.Type.includes("Markdown")}
-      <div class="Component-Markdown | {componentClasses} ">
-        <div class="Profile-Title Component-Markdown-Name {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
-        <div class="Component-Markdown-Content">
-          {@html md.render(page.Content||'')}
-        </div>
-        <div class="Component-Markdown-Blocks">
-          <Notion blocks={page.pageBlocks} />
-        </div>
+      <div class="Component-Markdown | {componentClasses || ''} ">
+        <Markdown {page} {settings} />
       </div>
     
     {:else if page.Name == "Links" || page.Type.includes("Links")}
-      <div class="Component-Links | _link-reset {componentClasses} " use:addClasses>
-        <!-- <div class="Profile-Title Component-Links-Name {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->
-        <Notion blocks={page.pageBlocks} />
+      <div class="Component-Links | {componentClasses || ''} " use:addClasses>
+        {#if page.pageBlocks}
+          <div class="Component-Links-Content">
+            {@html md.render(page.Content||'')}
+          </div>
+        {/if}
+        <div class="Component-Links-Blocks | notion-links">
+          {#if page.pageBlocks}
+            <Notion blocks={page.pageBlocks} />
+          {/if}
+        </div>
       </div>
 
     {:else if page.Type.includes("Twitter")}
-      <div class="Component-Twitter | {componentClasses} ">
-        <!-- <div class="Profile-Title Component-Links-Name {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->
+      <div class="Component-Twitter | {componentClasses || ''} ">
         <Twitter name={page.Name} />
       </div>
 
     {:else if page.Name == "Banner" || page.Type.includes("Banner")}
-      <div class="Component-Banner | {componentClasses} ">
+      <div class="Component-Banner | {componentClasses || ''} ">
         <Notion blocks={page.pageBlocks} />
         <a href={page.Content}>
           <img src="{getNotionImageLink(page)}" alt="{page.Name}" />

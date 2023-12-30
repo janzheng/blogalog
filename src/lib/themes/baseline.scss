@@ -18,13 +18,27 @@
 
 
   // this sets the page width of all blogalog
-  --blogalog-page-width: 77ch; // comfiest ch width, roughly 770px
+  --blogalog-page-width: 79ch; // comfiest ch width, roughly 770px
+  --blogalog-page-custom-width: 77ch;
+  --blogalog-post-width: 72ch; // post / blog pages
+  --color-base: #37352f;
+  --color-title: #37352f;
+  --color-link: #2563eb;
+  --color-link-hover: red;
+  --color-bg: #fff;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-active: #1e40af;
+  --color-primary-light: #bfdbfe;
+  --color-primary-dark: #1e40af;
+  --color-primary-ring: #dbeafe;
+  --color-primary-ring-active: #60a5fa;
+  --color-primary-text: white;
 
 
   font-size: 1rem; // make base font slightly larger for everything
   line-height: 1rem * 1.52; // make base font slightly larger for everything
   // font-size: 0.875rem; // 14px; good for dashboards
-  color: var(--color-base); // base text color
   // background-color: var(--color-evergreen);
 
   .notion-page {
@@ -54,7 +68,7 @@
 
 
   // typography
-  font-family: 'Inter', Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   /* --font-mono: 'Fira Mono', monospace; */
   --font-mono: monospace;
 
@@ -84,9 +98,11 @@ svg {
 // prevents annoying blue border on main section on focus
 main:focus:not(:focus-visible),
 main ._content:focus-visible,
+.layout:focus-visible,
 .ContentBody:focus-visible 
 {
-  outline: none !important
+  // outline: none !important;
+  outline: transparent !important;
 }
 
 @layer base {

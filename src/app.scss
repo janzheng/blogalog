@@ -25,10 +25,8 @@
 //   font-display: swap;
 // }
 
-// @import '@fontsource/inter';
+@import '@fontsource/inter';
 // @import '@fontsource/inter/300';
-// @import '@fontsource/inter/400';
-// @import '@fontsource/inter/700';
 /* @import '@fontsource/fira-mono'; */
 
 
@@ -54,7 +52,7 @@
 
 // Additional project styling
 @import "$plasmid/themes/tw";
-
+@import './lib/themes/baseline';
 $tabsize: 1.3rem;
 
 /* 
@@ -63,12 +61,53 @@ $tabsize: 1.3rem;
 @mixin notionStyles {
   .notion {
     font-family: Inter, sans-serif !important;
+    color: var(--color-base);
     ol > li { list-style-type: decimal; }
     ul > li { list-style-type: disc; }
     p + ul, p + ol {
       margin-top: -0.5rem;
     }
-    
+  }
+
+  // special landing page "softer" / millennial styles
+  .notion-soft {
+    img {
+      @apply rounded-xl;
+    }
+  }
+
+  .notion-links {
+    @extend ._link-reset;
+  }
+
+  // special landing page CTA styles
+  .notion-cta {
+    a:first-of-type {
+      @extend .Btn-solid;
+    }
+    a:last-of-type {
+      @extend .Btn-textbg;
+    }
+  }
+
+
+  .notion-row-columnflex {
+    // if we know notion blocks are always columns, we use this to force flex on it for better styling
+    .notion-row {
+      @apply flex flex-wrap gap-2;
+    }
+
+    .notion-spacer {
+      display: none;
+    }
+  }
+
+  .notion-sturdy-columnheaders {
+    .notion-column {
+      .notion-text:first-of-type {
+        @apply text-sm tracking-wider font-semibold capitalize;
+      }
+    }
   }
 
   .notion-list, .notion-list-disc {
@@ -153,10 +192,10 @@ $tabsize: 1.3rem;
     --notion-page-width: var(--blogalog-page-width);
   }
 
-  // Post Page
+  // Post / Blog Page
   .PagePath {
-    // max-width: var(--notion-page-width);
-    @apply relative container max-w-4xl mx-auto w-full h-full;
+    @apply relative container mx-auto w-full h-full;
+    max-width: var(--blogalog-post-width);
     
 
     h1 {
@@ -174,6 +213,7 @@ $tabsize: 1.3rem;
     h4 {
       @apply text-xl font-semibold mb-2;
     }
+
   }
 
   .PagePath .notion-page {
@@ -182,9 +222,62 @@ $tabsize: 1.3rem;
     max-width: 100%;
   }
 }
-// @mixin profileStyles {
 
-// }
+@mixin headlineStyles {
+
+  .headline {
+    h1 {
+      @apply font-sans leading-none tracking-tighter text-5xl mb-4 font-bold;
+      color: var(--color-title, var(--color-base));
+    }
+  
+    h2 {
+      // @apply font-sans text-2xl leading-12 pb-6 ;
+      @apply font-sans leading-none tracking-tighter text-4xl mb-4 font-bold;
+      color: var(--color-title, var(--color-base));
+  
+      &.--extra {
+        @apply text-4xl mb-2 tracking-tight;
+      }
+  
+      &+h3 {
+        padding-top: 0;
+      }
+    }
+  
+    h3 {
+      @apply font-sans text-3xl tracking-tight leading-12 mb-2 text-slate-800;
+      color: var(--color-title, var(--color-base));
+    }
+  
+    h4 {
+      @apply text-xl mb-2;
+      color: var(--color-title, var(--color-base));
+    }
+  
+    h5 {
+      @apply font-sans leading-snug text-xs uppercase tracking-widest mb-2 text-slate-500;
+      color: var(--color-title, var(--color-base));
+    }
+  
+    h6 {
+      @apply text-xs tracking-wide uppercase mb-2;
+      color: var(--color-title, var(--color-base));
+    }
+
+    p {
+      @apply text-xl tracking-tight font-sans mb-2;
+      color: var(--color-base);
+    }
+  }
+
+
+  .headline-margin-none {
+    h1, h2, h3, h4, h5, h6 {
+      @apply m-0;
+    }
+  }
+}
 
 
 
@@ -201,15 +294,24 @@ $tabsize: 1.3rem;
   font-size: 1em;
   line-height: 1.5;
   color: var(--color-base);
+
   p {
     @apply pb-4 mt-0 pt-0;
+    color: var(--color-base);
+  }
+
+  .title {
+    color: var(--color-title, var(--color-base));
   }
   // Add any other styles you want
 
   a, ._link { 
     &:not(.Btn-solid, .Btn-outline, .link-custom) { 
-      @apply no-underline text-blue-600 cursor-pointer;
-      &:hover { @apply underline text-blue-600/80; }
+      @apply no-underline cursor-pointer;
+      color: var(--color-link, var(--color-base));
+      &:hover { 
+        @apply underline; color: var(--color-link-hover, var(--color-base));
+      };
     }
   }
   ._link-reset {
@@ -226,7 +328,7 @@ $tabsize: 1.3rem;
 
   // specific component styles
   .headline {
-    @apply font-display;
+    // @apply font-display;
     text-rendering: geometricprecision;
   }
 
@@ -262,28 +364,80 @@ $tabsize: 1.3rem;
     }
   }
 
-  h1 {
-    @apply font-sans leading-tight text-3xl lg:leading-tight mb-4 font-bold;
+  /* 
+
+    interactive styles; might need to break out for more flexible styles / templates
+  
+  */
+  --color-primary: #3b82f6; /* blue-600 */
+  --color-primary-hover: #1d4ed8;/* blue-700 */
+  --color-primary-active: #1e40af; /* blue-800 */
+  --color-primary-white: #eff6ff; /* blue-50 */
+  --color-primary-light: #dbeafe; /* blue-800 */
+  --color-primary-dark: #1e40af; /* blue-800 */
+  --color-primary-active: #1e40af; /* blue-800 */
+  --color-primary-ring: #dbeafe;/* blue-100 */
+  --color-primary-ring-active: #60a5fa; /* blue-400 */
+  --color-primary-text: white;
+
+  .Btn-solid {
+    @apply bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-[var(--color-primary-text)] border-[var(--color-primary)] hover:border-[var(--color-primary-hover)];
   }
-  h2 {
+
+  .Btn-link {
+    @apply border-2 border-[var(--color-primary)] hover:border-[var(--color-primary-hover)] text-[var(--color-primary)] bg-transparent;
+    &:hover {
+      text-decoration: none !important;
+    }
+
+  }
+
+  .Btn-outline {
+    @apply border-[var(--color-primary)] hover:border-[var(--color-primary-hover)] text-[var(--color-primary)] bg-transparent;
+  }
+
+  .Btn-textbg {
+    @apply bg-[var(--color-primary-white)] hover:bg-[var(--color-primary-light)] text-[var(--color-primary)] border-transparent hover:no-underline;
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
+
+  // 
+  // 
+
+  h1, .h1 {
+    @apply font-sans leading-tight text-3xl lg:leading-tight mb-4 font-bold;
+    color: var(--color-title, var(--color-base));
+  }
+  h2, .h2 {
     // @apply font-sans text-2xl leading-12 pb-6 ;
     @apply font-sans leading-tight text-2xl mb-2 font-bold;
+    color: var(--color-title, var(--color-base));
     &.--extra {
       @apply text-4xl mb-2 tracking-tight;
     }
     &+h3 {padding-top: 0;}
   }
-  h3 {
+  h3, .h3 {
     @apply font-sans text-xl leading-12 mb-2 text-slate-800;
+    color: var(--color-title, var(--color-base));
   }
-  h4 {
+  h4, .h4 {
     @apply text-lg mb-2;
+    color: var(--color-title, var(--color-base));
   }
-  h5 {
+  h5, .h5 {
     @apply font-sans leading-snug text-xs uppercase tracking-widest mb-2 text-slate-500;
+    color: var(--color-title, var(--color-base));
   }
   h6 {
     @apply text-xs tracking-wide uppercase mb-2;
+    color: var(--color-title, var(--color-base));
+  }
+  .title {
+    // for divs specced as "title"
+    color: var(--color-title, var(--color-base));
   }
 
   ul, ol {
@@ -292,11 +446,42 @@ $tabsize: 1.3rem;
 
   li {
     list-style-position: outside;
+    @apply mb-2;
+  }
+
+  .content-pad {
+    @apply px-8 md:px-32 py-8 mx-auto;
+    // max-width: var(--notion-page-width);
+  }
+
+  .content-custom-width {
+    max-width: var(--blogalog-page-custom-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .content-post-width {
+    max-width: var(--blogalog-post-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .content-notion-wide {
+    max-width: var(--blogalog-page-width, 704px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .content-notion-wider {
+    max-width: calc(var(--notion-page-width) + 224px);
+    margin-left: auto;
+    margin-right: auto;
   }
 
   
   @include notionStyles;
   @include postStyles;
+  @include headlineStyles;
   // @include profileStyles;
   
 }
@@ -305,11 +490,9 @@ $tabsize: 1.3rem;
 
 
 
-.project-BLOGALOG {
+.Blogalog-Container {
   @include sharedStyles;
 }
-
-
 
 
 

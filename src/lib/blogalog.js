@@ -224,9 +224,8 @@ export const buildBlogHead = (blog) => {
 */
 export const loadBlogalogPages = async () => {
 
-  let blogConfigData
   // blogs might have been passed down from layout (already loaded)
-  blogConfigData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
+  let blogConfigData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
     let data = await endoloader(blogalog_config, {
       url: PUBLIC_ENDOCYTOSIS_URL,
       key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
@@ -493,7 +492,7 @@ export const loadBlogalogFromPath = async ({
   }
 
   if(!blogalogPages || blogalogPages.length < 1) {
-    console.error("Blogalog data not loaded", blogConfigData)
+    console.error("Blogalog data not loaded...")
     throw new Error("Blogalog data not loaded");
   }
   

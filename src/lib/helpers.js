@@ -85,6 +85,41 @@ export function getNotionImageLink(notionImage) {
 
 
 
+export function generatePageStyles(settingsPage) {
+  if (!settingsPage) return null
+  
+  const acceptedKeys = [
+    '--blogalog-page-width',
+    '--blogalog-post-width', 
+    '--blogalog-page-custom-width',
+    '--color-base',
+    '--color-title',
+    '--color-link',
+    '--color-link-hover',
+    '--color-bg',
+    '--color-primary',
+    '--color-primary-hover',
+    '--color-primary-white',
+    '--color-primary-active',
+    '--color-primary-light',
+    '--color-primary-dark',
+    '--color-primary-ring',
+    '--color-primary-ring-active',
+    '--color-primary-text'
+  ];
+
+  const pageStyles = acceptedKeys.reduce((acc, key) => {
+    if (settingsPage[key.slice(2)]) {
+      acc[key] = settingsPage[key.slice(2)];
+    }
+    return acc;
+  }, {});
+
+  return Object.entries(pageStyles)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('; ');
+}
+
 
 
 

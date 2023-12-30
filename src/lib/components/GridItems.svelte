@@ -5,118 +5,173 @@
 
  -->
 
-<div class="GridItems">
-  {#if (isLoading) || !items || !settings}
-    <div class="GridItems-loading">
-      <h2 style="padding-top:0"><Loader /> {settings?.loading || "Loading"}</h2>
-    </div>
-  {:else}
-    {#if items && items.length > 0 && settings}
-      <!-- <div class="Items | " style="{twi(settings?.items?.class || 'grid grid-cols-2 md:grid-cols-2 gap-4')}"> -->
-
-      {#if settings?.items?.type == 'marquee'}
-        <div class="GridItem-Marquee | ">
-          <div class="relative overflow-x-hidden ">
-            <div class="animate-marquee inline-block whitespace-nowrap">
-              {#each items as item}
-                {#each getOrderedKeys(item) as key}
-                  <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
-                {/each}
-              {/each}
-            </div>
-            <div class="absolute top-0 animate-marquee2 inline-block whitespace-nowrap">
-              {#each items as item}
-                {#each getOrderedKeys(item) as key}
-                  <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
-                {/each}
-              {/each}
-            </div>
-          </div>
-        </div>
-
-
-      {:else}
-        <div class="GridItem-Grid | {settings?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
-          {#each items as item, index}
-            <div class="Item | {settings?.item?.class || "p-4 bg-slate-50"} | {settings?.items?.[index]?.class||''} | {settings?.modal || settings?.item?.click ? 'cursor-pointer' : ''}"
-              on:click={(e)=>handleItemClick(item, e)} 
-              on:keyup={(e)=>handleItemClick(item, e)}
-              >
-              {#if settings.item?.type == 'link'}
-                <a class="GridItem-link" href="{item[settings.item?.itemLink]}" target="_blank">
-                  {#each getOrderedKeys(item) as key}
-                    <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
-                  {/each}
-                </a>  
-              {:else}
-                {#each getOrderedKeys(item) as key}
-                  <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
-                {/each}
-              {/if}
-              {#if browser && settings.modal}
-                <Modal id={item[itemKey]}>
-                  {#each getOrderedKeys(item, settings?.modal?.order||[]) as key}
-                    <GridItemRow {item} {key} {itemKey} schema={settings?.modal?.schema} />
-                  {/each}
-                  {#if settings.modal.loadNotionPage}
-                    {#if pageBlocks}
-                    <Notion blocks={pageBlocks} />
-                    {:else}
-                      Loading content...
-                    {/if}
-                  {/if}
-                </Modal>
-              {/if}
-    
-            </div>
-          {/each}
-          {#if startCursor && settings.loader?.loadMore}
-            <!-- notion loader feature -->
-            <button class="Btn-outline" on:click={loadMoreItems} disabled={isLoadingMore}>
-              {#if isLoadingMore}
-                <Loader /> Loading...
-              {:else}
-                Load More
-              {/if}
-            </button>
-          {/if}
-        </div>
-      {/if}
-
-    {:else}
-      <h2 style="padding-top:0">No items found</h2>
-    {/if}
-  {/if}
-</div>
- 
- 
-
 <script>
   import { onMount } from 'svelte';
   import { browser, dev } from '$app/environment';
-  import { marked } from 'marked';
-  import { getNotionImageLink } from '$lib/helpers.js'
+  // import { marked } from 'marked';
+  // import { getNotionImageLink } from '$lib/helpers.js'
   import Notion from '@yawnxyz/sveltekit-notion';
   import { fetchPost } from "$plasmid/utils/fetch-helpers";
   import Modal, {getModal} from '$lib/components/Modal.svelte';
   import GridItemRow from '$lib/components/GridItemRow.svelte';
   import Loader from '$plasmid/components/icons/loader.svelte';
-  import { twi } from "tw-to-css";
+  // import { twi } from "tw-to-css";
 
-  export let id, items=[], settings, isLoading, isLoadingMore, pageBlocks, startCursor;
+  import MarkdownIt from 'markdown-it';
+  import markdownItAttrs from 'markdown-it-attrs';
+  const md = new MarkdownIt();
+  md.use(markdownItAttrs);
+
+  export let page, id, items=[], settings, isLoading, isLoadingMore, pageBlocks, startCursor;
   export let itemKey = 'Name';
+  export let itemList = [];
   export let pageNumber = 1;
 
 
+  let tmp = `
+showContent: true
+loaders:
+  itemList: true
+
+page:
+  'blogalog-page-custom-width': 720px
+
+itemList:
+  - Name: Dev Ed
+    Role: Content Creator
+    Text: Been using daisyUI for a while and I must say...such a fun addon for Tailwind CSS, well done 🔥
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/developedbyed-72.webp
+  - Name: Marc Lou
+    Role: Solopreneur
+    Text: If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it...
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/marc_louvion-72.webp
+  - Name: Sara Vieira
+    Role: Developer at axo.dev
+    Text: It's great! Been using it in all my projects!
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/NikkitaFTW-72.webp
+  - Name: Dev Ed
+    Role: Content Creator
+    Text: Been using daisyUI for a while and I must say...such a fun addon for Tailwind CSS, well done 🔥
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/developedbyed-72.webp
+  - Name: Marc Lou
+    Role: Solopreneur
+    Text: If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it... If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it... If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it...
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/marc_louvion-72.webp
+  - Name: Sara Vieira
+    Role: Developer at axo.dev
+    Text: It's great! Been using it in all my projects!
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/NikkitaFTW-72.webp
+  - Name: Dev Ed
+    Role: Content Creator
+    Text: Been using daisyUI for a while and I must say...such a fun addon for Tailwind CSS, well done 🔥
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/developedbyed-72.webp
+  - Name: Marc Lou
+    Role: Solopreneur
+    Text: If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it...
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/marc_louvion-72.webp
+  - Name: Sara Vieira
+    Role: Developer at axo.dev
+    Text: It's great! Been using it in all my projects!
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/NikkitaFTW-72.webp
+  - Name: Dev Ed
+    Role: Content Creator
+    Text: Been using daisyUI for a while and I must say...such a fun addon for Tailwind CSS, well done 🔥
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/developedbyed-72.webp
+  - Name: Marc Lou
+    Role: Solopreneur
+    Text: If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it...
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/marc_louvion-72.webp
+  - Name: Sara Vieira
+    Role: Developer at axo.dev
+    Text: It's great! Been using it in all my projects!
+    Image:
+      - url: https://daisyui.com/twitter-profile-pics/NikkitaFTW-72.webp
+
+item:
+  class: flex justify-center flex-col p-1
+  type: link
+  itemLink: URL
+
+order:
+  - Image
+  - Name
+  - Role
+  - Text
+
+schema:
+  Image:
+    type: image
+    classContainer: float-left
+    class: max-h-32 object-cover ml-4 mt-4 mr-2 rounded-full object-cover
+  Name:
+    class: text-md font-bold pt-4 px-4 pt-2 mb-1
+  Role:
+    class: text-sm text-slate-800 px-4 mt-1 mb-1
+  Text:
+    class: text-sm p-4 clear-both
+
+row:
+  wrapper:
+    style: "background-color: #F6F3EB"
+  class: "px-4 py-6"
+  container:
+    class: "content-notion-wide"
+
+component:
+  class: headline
+  blocks:
+    class: content-custom-width
+  list:
+    container:
+      class: grid grid-cols-1 md:grid-cols-3 gap-2
+    item:
+      class: middle-child-shift border-2 border-transparent bg-white rounded-md ease-in-out hover:ease-in-out duration-300 overflow-hidden
+  content:
+    class: text-center mb-4
+  `
+  import YAML from 'yaml'
+
+  if(page.Name == 'GridTest') {
+    // settings = YAML.parse(tmp)
+    console.log('gridItems - settings', settings)
+  }
+
+
+
+  // set styles
+  let gridItemsStyles = ""
+  if(settings?.items?.settings) {
+    // this spreads variables across
+    // gridItemsStyles = Object.entries(settings?.items?.settings)
+    // .map(([key, value]) => `${key}: ${value}`)
+    // .join('; ');
+    let _settings = settings?.items?.settings
+    if(_settings.marqueeSpeed)
+      gridItemsStyles += "; --marquee-speed: " + _settings.marqueeSpeed
+  }
     
   if(settings?.itemKey) {
     itemKey = settings.itemKey
     // defaults to "Name" as the main key, but can be re-specified with itemKey
   }
-
-  $: if (browser && settings && dev) {
-    console.log('[dev] Grid settings:', settings)
+  if(settings?.itemList) {
+    itemList = settings.itemList
   }
+
+  // $: if (browser && settings && dev) {
+  //   console.log('[dev] Grid settings:', settings)
+  // }
    
 
   async function loadMoreItems() {
@@ -126,37 +181,44 @@
     isLoadingMore = false;
   }
   
+
+
   const getItems = async (id) => {
+    // if(settings.itemList)
+    //   return {}
+
     if(isLoadingMore != true)
       isLoading = true
 
     let url = `/api/gridItems/`
     let response, result
 		try {
+      console.log('getItems fetchPost:::')
       response = await fetchPost(url, {id, settings, pageNumber, startCursor}, fetch)
 			if(response.ok) {
         result = await response.json()
 			}
 		} catch(err) {
-      console.error('[getItems] error', err)
+      console.error('[getItems/fetchPost] error', err)
     }
 
     try {
-      // for pagination w/ Notion
-      if(result?.startCursor)
-        startCursor = result.startCursor
-
+      if(result && result.items) {
+        // for pagination w/ Notion
+        if(result?.startCursor)
+          startCursor = result.startCursor
+  
         if(Array.isArray(items)) {
           items = [...items, ...result?.items]
         } else {
           items = [...result?.items]
         }
+      }
 
       isLoading = false
 
       if(browser && dev)
         console.log('[dev][getItems] Items:', items)
-
 
       // items = [items[0]]
 
@@ -164,12 +226,14 @@
         items: items || [],
       }
     } catch (e) {
-      console.error('[getItems] error', e, 'result:', result)
+      console.error('[getItems/result] — error', e, 'result:', result)
     }
 
+    return {}
 	};
 
   const loadPage = async (id) => {
+    console.log('loadPage:::')
     let url = `/api/loadPage/`
     let response, result
 		try {
@@ -225,6 +289,128 @@
 </script>
 
 
+
+
+
+
+
+
+
+
+
+
+<div class="GridItems"
+ style={gridItemsStyles}
+>
+
+  {#if page.Content && settings?.showContent}
+    <div class="Component-GridItems-Content {settings?.component?.content?.class||''}">
+      {@html md.render(page.Content||'')}
+    </div>
+  {/if}
+  
+  <!-- {#if settings.loaders.includes('itemList')} -->
+    <!-- use a settings.list instead of dynamically loaded db items -->
+  {#if itemList && settings?.loaders?.itemList !== false}
+    <div class="Component-GridItems-List-Container {settings?.component?.list?.container?.class||' '}">
+      {#each itemList as item}
+        <div class="Component-GridItems-List-Item {settings?.component?.list?.item?.class||' '}">
+          {#each getOrderedKeys(item) as key}
+            <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
+          {/each}
+        </div>
+      {/each}
+    </div>
+  {/if}
+
+  <!-- note: if itemList is on, we need to also set loaders.notion to be true, or the "no items" error will show -->
+  {#if (settings?.loaders?.itemList !== true && settings?.loaders?.notion !== false) || (settings?.loaders?.itemList == true && settings?.loaders?.notion == true)}
+    {#if (isLoading) || !items}
+      <div class="GridItems-loading {settings?.component?.loadingContainer?.class||' '}">
+        <div class="GridItems-loading-title h2 title {settings?.component?.loading?.class||' '}" style="padding-top:0"><Loader /> {settings?.loading || "Loading"}</div>
+      </div>
+    {:else}
+      {#if items && items.length > 0 && settings}
+        {#if settings?.items?.type == 'marquee'}
+          <div class="GridItem-Marquee | {settings?.component?.marquee?.class}">
+            <div class="relative overflow-x-hidden ">
+              <div class="animate-marquee inline-block whitespace-nowrap">
+                {#each items as item}
+                  {#each getOrderedKeys(item) as key}
+                    <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
+                  {/each}
+                {/each}
+              </div>
+              <div class="absolute top-0 animate-marquee2 inline-block whitespace-nowrap ">
+                {#each items as item}
+                  {#each getOrderedKeys(item) as key}
+                    <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
+                  {/each}
+                {/each}
+              </div>
+            </div>
+          </div>
+
+
+        {:else}
+          <div class="GridItem-Grid | {settings?.items?.class || settings?.component?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
+            {#each items as item, index}
+              <div class="Item | {settings?.item?.class || settings?.component?.item?.class || "p-4"} | {settings?.items?.[index]?.class||settings?.component?.items?.[index]?.class||''} | {(settings?.modal||settings?.component?.modal) || (settings?.item?.click||settings?.component?.item?.click) ? 'cursor-pointer' : ''}"
+                on:click={(e)=>handleItemClick(item, e)} 
+                on:keyup={(e)=>handleItemClick(item, e)}
+                >
+                {#if settings.item?.type == 'link'}
+                  <a class="GridItem-link" href="{item[settings.item?.itemLink]||item[settings.component?.item?.itemLink]}" target="_blank">
+                    {#each getOrderedKeys(item) as key}
+                      <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
+                    {/each}
+                  </a>  
+                {:else}
+                  {#each getOrderedKeys(item) as key}
+                    <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
+                  {/each}
+                {/if}
+                {#if browser && settings.modal}
+                  <Modal id={item[itemKey]}>
+                    {#each getOrderedKeys(item, (settings?.modal?.order||settings?.component?.modal?.order)||[]) as key}
+                      <GridItemRow {item} {key} {itemKey} schema={settings?.modal?.schema} />
+                    {/each}
+                    {#if settings.modal.loadNotionPage}
+                      {#if pageBlocks && pageBlocks.length > 5}
+                        <Notion blocks={pageBlocks} />
+                      {:else}
+                        Loading content...
+                      {/if}
+                    {/if}
+                  </Modal>
+                {/if}
+      
+              </div>
+            {/each}
+            {#if startCursor && settings.loader?.loadMore}
+              <!-- notion loader feature -->
+              <button class="Btn-outline {settings?.component?.loadMore?.class||''}" on:click={loadMoreItems} disabled={isLoadingMore}>
+                {#if isLoadingMore}
+                  <Loader /> Loading...
+                {:else}
+                  Load More
+                {/if}
+              </button>
+            {/if}
+          </div>
+        {/if}
+
+      {:else}
+        <!-- <h2 style="padding-top:0">No items found</h2> -->
+        <div class="h2 title {settings?.component?.notFound?.class||''}" style="padding-top:0">No items found</div>
+      {/if}
+    {/if}
+  {/if}
+</div>
+ 
+ 
+
+
 <style lang="scss" global>
   .itemHover {
     @apply hover:bg-slate-100 rounded-md;
@@ -250,29 +436,43 @@
 
 
 
+  // @keyframes marquee {
+  //   0% { transform: translateX(0); }
+  //   100% { transform: translateX(-100%); }
+  // }
+  // @keyframes marquee2 {
+  //   0% { transform: translateX(100%); }
+  //   100% { transform: translateX(0); }
+  // }
+
+  // hardware / maybe faster?
   @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
   }
   @keyframes marquee2 {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(0); }
+    0% { transform: translate3d(100%, 0, 0); }
+    100% { transform: translate3d(0, 0, 0); }
   }
-
 
   .animate-marquee {
     display: inline-block; 
     white-space: nowrap;
-    animation: marquee 24s linear infinite;
+    animation: marquee var(--marquee-speed) linear infinite;
     img {
       max-width: unset;
     }
   }
 
   .animate-marquee2 {
-    animation: marquee2 24s linear infinite;
+    animation: marquee2 var(--marquee-speed) linear infinite;
     img {
       max-width: unset;
     }
+  }
+
+
+  .middle-child-shift:nth-child(3n+2) {
+    @apply transform -translate-y-5;
   }
 </style>

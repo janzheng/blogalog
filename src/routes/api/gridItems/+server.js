@@ -199,7 +199,7 @@ async function gridEndoLoader({ id, settings, pageNumber, key }) {
     // Limit the items to the newest pageNumber * limit
     let startIndex = (pageNumber - 1) * limit;
     let endIndex = pageNumber * limit;
-    items = items.slice(startIndex, endIndex);
+    items = items?.slice(startIndex, endIndex);
 
     return { success: true, items, settings, startCursor: pageNumber }
   }
