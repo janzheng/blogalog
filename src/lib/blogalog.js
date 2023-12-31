@@ -220,9 +220,9 @@ export const buildBlogHead = (blog) => {
 
 
 /* 
-    Load all the Config Blog Data from the official BLogalog Notion DB
+    Load all the Config Blogalog Directory Data from the official BLogalog Notion DB
 */
-export const loadBlogalogPages = async () => {
+export const loadBlogalogDirectory = async () => {
 
   // blogs might have been passed down from layout (already loaded)
   let blogConfigData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
@@ -487,7 +487,8 @@ export const loadBlogalogFromPath = async ({
   // console.log('[loadBlogalogFromPath] path:', {hostname, blogPath, loadAll, blogalogPages})
 
   if (!blogalogPages || blogalogPages.length < 1) {
-    blogalogPages = await loadBlogalogPages() 
+    blogalogPages = await loadBlogalogDirectory() 
+    console.log('[blogalogPages Directory:', blogalogPages.length)
     // these are official blogalog indexed pages from the Blogalog PageList
   }
 
