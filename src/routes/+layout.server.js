@@ -6,7 +6,7 @@ import { head, seo } from '$lib/config.js'
 import { loadBlogalogFromPath } from '$lib/blogalog'
 // import { parseMetadata, getNotionImageLink } from '$lib/helpers.js'
 
-import builderClubInit from '$lib/data/builderclubinit.js';
+// import builderClubInit from '$lib/data/builderclubinit.js';
 
 
 
@@ -21,10 +21,11 @@ function removePrefixFromHostname(url) {
 
 
 async function initContent(head, hostname) {
+  // hostname = "www.jess.bio"
 
   // console.log('[[[[[ LAYOUT ]]]]] data/builderClubInit.js')
   // return builderClubInit;
-  console.log('[+layout.server/initContent] initializing:', PUBLIC_BLOGMODE)
+  console.log('[+layout.server/initContent] initializing:', PUBLIC_BLOGMODE, 'host:', hostname)
   let blog, config, mode, blogalogPages
 
   if (PUBLIC_BLOGMODE == 'blogalog') {

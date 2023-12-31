@@ -50,7 +50,7 @@ export const load = async (settings) => {
       blogalogPages = parentData?.blogalogPages
       pageContent = blog?.['site-pages']?.find(item => item.Path === path || item.Path === pathSegments?.[pathSegments?.length - 1]);
     }
-    console.log('---> parentData?', typeof parentData)
+    // console.log('---> parentData?', typeof parentData)
 
     if (!pageContent && PUBLIC_MULTIBLOG == "true") {
       // if we want to enable "blogalog routing"

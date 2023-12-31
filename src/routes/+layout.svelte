@@ -11,6 +11,7 @@
   // import { PUBLIC_PROJECT_NAME, PUBLIC_BLOGMODE } from '$env/static/public';
 
   import Head from '$lib/components/shared/Head.svelte'
+	// import Footer from '$lib/layouts/BlogalogFooter.svelte';
 	import '$src/app.scss'
   import '@fontsource/inter';
   import '@fontsource/inter/600.css';
@@ -22,6 +23,11 @@
 	const transitionOut = { duration: 100 };
 	// $: currentPage.set(data.path);
   // $user = $page.data?.user || null
+
+  let plainUrl
+  if(browser && page) {
+    plainUrl = $page.data.plainUrl
+  }
 
 </script>
 
@@ -44,7 +50,7 @@
 <!-- all Head need to be in a layout group -->
 
 <svelte:head>
-  <script defer data-domain="{$page.data.plainUrl},rollup.blogalog.net" src="https://plausible.io/js/script.js"></script>
+  <script defer data-domain="{plainUrl},rollup.blogalog.net" src="https://plausible.io/js/script.js"></script>
 </svelte:head> 
 
 <Head />
@@ -62,6 +68,9 @@
       <slot />
     </main>
 
+    <!-- {#if $page.data.hideFooter !== true}
+      <Footer bind:clientHeight={heightOfFooter} content={$page.data.blog?.['site-data']?.['Footer']?.Content} />
+    {/if} -->
   </div>
 </div>
 
