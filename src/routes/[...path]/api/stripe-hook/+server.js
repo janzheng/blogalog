@@ -37,7 +37,7 @@ const stripe = Stripe(process.env.STRIPE_SK);
 async function handleStripeCompleted(session, request) {
 
   const email = session.customer_details.email
-  const paymentIntent = session.payment_intent || session.id 
+  const paymentIntent = session.payment_intent || session.id
   console.log('[handleStripeCompleted] Data:', email, request)
 
   if (!email || !paymentIntent) return false
@@ -116,5 +116,4 @@ export const POST = async (req) => {
   // return json({ sig, stripeEvent })
   return json({ received: true })
 }
-
 

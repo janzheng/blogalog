@@ -51,7 +51,7 @@ async function handleStripeCompleted(session, request) {
     }
   })
 
-  console.log(":::::::SEARING FOR:::::", email, page, request)
+  console.log(":::::::SEARCHING FOR:::::", email, page, request)
   let result = page.results[0]
   if (!result) return;
 
