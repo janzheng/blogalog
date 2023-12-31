@@ -12,7 +12,7 @@ import { getNotionImageLink } from '$lib/helpers.js'
 
 import { cachet } from '$plasmid/utils/cachet'
 import { parseMetadata } from '$lib/helpers.js'
-import { cacheClear } from "$plasmid/utils/cache.js";
+// import { cacheClear } from "$plasmid/utils/cache.js";
 
 
 
@@ -507,5 +507,6 @@ export const loadBlogalogFromPath = async ({
 
   // console.log('[cytosisData] object:', cytosis)
   // "cytosis" as a key is depreacted; use something more descriptive...
+  console.log('[loadBlogalogFromPath] done...')
   return { blog, cytosis: blog, head, blogalogPages, isBlogalogHome }
 }

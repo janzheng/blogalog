@@ -24,10 +24,7 @@ async function initContent(head, hostname) {
 
   // console.log('[[[[[ LAYOUT ]]]]] data/builderClubInit.js')
   // return builderClubInit;
-
-
-
-  console.log('[initContent] initializing:', PUBLIC_BLOGMODE)
+  console.log('[+layout.server/initContent] initializing:', PUBLIC_BLOGMODE)
   let blog, config, mode, blogalogPages
 
   if (PUBLIC_BLOGMODE == 'blogalog') {
@@ -59,7 +56,7 @@ async function initContent(head, hostname) {
 
 
 export const load = async ({ url, params, setHeaders, locals}) => {
-  console.log('>>>>>> +layout.sever.js / load')
+  console.log('<--- +layout.server.js / load --->')
   try {
     let hostname = url?.hostname
     
@@ -79,6 +76,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
     //   return await initContent(head)
     // }, { skipCache: true })
 
+    console.log('<!--- +layout.server.js / load --->')
     return {
       path: params?.path,
       pathSegments: params?.path?.split('/'),

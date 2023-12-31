@@ -28,98 +28,47 @@
   export let pageNumber = 1;
 
 
-  let tmp = `
-showContent: true
+  let tmp = `showContent: true
 loaders:
   itemList: true
 
-page:
-  'blogalog-page-custom-width': 720px
-
 itemList:
-  - Name: Dev Ed
-    Role: Content Creator
-    Text: Been using daisyUI for a while and I must say...such a fun addon for Tailwind CSS, well done 🔥
+  - Name: icon
     Image:
-      - url: https://daisyui.com/twitter-profile-pics/developedbyed-72.webp
-  - Name: Marc Lou
-    Role: Solopreneur
-    Text: If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it...
+      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087f58465a02b9fce34a4d_Coinbase.svg
+  - Name: icon
     Image:
-      - url: https://daisyui.com/twitter-profile-pics/marc_louvion-72.webp
-  - Name: Sara Vieira
-    Role: Developer at axo.dev
-    Text: It's great! Been using it in all my projects!
+      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087fa0de89a26d0c550eb0_Outreach.svg
+  - Name: icon
     Image:
-      - url: https://daisyui.com/twitter-profile-pics/NikkitaFTW-72.webp
-  - Name: Dev Ed
-    Role: Content Creator
-    Text: Been using daisyUI for a while and I must say...such a fun addon for Tailwind CSS, well done 🔥
+      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/6408766e50950b85856aac99_Duelingo.svg
+  - Name: icon
     Image:
-      - url: https://daisyui.com/twitter-profile-pics/developedbyed-72.webp
-  - Name: Marc Lou
-    Role: Solopreneur
-    Text: If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it... If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it... If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it...
+      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64215ec022b667d667c09d79_wealthsimple-min.svg
+  - Name: icon
     Image:
-      - url: https://daisyui.com/twitter-profile-pics/marc_louvion-72.webp
-  - Name: Sara Vieira
-    Role: Developer at axo.dev
-    Text: It's great! Been using it in all my projects!
+      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/6408766d2fda6969615b5d8a_Confluent.svg
+  - Name: icon
     Image:
-      - url: https://daisyui.com/twitter-profile-pics/NikkitaFTW-72.webp
-  - Name: Dev Ed
-    Role: Content Creator
-    Text: Been using daisyUI for a while and I must say...such a fun addon for Tailwind CSS, well done 🔥
+      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/6408766d7968d45d4785da9e_Greyhouse.svg
+  - Name: icon
     Image:
-      - url: https://daisyui.com/twitter-profile-pics/developedbyed-72.webp
-  - Name: Marc Lou
-    Role: Solopreneur
-    Text: If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it...
+      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087fb01004c5474e312705_Aurora.svg
+  - Name: icon
     Image:
-      - url: https://daisyui.com/twitter-profile-pics/marc_louvion-72.webp
-  - Name: Sara Vieira
-    Role: Developer at axo.dev
-    Text: It's great! Been using it in all my projects!
-    Image:
-      - url: https://daisyui.com/twitter-profile-pics/NikkitaFTW-72.webp
-  - Name: Dev Ed
-    Role: Content Creator
-    Text: Been using daisyUI for a while and I must say...such a fun addon for Tailwind CSS, well done 🔥
-    Image:
-      - url: https://daisyui.com/twitter-profile-pics/developedbyed-72.webp
-  - Name: Marc Lou
-    Role: Solopreneur
-    Text: If you want to build beautiful apps in no time, daisyUI is the way to go ✨ I've been using it for the past 6 months and can't imagine living without it...
-    Image:
-      - url: https://daisyui.com/twitter-profile-pics/marc_louvion-72.webp
-  - Name: Sara Vieira
-    Role: Developer at axo.dev
-    Text: It's great! Been using it in all my projects!
-    Image:
-      - url: https://daisyui.com/twitter-profile-pics/NikkitaFTW-72.webp
-
+      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087fbfde89a220f75510b6_Gainsight.svg
+      
 item:
   class: flex justify-center flex-col p-1
-  type: link
-  itemLink: URL
 
 order:
   - Image
-  - Name
-  - Role
-  - Text
 
 schema:
   Image:
     type: image
-    classContainer: float-left
-    class: max-h-32 object-cover ml-4 mt-4 mr-2 rounded-full object-cover
-  Name:
-    class: text-md font-bold pt-4 px-4 pt-2 mb-1
-  Role:
-    class: text-sm text-slate-800 px-4 mt-1 mb-1
-  Text:
-    class: text-sm p-4 clear-both
+    classContainer: flex justify-center flex-col
+    class: max-h-16
 
 row:
   wrapper:
@@ -130,21 +79,19 @@ row:
 
 component:
   class: headline
-  blocks:
-    class: content-custom-width
   list:
     container:
-      class: grid grid-cols-1 md:grid-cols-3 gap-2
+      class: grid grid-cols-2 md:grid-cols-4 gap-2
     item:
-      class: middle-child-shift border-2 border-transparent bg-white rounded-md ease-in-out hover:ease-in-out duration-300 overflow-hidden
+      class: border-2 border-transparent rounded-md cursor-pointer ease-in-out hover:ease-in-out duration-300 overflow-hidden
   content:
     class: text-center mb-4
   `
   import YAML from 'yaml'
 
-  if(page.Name == 'GridTest') {
+  if(page.Name == 'Grid 1') {
     // settings = YAML.parse(tmp)
-    console.log('gridItems - settings', settings)
+    // console.log('gridItems - settings', settings)
   }
 
 
