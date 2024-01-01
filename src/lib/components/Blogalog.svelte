@@ -136,7 +136,7 @@
     }
 
     if (browser && pageStyles) {
-      console.log('pagestyles docuelement:', pageStyles)
+      // this might cause FOUC for server-gen styles
       Object.entries(pageStyles).forEach(([key, value]) => {
         document.documentElement.style.setProperty(key, value);
       });
