@@ -18,7 +18,7 @@
           playsinline={settings?.video?.playsinline} 
           loop={settings?.video?.loop} 
           muted={settings?.video?.muted} 
-          controls={settings?.video?.controls} 
+          controls={settings?.video?.controls || true} 
           width={settings?.video?.width || "640"} 
           height={settings?.video?.height || "360"} 
           >

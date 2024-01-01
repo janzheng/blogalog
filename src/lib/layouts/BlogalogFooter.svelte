@@ -113,7 +113,7 @@
 </footer>
 
 <div class="Content-Blogalog | text-sm py-4 text-center mt-2 bg-slate-50">
-  Get your <a href="https://blogalog.net">own blog, CV, or lab page on Blogalog</a>
+  Get your <a href="https://blogalog.net"> very own website for your blog, CV, lab, or project.</a>
 </div>
 
 

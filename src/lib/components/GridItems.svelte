@@ -11,6 +11,7 @@
   // import { marked } from 'marked';
   // import { getNotionImageLink } from '$lib/helpers.js'
   import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import { fetchPost } from "$plasmid/utils/fetch-helpers";
   import Modal, {getModal} from '$lib/components/Modal.svelte';
   import GridItemRow from '$lib/components/GridItemRow.svelte';
@@ -170,7 +171,7 @@ component:
       // items = [items[0]]
 
       return {
-        items: items || [],
+        items: items || null,
       }
     } catch (e) {
       console.error('[getItems/result] — error', e, 'result:', result)
@@ -188,10 +189,11 @@ component:
 			if(response.ok) {
         result = await response.json()
 			}
+      console.log('DERRRRP?!', response.ok, result)
 		} catch(err) {
       console.error('[loadPage] error', err)
     }
-    return result.pageBlocks
+    return result?.pageBlocks
 	};
 
 
@@ -277,7 +279,7 @@ component:
         <div class="GridItems-loading-title h2 title {settings?.component?.loading?.class||' '}" style="padding-top:0"><Loader /> {settings?.loading || "Loading"}</div>
       </div>
     {:else}
-      {#if items && items.length > 0 && settings}
+      {#if items.length > 0 && settings}
         {#if settings?.items?.type == 'marquee'}
           <div class="GridItem-Marquee | {settings?.component?.marquee?.class}">
             <div class="relative overflow-x-hidden ">
@@ -305,6 +307,7 @@ component:
               <div class="Item | {settings?.item?.class || settings?.component?.item?.class || "p-4"} | {settings?.items?.[index]?.class||settings?.component?.items?.[index]?.class||''} | {(settings?.modal||settings?.component?.modal) || (settings?.item?.click||settings?.component?.item?.click) ? 'cursor-pointer' : ''}"
                 on:click={(e)=>handleItemClick(item, e)} 
                 on:keyup={(e)=>handleItemClick(item, e)}
+                role="button" tabindex=""
                 >
                 {#if settings.item?.type == 'link'}
                   <a class="GridItem-link" href="{item[settings.item?.itemLink]||item[settings.component?.item?.itemLink]}" target="_blank">
@@ -323,7 +326,7 @@ component:
                       <GridItemRow {item} {key} {itemKey} schema={settings?.modal?.schema} />
                     {/each}
                     {#if settings.modal.loadNotionPage}
-                      {#if pageBlocks && pageBlocks.length > 5}
+                      {#if pageBlocks && pageBlocks.length > 3 }
                         <Notion blocks={pageBlocks} />
                       {:else}
                         Loading content...
