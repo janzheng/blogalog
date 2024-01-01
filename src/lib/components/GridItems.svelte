@@ -181,7 +181,6 @@ component:
 	};
 
   const loadPage = async (id) => {
-    console.log('loadPage:::')
     let url = `/api/loadPage/`
     let response, result
 		try {
@@ -189,10 +188,11 @@ component:
 			if(response.ok) {
         result = await response.json()
 			}
-      console.log('DERRRRP?!', response.ok, result)
 		} catch(err) {
       console.error('[loadPage] error', err)
     }
+    pageBlocks = result?.pageBlocks
+    console.log('pageBlocks?!', pageBlocks)
     return result?.pageBlocks
 	};
 
@@ -224,7 +224,7 @@ component:
 
       if(settings.loadNotionPage || settings.modal.loadNotionPage) {
         pageBlocks = null;
-        pageBlocks = await loadPage(item.id);
+        await loadPage(item.id);
       }
 
     } else if (browser && settings.item?.click || settings.item?.type == 'click') {
