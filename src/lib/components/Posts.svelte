@@ -88,7 +88,7 @@
   import { niceDate } from '$plasmid/utils/date'
 
   export let posts;
-  export let settings;
+  // export let settings;
   export let pathBase = "/";
   export let PostItemClasses = "";
 

@@ -115,6 +115,10 @@ export function generatePageStyles(settingsPage) {
     return acc;
   }, {});
 
+  // object for document.documentElement.style.setProperty
+  return pageStyles;
+
+  // string for style={"..."}
   return Object.entries(pageStyles)
     .map(([key, value]) => `${key}: ${value}`)
     .join('; ');

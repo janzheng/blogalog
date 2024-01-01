@@ -24,7 +24,7 @@
   export let componentClasses = 'p-4 bg-slate-50'
   export let componentContainerClasses = ''
 
-  let settings = {};2
+  let settings = {};
   if(page?.YAML) {
     settings = YAML.parse(page?.YAML)
 
@@ -52,7 +52,6 @@
     const links = node.getElementsByTagName('a');
     if(settings?.list?.class) {
       for (let link of links) {
-        console.log(':::: link:', link, settings?.list?.class)
         const classes = settings?.list?.class?.split(' ').filter(Boolean); // filter out empty strings
         link?.classList?.add("link-custom", ...classes);
       }

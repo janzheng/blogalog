@@ -57,6 +57,9 @@ async function initContent(head, hostname) {
 
 
 export const load = async ({ url, params, setHeaders, locals}) => {
+  // return {}
+
+
   console.log('<--- +layout.server.js / load --->')
   try {
     let hostname = url?.hostname

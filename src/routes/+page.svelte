@@ -3,10 +3,12 @@
   e.g.  https://jess.bio
         https://blogalog.net // localhost:3055 - catch-all landing page
 -->
-<div class="Root">
+{#if browser}
+<div class="Root | ">
   <!-- main profile page, e.g. jessbio or blogalog.net -->
   <Blogalog isHomepage={true} {page} />
 </div>
+{/if}
 
 
 
@@ -19,6 +21,7 @@
   import { marked } from 'marked'
 	// import { onMount } from 'svelte';
   import { page } from '$app/stores'
+  import { dev, browser } from '$app/environment'; 
 
   import Blogalog from '$lib/components/Blogalog.svelte';
 

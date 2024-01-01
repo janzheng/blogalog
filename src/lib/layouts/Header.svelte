@@ -15,11 +15,11 @@
 	// import Mobile from '$lib/components/shared/MenuMobile.svelte';
   
 
-	onMount(async () => {
-		if (browser) {
-			await import("tw-elements");
-		}
-	})	
+	// onMount(async () => {
+	// 	if (browser) {
+	// 		await import("tw-elements");
+	// 	}
+	// })	
 
   // export let isMobileNavOpen = false
 </script>

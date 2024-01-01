@@ -12,10 +12,16 @@
 
   import Head from '$lib/components/shared/Head.svelte'
 	// import Footer from '$lib/layouts/BlogalogFooter.svelte';
+
+
 	import '$src/app.scss'
-  import '@fontsource/inter';
+  // import '@fontsource/inter';
+  import '@fontsource/inter/400.css';
   import '@fontsource/inter/600.css';
   import '@fontsource/inter/700.css';
+
+  // does this work over tw safelist? which one's smaller + faster?
+  import twcdn from '$lib/twcdn';
   
 
   // export let data;
@@ -57,7 +63,7 @@
 
 <div id="layout" class="layout"
   >
-  <div class="ContentContainer |">
+  <div class="ContentContainer | ">
     <main
       class="ContentBody"
       id="main"
@@ -74,8 +80,8 @@
   </div>
 </div>
 
-
 <style lang="scss" global>
+  // @import '../app';
 
   // .ContentBody {
   //   min-height: calc(100vh - 250px);

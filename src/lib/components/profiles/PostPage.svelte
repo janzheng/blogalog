@@ -28,7 +28,7 @@
 
   <!-- BACK LINK -->
   <div class="ProfileStack | ">
-    <a sveltekit:prefetch href="{blogPath}" style="" class="flex items-center">
+    <a href="{blogPath}" style="" class="flex items-center">
       {#if profileImage}
         <div class="ProfileImage |">
           <img class="w-16 h-16 | inline-block | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />

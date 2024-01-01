@@ -71,14 +71,14 @@
     { 
       (pageType=='profile' && (settings?.footer?.container?.class || 'content-notion-wide | py-4')) ||
       (pageType=='component' && (settings?.footer?.container?.component?.class || 'content-post-width | py-4')) ||
-      (pageType=='post' && (settings?.footer?.container?.post?.class || 'content-post-width | py-4')) ||
-      defaultContainerClass
+      (pageType=='post' && (settings?.footer?.container?.post?.class || 'content-post-width | py-4'))
     }
     {settings?.footer?.container?.sideBySide && 'footer-sidebyside notion-row-columnflex notion-sturdy-columnheaders'} 
     "
   >
     <!-- this is usually on the LEFT side of the Content Blocks / massive links list -->
-    <div class="Component-Footer-Content-Container | {settings?.footer?.contentContainer?.class||'pfix'} ">
+    <!-- this is normally flush to the block containers; on xs, add padding to align to text -->
+    <div class="Component-Footer-Content-Container | {settings?.footer?.contentContainer?.class||'pfix pl-2 md:pl-0'} ">
       {#if content}
         <div class="Component-Footer-Content | {settings?.footer?.content?.class||'my-2'}">
           {@html marked(content)}

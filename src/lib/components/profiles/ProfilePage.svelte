@@ -7,9 +7,6 @@
 
 
 
-
-
-
 {#if !blog}
   <div class="Profile-NotFound | content-notion-wide | mt-24 rounded-sm overflow-hidden text-center">
     <h1>Blog not found!</h1>
@@ -151,8 +148,6 @@
 
 
 
-
-
 <script>
   import YAML from 'yaml'
   import { browser, dev } from '$app/environment';
@@ -164,8 +159,8 @@
   import { userData } from '$lib/stores.js'
   // import { plainRenderer } from '$plasmid/utils/marked';
   
-  // import Notion from '@yawnxyz/sveltekit-notion';
-  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import RenderComponent from '$lib/components/RenderComponent.svelte';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
   // import Login from '$lib/components/forms/Login.svelte';
@@ -244,8 +239,8 @@
   // set profile styles
   
   let profileClass = blogData.settings?.profile || {}
-  if(browser && profileClass) {
-    profileClass.header = profileClass.headerClass                             || 'content-notion-wide | mt-0 md:mt-2 lg:mt-4 mb-2 rounded-sm overflow-hidden';
+  if(profileClass) {
+    profileClass.header = profileClass.headerClass                          || 'content-notion-wide | mt-0 md:mt-2 lg:mt-4 mb-2 rounded-sm overflow-hidden';
     profileClass.coverContainer = profileClass.coverContainer               || 'min-h-[4rem] overflow-hidden';
     profileClass.coverImage = profileClass.coverImage                       || 'w-full object-left-top object-contain';
     profileClass.profileImageContainer = profileClass.profileImageContainer || 'relative bg-slate-50';

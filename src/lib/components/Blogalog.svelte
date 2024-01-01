@@ -11,7 +11,7 @@
 
   
 <div class="Blogalog-Container"
-  style="{pageStyles}; {heightOfFooter ? `min-height: calc(100vh - ${heightOfFooter + 20}px);` : ''}"
+  style="{heightOfFooter ? `min-height: calc(100vh - ${heightOfFooter + 20}px);` : ''}"
   id="main"
   tabindex="-1"
   >
@@ -54,7 +54,7 @@
 
   import { setContext } from 'svelte';
   import { marked } from 'marked'
-	// import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
   import { dev, browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
   import { getNotionImageLink, generatePageStyles } from '$lib/helpers.js'
@@ -72,12 +72,11 @@
   export let page;
   // import { page } from '$app/stores'
 
-  export let blogData = {}
   export let isHomepage = $page?.data?.isBlogalogHome;
 
   // reminder: this is by itself NOT REACTIVE, which will speed up some pages
   // to make it reactive, use the passthru $page prop
-  blogData = {
+  export let blogData = {
     page,
     head: $page.data?.head,
     data: $page.data,
@@ -125,20 +124,22 @@
 // `
   settings = blogData.blog?.['site-data']?.Settings?.['YAML'];
   
-  let pageStyles = {};
+  let pageStyles = '';
   if (settings) {
 
     // settings.cssVars — css variables are set into the document itself
     settings = YAML.parse(settings);
-    if (settings?.cssVars) {
-      Object.entries(settings.css).forEach(([key, value]) => {
-        document.documentElement.style.setProperty(key, value);
-      });
-    }
 
     // settings.page — page display settings
     if(settings && settings.page) {
       pageStyles = generatePageStyles(settings.page);
+    }
+
+    if (browser && pageStyles) {
+      console.log('pagestyles docuelement:', pageStyles)
+      Object.entries(pageStyles).forEach(([key, value]) => {
+        document.documentElement.style.setProperty(key, value);
+      });
     }
 
     blogData['settings'] = settings // <---- most components will use this 
@@ -149,6 +150,17 @@
   $: if(dev && browser) console.log('[dev][blogalog.svelte] blogData:', blogData)
 
   let heightOfFooter
+
+
+  // onMount(() => {
+    // if (pageStyles) {
+    //   Object.entries(pageStyles).forEach(([key, value]) => {
+    //     document.documentElement.style.setProperty(key, value);
+    //   });
+    // }
+  // });
+
+
 
 </script>
 
