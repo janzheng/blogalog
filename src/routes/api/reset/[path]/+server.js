@@ -8,7 +8,7 @@ import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
 import { cacheClear } from "$plasmid/utils/cache.js";
 
 import { PUBLIC_PROJECT_NAME, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
-import { resetBlog, reloadBlog } from '$lib/server-helpers';
+import { deleteBlogCache, reloadBlog } from '$lib/server-helpers';
 
 
 export async function GET({ url, params }) {
@@ -22,7 +22,7 @@ export async function GET({ url, params }) {
     cacheClear();
 
     let slug = `${PUBLIC_PROJECT_NAME}-${path}`
-    await resetBlog(slug);
+    await deleteBlogCache(slug);
     
     return json({
       status: true,

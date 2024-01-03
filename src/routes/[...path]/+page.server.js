@@ -18,7 +18,7 @@ const schema = z.object({
 
 
 
-export const load = async (settings) => {
+export const load = async (params) => {
   // console.log('>>>>>> [...path]/+page.sever.js / load')
   console.log('<--- [path].page.server.js / load --->')
   try {
@@ -29,8 +29,8 @@ export const load = async (settings) => {
 
   
     // let hostname = settings.url?.hostname
-    let path = settings.params.path, subPath;
-    let pathSegments = settings.params.path.split('/')
+    let path = params.params.path, subPath;
+    let pathSegments = params.params.path.split('/')
     let head, blog, isBlogalogHome, blogalogPages;
     let pageContent
 
@@ -43,7 +43,7 @@ export const load = async (settings) => {
     let freshBlogalog
 
     // is it a sub blog we've already loaded? Get this from layout.server (blocking / waterfall intentional)
-    let parentData = await settings.parent()
+    let parentData = await params.parent()
     if (parentData) {
       head = parentData?.head
       blog = parentData?.blog
@@ -90,19 +90,19 @@ export const load = async (settings) => {
       subPath,
       pathSegments,
       form,
+      srcLayout: false, // for tracking/provenance
+      srcPathed: true, // for tracking/provenance
     }
-    // if(blog) obj['cytosis'] = blog;
     if (blog) obj['blog'] = blog;
-    if(isBlogalogHome) obj['isBlogalogHome'] = isBlogalogHome;
-    if(head) obj['head'] = head;
-    if(pageContent) obj['pageContent'] = pageContent;
+    if (isBlogalogHome) obj['isBlogalogHome'] = isBlogalogHome;
+    if (head) obj['head'] = head;
+    if (pageContent) obj['pageContent'] = pageContent;
 
     if(!pageContent) {
       // console.error('[path/page] Page Content not Found!', JSON.stringify(cytosis, 0, 2))
       console.error('[path/page] Page Content not Found!')
       throw error(404, 'Page Not Found');
     }
-
 
     console.log('<!--- [path].page.server.js / load --->')
     return obj;

@@ -15,10 +15,10 @@
 
   export let pageType = 'profile'; // profile, component, post
   let blogData = getContext('blogData');
-  let email = blogData.blog?.['site-data']?.Email?.['Content'];
-  let socialLinks = blogData.blog?.['site-data']?.SocialLinks?.['Content'];
-  let content = blogData.blog?.['site-data']?.['Footer']?.Content;
-  let pageBlocks = blogData.blog?.['site-data']?.['Footer']?.pageBlocks;
+  let email = blogData?.blog?.['site-data']?.Email?.['Content'];
+  let socialLinks = blogData?.blog?.['site-data']?.SocialLinks?.['Content'];
+  let content = blogData?.blog?.['site-data']?.['Footer']?.Content;
+  let pageBlocks = blogData?.blog?.['site-data']?.['Footer']?.pageBlocks;
 
 //   let tmp = `
 // page:
@@ -49,12 +49,12 @@
 //       markdown: "[Terms](https://google.com) &emsp; [Privacy](https://google.com)"
 //       `
 
-  let settings = blogData.settings
+  let settings = blogData?.settings
   let pageStyles
-  if (blogData.blog?.['site-data']?.['Footer']?.YAML) {
-    settings = YAML.parse(blogData.blog?.['site-data']?.['Footer']?.YAML)
+  if (blogData?.blog?.['site-data']?.['Footer']?.YAML) {
+    settings = YAML.parse(blogData?.blog?.['site-data']?.['Footer']?.YAML)
     // settings = YAML.parse(tmp)
-    pageStyles = generatePageStyles(settings.page) || null
+    pageStyles = generatePageStyles(settings.page, {type:'string'}) || null
   }
 
   export let clientHeight;
@@ -93,7 +93,7 @@
     </div>
 
     <!-- usually rendered as a massive links list -->
-    {#if pageBlocks && pageBlocks.length > 5}
+    {#if pageBlocks }
       <div class="Component-Footer-Blocks  {settings?.footer?.blocks?.class||''}">
         <Notion blocks={pageBlocks} />
       </div>

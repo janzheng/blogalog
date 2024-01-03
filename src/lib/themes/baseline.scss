@@ -13,10 +13,6 @@
   --column-width: 42rem;
   --column-margin-top: 4rem;
 
-  --color-janzheng: #971f1f; // dark red
-  --color-evergreen: #dbf4e9;
-
-
   // this sets the page width of all blogalog
   --blogalog-page-width: 79ch; // comfiest ch width, roughly 770px
   --blogalog-page-custom-width: 77ch;
@@ -34,6 +30,21 @@
   --color-primary-ring: #dbeafe;
   --color-primary-ring-active: #60a5fa;
   --color-primary-text: white;
+
+  --color-primary: #3b82f6; /* blue-600 */
+  --color-primary-hover: #1d4ed8;/* blue-700 */
+  --color-primary-active: #1e40af; /* blue-800 */
+  --color-primary-white: #eff6ff; /* blue-50 */
+  --color-primary-light: #dbeafe; /* blue-800 */
+  --color-primary-dark: #1e40af; /* blue-800 */
+  --color-primary-active: #1e40af; /* blue-800 */
+  --color-primary-ring: #dbeafe;/* blue-100 */
+  --color-primary-ring-active: #60a5fa; /* blue-400 */
+  --color-primary-text: white;
+  --slideup-distance: 60px;
+  --slideup-duration: 0.3s;
+  --font-title: 'Inter', -apple-system, sans-serif;
+  --font-paragraph: 'Inter', -apple-system, sans-serif;
 
 
   font-size: 1rem; // make base font slightly larger for everything

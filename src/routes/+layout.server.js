@@ -81,7 +81,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
     // }, { skipCache: true })
 
     console.log('<!--- +layout.server.js / load --->')
-    return {
+    let returnObj = {
       path: params?.path,
       pathSegments: params?.path?.split('/'),
       hostname, 
@@ -89,7 +89,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
       plainUrl: removePrefixFromHostname(url),
       
       head: head,
-      seo: PUBLIC_BLOGMODE == "janzheng" && seo, // need to generalize this more
+      // seo: PUBLIC_BLOGMODE == "janzheng" && seo, // need to generalize this more
       user: locals?.user,
       // cytosis: blog, // testing all
       blog: blog, // testing all
@@ -106,7 +106,8 @@ export const load = async ({ url, params, setHeaders, locals}) => {
       //     return await initContent(head)
       //   }, { skipCache: true })
       // }
-    }
+    };
+    return returnObj;
   }
   catch (err) {
     console.error(err)

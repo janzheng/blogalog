@@ -58,9 +58,35 @@ $tabsize: 1.3rem;
 /* 
   Reused, compartmentalized styles
 */
+
+$fontSans: 'Inter', sans-serif;
+
+.postHeaders {
+  h1 {
+    @apply leading-tight text-4xl lg:leading-tight mb-4 font-extrabold tracking-tight;
+    font-family: var(--font-title, $fontSans)
+  }
+  
+  h2 {
+    @apply leading-tight text-3xl mb-2 font-semibold tracking-tight;
+    font-family: var(--font-title, $fontSans)
+  }
+
+  h3 {
+    @apply text-2xl font-semibold tracking-tight leading-12 mb-2 text-slate-800;
+    font-family: var(--font-title, $fontSans)
+  }
+
+  h4 {
+    @apply text-xl font-semibold mb-2;
+    font-family: var(--font-title, $fontSans)
+  }
+}
+
+
 @mixin notionStyles {
   .notion {
-    font-family: Inter, sans-serif !important;
+    font-family: var(--font-title, $fontSans) !important;
     color: var(--color-base);
     ol > li { list-style-type: decimal; }
     ul > li { list-style-type: disc; }
@@ -157,21 +183,25 @@ $tabsize: 1.3rem;
     h1 {
       margin-top: 1rem;
       padding-top: 1rem;
+      font-family: var(--font-title, $fontSans);
     }
 
     h2 {
       margin-top: 1rem;
       // padding-top: 1rem;
+      font-family: var(--font-title, $fontSans);
     }
 
     h3 {
       margin-top: 1rem;
       // padding-top: 1rem;
+      font-family: var(--font-title, $fontSans);
     }
 
     h4 {
       // margin-top: 1rem;
       // padding-top: 1rem;
+      font-family: var(--font-title, $fontSans);
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -183,9 +213,9 @@ $tabsize: 1.3rem;
 }
 
 @mixin postStyles {
-  .Posts {
-    .Post-name { @apply text-xl; }
-  }
+  // .Posts {
+  //   .Post-name { @apply text-xl; }
+  // }
 
   .Profile, .Layout {
     // set notion page width to default blogalog page width
@@ -197,23 +227,7 @@ $tabsize: 1.3rem;
     @apply relative container mx-auto w-full h-full;
     max-width: var(--blogalog-post-width);
     
-
-    h1 {
-      @apply font-sans leading-tight text-4xl lg:leading-tight mb-4 font-extrabold tracking-tight;
-    }
-    
-    h2 {
-      @apply font-sans leading-tight text-3xl mb-2 font-semibold tracking-tight;
-    }
-  
-    h3 {
-      @apply font-sans text-2xl font-semibold tracking-tight leading-12 mb-2 text-slate-800;
-    }
-  
-    h4 {
-      @apply text-xl font-semibold mb-2;
-    }
-
+    @extend .postheaders !optional;
   }
 
   .PagePath .notion-page {
@@ -227,14 +241,15 @@ $tabsize: 1.3rem;
 
   .headline {
     h1 {
-      @apply font-sans leading-none tracking-tighter text-5xl mb-4 font-bold;
+      @apply leading-none tracking-tighter text-5xl mb-4 font-bold;
       color: var(--color-title, var(--color-base));
+      font-family: var(--font-title, $fontSans);
     }
   
     h2 {
-      // @apply font-sans text-2xl leading-12 pb-6 ;
-      @apply font-sans leading-none tracking-tighter text-4xl mb-4 font-bold;
+      @apply leading-none tracking-tighter text-4xl mb-4 font-bold;
       color: var(--color-title, var(--color-base));
+      font-family: var(--font-title, $fontSans);
   
       &.--extra {
         @apply text-4xl mb-2 tracking-tight;
@@ -246,28 +261,33 @@ $tabsize: 1.3rem;
     }
   
     h3 {
-      @apply font-sans text-3xl tracking-tight leading-12 mb-2 text-slate-800;
+      @apply text-3xl tracking-tight leading-12 mb-2 text-slate-800;
       color: var(--color-title, var(--color-base));
+      font-family: var(--font-title, $fontSans);
     }
   
     h4 {
       @apply text-xl mb-2;
       color: var(--color-title, var(--color-base));
+      font-family: var(--font-title, $fontSans);
     }
   
     h5 {
-      @apply font-sans leading-snug text-xs uppercase tracking-widest mb-2 text-slate-500;
+      @apply leading-snug text-xs uppercase tracking-widest mb-2 text-slate-500;
       color: var(--color-title, var(--color-base));
+      font-family: var(--font-title, $fontSans);
     }
   
     h6 {
       @apply text-xs tracking-wide uppercase mb-2;
       color: var(--color-title, var(--color-base));
+      font-family: var(--font-title, $fontSans);
     }
 
     p {
-      @apply text-xl tracking-tight font-sans mb-2;
+      @apply text-xl tracking-tight mb-2;
       color: var(--color-base);
+      font-family: var(--font-paragraph);
     }
   }
 
@@ -297,7 +317,10 @@ $tabsize: 1.3rem;
 
   p {
     @apply pb-4 mt-0 pt-0;
+  }
+  div, p, ul, ol, blockquote, article, section, main, aside, figcaption {
     color: var(--color-base);
+    @extend .font-paragraph;
   }
 
   .title {
@@ -364,22 +387,12 @@ $tabsize: 1.3rem;
     }
   }
 
+
   /* 
 
     interactive styles; might need to break out for more flexible styles / templates
   
   */
-  --color-primary: #3b82f6; /* blue-600 */
-  --color-primary-hover: #1d4ed8;/* blue-700 */
-  --color-primary-active: #1e40af; /* blue-800 */
-  --color-primary-white: #eff6ff; /* blue-50 */
-  --color-primary-light: #dbeafe; /* blue-800 */
-  --color-primary-dark: #1e40af; /* blue-800 */
-  --color-primary-active: #1e40af; /* blue-800 */
-  --color-primary-ring: #dbeafe;/* blue-100 */
-  --color-primary-ring-active: #60a5fa; /* blue-400 */
-  --color-primary-text: white;
-
   .Btn-solid {
     @apply bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-[var(--color-primary-text)] border-[var(--color-primary)] hover:border-[var(--color-primary-hover)];
   }
@@ -403,16 +416,24 @@ $tabsize: 1.3rem;
     }
   }
 
+  .font-title {
+    &, & > p {
+      font-family: var(--font-title);
+    }
+  }
+  .font-paragraph {
+    font-family: var(--font-paragraph);
+  }
+
   // 
   // 
 
   h1, .h1 {
-    @apply font-sans leading-tight text-3xl lg:leading-tight mb-4 font-bold;
+    @apply leading-tight text-3xl lg:leading-tight mb-4 font-bold;
     color: var(--color-title, var(--color-base));
   }
   h2, .h2 {
-    // @apply font-sans text-2xl leading-12 pb-6 ;
-    @apply font-sans leading-tight text-2xl mb-2 font-bold;
+    @apply leading-tight text-2xl mb-2 font-bold;
     color: var(--color-title, var(--color-base));
     &.--extra {
       @apply text-4xl mb-2 tracking-tight;
@@ -420,7 +441,7 @@ $tabsize: 1.3rem;
     &+h3 {padding-top: 0;}
   }
   h3, .h3 {
-    @apply font-sans text-xl leading-12 mb-2 text-slate-800;
+    @apply text-xl leading-12 mb-2 text-slate-800;
     color: var(--color-title, var(--color-base));
   }
   h4, .h4 {
@@ -428,7 +449,7 @@ $tabsize: 1.3rem;
     color: var(--color-title, var(--color-base));
   }
   h5, .h5 {
-    @apply font-sans leading-snug text-xs uppercase tracking-widest mb-2 text-slate-500;
+    @apply leading-snug text-xs uppercase tracking-widest mb-2 text-slate-500;
     color: var(--color-title, var(--color-base));
   }
   h6 {

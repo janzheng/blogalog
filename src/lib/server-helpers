@@ -1,14 +1,15 @@
 
 // only call these from the server!
 
+import { cachet } from '$plasmid/utils/cachet'
 import { cacheClear } from "$plasmid/utils/cache.js";
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
-import { PUBLIC_PROJECT_NAME, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
+import { PUBLIC_ENDOCYTOSIS_URL, PUBLIC_FUZZYKEY_URL, PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_CACHET_TTL } from '$env/static/public';
 
 
 // this just deletes the cache; doesn't reload
 // most likely you'll want to use reload instead!
-export async function resetBlog(key) {
+export async function deleteBlogCache(key) {
   // don't forget to add project-name before the key (in the calling function!)
   cacheClear(key)
   const url = `${PUBLIC_FUZZYKEY_URL}/?key=${key}`;
@@ -23,13 +24,15 @@ export async function resetBlog(key) {
 
 // just call endloader directly here; skip blogalogloader
 // we don't wait for data; this is meant to fire off the loader on CF separately
-export async function reloadBlog(blog) {
+export async function reloadBlog(slug, pageDataId) {
+  // console.log('????', `${PUBLIC_PROJECT_NAME}-${slug}`, pageDataId)
   let endoloader_config = {
     "sources": [
       {
         "name": "site-pagedata",
         "type": "cfnotion",
-        "path": `/collection/${blog['Pagedata ID']||blog}`,
+        "path": `/collection/${pageDataId}`,
+        // "path": `/collection/${slug}`,
         "loaders": {
           "notionPageId": "id"
         },
@@ -39,13 +42,29 @@ export async function reloadBlog(blog) {
 
   // no async; just let the server do its job; will finish in about 30s
   // let data = await endoloader(endoloader_config, {
-  endoloader(endoloader_config, {
-    key: `${PUBLIC_PROJECT_NAME}-${blog['Slug']}`,
-    url: PUBLIC_ENDOCYTOSIS_URL,
-  })
+  let data = await cachet(`${PUBLIC_PROJECT_NAME}-${slug}`, async () => {
+    // console.log('[blogalog] Loading Endo:', `${PUBLIC_PROJECT_NAME}-${slug}`)
+    let data = await endoloader(endoloader_config, {
+      key: `${PUBLIC_PROJECT_NAME}-${slug}`,
+      url: PUBLIC_ENDOCYTOSIS_URL,
+      saveCache: false, // handled by cachet
+    })
+    return data
+  },
+    {
+      // skipCache: true,
+      // setFuzzy: false,
+      ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
+      ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+      bgFn: () => {
+        // cacheClear(`${PUBLIC_PROJECT_NAME}-${slug}`)÷
+        // console.log('[blogalog] << Reloading Endo >> ', `${PUBLIC_PROJECT_NAME}-${slug}`)
+        endoloader(endoloader_config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-${slug}` });
+      }
+    })
   // return data
 
-  console.log('[api/reload]: reloaded 👍', blog['Slug'])
+  console.log('[api/reload]: reloaded 👍', slug, data)
   return true
 }
 

@@ -14,7 +14,7 @@ import { loadBlogalogFromPath } from '$lib/blogalog'
 import { cacheClear } from "$plasmid/utils/cache.js";
 
 import { PUBLIC_PROJECT_NAME, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
-import { resetBlog, reloadBlog } from '$lib/server-helpers';
+import { deleteBlogCache, reloadBlog } from '$lib/server-helpers';
 
 
 export async function GET({ url }) {
@@ -39,7 +39,7 @@ export async function GET({ url }) {
     if(blogalogPages && blogalogPages.length > 0) {
       blogList = await Promise.all(blogalogPages.map(async blog => {
         let slug = `${PUBLIC_PROJECT_NAME}-${blog.Slug}`
-        await resetBlog(slug);
+        await deleteBlogCache(slug);
         return slug;
       }));
     }

@@ -16,18 +16,18 @@
 
 
 <svelte:head>
-  {#if blogData.pageContent}
-    <title>{marked(blogData.pageContent?.Name || '', {renderer: plainRenderer()})}</title>
+  {#if currentPost}
+    <title>{marked(currentPost?.Name || '', {renderer: plainRenderer()})}</title>
   {/if}
-  {#if blogData.pageContent['Type'] == 'Component'} 
-    <title>{blogData.head.title}</title>
+  {#if currentPost?.['Type'] == 'Component'} 
+    <title>{blogData?.head.title}</title>
   {/if}
 </svelte:head>
 
 <div class="PagePath PageContent | mb-16">
 
   <!-- BACK LINK -->
-  <div class="ProfileStack | ">
+  <div class="ProfileStack | mb-16">
     <a href="{blogPath}" style="" class="flex items-center">
       {#if profileImage}
         <div class="ProfileImage |">
@@ -43,26 +43,26 @@
     </div>
   {/if}
 
-  {#if blogData.pageContent?.Date}
-    <div class="PageContent-Date mb-1 pt-16">{niceDate(blogData.pageContent?.Date.start_date)}</div>
+  {#if currentPost?.Date}
+    <div class="PageContent-Date mb-1 mt-16">{niceDate(currentPost?.Date.start_date)}</div>
   {/if}
 
-  {#if blogData.pageContent?.Name}
-    <h1 class="PageContent-Name mb-0 pfix" style="padding-top: 0; padding-bottom: 0;">{@html marked(blogData.pageContent?.Name || '')}</h1>
+  {#if currentPost?.Name}
+    <h1 class="PageContent-Name mb-0 pfix" style="padding-top: 0; padding-bottom: 0;">{@html marked(currentPost?.Name || '')}</h1>
   {/if}
 
 
-  {#if blogData.pageContent?.Content}
-    <div class="PageContent-Content text-xl">{blogData.pageContent?.Content}</div>
+  {#if currentPost?.Content}
+    <div class="PageContent-Content text-xl">{currentPost?.Content}</div>
   {/if}
 
-  {#if blogData.pageContent?.Link}
-    <div class="PageContent-Link my-4">Project Link: <a href="{blogData.pageContent?.Link}">{blogData.pageContent?.Link}</a></div>
+  {#if currentPost?.Link}
+    <div class="PageContent-Link my-4">Project Link: <a href="{currentPost?.Link}">{currentPost?.Link}</a></div>
   {/if}
   
-  {#if blogData.pageContent?.pageBlocks}
+  {#if currentPost?.pageBlocks}
     <div class="PageContent-Blocks post | my-4">
-      <Notion classes="notion" loud={true} blocks={blogData.pageContent?.pageBlocks} ></Notion>
+      <Notion classes="notion" loud={true} blocks={currentPost?.pageBlocks} ></Notion>
     </div>
   {/if} 
 
@@ -156,6 +156,7 @@
   import { PUBLIC_BLOGMODE } from '$env/static/public';
   import { getNotionImageLink } from '$lib/helpers.js'
   import { niceDate } from '$plasmid/utils/date'
+  import { page } from '$app/stores';
 
   import Notion from '@yawnxyz/sveltekit-notion'
   // import Notion from '@yawnxyz/sveltekit-notion/src/Notion.svelte'
@@ -171,52 +172,38 @@
 
   import { getContext } from 'svelte';
 
-  let blogPath, blog, pageContent, profileImage, author, pageCover
-  let blogData = getContext('blogData');
+  let blog, profileImage, author, pageCover
+  let blogData = getContext('blogData'); // blogData will have slightly out of date content like path
+
+  // Check if the pathSegments length is greater than 1, if so, use the second element as the postPath
+  // This ensures that the postPath is updated correctly when navigating to a new blog page
+  // let blogPath = blogData.pathSegments?.length > 1 ? `/${blogData.pathSegments[1]}` : blogData.path; // /yawnxyz
+  let blogPath = blogData?.blogPath; // /yawnxyz
+  export let postPath; // this is from fresh page.server.js path data + content, not from getContext / yawnxyz/blog
 
   let showSectionPosts = true
 
-  blogPath = blogData?.pathSegments?.length>1 ? `/${blogData?.pathSegments[0]}` : "/"
-  blog = blogData.blog; // await streamed blog, and set it here
-  pageContent = blogData.pageContent
+  blog = blogData?.blog; // await streamed blog, and set it here
+  let currentPost = blog?.['site-pages'].find(item => item.Path === postPath)
   profileImage = getNotionImageLink(blog?.['site-data']?.['ProfileImage'])
-  pageCover = getNotionImageLink(pageContent) || pageContent?.['Cover']
+  pageCover = getNotionImageLink(currentPost) || currentPost?.['Cover']
   author = blog?.['site-data'].Author?.['Content'];
-  if (dev && browser) console.log('[dev][path] PostPage blogData: ', blogData, pageContent)
+  if (dev && browser) console.log('[dev][path] PostPage blogData: ', blogData, currentPost)
 
-  let sectionPosts = blog['site-pages'].map(item => {
-    if(!item.Section || !pageContent.Section) return null
-
-    if(item.Section === pageContent.Section) {
-      console.log(pageContent.Section, '**---> ??!', item, item.Section); 
+  let sectionPosts = blog?.['site-pages'].map(item => {
+    if(!item?.Section || !currentPost?.Section) return null
+    if(item?.Section === currentPost?.Section) {
       return item;
     }
   }).filter(item => item && item.Hide != true)
-  let sectionName = pageContent.Section
-  let currentPostIndex = sectionPosts.findIndex(item => item.Path === blogData.path)
-  let prevPost = sectionPosts[currentPostIndex-1];
-  let nextPost = sectionPosts[currentPostIndex+1];
-  console.log('sectionPages??', sectionPosts, prevPost, nextPost);
+  let sectionName = currentPost?.Section
+  let currentPostIndex = sectionPosts?.findIndex(item => item.Path === postPath)
+  let prevPost = sectionPosts?.[currentPostIndex-1];
+  let nextPost = sectionPosts?.[currentPostIndex+1];
+  // console.log('123 &*&*&*&&*&** sectionPages / blogData', blog['site-pages'], sectionPosts, prevPost, nextPost);
 
 
   // needs to catch both /base/project/post vs. /project/post and go one step up
-  
-  // $: pageContent = blogData.blog?.['site-pages'].find(item => item.Path === blogData.path || item.Path === blogData.pathSegments?.[blogData.pathSegments?.length -1]);
-  // if(blogData.pageContent) pageContent = blogData.pageContent
-
-
-
-  // if(browser) {
-      // console.log('blog path DATA?!?!!??!:', data, pageContent)
-  //   (async () => {
-  //     blog = await blogData.streamed?.blog
-  //     console.log('----> blog:', blog)
-  //   })()
-  // }
-
-  // $: if(browser && blogData.streamed?.blog) {
-  //   console.log('streamed.blog:', blogData.streamed?.blog)
-  // }
 
 </script>
 

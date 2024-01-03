@@ -56,7 +56,7 @@
   export let blocks = [];
   export let settings = null;
   export let fullPage = false;
-  export let api, doExternalRequest;
+  export let api = null, doExternalRequest = null;
 
   // $: console.log('rendering block:', block, block.type)
 

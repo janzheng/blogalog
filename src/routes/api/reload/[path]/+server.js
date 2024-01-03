@@ -10,28 +10,41 @@ import { cachedjson, errorjson } from '$plasmid/utils/sveltekit-helpers'
 import { cacheClear } from "$plasmid/utils/cache.js";
 
 import { PUBLIC_PROJECT_NAME, PUBLIC_ENDOCYTOSIS_URL, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
-import { resetBlog, reloadBlog } from '$lib/server-helpers';
+import { deleteBlogCache, reloadBlog } from '$lib/server-helpers';
 
 
 export async function GET({ url, params }) {
   try {
     let path = params.path;
+    let pageDataId = url.searchParams.get('pageDataId');
+    console.log("PATH::::", path, pageDataId)
     let hostname = url?.hostname;
 
-    console.log('[api/reset] path:', path)
+    let slug = `${PUBLIC_PROJECT_NAME}-${path}`
+
+    let oldData = await fetch(`${PUBLIC_FUZZYKEY_URL}/?key=${slug}&metadata=true`);
+    let oldDataJson
+    try {
+      oldDataJson = await oldData.json();
+      // console.log('[api/reset] path:', path, oldDataJson)
+    } catch(e) {
+      console.error('[api/reset] error', e)
+      // return errorjson(e)a
+    }
 
     // clear local cache!
     cacheClear();
 
-    let slug = `${PUBLIC_PROJECT_NAME}-${path}`
-    await resetBlog(slug);
+    console.log('resetting blog', slug)
+    await deleteBlogCache(slug);
 
     // send off w/o waiting
-    await reloadBlog(path);
+    reloadBlog(path, pageDataId);
     
     return json({
       status: true,
-      slug,
+      path,
+      created: oldDataJson?.metadata?.created
     })
   } catch(e) {
     console.error('[api/reset] error', e)

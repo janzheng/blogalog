@@ -1,21 +1,20 @@
 
 <svelte:head>
-  {#if blogData.head}
-    <title>{blogData.head?.title || 'Blog not found!'}</title>
+  {#if blogData?.head}
+    <title>{blogData?.head?.title || 'Page not found!'}</title>
   {/if}
 </svelte:head>
 
 
-
 {#if !blog}
   <div class="Profile-NotFound | content-notion-wide | mt-24 rounded-sm overflow-hidden text-center">
-    <h1>Blog not found!</h1>
+    <h1>Page not found!</h1>
   </div>
 {:else}
 
   <div class="Profile">
     <!-- mt-2 and mt-4 adds too much white space, unless full screen? option to add top margin? -->
-    <div class="Profile-Header | {profileClass?.['header']} " class:hidden={blogData.settings?.profile?.showHeader == false}>
+    <div class="Profile-Header | {profileClass?.['header']} " class:hidden={blogData?.settings?.profile?.showHeader == false}>
       {#if coverImage}
         <div class="Profile-CoverImage-Container | {profileClass?.['coverContainer']}">
           <img class="Profile-CoverImage {profileClass?.['coverImage']}" src="{coverImage}" alt="Cover" />
@@ -53,7 +52,7 @@
     <!-- {#each sitePages as page} -->
     {#each pageOrder as page}
       {@const settings = page?.YAML && YAML.parse(page?.YAML) || null}
-      {@const rowPageStyles = (settings?.page && generatePageStyles(settings.page)) || ''}
+      {@const rowPageStyles = (settings?.page && generatePageStyles(settings.page, {type: 'string'})) || ''}
       {#if page.Name && page.Hide == true}
         <!-- do nothing if hidden -->
       {:else}
@@ -80,20 +79,25 @@
                       <!-- used to be h2 -->
                       <div class="Profile-Row--Main-Title title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
                     {/if}
-                    <div class="Profile-Row--Main-Blocks">
-                      <Notion 
-                        blocks={page.pageBlocks} 
-                        settings={{
-                          video: {
-                            // turning all of these on turns a video into a gif
-                            autoplay: true,
-                            muted: true, // true: necessary for autoplay
-                            playsinline: true, // for mobile so it doesn't full-screen
-                            loop: true,
-                          }
-                        }} 
-                      />
-                    </div>
+                    {#if page.Content}
+                      {@html md.render(page.Content || '')}
+                    {/if}
+                    {#if page.pageBlocks && page.pageBlocks.length > 0}
+                      <div class="Profile-Row--Main-Blocks">
+                        <Notion 
+                          blocks={page.pageBlocks} 
+                          settings={{
+                            video: {
+                              // turning all of these on turns a video into a gif
+                              autoplay: true,
+                              muted: true, // true: necessary for autoplay
+                              playsinline: true, // for mobile so it doesn't full-screen
+                              loop: true,
+                            }
+                          }} 
+                        />
+                      </div>
+                    {/if}
                   </div>
                 {/if}
   
@@ -107,7 +111,7 @@
                     <div class="Profile-Row--Group-Header | {settings?.group?.header?.class || 'h5 pt-0 mt-0'}">{page.Group}</div>
                     {#if page.SectionDescription}<p class="{settings?.group?.description?.class || 'pb-8'} ">{page.SectionDescription}</p>{/if}
                     <div class="Profile-Row--Group-Container Profile-Row--Posts-Container">
-                      <Posts posts={page.Pages.filter(page => page?.Type?.includes("Posts") && !page.Hide)} pathBase={blogpath}></Posts>
+                      <Posts posts={page.Pages.filter(page => page?.Type?.includes("Posts") && !page.Hide)}></Posts>
                     </div>
                   </div>
                 {/if}
@@ -119,7 +123,7 @@
                 {:else}
                   <!-- loose posts are NOT grouped together unless given a section -->
                   <div class="Profile-Row--Posts-Container | {settings?.row?.class || profileClass?.defaultRow}">
-                    <Posts posts={[page]} pathBase={blogpath} PostItemClasses={""}></Posts>
+                    <Posts posts={[page]} PostItemClasses={""}></Posts>
                   </div>
                 {/if}
               <!-- {:else if page?.Type?.includes('Component') && page.Hide !== true} -->
@@ -170,13 +174,18 @@
   import { componentTypes } from '$lib/componentTypes.js';
   import Posts from '$lib/components/Posts.svelte';
 
+  import MarkdownIt from 'markdown-it';
+  import markdownItAttrs from 'markdown-it-attrs';
+  const md = new MarkdownIt();
+  md.use(markdownItAttrs);
+
   marked.use({
     breaks: true,
   });
 
   let blogData = getContext('blogData');
 
-  let blog = blogData.blog;
+  let blog = blogData?.blog;
   let profileImage = getNotionImageLink(blog?.['site-data']?.['ProfileImage']);
   let coverImage = getNotionImageLink(blog?.['site-data']?.['CoverImage']);
   let author = blog?.['site-data']?.Author?.['Content'];
@@ -188,7 +197,8 @@
   let email = blog?.['site-data']?.Email?.['Content'];
   let socialLinks = blog?.['site-data']?.SocialLinks?.['Content'];
   let sitePages = blog?.['site-pages'];
-  let blogpath = blogData?.pathSegments ? `/${blogData?.path}/` : "/";
+  // let blogpath = blogData?.pathSegments ? `/${blogData?.path}/` : "/";
+  // let blogPath = blogData?.blogPath + '/';
 
   let sitePageByType = {}, sitePageTypes = [];
   blog?.['site-pages']?.forEach(page => {
@@ -238,7 +248,7 @@
 
   // set profile styles
   
-  let profileClass = blogData.settings?.profile || {}
+  let profileClass = blogData?.settings?.profile || {}
   if(profileClass) {
     profileClass.header = profileClass.headerClass                          || 'content-notion-wide | mt-0 md:mt-2 lg:mt-4 mb-2 rounded-sm overflow-hidden';
     profileClass.coverContainer = profileClass.coverContainer               || 'min-h-[4rem] overflow-hidden';
@@ -257,8 +267,6 @@
 
   // profileClass['header'] = "content-notion-wide mt-0 mb-2 rounded-sm overflow-hidden"
   // profileClass['coverImage'] = "w-full object-center object-contain scale-25"
-
-
 </script>
 
 

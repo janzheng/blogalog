@@ -6,7 +6,7 @@ import { endo, endoloader } from '$plasmid/modules/cytosis2';
 import { cacheClear } from "$plasmid/utils/cache.js";
 
 import { loadBlogalogFromPath } from '$lib/blogalog';
-import { resetBlog, reloadBlog } from '$lib/server-helpers';
+import { deleteBlogCache, reloadBlog } from '$lib/server-helpers';
 
 
 export async function GET({ url }) {
@@ -14,7 +14,7 @@ export async function GET({ url }) {
 
     // clear local cache!
     cacheClear();
-    await resetBlog(`${PUBLIC_PROJECT_NAME}-${"blogalog_config"}`);
+    await deleteBlogCache(`${PUBLIC_PROJECT_NAME}-${"blogalog_config"}`);
 
     console.time('[api/reload] Total reload time');
     let hostname = url?.hostname;
@@ -31,7 +31,7 @@ export async function GET({ url }) {
     if(blogalogPages && blogalogPages.length > 0) {
       blogList = await Promise.all(blogalogPages.map(async blog => {
         let slug = `${PUBLIC_PROJECT_NAME}-${blog.Slug}`
-        await resetBlog(slug);
+        await deleteBlogCache(slug);
         await reloadBlog(blog);
         return slug;
       }));

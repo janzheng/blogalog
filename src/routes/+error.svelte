@@ -9,15 +9,15 @@
 
 <div class="_content | content-pad">
 
-  <div class="mb-4 txt-xs">
+  <!-- <div class="mb-4 txt-xs">
     Something went wrong
-    <!-- {#if $page?.error.message && Object.entries($page?.error.message).length > 0}
+    {#if $page?.error.message && Object.entries($page?.error.message).length > 0}
       {$page?.error.message || ''}
-    {/if} -->
-  </div>
+    {/if}
+  </div> -->
 
-  <h1>{$page?.error.message || 'Sorry, something went wrong!'} </h1>
-  <p>Please go back <a href="{blogPath}">Home</p>
+  <h1 class="text-2xl">{$page?.error.message || 'Sorry, something went wrong!'} </h1>
+  <p class="mt-4">Please go back <a class="underline cursor-pointer text-blue-600 hover:text-blue-400" href="{blogPath}">home to Blogalog.net</p>
   <!-- <h1>Error: {$page?.status}</h1> -->
 
 

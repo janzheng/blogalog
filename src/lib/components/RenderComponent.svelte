@@ -130,7 +130,7 @@
           {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
             <h2 class="pt-0 mt-0">{page.Name}</h2>
           {/if}
-          {#if page.pageBlocks && page.pageBlocks.length > 5}
+          {#if page.pageBlocks }
             <div class="Component-Grid-Blocks | {settings?.component?.blocks?.class} ">
               <Notion blocks={page.pageBlocks} />
             </div>

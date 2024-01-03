@@ -141,7 +141,6 @@ component:
     let url = `/api/gridItems/`
     let response, result
 		try {
-      console.log('getItems fetchPost:::')
       response = await fetchPost(url, {id, settings, pageNumber, startCursor}, fetch)
 			if(response.ok) {
         result = await response.json()
@@ -326,7 +325,7 @@ component:
                       <GridItemRow {item} {key} {itemKey} schema={settings?.modal?.schema} />
                     {/each}
                     {#if settings.modal.loadNotionPage}
-                      {#if pageBlocks && pageBlocks.length > 3 }
+                      {#if pageBlocks}
                         <Notion blocks={pageBlocks} />
                       {:else}
                         Loading content...

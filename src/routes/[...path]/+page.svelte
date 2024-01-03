@@ -13,7 +13,7 @@
 
 <div class="Path">
   {#key $page.data?.path || null }
-    <Blogalog bind:blogData {page}/>
+    <Blogalog bind:blogData page={page}/>
   {/key}
 </div>
 

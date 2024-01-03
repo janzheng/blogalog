@@ -6,6 +6,8 @@ import { loadBlogalogFromPath } from '$lib/blogalog'
 
 
 
+
+// copied from other page.server; required to get the right page data
 export const load = async (settings) => {
 
   // let hostname = settings.url?.hostname

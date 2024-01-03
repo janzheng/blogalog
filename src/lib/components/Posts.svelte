@@ -17,7 +17,8 @@
     {#each posts as post}
       <div class="Post-item | {PostItemClasses} coverStyle_{post.MetaObj?.coverStyle} | {""}">
         <div class="">
-          <a href={`${pathBase}${post.Path}`}>
+          <!-- -!!- ????blogPath[{blogPath}] - {post.Path} -->
+          <a href={`${blogPath}${post.Path}`}>
             {#if post.Type?.includes("CoverPost")}
               <!-- large image cover -->
               {#if post.Cover || post.Files}
@@ -25,7 +26,7 @@
                   <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
                 </div>
               {/if}
-              <span class="Post-name text-lg pfix">{@html marked(post.Name)}</span>
+              <span class="Post-name font-title text-lg pfix">{@html marked(post.Name)}</span>
               {#if post.Date}
                 <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
               {/if}
@@ -41,7 +42,7 @@
                   </div>
                 {/if}
                 <div>
-                  <span class="Post-name text-lg pfix">{@html marked(post.Name||'')}</span>
+                  <span class="Post-name font-title text-lg pfix">{@html marked(post.Name||'')}</span>
                   {#if post?.Date}
                     <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
                   {/if}
@@ -83,13 +84,19 @@
 
 
 <script>
+  import { getContext } from 'svelte';
   import { marked } from 'marked';
-  import { getNotionImageLink } from '$lib/helpers.js'
-  import { niceDate } from '$plasmid/utils/date'
+  import { getNotionImageLink } from '$lib/helpers.js';
+  import { niceDate } from '$plasmid/utils/date';
+
+  let blogData = getContext('blogData');
 
   export let posts;
   // export let settings;
-  export let pathBase = "/";
+  let blogPath = blogData?.blogPath + "/";
+  if(blogPath === "//") 
+    blogPath = "/" // this happens on base blogalog.net; handle it manually
+
   export let PostItemClasses = "";
 
   function getCover(post) {

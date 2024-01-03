@@ -1,11 +1,11 @@
 <main  class="Component-Markdown-main | {settings?.component?.content?.class || 'flex flex-col self-center'} {settings?.component?.reverse&&'order-2'} ">
-  <div class="Profile-Title Component-Markdown-Name title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
+  <div class="Profile-Title Component-Markdown-Name title {settings?.row?.header?.class || ' leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
   <div class="Component-Markdown-Content">
     {@html md.render(page.Content||'')}
   </div>
 </main>
 <aside bind:this={asideContainer} class="Component-Markdown-aside | {settings?.component?.reverse&&'order-1'} ">
-  {#if page.pageBlocks && page.pageBlocks.length > 5}
+  {#if page.pageBlocks}
     <div class="Component-Markdown-Blocks {settings?.component?.blocks?.class||'notion-soft'}">
       <Notion blocks={page.pageBlocks} />
     </div>

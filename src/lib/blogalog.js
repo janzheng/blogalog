@@ -3,7 +3,7 @@
 
 */
 import { head, seo } from '$lib/config.js'
-import { PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_CACHET_TTL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
+import { PUBLIC_USE_DIRECTORY_CACHE, PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_CACHET_TTL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
 
 import { config as blogalog_config } from '$plasmid/modules/cytosis2/configs/blogalog.config.js';
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
@@ -11,9 +11,10 @@ import { applyTransformers } from '$plasmid/modules/cytosis2/transformers';
 import { getNotionImageLink } from '$lib/helpers.js'
 
 import { cachet } from '$plasmid/utils/cachet'
-import { parseMetadata } from '$lib/helpers.js'
+import { parseMetadata, cleanDirectoryData, cleanNotionPageData } from '$lib/helpers.js'
 // import { cacheClear } from "$plasmid/utils/cache.js";
 
+import cachedDirectory from '$src/data/cachedDirectory.js';
 
 
 
@@ -94,9 +95,6 @@ export const filterSecretsArr = (arr) => {
   return newArr
 }
 
-
-
-
 export const buildBlogPage = (blogDataArr, index) => {
 
   let blog
@@ -112,8 +110,9 @@ export const buildBlogPage = (blogDataArr, index) => {
   // here we just build the LAST blog in the arr
   // this is helpful bc we might just be getting a recursive list of blogs, and this is the last / deepest
   blog = blogDataArr[index]?.value
-  // sometimes this trips up and loads the base blogalog page instead of the leaf page (esp. on localhost)
+  blog['pageDataId'] = blogDataArr[index]?.pageId // this is what's reported from blogalog page directory, used for self-updating
 
+  // sometimes this trips up and loads the base blogalog page instead of the leaf page (esp. on localhost)
   if (blog?.['site-pagedata']?.length > 0) {
     // all page data settings do NOT have a "type"; these are accessible by key
     blog['site-data'] = applyTransformers(blog['site-pagedata'].filter(p => (!Array.isArray(p.Type) || p.Type?.includes('Settings'))), [{
@@ -130,7 +129,8 @@ export const buildBlogPage = (blogDataArr, index) => {
       }
     }])
 
-    // every "page" has a type; otherwise it's a setting; these are an
+
+    // every "page" has a type; otherwise it's a setting
     blog['site-pages'] = applyTransformers(blog['site-pagedata'].filter(p => p.Type && !["Secret", "Settings"].some(type => p.Type.includes(type))), [{
       "function": "transformArrayVersionedObjects",
       // "settings": {
@@ -138,6 +138,9 @@ export const buildBlogPage = (blogDataArr, index) => {
       //   "versionKey": "Version", // version name / number field
       // }
     }])
+
+    // remove site-pagedata (raw Notion CF data) to reduce size
+    delete blog['site-pagedata']
 
     // extract metadata
     blog['site-pages'].forEach((page, i) => {
@@ -149,8 +152,6 @@ export const buildBlogPage = (blogDataArr, index) => {
 
   return blog
 }
-
-
 
 export const buildBlogHead = (blog) => {
   let _head = {
@@ -191,27 +192,6 @@ export const buildBlogHead = (blog) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* 
 
   Partial Loaders / Assemblers
@@ -224,14 +204,26 @@ export const buildBlogHead = (blog) => {
 */
 export const loadBlogalogDirectory = async () => {
 
+  if (PUBLIC_USE_DIRECTORY_CACHE === "true") {
+    console.warn("----> Using Cached Directory Values! [cachedDirectory.js]");
+    console.warn("----> [cachedDirectory] -- items:", cachedDirectory.length);
+    return cachedDirectory
+  }
+
   // blogs might have been passed down from layout (already loaded)
   let blogConfigData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
     let data = await endoloader(blogalog_config, {
       url: PUBLIC_ENDOCYTOSIS_URL,
       key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
     })
-    console.log("blogalog_config data:", data)
+
+    // let blogConfigData = data?.value?.['blogalog']
+    // this gets cached!
+    // console.log('blogConfigData ---->>>> ', JSON.stringify(blogConfigData, 0, 2))
+
+    data = cleanDirectoryData(data.value?.['blogalog'])
     return data
+    // return blogConfigData
   },
     {
       // used to cache bust the (very resilient) blog config!
@@ -255,16 +247,14 @@ export const loadBlogalogDirectory = async () => {
   //   // saveCache: false, // handled by cachet
   // })
 
+  // let returnData = cleanDirectoryData(blogConfigData.value?.['blogalog'] || blogConfigData)
   // list of blogalogs / blog pages + IDs as listed in the DB
-  return blogConfigData?.value?.['blogalog']
+  // handles unclean data (v1) or cleaned data (v2)
+  return blogConfigData.value?.['blogalog'] || blogConfigData
 }
 
-
-
-
-
-
-// this fn pulls the data from Notion / KV Cache
+// ** if you're looking for the fn that actually loads data... this is it ;)
+// this fn pulls the data from Notion / KV Cache using Endoloader
 // can use this directly to pull non-blogalog-indexed pages
 export const loadBlogalogFromPageId = async ({pageId, slug}) => {
   // pull the data from local
@@ -287,6 +277,21 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
   if(!slug)
     slug = pageId
 
+  // If PUBLIC_USE_PAGE_CACHE is true, try to load data from a specific file
+  if (process.env.PUBLIC_USE_PAGE_CACHE === "true") {
+    try {
+      const cachedData = await import(`$src/data/${slug}.js`);
+      console.warn(`----> Using Cached Page Values! [$src/data/${slug}.js]`);
+      return cachedData.default;
+    } catch (error) {
+      console.warn(`----> No Cached Page Found! [$src/data/${slug}.js]`);
+      // If the file doesn't exist, continue to pull data from the API
+    }
+  } else {
+    console.log(`----> Using CDN data to load ${slug}`);
+  }
+
+
   let endoloader_config = {
     "sources": [
       {
@@ -300,8 +305,8 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
     ]
   }
 
-  // console.log('[loadBlogalogFromPageId] loading:', slug, pageId, endoloader_config)
-
+  console.log('[loadBlogalogFromPageId] loading:', slug, pageId, endoloader_config)
+  
 
   let finalData = await cachet(`${PUBLIC_PROJECT_NAME}-${slug}`, async () => {
     // console.log('[blogalog] Loading Endo:', `${PUBLIC_PROJECT_NAME}-${slug}`)
@@ -324,12 +329,12 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
       }
     })
 
+  finalData = cleanNotionPageData(finalData);
+  finalData['pageId'] = pageId;
+  // this is for caching the data:
+  // console.log(`[loadBlogalogFromPageId] ---> Slug: ${slug} Data:\n---\n`,JSON.stringify(finalData),`\n---\n`)
   return finalData
 }
-
-
-
-
 
 /* 
   Load the Blog pages themselves
@@ -379,21 +384,11 @@ export const loadBlogalogData = async ({ blogalogPages, blogPath, hostname, load
 }
 
 
-
-
-
-
-
-
-
-
 /* 
 
-  FULL Loaders
+  Full loaders (uses assemblers)
 
 */
-
-
 // add the ability to get a blogalog slug or from a db id, not just host name?
 export const loadBlogalog = async ({
   hostname, path, req,
@@ -468,14 +463,7 @@ export const loadBlogalog = async ({
   return blogalogData
 }
 
-
-
-
-
-
-
-
-
+// loads blogalog page or post depending on path
 export const loadBlogalogFromPath = async ({
   blogPath, hostname, 
   loadAll = false, 
@@ -488,7 +476,7 @@ export const loadBlogalogFromPath = async ({
 
   if (!blogalogPages || blogalogPages.length < 1) {
     blogalogPages = await loadBlogalogDirectory() 
-    console.log('[blogalogPages Directory:', blogalogPages.length)
+    console.log('[blogalogPages Directory]:', blogalogPages.length)
     // these are official blogalog indexed pages from the Blogalog PageList
   }
 

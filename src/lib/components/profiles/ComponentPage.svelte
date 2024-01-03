@@ -11,7 +11,7 @@
 </svelte:head>
 
 
-<div class="PagePath PageContent">
+<div class="PagePath PageContent PageComponent">
   <div class="ProfileStack | mb-4">
     <a href={blogPath} style="" class="flex items-center">
       {#if profileImage}

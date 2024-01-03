@@ -4,7 +4,7 @@
   import SvelteSeo from 'svelte-seo'
   export const twitter = {};
 
-  export let title, description, ogUrl
+  export let title=null, description=null, ogUrl=null
   let {head, seo} = $page?.data;
 </script>
 

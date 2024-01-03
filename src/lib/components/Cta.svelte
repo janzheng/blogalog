@@ -1,8 +1,8 @@
 
-<div class="Cta-container {settings?.component?.container?.class||'md:grid md:grid-cols-2 gap-2 md:gap-4 lg:gap-8'}">
+<div class="Cta-wrapper hellohello {settings?.component?.wrapper?.class || 'md:grid md:grid-cols-2 gap-2 md:gap-4 lg:gap-8'}">
   <main class="Cta-main | {settings?.component?.main?.class||'flex flex-col self-center'} | {settings?.component?.reverse&&'order-2'}">
     <!-- only use Content for titles; otherwise gets super confusing -->
-    <!-- <div class="Cta-Markdown-Name {settings?.component?.title?.class || ' headline font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->
+    <!-- <div class="Cta-Markdown-Name {settings?.component?.title?.class || ' headline leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->
     
     {#if page.Content}
       <div class="Component-Cta-Content {settings?.component?.content?.class||''}">
@@ -26,7 +26,7 @@
     {/if}
     
   </main>
-  {#if page.pageBlocks && page.pageBlocks.length > 5}
+  {#if page.pageBlocks}
     <aside class="Cta-aside {settings?.component?.aside?.class||''} {settings?.component?.reverse&&'order-1'}">
       <div class="Component-Cta-Blocks {settings?.component?.blocks?.class||'notion-soft'}">
         <Notion blocks={page.pageBlocks} />

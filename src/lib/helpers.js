@@ -85,10 +85,13 @@ export function getNotionImageLink(notionImage) {
 
 
 
-export function generatePageStyles(settingsPage) {
+export function generatePageStyles(settingsPage, settings={}) {
   if (!settingsPage) return null
   
   const acceptedKeys = [
+    '--font-title',
+    '--font-paragraph',
+    '--blogalog-page-width',
     '--blogalog-page-width',
     '--blogalog-post-width', 
     '--blogalog-page-custom-width',
@@ -105,7 +108,9 @@ export function generatePageStyles(settingsPage) {
     '--color-primary-dark',
     '--color-primary-ring',
     '--color-primary-ring-active',
-    '--color-primary-text'
+    '--color-primary-text',
+    '--slideup-distance',
+    '--slideup-duration',
   ];
 
   const pageStyles = acceptedKeys.reduce((acc, key) => {
@@ -115,18 +120,18 @@ export function generatePageStyles(settingsPage) {
     return acc;
   }, {});
 
+  if(settings.type == 'string') {
+    // string for style={"..."}
+    return Object.entries(pageStyles)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join('; ');
+  }
+  
   // object for document.documentElement.style.setProperty
   return pageStyles;
 
-  // string for style={"..."}
-  return Object.entries(pageStyles)
-    .map(([key, value]) => `${key}: ${value}`)
-    .join('; ');
 }
-
-
-
-export function observeVisibility(onMount, itemSelector = '.item', visibleClass = 'visible') {
+export function slideUp(onMount, {itemSelector = '.slideup', containerSelector = '.slideupContainer', visibleClass = 'visible'} = {}) {
   function isInViewport(element) {
     const rect = element.getBoundingClientRect();
     return (
@@ -147,13 +152,88 @@ export function observeVisibility(onMount, itemSelector = '.item', visibleClass 
     });
 
     const items = document.querySelectorAll(itemSelector);
+    const containers = document.querySelectorAll(containerSelector);
+
     items.forEach(item => {
       if (isInViewport(item)) {
         item.classList.add(visibleClass);
       }
       observer.observe(item);
     });
+
+    containers.forEach(container => {
+      Array.from(container.children).forEach(child => {
+        if (isInViewport(child)) {
+          child.classList.add(visibleClass);
+        }
+        observer.observe(child);
+      });
+    });
   });
+}
+
+export const cleanDirectoryData = (sites) => {
+  return sites.map(site => {
+    const keys = ['id', 'Pagedata ID', 'Status', 'Slug', 'Style', 'URLs', 'Name'];
+    return keys.reduce((obj, key) => (key in site ? { ...obj, [key]: site[key] } : obj), {});
+  });
+}
+
+export const cleanNotionPageData = (page) => {
+  // these are the notion-db records for each site, e.g. each row of site like Settings or Main
+  let sitePageData = page.value?.['site-pagedata']?.map(page => {
+    delete page.id;
+    delete page.format;
+    delete page['Created By'];
+    delete page.version;
+    delete page.created_time;
+    delete page.last_edited_time;
+    delete page.parent_id;
+    delete page.parent_table;
+    delete page.alive;
+    delete page.version;
+    delete page.copied_from;
+    delete page.created_by_table;
+    delete page.created_by_id;
+    delete page.last_edited_by_table;
+    delete page.last_edited_by_id;
+    delete page.space_id;
+    if (page.pageBlocks && page.pageBlocks.length <= 5) {
+      // every page comes w/ pageblocks, which clogs up data
+      // "empty" pages will have len=4 pageBlocks so we just delete them here
+      delete page.pageBlocks
+    } else {
+      page.pageBlocks = page.pageBlocks?.map(block => {
+        const keys = ['id', 'collection_id', 'parent_id', 'format', 'properties', 'type', 'content'];
+        // const keys = ['id', 'collection_id', 'parent_id', 'format', 'properties', 'type', 'content'];
+        // const keys = ['id', 'collection_id', 'parent_id', 'properties', 'type', 'content', 'alive', 'copied_from', 'created_by_id', 'created_by_table', 'created_time', 'format', 'last_edited_by_id', 'last_edited_by_table', 'last_edited_time', 'parent_table', 'space_id', 'version'];
+        // const keys = ['id', 'collection_id', 'format', 'parent_id', 'properties', 'type', 'content', 'created_time', 'parent_table', 'space_id', 'version'];
+        let strippedBlock = keys.reduce((obj, key) => {
+          if (block[key] !== undefined) {
+            obj[key] = block[key];
+          }
+          return obj;
+        }, {});
+        // format key needs to be an empty object
+        delete strippedBlock.format?.['copied_from_pointer'];
+        return strippedBlock
+      });
+    }
+
+    
+    return page
+  });
+
+  return {
+    status: page.status,
+    key: page.key,
+    metadata: page.metadata,
+    cacheStatus: page.cacheStatus,
+    value: {
+      "secrets": page.value?.secrets,
+      "site-pagedata": sitePageData,
+    }
+  }
 }
 
 
