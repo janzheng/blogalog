@@ -26,7 +26,7 @@
                   <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
                 </div>
               {/if}
-              <span class="Post-name font-title text-lg pfix">{@html marked(post.Name)}</span>
+              <span class="Post-name font-title text-2xl pfix">{@html marked(post.Name)}</span>
               {#if post.Date}
                 <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
               {/if}
@@ -42,7 +42,7 @@
                   </div>
                 {/if}
                 <div>
-                  <span class="Post-name font-title text-lg pfix">{@html marked(post.Name||'')}</span>
+                  <span class="Post-name font-title text-2xl pfix">{@html marked(post.Name||'')}</span>
                   {#if post?.Date}
                     <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
                   {/if}

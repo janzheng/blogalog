@@ -21,7 +21,7 @@
 
   export let page;
   export let emailForm, unlockMessage;
-  export let componentClasses = 'p-4 bg-slate-50'
+  export let componentClasses = 'bg-slate-50'
   export let componentContainerClasses = ''
 
   let settings = {};

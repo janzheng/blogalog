@@ -22,11 +22,6 @@ export const load = async (params) => {
   // console.log('>>>>>> [...path]/+page.sever.js / load')
   console.log('<--- [path].page.server.js / load --->')
   try {
-
-    // offline testing
-    // console.log('[[[[[ path/page.server ]]]]] data/builderClub.js')
-    // return builderClub;
-
   
     // let hostname = settings.url?.hostname
     let path = params.params.path, subPath;

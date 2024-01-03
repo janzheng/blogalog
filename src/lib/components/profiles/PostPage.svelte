@@ -69,15 +69,15 @@
   {#if showSectionPosts && (prevPost || nextPost)}
     <div class="PageContent-SectionPosts | mt-4 mb-16 | ">
       <div class="text-sm pb-2">
-        More posts in {sectionName}
+        {sectionName} Posts
       </div>
       <div class="md:grid grid-cols-2 gap-2">
         <div>
           {#if prevPost}
-            <a href="{blogPath}/{prevPost.Path}" class="Btn-link h-full w-full | PageContent-SectionPosts-Post SectionPosts-Prev rounded-md p-2 block mb-2" >
+            <a href="{blogPath}{prevPost.Path}" class="Btn-link h-full w-full | PageContent-SectionPosts-Post SectionPosts-Prev rounded-md p-2 block mb-2" >
               <div class="text-xs pb-1 uppercase font-semibold tracking-wider">Prev</div>
               <div class="text-lg pb-1">{prevPost.Name}</div>
-              <div class="text-sm">{prevPost.Content}</div>
+              <div class="text-sm">{prevPost.Content||''}</div>
             </a>
           {:else}
             <div class="border-2 border-slate-200 text-slate-300 cursor-default h-full w-full | rounded-md p-2 block mb-2">
@@ -88,10 +88,10 @@
         </div>
         <div>
           {#if nextPost}
-            <a href="{blogPath}/{nextPost.Path}" class="Btn-link h-full w-full | PageContent-SectionPosts-Post SectionPosts-Next rounded-md p-2 block mb-2" >
+            <a href="{blogPath}{nextPost.Path}" class="Btn-link h-full w-full | PageContent-SectionPosts-Post SectionPosts-Next rounded-md p-2 block mb-2" >
               <div class="text-xs pb-1 uppercase font-semibold tracking-wider">Next</div>
               <div class="text-lg pb-1">{nextPost.Name}</div>
-              <div class="text-sm">{nextPost.Content}</div>
+              <div class="text-sm">{nextPost.Content||''}</div>
             </a>
           {:else}
             <div class="border-2 border-slate-200 text-slate-300 cursor-default h-full w-full | rounded-md p-2 block mb-2">
@@ -178,7 +178,10 @@
   // Check if the pathSegments length is greater than 1, if so, use the second element as the postPath
   // This ensures that the postPath is updated correctly when navigating to a new blog page
   // let blogPath = blogData.pathSegments?.length > 1 ? `/${blogData.pathSegments[1]}` : blogData.path; // /yawnxyz
-  let blogPath = blogData?.blogPath; // /yawnxyz
+  let blogPath = blogData?.blogPath + "/"; // /yawnxyz
+  if(blogPath === "//") 
+    blogPath = "/" // this happens on base blogalog.net; handle it manually
+  
   export let postPath; // this is from fresh page.server.js path data + content, not from getContext / yawnxyz/blog
 
   let showSectionPosts = true

@@ -318,7 +318,7 @@ $fontSans: 'Inter', sans-serif;
   p {
     @apply pb-4 mt-0 pt-0;
   }
-  div, p, ul, ol, blockquote, article, section, main, aside, figcaption {
+  p, ul, ol, blockquote, article, section, main, aside, figcaption {
     color: var(--color-base);
     @extend .font-paragraph;
   }

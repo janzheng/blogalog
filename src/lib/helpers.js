@@ -198,7 +198,7 @@ export const cleanNotionPageData = (page) => {
     delete page.last_edited_by_table;
     delete page.last_edited_by_id;
     delete page.space_id;
-    if (page.pageBlocks && page.pageBlocks.length <= 5) {
+    if (page.pageBlocks && page.pageBlocks.length <= 4) {
       // every page comes w/ pageblocks, which clogs up data
       // "empty" pages will have len=4 pageBlocks so we just delete them here
       delete page.pageBlocks
