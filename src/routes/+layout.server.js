@@ -21,7 +21,9 @@ function removePrefixFromHostname(url) {
 
 
 async function initContent(head, hostname) {
+  // "act" as another base domain for testing
   // hostname = "www.jess.bio"
+  hostname = "pgh.phage.directory"
 
   // console.log('[[[[[ LAYOUT ]]]]] data/builderClubInit.js')
   // return builderClubInit;

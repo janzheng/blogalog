@@ -17,6 +17,8 @@
   {/if}
 </svelte:head>
 
+
+<!-- blogPath: {blogData.blogPath} -->
 <div class="Blogalog-Container"
   style="{blogalogStyleString+";"||''} {heightOfFooter ? `min-height: calc(100vh - ${heightOfFooter + 20}px);` : ''}"
   id="main"
@@ -93,7 +95,7 @@
     path: $page.data?.path,
     pathSegments: $page.data?.pathSegments,
     // blogPath: $page?.data?.pathSegments?.length>1 ? `/${$page?.data?.pathSegments[0]}` : "/",
-    blogPath: $page?.data?.pathSegments?.length>=1 ? `/${$page?.data?.pathSegments[0]}` : "/",
+    blogPath: $page?.data?.pathSegments?.length>=1 ? `/${$page?.data?.pathSegments[$page?.data?.pathSegments?.length-2]||''}` : "/",
     pageContent: $page?.data?.pageContent,
     blog: $page?.data?.blog, // await streamed blog, and set it here
     profileImage: getNotionImageLink($page?.data?.blog?.['site-data']?.['ProfileImage']),

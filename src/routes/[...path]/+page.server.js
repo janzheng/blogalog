@@ -89,7 +89,7 @@ export const load = async (params) => {
       srcPathed: true, // for tracking/provenance
     }
     if (blog) obj['blog'] = blog;
-    if (isBlogalogHome) obj['isBlogalogHome'] = isBlogalogHome;
+    obj['isBlogalogHome'] = isBlogalogHome || false;
     if (head) obj['head'] = head;
     if (pageContent) obj['pageContent'] = pageContent;
 
