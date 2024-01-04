@@ -163,8 +163,8 @@
   import { userData } from '$lib/stores.js'
   // import { plainRenderer } from '$plasmid/utils/marked';
   
-  // import Notion from '@yawnxyz/sveltekit-notion';
-  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import RenderComponent from '$lib/components/RenderComponent.svelte';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
   // import Login from '$lib/components/forms/Login.svelte';

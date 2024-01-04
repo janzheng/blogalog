@@ -11,10 +11,10 @@ import { writable, get } from 'svelte/store';
  **/
 
 export const siteIcon = "/icon.png"
-export const siteCardTitle = "janz: designing with code"
+export const siteCardTitle = "Blogalog.net"
 export const siteTitle = siteCardTitle // "janz: design with code"
-export const siteDescription = "somea this, lotsa that"
-export const siteURL = "janzheng.com" // no protocol
+export const siteDescription = "Make a website for your research, lab, and business!"
+export const siteURL = "blogalog.net" // no protocol
 export const siteLink = "https://" + siteURL // 'https://github.com/josh-collinsworth/sveltekit-blog-starter'
 export const siteCard = "https://janzheng.com/janzheng-card-sm.jpg"
 export const siteAuthor = 'Jan Zheng'

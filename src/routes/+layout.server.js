@@ -21,18 +21,9 @@ function removePrefixFromHostname(url) {
 
 
 async function initContent(head, hostname) {
-  // "act" as another base domain for testing
-  // hostname = "www.jess.bio"
-  // hostname = "pgh.phage.directory"
-
-  // console.log('[[[[[ LAYOUT ]]]]] data/builderClubInit.js')
-  // return builderClubInit;
   console.log('[+layout.server/initContent] initializing:', PUBLIC_BLOGMODE, 'host:', hostname)
   let blog, config, mode, blogalogPages
-
   if (PUBLIC_BLOGMODE == 'blogalog') {
-    // ({ head, cytosis } = await loadBlogalogFromPath('blogalog', hostname)); // previously, needed to specify blogalog; now uses the hostname/domain
-    // console.log('hostname:', hostname)
     let blogalog = await loadBlogalogFromPath({hostname});
 
     if(blogalog) {
@@ -57,59 +48,48 @@ async function initContent(head, hostname) {
   return { blog, head, blogalogPages }
 }
 
+async function loadContent(url, params, locals, head, hostname, seo) {
+  // let {cytosis, _head} = await initContent(head)
+  let blog, blogalogPages
+  ({ blog, head, blogalogPages } = await initContent(head, hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
+
+  console.log(`<!--- +layout.server.js / load ${hostname}--->`)
+  let returnObj = {
+    path: params?.path,
+    pathSegments: params?.path?.split('/'),
+    hostname,
+    origin: url?.origin,
+    plainUrl: removePrefixFromHostname(url),
+
+    head: head,
+    // seo: seo, // need to generalize this more
+    user: locals?.user,
+    blog,
+    blogalogPages,
+  };
+  return returnObj;
+}
 
 export const load = async ({ url, params, setHeaders, locals}) => {
   // return {}
-
-
-  console.log('<--- +layout.server.js / load --->')
+  let hostname = url?.hostname
+  // "act" as another base domain for testing
+  // hostname = "www.404site.com"
+  // hostname = "www.jess.bio"
+  // hostname = "blogalog.net"
+  // hostname = "atif.phage.directory"
+  // hostname = "pgh.phage.directory"
+  
   try {
-    let hostname = url?.hostname
-    
+    let result = await loadContent(url, params, locals, head, hostname, seo);
 
-    // let {cytosis, _head} = await initContent(head)
-    let blog, head, blogalogPages
-    ({ blog, head, blogalogPages } = await initContent(head, hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
-    // example of how to cachet at the top:
-    // ({ cytosis, _head } = await cachet(`${PUBLIC_PROJECT_NAME}-${PUBLIC_BLOGMODE}`, async ()=>{
-    //    return await initContent(head)
-    // // }, {skipCache: false}))
-    // }, {skipCache: true})) // skips the cache; good for debugging
+    if(!result.blog) {
+      // if there isn't a page here, we just load standard blogalog
+      hostname = "www.blogalog.net"
+      result = await loadContent(url, params, locals, head, hostname, seo);
+    }
 
-    // this loads the new content, but has a chance of not running on serverless when data is returned
-    // before initContent finishes loading
-    // cachet(`cytosis-${PUBLIC_BLOGMODE}`, async () => {
-    //   return await initContent(head)
-    // }, { skipCache: true })
-
-    console.log('<!--- +layout.server.js / load --->')
-    let returnObj = {
-      path: params?.path,
-      pathSegments: params?.path?.split('/'),
-      hostname, 
-      origin: url?.origin,
-      plainUrl: removePrefixFromHostname(url),
-      
-      head: head,
-      // seo: PUBLIC_BLOGMODE == "janzheng" && seo, // need to generalize this more
-      user: locals?.user,
-      // cytosis: blog, // testing all
-      blog: blog, // testing all
-      blogalogPages,
-      // ... await endo(config, {sourceNames: ['site-data']}),
-      // streamed: {
-      //   // cytosis: endo(config, {sourceNames: ['site-pages']}) // streamed await
-      // }
-
-      // streamed: {
-      //   // this acts as an SWR cache updater; it loads after the initial load, and updates cache keys 
-      //   // this does keep the browser spinning though which isn't ideal 
-      //   refresh: await cachet(`cytosis-${PUBLIC_BLOGMODE}`, async () => {
-      //     return await initContent(head)
-      //   }, { skipCache: true })
-      // }
-    };
-    return returnObj;
+    return result;
   }
   catch (err) {
     console.error(err)

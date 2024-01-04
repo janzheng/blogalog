@@ -8,6 +8,7 @@
     <title>{blogData.head.title}</title>
   {/if}
 
+
   {#if pageFonts && pageFonts.length > 0}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,8 +18,7 @@
   {/if}
 </svelte:head>
 
-
-<!-- blogPath: {blogData.blogPath} -->
+<!-- blogPath: {blogData.blogPath} | {$page?.data?.pathSegments} -->
 <div class="Blogalog-Container"
   style="{blogalogStyleString+";"||''} {heightOfFooter ? `min-height: calc(100vh - ${heightOfFooter + 20}px);` : ''}"
   id="main"
@@ -102,6 +102,13 @@
     pageCover: getNotionImageLink($page?.data?.pageContent) || $page?.data?.pageContent?.['Cover'],
     author: $page?.data?.blog?.['site-data'].Author?.['Content'],
     srcLayout: true, // for tracking/provenance
+  }
+  if($page?.data?.pathSegments?.length>=1) {
+    if ($page?.data?.isBlogalogHome) {
+      blogData['blogPath'] = `/${$page?.data?.pathSegments[0]}`
+    } else {
+      blogData['blogPath'] = `/${$page?.data?.pathSegments[$page?.data?.pathSegments?.length-2]||''}`;
+    }
   }
 
 

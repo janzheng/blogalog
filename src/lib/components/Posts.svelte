@@ -17,7 +17,7 @@
     {#each posts as post}
       <div class="Post-item | {PostItemClasses} coverStyle_{post.MetaObj?.coverStyle} | {""}">
         <div class="">
-          <!-- -!!- ????blogPath[{blogPath}] - {post.Path} -->
+          <!-- -!!- blogPath[{blogPath}] - {post.Path} -->
           <a href={`${blogPath}${post.Path}`}>
             {#if post.Type?.includes("CoverPost")}
               <!-- large image cover -->

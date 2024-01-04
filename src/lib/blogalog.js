@@ -2,7 +2,7 @@
   sometimes this looks for .data; might be from cachet / fuzzyekey; track it down! Should be unwrapped
 
 */
-import { head, seo } from '$lib/config.js'
+// import { head, seo } from '$lib/config.js'
 import { PUBLIC_USE_DIRECTORY_CACHE, PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_CACHET_TTL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';
 
 import { config as blogalog_config } from '$plasmid/modules/cytosis2/configs/blogalog.config.js';
@@ -111,6 +111,7 @@ export const buildBlogPage = (blogDataArr, index) => {
   // this is helpful bc we might just be getting a recursive list of blogs, and this is the last / deepest
   blog = blogDataArr[index]?.value
   blog['pageDataId'] = blogDataArr[index]?.pageId // this is what's reported from blogalog page directory, used for self-updating
+  blog['slug'] = blogDataArr[index]?.slug // this is what's reported from blogalog page directory, used for self-updating
 
   // sometimes this trips up and loads the base blogalog page instead of the leaf page (esp. on localhost)
   if (blog?.['site-pagedata']?.length > 0) {
@@ -154,31 +155,53 @@ export const buildBlogPage = (blogDataArr, index) => {
 }
 
 export const buildBlogHead = (blog) => {
+  let icoImg = getNotionImageLink(blog?.['site-data']?.['IconImage']) || blog?.['site-data']?.['IconImage']?.Content
+  let cardImg = getNotionImageLink(blog?.['site-data']?.['CardImage']) || blog?.['site-data']?.['CardImage']?.Content
+  let desc = blog?.['site-data']?.['ShortDescription']?.Content
   let _head = {
     title: blog?.['site-data']?.['SiteTitle']?.Content,
     author: blog?.['site-data']?.['Author']?.Content,
-    description: blog?.['site-data']?.['SiteDescription']?.Content,
-    url: blog?.['site-data']?.['URL']?.Content,
+    description: desc,
+    url: blog?.['site-data']?.['URL']?.Content || blog?.['site-data']?.['CanonicalURL']?.Content,
     canonical: blog?.['site-data']?.['URL']?.Content,
     title: blog?.['site-data']?.['SiteTitle']?.Content,
-    ico: getNotionImageLink(blog?.['site-data']?.['IconImage']),
+    ico: icoImg,
     image: {
-      url: getNotionImageLink(blog?.['site-data']?.['CardImage']),
+      url: cardImg,
       width: 850,
       height: 650,
     },
-    meta: [
-      { name: "twitter:site", content: blog?.['site-data']?.['TwitterHandle']?.Content },
-      { name: "twitter:title", content: blog?.['site-data']?.['SiteTitle']?.Content },
-      { name: "twitter:description", content: blog?.['site-data']?.['SiteDescription']?.Content },
-      { name: "twitter:image", content: getNotionImageLink(blog?.['site-data']?.['CardImage']) },
-      { name: "twitter:image:alt", content: blog?.['site-data']?.['SiteDescription']?.Content },
-      { property: "og:image:url", content: getNotionImageLink(blog?.['site-data']?.['CardImage']) },
-      { property: "og:image", content: getNotionImageLink(blog?.['site-data']?.['CardImage']) },
-    ],
+    openGraph: {
+      title: blog?.['site-data']?.['SiteTitle']?.Content,
+      url: blog?.['site-data']?.['URL']?.Content || blog?.['site-data']?.['CanonicalURL']?.Content,
+      description: desc,
+      // image: cardImg,
+      images: [{
+        url: cardImg,
+        width: 850,
+        height: 650,
+      }]
+    },
+    twitter: {
+      site: blog?.['site-data']?.['TwitterHandle']?.Content,
+      card: 'summary_large_image',
+      title: blog?.['site-data']?.['SiteTitle']?.Content,
+      description: desc,
+      image: cardImg,
+      imageAlt: desc,
+    },
+    // meta: [
+    //   { name: "twitter:site", content: blog?.['site-data']?.['TwitterHandle']?.Content },
+    //   { name: "twitter:title", content: blog?.['site-data']?.['SiteTitle']?.Content },
+    //   { name: "twitter:description", content: desc },
+    //   { name: "twitter:image", content: cardImg },
+    //   { name: "twitter:image:alt", content: desc },
+    //   { property: "og:image:url", content: cardImg },
+    //   { property: "og:image", content: cardImg },
+    // ],
     links: [
-      { rel: 'icon', type: 'image/png', href: getNotionImageLink(blog?.['site-data']?.['IconImage']) }
-    ]
+      { rel: 'icon', type: 'image/png', href: icoImg }
+    ],
   }
 
   return _head
@@ -331,6 +354,7 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
 
   finalData = cleanNotionPageData(finalData);
   finalData['pageId'] = pageId;
+  finalData['slug'] = slug;
   // this is for caching the data:
   // console.log(`[loadBlogalogFromPageId] ---> Slug: ${slug} Data:\n---\n`,JSON.stringify(finalData),`\n---\n`)
   return finalData

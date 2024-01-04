@@ -6,6 +6,8 @@
 
   export let title=null, description=null, ogUrl=null
   let {head, seo} = $page?.data;
+
+  // console.log('head.svelte:', title, seo, head)
 </script>
 
 <SvelteSeo
@@ -14,12 +16,12 @@
   keywords={head?.keywords}
   canonical={head?.canonical + ''}
   openGraph={{
-      ...seo?.openGraph ,
+      ...head?.openGraph ,
       url: ogUrl || head?.url + '',
       // type: article ? siteSeoOpenGraphArticle.type : siteSeoOpenGraphBase.type,
       // ...(article ? { article: {...siteSeoOpenGraphArticle.article, ...article} } : null) }}
   }}
-  twitter= {twitter ? {...seo?.twitter, ...twitter} : null}
+  twitter={{ ...head?.twitter}}
 />
 
 <svelte:head>

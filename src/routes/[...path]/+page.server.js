@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit'
-import { head, seo } from '$lib/config.js'
+// import { head, seo } from '$lib/config.js'
 import { PUBLIC_MULTIBLOG } from '$env/static/public';
 
 import { loadBlogalogFromPath  } from '$lib/blogalog';
@@ -47,7 +47,10 @@ export const load = async (params) => {
     }
     // console.log('---> parentData?', typeof parentData)
 
-    if (!pageContent && PUBLIC_MULTIBLOG == "true") {
+    // pages with 'Slug' that are allowed to be multi-blog
+    let multiBlogSlugs = ['blogalog']
+
+    if (!pageContent && parentData && multiBlogSlugs.includes(parentData.blog?.slug)) {
       // if we want to enable "blogalog routing"
       // this loads blogs as SUB PATHS
       // otherwise we just get the data back from the layout

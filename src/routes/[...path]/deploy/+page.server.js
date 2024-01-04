@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit'
-import { head, seo } from '$lib/config.js'
+// import { head, seo } from '$lib/config.js'
 import { PUBLIC_MULTIBLOG } from '$env/static/public';
 
 import { loadBlogalogFromPath } from '$lib/blogalog'
