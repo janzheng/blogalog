@@ -18,8 +18,46 @@ const schema = z.object({
 
 export const actions = {
 
+  // register 
+  // login: async (req) => {
+  //   const form = await superValidate(req.request, schema);
+
+  //   if (!form.valid) {
+  //     return fail(400, { form });
+  //   }
+
+  //   if (form?.data?.notion) {
+  //     req.url.hostname = "ivom.phage.directory" // testing
+
+  //     // for this to work, make sure there's a Secrets key and secret Notion db w/ Whimsy API connected
+  //     // that will relay the key to the real db w/ the API
+  //     let page = await getDbPage(req, form?.data?.notion, {
+  //       property: "Email",
+  //       rich_text: {
+  //         equals: form?.data?.email
+  //       }
+  //     })
+  //     let record = page?.results[0];
+
+  //     if (!record) {
+  //       return message(form, `Email doesn't exist`, { status: 400 });
+  //     }
+
+  //     let user = notionObjToFlatJson(record);
+  //     return { form, user }
+
+  //   }
+
+
+  //   // TODO: Do something with the validated form.data
+
+  //   // Yep, return { form } here too
+  //   // return { form };
+  //   return message(form, `Notion error`, { status: 400 });
+  // },
+
   // login through email form
-  email: async (req) => {
+  login: async (req) => {
     const form = await superValidate(req.request, schema);
 
     if (!form.valid) {
@@ -38,13 +76,12 @@ export const actions = {
         }
       })
       let record = page?.results[0];
-      let user = notionObjToFlatJson(record);
-
-
-      if (!user) {
+      
+      if (!record) {
         return message(form, `Email doesn't exist`, { status: 400 });
       }
 
+      let user = notionObjToFlatJson(record);
       return { form, user }
 
     }

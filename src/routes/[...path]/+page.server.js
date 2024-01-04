@@ -31,7 +31,8 @@ export const load = async (params) => {
 
     console.log('[path/page.server.js/path/load] path array:', pathSegments)
 
-    const form = await superValidate(schema);
+    // not strictly necessary, but TODO: enable multiple predefined schemas, for layout, and per block type
+    // const form = await superValidate(schema);
 
 
     // load data from parent (layout.server) or load fresh data from blogalog

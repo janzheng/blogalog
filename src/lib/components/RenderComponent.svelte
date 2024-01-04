@@ -8,7 +8,8 @@
 
   import { userData } from '$lib/stores.js'
 
-  import Email from '$lib/components/forms/Login.svelte';
+  import Login from '$lib/components/forms/Login.svelte';
+  import DataEntry from '$lib/components/forms/DataEntry.svelte';
   import GridItems from '$lib/components/GridItems.svelte';
   import Expander from '$lib/components/Expander.svelte';
   import Markdown from '$lib/components/Markdown.svelte';
@@ -20,7 +21,7 @@
 
 
   export let page;
-  export let emailForm, unlockMessage;
+  export let loginForm=null, unlockMessage=null;
   export let componentClasses = 'bg-slate-50'
   export let componentContainerClasses = ''
 
@@ -94,16 +95,16 @@
           </div>
         {:else}
           <Notion blocks={page.pageBlocks} />
-          <Email cta="Log in" message={unlockMessage}
-            bind:formData={emailForm}
+          <Login cta="Log in" message={unlockMessage}
+            bind:formData={loginForm}
             onError={({ result }) => {
               unlockMessage = result.error.message;
             }}
-            onUpdated={({ form, user, banana }) => {
+            onUpdated={({ form, user }) => {
               if (form.valid) {
                 if(form.data.email) {
                   // $userData['Email'] = form.data.email;
-                  $userData = emailForm.user;
+                  $userData = loginForm.user;
                   unlockMessage = "Success!";
                 }
               } else {
@@ -117,11 +118,26 @@
           />
         {/if}
       </div>
+    {:else if page.Name == "Email" || page.Type.includes("Email")}
+      <div class="Component-Email | {componentClasses || ''} ">
+          {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
+            <h2 class="pt-0 mt-0">{page.Name}</h2>
+          {/if}
+          {#if page.Content}
+            <div class="Component-Email-Content | {settings?.component?.content?.class} ">
+              {@html md.render(page.Content||'')}
+            </div>
+          {/if}
+          {#if page.pageBlocks }
+            <div class="Component-Email-Blocks | {settings?.component?.blocks?.class} ">
+              <Notion blocks={page.pageBlocks} />
+            </div>
+          {/if}
+          <DataEntry cta="Sign Up"/>
+      </div>
+
     {:else if page.Name == "Members" || page.Type.includes("Members")}
       <div class="Component-Members | {componentClasses || ''} ">
-        <!-- deprecated -->
-        <!-- <Notion blocks={page.pageBlocks} /> -->
-        <!-- <MemberList id={page.Content} settings={page.YAML} /> -->
       </div>
 
     {:else if page.Name == "Grid" || page.Type.includes("Grid")}

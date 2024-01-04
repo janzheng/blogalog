@@ -7,8 +7,10 @@
       </div>
     {/if}
     <div class="Expander-buttons">
+      <!-- pb-0 messes up cta on ivom -->
+      <!-- {settings?.component?.cta?.class||'Btn-solid cursor-pointer pb-0'} | {isOpen && "--open"} pfix "  -->
       <button class="Component-Expander-CTA | 
-        {settings?.component?.cta?.class||'Btn-solid cursor-pointer pb-0'} | {isOpen && "--open"} pfix " 
+        {settings?.component?.cta?.class||'Btn-solid cursor-pointer'} | {isOpen && "--open"} pfix " 
         on:click={()=>isOpen=!isOpen}>
           {settings?.cta}
       </button>
@@ -19,15 +21,19 @@
         </a>
       {/if}
     </div>
-    <div class:isOpen class="Component-Expander-body pt-4 | {!isOpen && "hidden"}">
-      <Notion blocks={page.pageBlocks} />
-    </div>
+    {#if page.pageBlocks}
+      <div class:isOpen class="Component-Expander-blocks pt-4 | {!isOpen && "hidden"}">
+        <Notion blocks={page.pageBlocks} />
+      </div>
+    {/if}
   {:else}
     <details>
       <summary class="Component-Expander-summary cursor-pointer pb-0">{@html md.render(page.Content||'')}</summary>
-      <div class="Component-Expander-body pl-4 pt-2">
-        <Notion blocks={page.pageBlocks} />
-      </div>
+      {#if page.pageBlocks}
+        <div class="Component-Expander-blocks pl-4 pt-2">
+          <Notion blocks={page.pageBlocks} />
+        </div>
+      {/if}
     </details>
   {/if}
 </div>

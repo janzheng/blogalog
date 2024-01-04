@@ -17,7 +17,7 @@
   </div> -->
 
   <h1 class="text-2xl">{$page?.error.message || 'Sorry, something went wrong!'} </h1>
-  <p class="mt-4">Please go back <a class="underline cursor-pointer text-blue-600 hover:text-blue-400" href="{blogPath}">home to Blogalog.net</p>
+  <p class="mt-4">Please <a class="underline cursor-pointer text-blue-600 hover:text-blue-400" href="{blogPath}">go back home!</p>
   <!-- <h1>Error: {$page?.status}</h1> -->
 
 

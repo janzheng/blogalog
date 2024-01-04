@@ -23,7 +23,7 @@
   const md = new MarkdownIt();
   md.use(markdownItAttrs);
 
-  export let page, id, items=[], settings, isLoading, isLoadingMore, pageBlocks, startCursor;
+  export let page, id, items=[], settings=null, isLoading=null, isLoadingMore=null, pageBlocks=null, startCursor=null;
   export let itemKey = 'Name';
   export let itemList = [];
   export let pageNumber = 1;

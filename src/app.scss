@@ -26,8 +26,6 @@
 // }
 
 @import '@fontsource/inter';
-// @import '@fontsource/inter/300';
-/* @import '@fontsource/fira-mono'; */
 
 
 @tailwind base;
@@ -182,7 +180,7 @@ $fontSans: 'Inter', sans-serif;
 
     // decorative classes&,
     details {
-      @apply cursor-pointer mt-4 bg-white rounded-md;
+      @apply mt-4 bg-white rounded-md;
     }
 
     summary {

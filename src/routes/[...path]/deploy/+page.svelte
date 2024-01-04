@@ -23,6 +23,7 @@
     console.log('deploy/fetchData:', data);
     isLoading = false;
     isDone = true;
+    counter = 0;
 
     pollData();
 
