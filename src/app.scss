@@ -177,6 +177,94 @@ $fontSans: 'Inter', sans-serif;
     }
   }
 
+  // turns notion dropdowns into FAQ-style collapse components
+  .notion-collapse {
+
+    // decorative classes&,
+    details {
+      @apply cursor-pointer mt-4 bg-white rounded-md;
+    }
+
+    summary {
+      @apply cursor-pointer py-1 mt-0 relative;
+      @apply transition-all;
+    }
+
+    summary+div {
+      @apply pt-2 ml-0 pl-1 mt-0;
+
+      p:last-of-type {
+        @apply pb-1;
+      }
+    }
+
+    details[open] summary~* {
+      animation: open .2s ease-in-out;
+    }
+
+    @keyframes open {
+      0% {
+        opacity: 0;
+        margin-top: -20px
+      }
+
+      100% {
+        opacity: 1;
+        margin-top: 0px
+      }
+    }
+
+    // details:not([open]) summary + div {
+    //   @apply opacity-0 -mt-5 duration-1000;
+    // }
+    // details[open] summary + div {
+    //   @apply opacity-100 mt-0 duration-1000;
+    // }
+
+    details {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      border-radius: var(--rounded-box, 1rem);
+    }
+
+    summary {
+      position: relative;
+      display: block;
+      // outline: 2px solid transparent; // hides the outline
+      outline-offset: -2px;
+      border-radius: var(--rounded-box, 1rem);
+    }
+
+    details[open] summary:after,
+    summary:after {
+      --tw-translate-y: -50%;
+      --tw-rotate: 225deg;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    details summary:after {
+      position: absolute;
+      display: block;
+      height: 0.5rem;
+      width: 0.5rem;
+      --tw-translate-y: -100%;
+      --tw-rotate: 45deg;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      transition-duration: 150ms;
+      transition-duration: 0.2s;
+      top: 50%;
+      right: 1.4rem;
+      content: "";
+      transform-origin: 75% 75%;
+      box-shadow: 2px 2px;
+      pointer-events: none;
+    }
+  }
+
   .Profile .notion {
     // less margin for Profile page, since header used to highlight content
     // on PageContent though you DO want more margin since these act as real headers
@@ -421,6 +509,20 @@ $fontSans: 'Inter', sans-serif;
       font-family: var(--font-title);
     }
   }
+  a {
+    .font-title {
+      &, &>p {
+        color: var(--color-title-link);
+      }
+    }
+    &:hover {
+      .font-title {
+        &, &>p {
+          color: var(--color-title-hover);
+        }
+      }
+    }
+  }
   .font-paragraph {
     font-family: var(--font-paragraph);
   }
@@ -567,13 +669,18 @@ $fontSans: 'Inter', sans-serif;
   p { display: inline; }
 }
 
-
 details summary {
   cursor: pointer;
-  padding-bottom: 8px;
 }
-
 
 .content-pad {
   @apply px-8 md:px-32 py-8;
 }
+
+
+
+
+
+
+
+

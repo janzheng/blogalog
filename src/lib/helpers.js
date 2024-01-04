@@ -89,8 +89,6 @@ export function generatePageStyles(settingsPage, settings={}) {
   if (!settingsPage) return null
   
   const acceptedKeys = [
-    '--font-title',
-    '--font-paragraph',
     '--blogalog-page-width',
     '--blogalog-page-width',
     '--blogalog-post-width', 
@@ -99,6 +97,8 @@ export function generatePageStyles(settingsPage, settings={}) {
     '--color-title',
     '--color-link',
     '--color-link-hover',
+    '--color-title-link',
+    '--color-title-hover',
     '--color-bg',
     '--color-primary',
     '--color-primary-hover',
@@ -111,6 +111,8 @@ export function generatePageStyles(settingsPage, settings={}) {
     '--color-primary-text',
     '--slideup-distance',
     '--slideup-duration',
+    '--font-title',
+    '--font-paragraph',
   ];
 
   const pageStyles = acceptedKeys.reduce((acc, key) => {

@@ -126,6 +126,7 @@ module.exports = {
     },
   },
   plugins: [
+    // require("daisyui"),
     require('tailwindcss/nesting'),
     // require('@tailwindcss/forms'),
     // require('tw-elements/dist/plugin'),

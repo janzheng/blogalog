@@ -83,7 +83,7 @@
                       {@html md.render(page.Content || '')}
                     {/if}
                     {#if page.pageBlocks && page.pageBlocks.length > 0}
-                      <div class="Profile-Row--Main-Blocks">
+                      <div class="Profile-Row--Main-Blocks {settings?.row?.blocks?.class || 'notion-collapse'}">
                         <Notion 
                           blocks={page.pageBlocks} 
                           settings={{
@@ -163,8 +163,8 @@
   import { userData } from '$lib/stores.js'
   // import { plainRenderer } from '$plasmid/utils/marked';
   
-  import Notion from '@yawnxyz/sveltekit-notion';
-  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  // import Notion from '@yawnxyz/sveltekit-notion';
+  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import RenderComponent from '$lib/components/RenderComponent.svelte';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
   // import Login from '$lib/components/forms/Login.svelte';
@@ -260,7 +260,7 @@
     profileClass.longDesc = profileClass.longDesc                           || 'p-4 bg-slate-50 content-notion-wide';
     
     profileClass.defaultRowContainer = profileClass.defaultRowContainer     || 'mb-2 content-notion-wide';
-    profileClass.defaultRow = profileClass.defaultRow                       || 'p-4 bg-slate-50';
+    profileClass.defaultRow = profileClass.defaultRow                       || 'p-4 bg-slate-50 | ';
 
     // console.log('>>> profileClass:', profileClass)
   }
