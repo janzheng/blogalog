@@ -6,7 +6,7 @@
   import Loader from '$plasmid/components/icons/loader.svelte';
   
   export let data;
-  console.log('init data::', data)
+  // console.log('init data::', data)
   let blogPath = data.path
   let isLoading = false;
   let isDone = false;

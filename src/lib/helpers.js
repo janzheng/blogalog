@@ -182,8 +182,10 @@ export const cleanDirectoryData = (sites) => {
 }
 
 export const cleanNotionPageData = (page) => {
+  if(!page) return null;
+  
   // these are the notion-db records for each site, e.g. each row of site like Settings or Main
-  let sitePageData = page.value?.['site-pagedata']?.map(page => {
+  let sitePageData = page?.value?.['site-pagedata']?.map(page => {
     delete page.id;
     delete page.format;
     delete page['Created By'];
@@ -232,7 +234,7 @@ export const cleanNotionPageData = (page) => {
     metadata: page.metadata,
     cacheStatus: page.cacheStatus,
     value: {
-      "secrets": page.value?.secrets,
+      "secrets": page?.value?.secrets,
       "site-pagedata": sitePageData,
     }
   }

@@ -67,6 +67,19 @@ export const updatePage = async (pageId, properties) => {
   return response
 }
 
+export const addPage = async (req, dbName, { icon, cover, data, schema }={}) => {
+  let dbId = await getDbId(req, dbName)
+  const response = await notion.pages.create(await convertToNotionPageObject({ 
+    dbId, 
+    icon: icon || "🍌", 
+    cover, 
+    data, 
+    schema 
+  }));
+
+  return response;
+}
+
 
 
 
@@ -207,15 +220,15 @@ export const convertToNotionPageObject = async ({ dbId, icon = "🥬", cover, da
 
   let properties = {}
   for (const key in schema) {
-    if (schema.hasOwnProperty(key)) {
+    if (schema.hasOwnProperty(key)) { // only check for direct schema props
       const notionPropertyType = schema[key];
-      if (data[key])
+      if (data[key]) {
+        // console.log('converting....', key, data[key])
         properties[key] = convertToNotionProperty(data[key], notionPropertyType);
+      }
     }
   }
-
   notionPageObject["properties"] = properties;
-
 
   return notionPageObject;
 }

@@ -20,14 +20,14 @@
 	import Twitter from '$plasmid/components/TwitterTimeline.svelte'
 
 
-  export let page;
-  export let loginForm=null, unlockMessage=null;
+  export let row;
+  // export let loginForm=null, unlockMessage=null;
   export let componentClasses = 'bg-slate-50'
   export let componentContainerClasses = ''
 
   let settings = {};
-  if(page?.YAML) {
-    settings = YAML.parse(page?.YAML)
+  if(row?.YAML) {
+    settings = YAML.parse(row?.YAML)
 
     if(settings?.component) {
       componentClasses = settings?.component?.class;
@@ -74,12 +74,12 @@
 
 
 <div class="RenderComponent | {settings?.component?.container?.class || ''} " style={settings?.component?.container?.style||''} >
-  {#if page.Type.includes("Private") && !$userData['Email']}
+  {#if row.Type.includes("Private") && !$userData['Email']}
     <!-- do nothing -->
-  {:else if page.Type.includes("Public") && $userData['Email']}
+  {:else if row.Type.includes("Public") && $userData['Email']}
     <!-- do nothing -->
   {:else}
-    {#if page.Name == "Unlock" || page.Type.includes("Unlock") || page.Name == "Login" || page.Type.includes("Login")}
+    {#if row.Name == "Unlock" || row.Type.includes("Unlock") || row.Name == "Login" || row.Type.includes("Login")}
       <div class="Component-Login | {componentClasses || ''} ">
         {#if $userData['Email']}
           <div class="Component-Login-Status">
@@ -94,117 +94,102 @@
             {/if}
           </div>
         {:else}
-          <Notion blocks={page.pageBlocks} />
-          <Login cta="Log in" message={unlockMessage}
-            bind:formData={loginForm}
-            onError={({ result }) => {
-              unlockMessage = result.error.message;
-            }}
-            onUpdated={({ form, user }) => {
-              if (form.valid) {
-                if(form.data.email) {
-                  // $userData['Email'] = form.data.email;
-                  $userData = loginForm.user;
-                  unlockMessage = "Success!";
-                }
-              } else {
-                unlockMessage = "Email doesn‘t exist";
-              }
-            }}
-            onSubmit={({ action, formData, formElement, controller, submitter, cancel }) => {
-              formData.set('notion', page.Content); // use page.Content as the notionId
-              unlockMessage = "Logging in...";
-            }} 
-          />
+          {#if row.pageBlocks }
+            <div class="Component-Login-Blocks | {settings?.component?.blocks?.class} ">
+              <Notion blocks={row.pageBlocks} />
+            </div>
+          {/if}
+          <Login cta="{settings?.component?.cta||'Log in'}" {row} />
         {/if}
       </div>
-    {:else if page.Name == "Email" || page.Type.includes("Email")}
-      <div class="Component-Email | {componentClasses || ''} ">
-          {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
-            <h2 class="pt-0 mt-0">{page.Name}</h2>
-          {/if}
-          {#if page.Content}
-            <div class="Component-Email-Content | {settings?.component?.content?.class} ">
-              {@html md.render(page.Content||'')}
-            </div>
-          {/if}
-          {#if page.pageBlocks }
-            <div class="Component-Email-Blocks | {settings?.component?.blocks?.class} ">
-              <Notion blocks={page.pageBlocks} />
-            </div>
-          {/if}
-          <DataEntry cta="Sign Up"/>
+    {:else if row.Name == "DataEntry" || row.Type.includes("DataEntry")}
+      <div class="Component-DataEntry | {componentClasses || ''} ">
+        {#if (!row.Type?.includes("#noheader") && !row.Attributes?.includes("noheader")) && row.Name !== "Grid" && row.Name !=='undefined'}
+          <h2 class="pt-0 mt-0">{row.Name}</h2>
+        {/if}
+        {#if row.pageBlocks }
+          <div class="Component-DataEntry-Blocks | {settings?.component?.blocks?.class} ">
+            <Notion blocks={row.pageBlocks} />
+          </div>
+        {/if}
+        <DataEntry {row} cta="{settings?.component?.cta||'Submit'}"/>
       </div>
 
-    {:else if page.Name == "Members" || page.Type.includes("Members")}
+    {:else if row.Name == "Members" || row.Type.includes("Members")}
       <div class="Component-Members | {componentClasses || ''} ">
       </div>
 
-    {:else if page.Name == "Grid" || page.Type.includes("Grid")}
+    {:else if row.Name == "Grid" || row.Type.includes("Grid")}
       <div class="Component-Grid | {componentClasses||''} ">
         <div class="Component-Grid-Container {componentContainerClasses||''}">
-          {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
-            <h2 class="pt-0 mt-0">{page.Name}</h2>
+          {#if (!row.Type?.includes("#noheader") && !row.Attributes?.includes("noheader")) && row.Name !== "Grid" && row.Name !=='undefined'}
+            <h2 class="pt-0 mt-0">{row.Name}</h2>
           {/if}
-          {#if page.pageBlocks }
+          {#if row.pageBlocks }
             <div class="Component-Grid-Blocks | {settings?.component?.blocks?.class} ">
-              <Notion blocks={page.pageBlocks} />
+              <Notion blocks={row.pageBlocks} />
             </div>
           {/if}
         </div>
         <div class="Component-Grid-Items | {settings?.component?.items?.container?.class || 'mt-2'}">
-          <GridItems {page} id={page.Content} {settings} />
+          <GridItems page={row} id={row.Content} {settings} />
         </div>
       </div>
 
 
-    {:else if page.Name == "Expander" || page.Type.includes("Expander")}
+    {:else if row.Name == "Expander" || row.Type.includes("Expander")}
       <div class="Component-Expander | {componentClasses || ''} ">
         <!-- {#if (!page.Type?.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !== "Grid" && page.Name !=='undefined'}
           <h2 class="pt-0 mt-0">{page.Name}</h2>
         {/if} -->
-        <Expander {page} {settings} />
+        <Expander page={row} {settings} />
       </div>
 
-    {:else if page.Name == "CTA" || page.Type.includes("CTA")}
+    {:else if row.Name == "CTA" || row.Type.includes("CTA")}
       <div class="Component-CTA | {componentClasses || ''} ">
-        <Cta {page} {settings} />
+        <Cta page={row} {settings} />
       </div>
 
-    {:else if page.Name == "HTML" || page.Type.includes("HTML")}
+    {:else if row.Name == "HTML" || row.Type.includes("HTML")}
       <div class="Component-HTML |{componentClasses || ''} ">
-        {@html page.Content}
+        {@html row.Content}
       </div>
 
-    {:else if page.Name == "Markdown" || page.Type.includes("Markdown")}
+    {:else if row.Name == "Markdown" || row.Type.includes("Markdown")}
       <div class="Component-Markdown | {componentClasses || ''} ">
-        <Markdown {page} {settings} />
+        <Markdown page={row} {settings} />
       </div>
     
-    {:else if page.Name == "Links" || page.Type.includes("Links")}
+    {:else if row.Name == "Links" || row.Type.includes("Links")}
       <div class="Component-Links | {componentClasses || ''} " use:addClasses>
-        {#if page.pageBlocks}
+        {#if row.pageBlocks}
           <div class="Component-Links-Content">
-            {@html md.render(page.Content||'')}
+            {@html md.render(row.Content||'')}
           </div>
         {/if}
         <div class="Component-Links-Blocks | notion-links">
-          {#if page.pageBlocks}
-            <Notion blocks={page.pageBlocks} />
+          {#if row.pageBlocks }
+            <div class="Component-Links-Blocks | {settings?.component?.blocks?.class} ">
+              <Notion blocks={row.pageBlocks} />
+            </div>
           {/if}
         </div>
       </div>
 
-    {:else if page.Type.includes("Twitter")}
+    {:else if row.Type.includes("Twitter")}
       <div class="Component-Twitter | {componentClasses || ''} ">
-        <Twitter name={page.Name} />
+        <Twitter name={row.Name} />
       </div>
 
-    {:else if page.Name == "Banner" || page.Type.includes("Banner")}
+    {:else if row.Name == "Banner" || row.Type.includes("Banner")}
       <div class="Component-Banner | {componentClasses || ''} ">
-        <Notion blocks={page.pageBlocks} />
-        <a href={page.Content}>
-          <img src="{getNotionImageLink(page)}" alt="{page.Name}" />
+        {#if row.pageBlocks }
+          <div class="Component-Banner-Blocks | {settings?.component?.blocks?.class} ">
+            <Notion blocks={row.pageBlocks} />
+          </div>
+        {/if}
+        <a href={row.Content}>
+          <img src="{getNotionImageLink(row)}" alt="{row.Name}" />
         </a>
       </div>
     {/if}

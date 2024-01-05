@@ -74,7 +74,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
   // return {}
   let hostname = url?.hostname
   // "act" as another base domain for testing
-  hostname = "www.blogalog.net"
+  // hostname = "www.blogalog.net"
   // hostname = "www.404site.com"
   // hostname = "www.jess.bio"
   // hostname = "atif.phage.directory"

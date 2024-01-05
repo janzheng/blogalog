@@ -1523,10 +1523,10 @@
     node-gyp-build "^4.2.2"
     resolve-from "^5.0.0"
 
-"@yawnxyz/sveltekit-notion@^0.0.551":
-  version "0.0.551"
-  resolved "https://registry.yarnpkg.com/@yawnxyz/sveltekit-notion/-/sveltekit-notion-0.0.551.tgz#2948bdbe8e34c11c11429b46eca4df34427aa9c5"
-  integrity sha512-l5+NP+kRw7lGnFbHQLPrsrPJPiUtkyIdJvoVcleMarBniQiJCvIvzeq0msd7hog3Xysbytofl1KfKSzego4/iA==
+"@yawnxyz/sveltekit-notion@^0.0.552":
+  version "0.0.552"
+  resolved "https://registry.yarnpkg.com/@yawnxyz/sveltekit-notion/-/sveltekit-notion-0.0.552.tgz#25b8f8a0d85fefc7cbd55b7b3b510f6ccb505403"
+  integrity sha512-ai4D1+euCEqwAmp/YpG+AcL7VRlcoIfFdvAXHqWscFRvkCnvQ6FH19e7Q0g3TxEK+uOqYdXCEUE33mpj8O957g==
 
 abbrev@1:
   version "1.1.1"

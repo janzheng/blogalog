@@ -50,42 +50,42 @@
     
 
     <!-- {#each sitePages as page} -->
-    {#each pageOrder as page}
-      {@const settings = page?.YAML && YAML.parse(page?.YAML) || null}
+    {#each pageOrder as row}
+      {@const settings = row?.YAML && YAML.parse(row?.YAML) || null}
       {@const rowPageStyles = (settings?.page && generatePageStyles(settings.page, {type: 'string'})) || ''}
-      {#if page.Name && page.Hide == true}
+      {#if row.Name && row.Hide == true}
         <!-- do nothing if hidden -->
       {:else}
         <div class="Profile-Row-Wrapper" style={rowPageStyles + '; ' + settings?.row?.wrapper?.style||''}>
           <!-- special rows outside of standard row; for formatting usually -->
-          {#if page?.Type?.includes('Header')}
+          {#if row?.Type?.includes('Header')}
             <div class="Profile-Row-Container | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | " style={settings?.row?.container?.style||''}>
               <div class="Profile-Row--Header | {settings?.row?.class || ''} ">
-                <div class="Profile-Row-Header-Title title {settings?.row?.headerClass || ' font-sans leading-tight text-lg mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
+                <div class="Profile-Row-Header-Title title {settings?.row?.headerClass || ' font-sans leading-tight text-lg mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
               </div>
             </div>
           {:else}
             <div class="Profile-Row-Container | {settings?.row?.container?.class || profileClass?.defaultRowContainer}  | " style={settings?.row?.container?.style||''}>
               <!-- {page.Name} -->
-              {#if page?.Type?.includes('Main')}
-                {#if page?.Type.includes("Private") && !$userData['Email']}
+              {#if row?.Type?.includes('Main')}
+                {#if row?.Type.includes("Private") && !$userData['Email']}
                   <!-- alternatively show an error message for Private pages when user isn't logged in -->
                   <!-- <div class="text-red-500">This page is private. Please log in to view.</div> -->
-                {:else if page?.Type.includes("Public") && $userData['Email']}
+                {:else if row?.Type.includes("Public") && $userData['Email']}
                   <!-- hide public pages when user is logged in -->
                 {:else}
                   <div class="Profile-Row--Main | {settings?.row?.class || profileClass?.defaultRow} ">
-                    {#if (!page?.Type.includes("#noheader") && !page.Attributes?.includes("noheader")) && page.Name !=='undefined'}
+                    {#if (!row?.Type.includes("#noheader") && !row.Attributes?.includes("noheader")) && row.Name !=='undefined'}
                       <!-- used to be h2 -->
-                      <div class="Profile-Row--Main-Title title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
+                      <div class="Profile-Row--Main-Title title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
                     {/if}
-                    {#if page.Content}
-                      {@html md.render(page.Content || '')}
+                    {#if row.Content}
+                      {@html md.render(row.Content || '')}
                     {/if}
-                    {#if page.pageBlocks && page.pageBlocks.length > 0}
+                    {#if row.pageBlocks && row.pageBlocks.length > 0}
                       <div class="Profile-Row--Main-Blocks {settings?.row?.blocks?.class || 'notion-collapse'}">
                         <Notion 
-                          blocks={page.pageBlocks} 
+                          blocks={row.pageBlocks} 
                           settings={{
                             video: {
                               // turning all of these on turns a video into a gif
@@ -101,35 +101,35 @@
                   </div>
                 {/if}
   
-              {:else if page?.Type?.includes('Group')}
-                {#if page?.Type.includes("Private") && !$userData['Email']}
+              {:else if row?.Type?.includes('Group')}
+                {#if row?.Type.includes("Private") && !$userData['Email']}
                   <!-- do nothing -->
-                {:else if page?.Type.includes("Public") && $userData['Email']}
+                {:else if row?.Type.includes("Public") && $userData['Email']}
                   <!-- do nothing -->
                 {:else}
                   <div class="Profile-Row--Group Profile-Row--Posts | {settings?.row?.class || profileClass?.defaultRow + ' | my-2 overflow-hidden'} ">
-                    <div class="Profile-Row--Group-Header | {settings?.group?.header?.class || 'h5 pt-0 mt-0'}">{page.Group}</div>
-                    {#if page.SectionDescription}<p class="{settings?.group?.description?.class || 'pb-8'} ">{page.SectionDescription}</p>{/if}
+                    <div class="Profile-Row--Group-Header | {settings?.group?.header?.class || 'h5 pt-0 mt-0'}">{row.Group}</div>
+                    {#if row.SectionDescription}<p class="{settings?.group?.description?.class || 'pb-8'} ">{row.SectionDescription}</p>{/if}
                     <div class="Profile-Row--Group-Container Profile-Row--Posts-Container">
-                      <Posts posts={page.Pages.filter(page => page?.Type?.includes("Posts") && !page.Hide)}></Posts>
+                      <Posts posts={row.Pages.filter(page => page?.Type?.includes("Posts") && !page.Hide)}></Posts>
                     </div>
                   </div>
                 {/if}
-              {:else if page?.Type?.includes('Posts')}
-                {#if page?.Type.includes("Private") && !$userData['Email']}
+              {:else if row?.Type?.includes('Posts')}
+                {#if row?.Type.includes("Private") && !$userData['Email']}
                   <!-- do nothing -->
-                {:else if page?.Type.includes("Public") && $userData['Email']}
+                {:else if row?.Type.includes("Public") && $userData['Email']}
                   <!-- do nothing -->
                 {:else}
                   <!-- loose posts are NOT grouped together unless given a section -->
                   <div class="Profile-Row--Posts-Container | {settings?.row?.class || profileClass?.defaultRow}">
-                    <Posts posts={[page]} PostItemClasses={""}></Posts>
+                    <Posts posts={[row]} PostItemClasses={""}></Posts>
                   </div>
                 {/if}
               <!-- {:else if page?.Type?.includes('Component') && page.Hide !== true} -->
-              {:else if page?.Type?.some(type => componentTypes.includes(type)) && !page?.Hide }
+              {:else if row?.Type?.some(type => componentTypes.includes(type)) && !row?.Hide }
                 <div class="Profile-Row--Component-Container | {settings?.row?.class || profileClass?.defaultRow}">
-                  <RenderComponent {page} />
+                  <RenderComponent {row} />
                 </div>
               {/if}
             </div>

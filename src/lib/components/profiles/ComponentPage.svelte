@@ -22,7 +22,7 @@
       <div class="text-lg font-medium | inline-block ml-2">{author}</div>
     </a>
   </div>
-  <RenderComponent page={pageContent} />
+  <RenderComponent row={pageContent} />
   <!-- deprecated -->
   <!-- <Member id={pageContent.Content} settings={pageContent.YAML + `\nfilter: ${$page.data.subPath}`} search={$page.data.subPath} /> -->
 </div>

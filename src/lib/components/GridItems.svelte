@@ -88,7 +88,7 @@ component:
   content:
     class: text-center mb-4
   `
-  import YAML from 'yaml'
+  // import YAML from 'yaml'
 
   if(page.Name == 'Grid 1') {
     // settings = YAML.parse(tmp)
