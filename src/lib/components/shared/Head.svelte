@@ -5,19 +5,19 @@
   export const twitter = {};
 
   export let title=null, description=null, ogUrl=null
-  let {head, seo} = $page?.data;
+  let {head} = $page?.data;
 
-  // console.log('head.svelte:', title, seo, head)
+  console.log('head.svelte:', title, head)
 </script>
 
 <SvelteSeo
-  title={title ? `${head?.title} | ${title}` : head?.title }
-  description={description || head?.description}
-  keywords={head?.keywords}
-  canonical={head?.canonical + ''}
+  title={title ? `${head?.title} | ${title}` : head?.title || ''}
+  description={description || head?.description || ''}
+  keywords={head?.keywords || ''}
+  canonical={head?.canonical || ''}
   openGraph={{
-      ...head?.openGraph ,
-      url: ogUrl || head?.url + '',
+      ...head?.openGraph,
+      url: ogUrl || head?.url || '',
       // type: article ? siteSeoOpenGraphArticle.type : siteSeoOpenGraphBase.type,
       // ...(article ? { article: {...siteSeoOpenGraphArticle.article, ...article} } : null) }}
   }}

@@ -175,12 +175,12 @@ export const buildBlogHead = (blog) => {
       title: blog?.['site-data']?.['SiteTitle']?.Content,
       url: blog?.['site-data']?.['URL']?.Content || blog?.['site-data']?.['CanonicalURL']?.Content,
       description: desc,
-      // image: cardImg,
-      images: [{
-        url: cardImg,
-        width: 850,
-        height: 650,
-      }]
+      image: cardImg,
+      // images: [{
+      //   url: cardImg,
+      //   width: 850,
+      //   height: 650,
+      // }]
     },
     twitter: {
       site: blog?.['site-data']?.['TwitterHandle']?.Content,
