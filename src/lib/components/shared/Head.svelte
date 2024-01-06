@@ -7,7 +7,7 @@
   export let title=null, description=null, ogUrl=null
   let {head} = $page?.data;
 
-  console.log('head.svelte:', title, head)
+  // console.log('head.svelte:', title, head)
 </script>
 
 <SvelteSeo

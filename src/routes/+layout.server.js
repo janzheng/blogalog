@@ -50,10 +50,10 @@ async function initContent(head, hostname) {
 
 async function loadContent(url, params, locals, head, hostname, seo) {
   // let {cytosis, _head} = await initContent(head)
+  console.log(`\n<-- +layout.server.js / load ${hostname} -->\n`)
   let blog, blogalogPages
   ({ blog, head, blogalogPages } = await initContent(head, hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
 
-  console.log(`<!--- +layout.server.js / load ${hostname}--->`)
   let returnObj = {
     path: params?.path,
     pathSegments: params?.path?.split('/'),
@@ -67,6 +67,7 @@ async function loadContent(url, params, locals, head, hostname, seo) {
     blog,
     blogalogPages,
   };
+  console.log(`\n</-- +layout.server.js / finished ${hostname} -->\n`)
   return returnObj;
 }
 

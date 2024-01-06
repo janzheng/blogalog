@@ -112,9 +112,14 @@
   {/if}
 </footer>
 
-<div class="Content-Blogalog | text-sm py-4 text-center mt-2 bg-slate-50">
-  Get your <a href="https://blogalog.net"> very own website for your blog, CV, lab, or project.</a>
-</div>
+{#if !settings?.footer?.hidePromo}
+  <div class="Content-Blogalog | text-sm py-4 text-center mt-2 bg-slate-50">
+    Get your own <a href="https://blogalog.net"> website</a> for your <a href="https://blogalog.net">blog, CV, research lab, or side project.</a>
+    {#if settings?.footer?.showPhageDirectory}
+      <br>A <a href="https://phage.directory">Phage Directory project.</a>
+    {/if}
+  </div>
+{/if}
 
 
 <style lang="scss" global>

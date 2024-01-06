@@ -10,16 +10,18 @@
       </div>
     {/if}
 
-    {#if settings?.cta}
+    {#if settings?.cta || settings?.component?.cta}
       <div class="Component-Cta-Buttons {settings?.component?.buttons?.class||' '}">
         {#if settings?.cta && settings?.component?.cta?.href}
-          <a target="_blank" href={settings?.component?.cta?.href} class="Component-Cta | {settings?.component?.cta?.class||'Btn-solid cursor-pointer pb-0'}">
-            {settings?.cta}
+        <!-- removed pb-0 from the following as it made buttons look off (on CTAs, e.g. bunny cta) -->
+          <a target="_blank" href={settings?.component?.cta?.href} class="Component-Cta | {settings?.component?.cta?.class||'Btn-solid cursor-pointer'}">
+            {settings?.cta || settings?.component?.cta}
           </a>
         {/if}
         {#if settings?.alt && settings?.component?.alt?.href}
-          <a target="_blank" href={settings?.component?.alt?.href} class="Component-Cta-alt | {settings?.component?.alt?.class||'Btn-textbg cursor-pointer pb-0'}">
-            {settings?.alt}
+        <!-- removed pb-0 from the following as it made buttons look off (on CTAs, e.g. bunny cta) -->
+          <a target="_blank" href={settings?.component?.alt?.href} class="Component-Cta-alt | {settings?.component?.alt?.class||'Btn-textbg cursor-pointer'}">
+            {settings?.alt || settings?.component?.alt}
           </a>
         {/if}
       </div>

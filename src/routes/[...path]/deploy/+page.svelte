@@ -38,33 +38,33 @@
 
 
 
-  let intervalId;
+  let timeCounterInterval, cacheCheckInterval;
 
   async function pollData() {
     // Clear any existing interval
-    if (intervalId) {
-      clearInterval(intervalId);
-      clearInterval(timeCounter);
+    if (cacheCheckInterval) {
+      clearInterval(cacheCheckInterval);
+      clearInterval(timeCounterInterval);
     }
 
     // Store the initial metadata.created value
     let initialCreated = data?.created;
 
     // Start polling every 3 seconds
-    intervalId = setInterval(async () => {
+    cacheCheckInterval = setInterval(async () => {
       const response = await fetch(`${PUBLIC_FUZZYKEY_URL}/?metadata=true&key=${PUBLIC_PROJECT_NAME}-${blogPath}`);
       const newData = await response.json();
       console.log('checking...', `${PUBLIC_FUZZYKEY_URL}/?metadata=true&key=${PUBLIC_PROJECT_NAME}-${blogPath}`, initialCreated, newData, newData?.metadata?.created)
       // If metadata.created has changed, clear the interval and update the message
       if (newData?.metadata?.created && newData?.metadata?.created !== initialCreated) {
-        clearInterval(intervalId);
-        clearInterval(timeCounter);
+        clearInterval(cacheCheckInterval);
+        clearInterval(timeCounterInterval);
         message = `Refresh successful for ${title}`;
       }
     }, 3000);
 
 
-    let timeCounter = setInterval(async () => {
+    timeCounterInterval = setInterval(async () => {
       counter += 1
       message = `Site is rebuilding... ${counter}s`
     }, 1000)
@@ -75,8 +75,8 @@
   import { onDestroy } from 'svelte';
 
   onDestroy(() => {
-    if (intervalId) {
-      clearInterval(intervalId);
+    if (cacheCheckInterval) {
+      clearInterval(cacheCheckInterval);
     }
   });
 </script>

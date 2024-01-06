@@ -97,7 +97,6 @@ export const filterSecretsArr = (arr) => {
 
 export const buildBlogPage = (blogDataArr, index) => {
 
-  let blog
   if (!Array.isArray(blogDataArr)) {
     // can pass in a single blog object instead of an arr
     blogDataArr = [blogDataArr];
@@ -109,7 +108,7 @@ export const buildBlogPage = (blogDataArr, index) => {
   // the blog data arr could have more than one blog;
   // here we just build the LAST blog in the arr
   // this is helpful bc we might just be getting a recursive list of blogs, and this is the last / deepest
-  blog = blogDataArr[index]?.value
+  let blog = blogDataArr[index]?.value
   blog['pageDataId'] = blogDataArr[index]?.pageId // this is what's reported from blogalog page directory, used for self-updating
   blog['slug'] = blogDataArr[index]?.slug // this is what's reported from blogalog page directory, used for self-updating
 
@@ -129,7 +128,6 @@ export const buildBlogPage = (blogDataArr, index) => {
         "objectKey": "Name"
       }
     }])
-
 
     // every "page" has a type; otherwise it's a setting
     blog['site-pages'] = applyTransformers(blog['site-pagedata'].filter(p => p.Type && !["Secret", "Settings"].some(type => p.Type.includes(type))), [{
@@ -228,13 +226,12 @@ export const buildBlogHead = (blog) => {
 export const loadBlogalogDirectory = async () => {
 
   if (PUBLIC_USE_DIRECTORY_CACHE === "true") {
-    console.warn("----> Using Cached Directory Values! [cachedDirectory.js]");
-    console.warn("----> [cachedDirectory] -- items:", cachedDirectory.length);
+    console.warn(`\n[Directory Loader]\n---- Using Directory Cache: [cachedDirectory.js]. ----`);
     return cachedDirectory
   }
 
   // blogs might have been passed down from layout (already loaded)
-  let blogConfigData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
+  let directoryData = await cachet(`${PUBLIC_PROJECT_NAME}-blogalog_config`, async () => {
     let data = await endoloader(blogalog_config, {
       url: PUBLIC_ENDOCYTOSIS_URL,
       key: `${PUBLIC_PROJECT_NAME}-blogalog_config`,
@@ -242,8 +239,6 @@ export const loadBlogalogDirectory = async () => {
 
     // let blogConfigData = data?.value?.['blogalog']
     // this gets cached!
-    // console.log('blogConfigData ---->>>> ', JSON.stringify(blogConfigData, 0, 2))
-
     data = cleanDirectoryData(data.value?.['blogalog'])
     return data
     // return blogConfigData
@@ -273,7 +268,17 @@ export const loadBlogalogDirectory = async () => {
   // let returnData = cleanDirectoryData(blogConfigData.value?.['blogalog'] || blogConfigData)
   // list of blogalogs / blog pages + IDs as listed in the DB
   // handles unclean data (v1) or cleaned data (v2)
-  return blogConfigData.value?.['blogalog'] || blogConfigData
+
+  let result
+  if (directoryData.value?.['blogalog'])
+    result = cleanDirectoryData(directoryData.value?.['blogalog'])
+  else
+    result = directoryData
+
+
+  console.log('\n[Directory Loader] Directory Data ---->>>>\n', JSON.stringify(result, 0, 2), '\n---->>>>\n')
+
+  return result
 }
 
 // ** if you're looking for the fn that actually loads data... this is it ;)
@@ -304,14 +309,15 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
   if (process.env.PUBLIC_USE_PAGE_CACHE === "true") {
     try {
       const cachedData = await import(`$src/data/${slug}.js`);
-      console.warn(`----> Using Cached Page Values! [$src/data/${slug}.js]`);
+      console.warn(`\n[PageId Loader]\n----- Using Cached Page [$src/data/${slug}.js]\n----`);
       return cachedData.default;
     } catch (error) {
-      console.warn(`----> No Cached Page Found! [$src/data/${slug}.js]`);
+      console.warn(`[---- No Cached Page Found at [$src/data/${slug}.js]`);
       // If the file doesn't exist, continue to pull data from the API
     }
   } else {
-    console.log(`----> Using CDN data to load ${slug}`);
+    // console.log(`----> Using CDN data to load ${slug}`);
+    console.warn(`\n[PageId Loader]\n---- Using CDN Loader ----`);
   }
 
 
@@ -338,6 +344,10 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
       url: PUBLIC_ENDOCYTOSIS_URL,
       saveCache: false, // handled by cachet
     })
+    /* v1 -> v2 data refactor notes (temp)
+      - data needs .metadata for cachet
+    */
+  //  console.log('***bananas***', data)
     return data
   },
     {
@@ -352,6 +362,8 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
       }
     })
 
+    // TODO: continue refactoring INSIDE endoloader, not here; move this into endoloader 
+  console.log('----*** loadBlogalogFromPageId finalData refactor test:', finalData)
   finalData = cleanNotionPageData(finalData);
   finalData['pageId'] = pageId;
   finalData['slug'] = slug;
@@ -398,8 +410,8 @@ export const loadBlogalogData = async ({ blogalogPages, blogPath, hostname, load
       throw new Error(`No Pagedata ID for [${blog['Pagedata ID']}] provided; \n${JSON.stringify(blog, 0, 2)}`)
     }
 
-    let blogData = await loadBlogalogFromPageId({pageId: blog['Pagedata ID'], slug: blog['Slug']})
-    return blogData
+    let blogDataArr = await loadBlogalogFromPageId({pageId: blog['Pagedata ID'], slug: blog['Slug']})
+    return blogDataArr
   }))
 
   // one or more matched blog posts; could be ALL blog posts!
@@ -487,6 +499,10 @@ export const loadBlogalog = async ({
   return blogalogData
 }
 
+
+// BLOGALOG LOADER ENTRY POINT 
+// this is initiated by both layout.server and path/page.server
+// ---
 // loads blogalog page or post depending on path
 export const loadBlogalogFromPath = async ({
   blogPath, hostname, 
@@ -494,7 +510,7 @@ export const loadBlogalogFromPath = async ({
   blogalogPages = [], // table of blogalog data / e.g. the Blogalog Page List
 }={}
   ) => {
-  let blog, blogDataArr, isBlogalogHome, head = {};
+  let blog, isBlogalogHome, head = {};
   console.log('[loadBlogalogFromPath] path:', {hostname, blogPath, loadAll })
   // console.log('[loadBlogalogFromPath] path:', {hostname, blogPath, loadAll, blogalogPages})
 
@@ -510,7 +526,8 @@ export const loadBlogalogFromPath = async ({
   }
   
   // get the actual blog page data in an array
-  blogDataArr = await loadBlogalogData({ blogalogPages, blogPath, hostname, loadAll })
+  let blogDataArr = await loadBlogalogData({ blogalogPages, blogPath, hostname, loadAll })
+  // let { blogDataArr } = await loadBlogalogData({ blogalogPages, blogPath, hostname, loadAll })
   isBlogalogHome = true // todo: is this still necessary?
 
   if (blogDataArr?.length > 0) {
