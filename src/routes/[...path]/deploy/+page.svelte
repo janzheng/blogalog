@@ -64,7 +64,7 @@
     }, 3000);
 
 
-    timeCounterInterval = setInterval(async () => {
+    let timeCounter = setInterval(async () => {
       counter += 1
       message = `Site is rebuilding... ${counter}s`
     }, 1000)

@@ -132,7 +132,7 @@
           {/if}
         </div>
         <div class="Component-Grid-Items | {settings?.component?.items?.container?.class || 'mt-2'}">
-          <GridItems page={row} id={row.Content} {settings} />
+          <GridItems {row} {settings} />
         </div>
       </div>
 

@@ -21,39 +21,39 @@
     cta = settings?.form?.messages?.cta || cta;
   }
 
-  let tmpYaml = `
-form:
-  messages:
-    cta: Join Waitlist
-    loading: Adding your to waitlist...
-    success: Waitlist Joined!
-  schema:
-    - name: Name
-      type: text
-      label: Name
-      description: Please enter your full name
-      placeholder: Full name
-      required: true
-    - name: Email
-      type: email
-      label: Email
-      description: Enter your email so I can reach back out to you!
-      placeholder: jane@example.com
-      required: true
-    - name: Ask
-      type: text
-      label: Website details
-      placeholder: What are you looking to build? Please enter as much details here as possible!
-      textarea: true
-      required: true
+//   let tmpYaml = `
+// form:
+//   messages:
+//     cta: Join Waitlist
+//     loading: Adding your to waitlist...
+//     success: Waitlist Joined!
+//   schema:
+//     - name: Name
+//       type: text
+//       label: Name
+//       description: Please enter your full name
+//       placeholder: Full name
+//       required: true
+//     - name: Email
+//       type: email
+//       label: Email
+//       description: Enter your email so I can reach back out to you!
+//       placeholder: jane@example.com
+//       required: true
+//     - name: Ask
+//       type: text
+//       label: Website details
+//       placeholder: What are you looking to build? Please enter as much details here as possible!
+//       textarea: true
+//       required: true
 
-`
-  if(tmpYaml) {
-    // settings = YAML.parse(tmpYaml)
-    // loading = settings?.form?.messages?.loading || loading;
-    // success = settings?.form?.messages?.success || success;
-    // cta = settings?.form?.messages?.cta || cta;
-  }
+// `
+//   if(tmpYaml) {
+//     // settings = YAML.parse(tmpYaml)
+//     // loading = settings?.form?.messages?.loading || loading;
+//     // success = settings?.form?.messages?.success || success;
+//     // cta = settings?.form?.messages?.cta || cta;
+//   }
 
   // Client API:
   export const { form, enhance, errors, constraints } = superForm(data.form, {

@@ -23,7 +23,7 @@
   const md = new MarkdownIt();
   md.use(markdownItAttrs);
 
-  export let page, id, items=[], settings=null, isLoading=null, isLoadingMore=null, pageBlocks=null, startCursor=null;
+  export let row, databaseId, items=[], settings=null, isLoading=null, isLoadingMore=null, pageBlocks=null, startCursor=null;
   export let itemKey = 'Name';
   export let itemList = [];
   export let pageNumber = 1;
@@ -90,7 +90,7 @@ component:
   `
   // import YAML from 'yaml'
 
-  if(page.Name == 'Grid 1') {
+  if(row.Name == 'Grid 1') {
     // settings = YAML.parse(tmp)
     // console.log('gridItems - settings', settings)
   }
@@ -125,13 +125,13 @@ component:
   async function loadMoreItems() {
     isLoadingMore = true;
     pageNumber++;
-    await getItems(id);
+    await getItemsFromDatabase(databaseId);
     isLoadingMore = false;
   }
   
 
 
-  const getItems = async (id) => {
+  const getItemsFromDatabase = async (id) => {
     // if(settings.itemList)
     //   return {}
 
@@ -202,7 +202,21 @@ component:
 
 
   onMount(async () => {
-    ({items} = await getItems(id, settings))
+    databaseId = row.Content
+
+    if(settings?.databases) {
+      // multiple dbs; currently doesn't support "load more"
+      let databaseIds = settings?.databases
+      await settings?.databases?.map(async d => {
+        console.log('[multi] getting db content from', d)
+        let {newItems: items} = await getItemsFromDatabase(d, settings)
+        console.log('derp:', newItems)
+        items = {...items, ...newItems}
+      })
+      console.log('multipl db getter results...?!?!', items)
+    } else {
+      ({items} = await getItemsFromDatabase(databaseId, settings))
+    }
   });
 
   function getOrderedKeys (items, order=settings?.order) {
@@ -251,9 +265,9 @@ component:
  style={gridItemsStyles}
 >
 
-  {#if page.Content && settings?.showContent}
+  {#if row.Content && settings?.showContent}
     <div class="Component-GridItems-Content {settings?.component?.content?.class||''}">
-      {@html md.render(page.Content||'')}
+      {@html md.render(row.Content||'')}
     </div>
   {/if}
   
