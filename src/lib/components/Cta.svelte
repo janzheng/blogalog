@@ -56,7 +56,7 @@
     breaks: true,
   });
 
-  export let page, isOpen=false, settings
+  export let page, settings
   page.Content = page?.Content?.replace(/\\n/g, '\n');
   
 </script>

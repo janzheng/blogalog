@@ -51,7 +51,8 @@
 
     <!-- {#each sitePages as page} -->
     {#each pageOrder as row}
-      {@const settings = row?.YAML && YAML.parse(row?.YAML) || null}
+      {@const settings = row?.YAML && safeParse(row?.YAML, row) || null}
+      <!-- {@const settings = row?.YAML && YAML.parse(row?.YAML) || null} -->
       {@const rowPageStyles = (settings?.page && generatePageStyles(settings.page, {type: 'string'})) || ''}
       {#if row.Name && row.Hide == true}
         <!-- do nothing if hidden -->
@@ -74,16 +75,16 @@
                 {:else if row?.Type.includes("Public") && $userData['Email']}
                   <!-- hide public pages when user is logged in -->
                 {:else}
-                  <div class="Profile-Row--Main | {settings?.row?.class || profileClass?.defaultRow} ">
+                  <div class="Profile-Row | {settings?.row?.class || profileClass?.defaultRow} ">
                     {#if (!row?.Type.includes("#noheader") && !row.Attributes?.includes("noheader")) && row.Name !=='undefined'}
                       <!-- used to be h2 -->
-                      <div class="Profile-Row--Main-Title title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
+                      <div class="Profile-Row--Header title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
                     {/if}
                     {#if row.Content}
                       {@html md.render(row.Content || '')}
                     {/if}
                     {#if row.pageBlocks && row.pageBlocks.length > 0}
-                      <div class="Profile-Row--Main-Blocks {settings?.row?.blocks?.class || 'notion-collapse'}">
+                      <div class="Profile-Row--Blocks {settings?.row?.blocks?.class || 'notion-collapse'}">
                         <Notion 
                           blocks={row.pageBlocks} 
                           settings={{
@@ -182,6 +183,14 @@
   marked.use({
     breaks: true,
   });
+
+  function safeParse(yaml, row) {
+    try {
+      return YAML.parse(yaml)
+    } catch(e) {
+      console.error('YAML Parse error:', e, '\nProblematic row:', row)
+    }
+  }
 
   let blogData = getContext('blogData');
 

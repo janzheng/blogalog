@@ -26,7 +26,7 @@
   });
   md.use(markdownItAttrs);
 
-  export let row, databaseId, items=[], settings=null, isLoading=null, isLoadingMore=null, pageBlocks=null, startCursor=null;
+  export let row, databaseId, items=[], settings=null, isLoading=true, isLoadingMore=null, pageBlocks=null, startCursor=null;
   export let itemKey = 'Name';
   export let itemList = [];
   export let pageNumber = 1;
@@ -297,8 +297,8 @@
 
   <!-- note: if itemList is on, we need to also set loaders.notion to be true, or the "no items" error will show -->
   {#if (settings?.loaders?.itemList !== true && settings?.loaders?.notion !== false) || (settings?.loaders?.itemList == true && settings?.loaders?.notion == true)}
-    {#if (isLoading) || !items}
-      <div class="GridItems-loading {settings?.component?.loadingContainer?.class||' '}">
+    {#if isLoading}
+      <div class="GridItems-loading {settings?.component?.loadingContainer?.class||'text-center'}">
         <div class="GridItems-loading-title h2 title {settings?.component?.loading?.class||' '}" style="padding-top:0"><Loader /> {settings?.loading || "Loading"}</div>
       </div>
     {:else}
@@ -377,7 +377,7 @@
 
       {:else}
         <!-- <h2 style="padding-top:0">No items found</h2> -->
-        <div class="h2 title {settings?.component?.notFound?.class||''}" style="padding-top:0">No items found</div>
+        <div class="h2 title {settings?.component?.notFound?.class||'text-center'}" style="padding-top:0">No items found</div>
       {/if}
     {/if}
   {/if}
