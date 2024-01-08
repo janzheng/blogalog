@@ -6,7 +6,9 @@
     
     {#if page.Content}
       <div class="Component-Cta-Content {settings?.component?.content?.class||''}">
-        {@html md.render(page.Content||'')}
+        <!-- somehow md.render doesn't work here; maybe bc text idk lol (build club headline bug; maybe a break after <b>?) -->
+        <!-- ??? {@html md.render(page.Content||'')} ??? -->
+        {@html marked(page.Content||'')}
       </div>
     {/if}
 
@@ -46,13 +48,13 @@
 
   import MarkdownIt from 'markdown-it';
   import markdownItAttrs from 'markdown-it-attrs';
-  const md = new MarkdownIt();
-  md.use(markdownItAttrs);
+  // const md = new MarkdownIt();
+  // md.use(markdownItAttrs);
 
-  // import { marked } from 'marked';
-  // marked.use({
-  //   breaks: true,
-  // });
+  import { marked } from 'marked';
+  marked.use({
+    breaks: true,
+  });
 
   export let page, isOpen=false, settings
   page.Content = page?.Content?.replace(/\\n/g, '\n');

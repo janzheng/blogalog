@@ -57,6 +57,13 @@
   {/if}
 </div>
 
+{#if dev}
+  <div class="Refresher-float bottom-float">
+    <Refresher data={$page?.data} />
+  </div>
+{/if}
+
+
 
 
 
@@ -76,6 +83,7 @@
   import ComponentPage from '$lib/components/profiles/ComponentPage.svelte';
   import PostPage from '$lib/components/profiles/PostPage.svelte';
 	import Footer from '$lib/layouts/BlogalogFooter.svelte';
+  import Refresher from '$lib/components/Refresher.svelte';
 
   import { plainRenderer } from '$plasmid/utils/marked';
 
@@ -213,6 +221,10 @@
   .slideup.visible, .slideupContainer > .visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .Refresher-float {
+    @apply fixed bottom-0 bg-white bg-opacity-60 rounded-md p-2 m-2;
   }
 
 </style>

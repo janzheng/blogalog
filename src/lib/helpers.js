@@ -144,7 +144,7 @@ export function slideUp(onMount, {itemSelector = '.slideup', containerSelector =
     );
   }
 
-  onMount(() => {
+  function slideEmUp() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -171,7 +171,15 @@ export function slideUp(onMount, {itemSelector = '.slideup', containerSelector =
         observer.observe(child);
       });
     });
-  });
+  }
+
+  if (onMount) {
+    onMount(() => {
+      slideEmUp();
+    }); 
+  } else {
+    slideEmUp();
+  }
 }
 
 export const cleanDirectoryData = (sites) => {

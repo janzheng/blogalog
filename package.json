@@ -57,6 +57,7 @@
     "postcss-scss": "^4.0.2",
     "ramda": "^0.29.1",
     "ramda-async": "^1.1.2",
+    "sanitize-html": "^2.11.0",
     "sass": "^1.45.2",
     "slugify": "^1.6.5",
     "stripe": "^14.10.0",

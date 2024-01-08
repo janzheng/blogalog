@@ -4,10 +4,10 @@
         https://blogalog.net // localhost:3055 - catch-all landing page
 -->
 {#if browser}
-<div class="Root | ">
-  <!-- main profile page, e.g. jessbio or blogalog.net -->
-  <Blogalog isHomepage={true} {page} />
-</div>
+  <div class="Root | ">
+    <!-- main profile page, e.g. jessbio or blogalog.net -->
+    <Blogalog isHomepage={true} {page} />
+  </div>
 {/if}
 
 

@@ -29,14 +29,14 @@ export default {
         "Name": "TwitterHandle"
       },
       {
-        "Content": "Enterprise AI Search & Knowhow",
+        "Content": "CACHED Enterprise AI Search & Knowhow",
         "Type": [
           "Settings"
         ],
         "Name": "SiteTitle"
       },
       {
-        "Content": "Enterprise AI Search & Knowhow",
+        "Content": "CACHED Enterprise AI Search & Knowhow",
         "Type": [
           "Settings"
         ],

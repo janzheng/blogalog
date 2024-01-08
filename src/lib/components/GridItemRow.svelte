@@ -30,16 +30,19 @@
           <a class="Item-link-href" href="{item[key]}">{item[key]}</a>
         {/if}
       </div>
-    {:else if schema?.[key]?.type === 'tag'}
-      <div class="Item-type-tag Item-{key} | mb-1 {schema?.[key]?.class||''}">
-        <span class="{schema?.[key]?.tagClass ||  'bg-zinc-200/50 text-xs rounded-md text-slate-800 px-2 py-1 mr-1 mb-1'}">{item[key]}</span>
-      </div>
-    {:else if schema?.[key]?.type === 'tagText'}
-      <div class="Item-type-tagText Item-{key} | mb-1 {schema?.[key]?.class||''}">
-        <!-- {#each item[key]?.split(',').map(tag => tag.trim()) as tag}
-          <span class="{schema?.[key]?.tagClass ||  'bg-slate-100 text-xs rounded-md text-slate-800 px-2 py-1 mr-1 mb-1'}">{tag}</span>
-        {/each} -->
-      </div>
+    {:else if schema?.[key]?.type === 'tag' || schema?.[key]?.type === 'tags'}
+      {#if typeof item[key] === 'string'}
+        <!-- single tag; select -->
+        <div class="Item-type-tag Item-{key} | mb-1 {schema?.[key]?.class||''}">
+          <span class="{schema?.[key]?.tagClass || 'bg-zinc-200/50 text-xs rounded-md text-slate-800 px-2 py-1 mr-1 mb-1'}">{item[key]}</span>
+        </div>
+      {:else if Array.isArray(item[key])}
+        <div class="Item-type-tag tag-array Item-{key} | mb-1 {schema?.[key]?.class||''}">
+          {#each item[key].map(tag => tag.trim()) as tag}
+            <span class="{schema?.[key]?.tagClass ||  'bg-zinc-200/50 text-xs rounded-md text-slate-800 px-2 py-1 mr-1 mb-1'}">{tag}</span>
+          {/each}
+        </div>
+      {/if}
     {:else if schema?.[key]?.type === 'markdown'}
       <!-- <div class="Item-type-markdown pfix Item-{key} | {schema?.[key]?.class||''}">{@html marked(item[key]||'')}</div> -->
   <div class="Item-type-markdown pfix Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html marked(fixMarkdownLinks(item[key]||''))}</div>

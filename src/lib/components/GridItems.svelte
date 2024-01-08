@@ -1,3 +1,4 @@
+
 <!-- 
 
   Based off of Itemlist
@@ -9,7 +10,7 @@
   import { onMount } from 'svelte';
   import { browser, dev } from '$app/environment';
   // import { marked } from 'marked';
-  // import { getNotionImageLink } from '$lib/helpers.js'
+  import { slideUp } from '$lib/helpers.js'
   import Notion from '@yawnxyz/sveltekit-notion';
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import { fetchPost } from "$plasmid/utils/fetch-helpers";
@@ -20,7 +21,9 @@
 
   import MarkdownIt from 'markdown-it';
   import markdownItAttrs from 'markdown-it-attrs';
-  const md = new MarkdownIt();
+  const md = new MarkdownIt({
+    breaks: true
+  });
   md.use(markdownItAttrs);
 
   export let row, databaseId, items=[], settings=null, isLoading=null, isLoadingMore=null, pageBlocks=null, startCursor=null;
@@ -29,65 +32,65 @@
   export let pageNumber = 1;
 
 
-  let tmp = `showContent: true
-loaders:
-  itemList: true
+//   let tmp = `showContent: true
+// loaders:
+//   itemList: true
 
-itemList:
-  - Name: icon
-    Image:
-      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087f58465a02b9fce34a4d_Coinbase.svg
-  - Name: icon
-    Image:
-      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087fa0de89a26d0c550eb0_Outreach.svg
-  - Name: icon
-    Image:
-      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/6408766e50950b85856aac99_Duelingo.svg
-  - Name: icon
-    Image:
-      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64215ec022b667d667c09d79_wealthsimple-min.svg
-  - Name: icon
-    Image:
-      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/6408766d2fda6969615b5d8a_Confluent.svg
-  - Name: icon
-    Image:
-      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/6408766d7968d45d4785da9e_Greyhouse.svg
-  - Name: icon
-    Image:
-      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087fb01004c5474e312705_Aurora.svg
-  - Name: icon
-    Image:
-      - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087fbfde89a220f75510b6_Gainsight.svg
+// itemList:
+//   - Name: icon
+//     Image:
+//       - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087f58465a02b9fce34a4d_Coinbase.svg
+//   - Name: icon
+//     Image:
+//       - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087fa0de89a26d0c550eb0_Outreach.svg
+//   - Name: icon
+//     Image:
+//       - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/6408766e50950b85856aac99_Duelingo.svg
+//   - Name: icon
+//     Image:
+//       - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64215ec022b667d667c09d79_wealthsimple-min.svg
+//   - Name: icon
+//     Image:
+//       - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/6408766d2fda6969615b5d8a_Confluent.svg
+//   - Name: icon
+//     Image:
+//       - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/6408766d7968d45d4785da9e_Greyhouse.svg
+//   - Name: icon
+//     Image:
+//       - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087fb01004c5474e312705_Aurora.svg
+//   - Name: icon
+//     Image:
+//       - url: https://assets-global.website-files.com/6127a84dfe068e153ef20572/64087fbfde89a220f75510b6_Gainsight.svg
       
-item:
-  class: flex justify-center flex-col p-1
+// item:
+//   class: flex justify-center flex-col p-1
 
-order:
-  - Image
+// order:
+//   - Image
 
-schema:
-  Image:
-    type: image
-    classContainer: flex justify-center flex-col
-    class: max-h-16
+// schema:
+//   Image:
+//     type: image
+//     classContainer: flex justify-center flex-col
+//     class: max-h-16
 
-row:
-  wrapper:
-    style: "background-color: #F6F3EB"
-  class: "px-4 py-6"
-  container:
-    class: "content-notion-wide"
+// row:
+//   wrapper:
+//     style: "background-color: #F6F3EB"
+//   class: "px-4 py-6"
+//   container:
+//     class: "content-notion-wide"
 
-component:
-  class: headline
-  list:
-    container:
-      class: grid grid-cols-2 md:grid-cols-4 gap-2
-    item:
-      class: border-2 border-transparent rounded-md cursor-pointer ease-in-out hover:ease-in-out duration-300 overflow-hidden
-  content:
-    class: text-center mb-4
-  `
+// component:
+//   class: headline
+//   list:
+//     container:
+//       class: grid grid-cols-2 md:grid-cols-4 gap-2
+//     item:
+//       class: border-2 border-transparent rounded-md cursor-pointer ease-in-out hover:ease-in-out duration-300 overflow-hidden
+//   content:
+//     class: text-center mb-4
+//   `
   // import YAML from 'yaml'
 
   if(row.Name == 'Grid 1') {
@@ -132,6 +135,7 @@ component:
 
 
   const getItemsFromDatabase = async (id) => {
+    let items
     // if(settings.itemList)
     //   return {}
 
@@ -164,8 +168,8 @@ component:
 
       isLoading = false
 
-      if(browser && dev)
-        console.log('[dev][getItems] Items:', items)
+      // if(browser && dev)
+      //   console.log('[dev][getItems] Items:', items)
 
       // items = [items[0]]
 
@@ -191,7 +195,7 @@ component:
       console.error('[loadPage] error', err)
     }
     pageBlocks = result?.pageBlocks
-    console.log('pageBlocks?!', pageBlocks)
+    // console.log('pageBlocks?!', pageBlocks)
     return result?.pageBlocks
 	};
 
@@ -205,18 +209,24 @@ component:
     databaseId = row.Content
 
     if(settings?.databases) {
+      console.log('griditems databases :::', settings.databases)
       // multiple dbs; currently doesn't support "load more"
-      let databaseIds = settings?.databases
-      await settings?.databases?.map(async d => {
-        console.log('[multi] getting db content from', d)
-        let {newItems: items} = await getItemsFromDatabase(d, settings)
-        console.log('derp:', newItems)
-        items = {...items, ...newItems}
-      })
-      console.log('multipl db getter results...?!?!', items)
+      let results = await Promise.all(await settings?.databases?.map(async d => {
+        let result = await getItemsFromDatabase(d.id, settings);
+        let newItems = result.items || {};
+        newItems.forEach(item => {
+          item['_dbname'] = d.name;
+        });
+        // items = {...items, ...newItems}
+        return newItems
+      }))
+      items = results.flat()
     } else {
       ({items} = await getItemsFromDatabase(databaseId, settings))
     }
+
+    // re-run slideUp after all items loaded
+    slideUp(); // for elements that slide up; apply [.slideupContainer] to direct parent container
   });
 
   function getOrderedKeys (items, order=settings?.order) {
@@ -317,10 +327,12 @@ component:
         {:else}
           <div class="GridItem-Grid | {settings?.items?.class || settings?.component?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
             {#each items as item, index}
+              <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
               <div class="Item | {settings?.item?.class || settings?.component?.item?.class || "p-4"} | {settings?.items?.[index]?.class||settings?.component?.items?.[index]?.class||''} | {(settings?.modal||settings?.component?.modal) || (settings?.item?.click||settings?.component?.item?.click) ? 'cursor-pointer' : ''}"
                 on:click={(e)=>handleItemClick(item, e)} 
                 on:keyup={(e)=>handleItemClick(item, e)}
-                role="button" tabindex=""
+                role="{(settings?.item?.type == 'click' || settings?.modal) ? 'button' : ''}" 
+                tabindex="{(settings?.item?.type == 'click' || settings?.modal) ? 1 : -1}"
                 >
                 {#if settings.item?.type == 'link'}
                   <a class="GridItem-link" href="{item[settings.item?.itemLink]||item[settings.component?.item?.itemLink]}" target="_blank">
