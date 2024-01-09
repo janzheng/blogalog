@@ -52,7 +52,7 @@
     <!-- {#each sitePages as page} -->
     {#each pageOrder as row}
       {@const settings = row?.YAML && safeParse(row?.YAML, row) || null}
-      <!-- {@const settings = row?.YAML && YAML.parse(row?.YAML) || null} -->
+      <!-- {@const settings = row?.YAML && safeParse(row?.YAML) || null} -->
       {@const rowPageStyles = (settings?.page && generatePageStyles(settings.page, {type: 'string'})) || ''}
       {#if row.Name && row.Hide == true}
         <!-- do nothing if hidden -->
@@ -154,13 +154,13 @@
 
 
 <script>
-  import YAML from 'yaml'
-  import { browser, dev } from '$app/environment';
+  // import YAML from 'yaml'
+  // import { browser, dev } from '$app/environment';
   // import { page } from '$app/stores';
   import { getContext } from 'svelte';
   import { marked } from 'marked';
   
-  import { getNotionImageLink, generatePageStyles } from '$lib/helpers.js'
+  import { safeParse, getNotionImageLink, generatePageStyles } from '$lib/helpers.js'
   import { userData } from '$lib/stores.js'
   // import { plainRenderer } from '$plasmid/utils/marked';
   
@@ -183,14 +183,6 @@
   marked.use({
     breaks: true,
   });
-
-  function safeParse(yaml, row) {
-    try {
-      return YAML.parse(yaml)
-    } catch(e) {
-      console.error('YAML Parse error:', e, '\nProblematic row:', row)
-    }
-  }
 
   let blogData = getContext('blogData');
 

@@ -74,10 +74,10 @@
 	import { onMount } from 'svelte';
   import { dev, browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
-  import { getNotionImageLink, generatePageStyles, slideUp } from '$lib/helpers.js'
+  import { safeParse, getNotionImageLink, generatePageStyles, slideUp } from '$lib/helpers.js'
   // import { niceDate } from '$plasmid/utils/date'
   
-  import YAML from 'yaml'
+  // import YAML from 'yaml'
   import { componentTypes } from '$lib/componentTypes.js';
   import Profile from '$lib/components/profiles/ProfilePage.svelte';
   import ComponentPage from '$lib/components/profiles/ComponentPage.svelte';
@@ -152,7 +152,7 @@
   if (settings) {
 
     // settings.cssVars — css variables are set into the document itself
-    settings = YAML.parse(settings);
+    settings = safeParse(settings);
 
     // settings.page — page display settings
     if(settings && settings.page) {

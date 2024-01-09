@@ -34,6 +34,15 @@ export const compareVersions = (version1, version2) => {
 }
 
 
+import YAML from 'yaml';
+export const safeParse = (yaml, trace) => {
+  try {
+    return YAML.parse(yaml)
+  } catch (e) {
+    console.error('YAML Parse error:', e, '\Trace:', trace)
+  }
+}
+
 
 // input is either a valid JSON string of a bunch of \n key:value pairs
 export function parseMetadata(metadataInput = "key:value", splitChar = '\n') {

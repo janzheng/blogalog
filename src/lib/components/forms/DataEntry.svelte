@@ -1,11 +1,12 @@
 <script >
-  import YAML from 'yaml'
+  // import YAML from 'yaml'
   // import { userData } from '$lib/stores.js'
   import { superForm } from 'sveltekit-superforms/client';
   import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
   import TextAreaAuto from "$plasmid/components/TextAreaAutosize.svelte";
 
+  import { safeParse } from '$lib/helpers';
   import { page } from '$app/stores';
   export let data = $page.data, showDebug = false, classes="radius-xs border-red-10 bg-slate-50";
   export let cta="Submit", loading="Please wait...", success="Data Submitted!";
@@ -15,7 +16,7 @@
 
   let settings;
   if(row.YAML) {
-    settings = YAML.parse(row.YAML)
+    settings = safeParse(row.YAML)
     loading = settings?.form?.messages?.loading || loading;
     success = settings?.form?.messages?.success || success;
     cta = settings?.form?.messages?.cta || cta;

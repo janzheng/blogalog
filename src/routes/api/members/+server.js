@@ -18,8 +18,9 @@ import { json } from '@sveltejs/kit';
 import { cachet } from '$plasmid/utils/cachet'
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
 import { parseMetadata, keyRemap } from '$plasmid/utils/helpers';
+import { safeParse } from '$lib/helpers';
 
-import YAML from 'yaml'
+// import YAML from 'yaml'
 
 
 
@@ -43,7 +44,7 @@ export const POST = async ({ request }) => {
 
   // settings = parseMetadata(settings)
   if(settings)
-    settings = YAML.parse(settings)
+    settings = safeParse(settings)
 
   let result
   let key = `${PUBLIC_PROJECT_NAME}-id-${id}`

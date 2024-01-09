@@ -19,8 +19,9 @@ import { json } from '@sveltejs/kit';
 import { cachet } from '$plasmid/utils/cachet'
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
 import { parseMetadata, keyRemap } from '$plasmid/utils/helpers';
+import { safeParse } from '$lib/helpers';
 
-import YAML from 'yaml'
+// import YAML from 'yaml'
 
 import { NOTION_API } from '$env/static/private';
 import { Client, iteratePaginatedAPI } from '@notionhq/client';
@@ -221,7 +222,7 @@ export const POST = async ({ request }) => {
 
     // settings = parseMetadata(settings)
     if (typeof settings === 'string')
-      settings = YAML.parse(settings)
+      settings = safeParse(settings)
     else if (!settings)
       settings = {}
 

@@ -1,4 +1,5 @@
 <script>
+  import { dev, browser } from '$app/environment';
   import Refresher from '$lib/components/Refresher.svelte';
   
   export let data;

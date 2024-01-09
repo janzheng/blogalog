@@ -5,11 +5,11 @@
  -->
 <script>
   // import Icon from '@iconify/svelte';
-  import YAML from 'yaml'
+  // import YAML from 'yaml'
   import Notion from '@yawnxyz/sveltekit-notion';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
   import { marked } from "marked";
-  import { generatePageStyles } from '$lib/helpers.js'
+  import { safeParse, generatePageStyles } from '$lib/helpers.js'
 
   import { getContext } from 'svelte';
 
@@ -52,7 +52,7 @@
   let settings = blogData?.settings
   let pageStyles
   if (blogData?.blog?.['site-data']?.['Footer']?.YAML) {
-    settings = YAML.parse(blogData?.blog?.['site-data']?.['Footer']?.YAML)
+    settings = safeParse(blogData?.blog?.['site-data']?.['Footer']?.YAML)
     // settings = YAML.parse(tmp)
     pageStyles = generatePageStyles(settings.page, {type:'string'}) || null
   }
@@ -113,7 +113,7 @@
 </footer>
 
 {#if !settings?.footer?.hidePromo}
-  <div class="Content-Blogalog | text-sm py-4 text-center mt-2 bg-slate-50">
+  <div class="Content-Blogalog | text-sm py-4 text-center bg-slate-50">
     Get your own <a href="https://blogalog.net"> website</a> for your <a href="https://blogalog.net">blog, CV, research lab, or side project.</a>
     {#if settings?.footer?.showPhageDirectory}
       <br>A <a href="https://phage.directory">Phage Directory project.</a>
