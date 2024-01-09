@@ -325,17 +325,17 @@
 
 
         {:else}
-          <div class="GridItem-Grid | {settings?.items?.class || settings?.component?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
+          <div class="GridItem-Items | {settings?.items?.class || settings?.component?.items?.class || 'grid grid-cols-1 md:grid-cols-2 gap-4'}">
             {#each items as item, index}
               <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-              <div class="Item | {settings?.item?.class || settings?.component?.item?.class || "p-4"} | {settings?.items?.[index]?.class||settings?.component?.items?.[index]?.class||''} | {(settings?.modal||settings?.component?.modal) || (settings?.item?.click||settings?.component?.item?.click) ? 'cursor-pointer' : ''}"
+              <div class="GridItem-Item | {settings?.item?.class || settings?.component?.item?.class || "p-4"} | {settings?.items?.[index]?.class||settings?.component?.items?.[index]?.class||''} | {(settings?.modal||settings?.component?.modal) || (settings?.item?.click||settings?.component?.item?.click) ? 'cursor-pointer' : ''}"
                 on:click={(e)=>handleItemClick(item, e)} 
                 on:keyup={(e)=>handleItemClick(item, e)}
                 role="{(settings?.item?.type == 'click' || settings?.modal) ? 'button' : ''}" 
                 tabindex="{(settings?.item?.type == 'click' || settings?.modal) ? 1 : -1}"
                 >
                 {#if settings.item?.type == 'link'}
-                  <a class="GridItem-link" href="{item[settings.item?.itemLink]||item[settings.component?.item?.itemLink]}" target="_blank">
+                  <a class="GridItem-Item-link" href="{item[settings.item?.itemLink]||item[settings.component?.item?.itemLink]}" target="_blank">
                     {#each getOrderedKeys(item) as key}
                       <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
                     {/each}

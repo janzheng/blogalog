@@ -124,7 +124,7 @@
                 {:else}
                   <!-- loose posts are NOT grouped together unless given a section -->
                   <div class="Profile-Row--Posts-Container | {settings?.row?.class || profileClass?.defaultRow}">
-                    <Posts posts={[row]} PostItemClasses={""}></Posts>
+                    <Posts posts={[row]} ></Posts>
                   </div>
                 {/if}
               <!-- {:else if page?.Type?.includes('Component') && page.Hide !== true} -->

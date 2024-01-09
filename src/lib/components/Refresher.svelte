@@ -84,18 +84,18 @@
 <div class="Refresher | ">
   {#if isLoading}
     <div class="Refresher-loading">
-      <div class="Btn-outline inline-block pl-6 font-2xl inline-block text-gray-500 border-gray-200 cursor-default hover:bg-white hover:border-gray-200">
+      <div class="Btn-outline --short inline-block font-2xl inline-block text-gray-500 border-gray-200 cursor-default hover:bg-white hover:border-gray-200">
         <Loader /> {message}
       </div>
     </div>
   {:else if isDone}
     <div class="Refresher-done">
-      <button class="Btn-solid" on:click={fetchData}>
+      <button class="Btn-solid --short" on:click={fetchData}>
         {message}
       </button>
     </div>
   {:else}
-    <button class="Btn-solid" on:click={fetchData}>
+    <button class="Btn-solid --short" on:click={fetchData}>
       {message}
     </button>
     <!-- {#if message}

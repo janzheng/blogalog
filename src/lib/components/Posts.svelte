@@ -11,11 +11,22 @@
 </p><p>In the last few years, I’ve been running a crowd-sourced phage therapy community project called Phage Directory, and I’ve built a few phage and biotech related projects.
 </p> -->
 
+
+<!-- 
+  pgho
+
+  Posts Posts-list grid grid-cols-2 gap-4 |  s-G8Aqw6ntKAYR
+    Post-item | bg-white p-2 border-2 border-slate-200 rounded-md coverStyle_undefined |  s-G8Aqw6ntKAYR 
+      Posts-Author | mt-1 flex items-center s-G8Aqw6ntKAYR
+
+ -->
+
 {#if posts}
   <!-- <div class="Posts-list | lg:grid grid-cols-3 gap-8"> -->
-  <div class="Posts Posts-list | ">
+  <!-- <pre>postsSettings: {JSON.stringify(postsSettings, 0, 2)}</pre> -->
+  <div class="Posts Posts-list | {postsSettings?.posts?.class || ''} ">
     {#each posts as post}
-      <div class="Post-item | {PostItemClasses} coverStyle_{post.MetaObj?.coverStyle} | {""}">
+      <div class="Post-item | {postsSettings?.post?.class || 'mb-8'} ">
         <div class="">
           <!-- -!!- blogPath[{blogPath}] - {post.Path} -->
           <a href={`${blogPath}${post.Path}`}>
@@ -26,7 +37,7 @@
                   <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
                 </div>
               {/if}
-              <span class="Post-name font-title text-2xl pfix">{@html marked(post.Name)}</span>
+              <span class="Post-name { postsSettings?.post?.name?.class || 'font-title text-2xl pfix'}">{@html marked(post.Name)}</span>
               {#if post.Date}
                 <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
               {/if}
@@ -35,14 +46,16 @@
             {:else}
               <!-- default -->
               <!-- small inline cover where it's on the left side -->
-              <div class="flex justify-between gap-4 | {(post.Cover || post.Files) && "md:grid md:grid-cols-1-3"}">
+              <!-- this will mess with a lot of blog posts -->
+              <!-- <div class="Post-main {postsSettings?.post?.main?.class || ' flex justify-between gap-4'} | {(post.Cover || post.Files) && "md:grid md:grid-cols-1-3"}"> -->
+              <div class="Post-main {postsSettings?.post?.main?.class || ' flex justify-between gap-4'}">
                 {#if post.Cover || post.Files}
                   <div class="Cover-image-container | pb-2 max-w-sm">
                     <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
                   </div>
                 {/if}
                 <div>
-                  <span class="Post-name font-title text-2xl pfix">{@html marked(post.Name||'')}</span>
+                  <span class="Post-name { postsSettings?.post?.name?.class || 'font-title text-2xl pfix'}">{@html marked(post.Name||'')}</span>
                   {#if post?.Date}
                     <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
                   {/if}
@@ -67,7 +80,7 @@
               </div>
             {/each}
           {:else}
-            <div class="Posts-Author | mt-1 mb-4 flex items-center">
+            <div class="Posts-Author | { postsSettings?.post?.author?.class || 'mt-1 mb-4 flex items-center'}">
               {#if post.AuthorProfile?.[0] }
                 <div class="rounded-full overflow-hidden mr-2">
                   <img class="w-8 h-8" src="{post.AuthorProfile?.[0]?.rawUrl || post.AuthorProfile?.[0]?.url}" alt="Author Profile" />
@@ -100,7 +113,7 @@
 <script>
   import { getContext } from 'svelte';
   import { marked } from 'marked';
-  import { getNotionImageLink } from '$lib/helpers.js';
+  import { parseYaml, getNotionImageLink } from '$lib/helpers.js';
   import { niceDate } from '$plasmid/utils/date';
 
   let blogData = getContext('blogData');
@@ -111,11 +124,13 @@
   if(blogPath === "//") 
     blogPath = "/" // this happens on base blogalog.net; handle it manually
 
-  export let PostItemClasses = "";
-
   function getCover(post) {
     return getNotionImageLink(post);
   }
+
+  // for all posts settings / classes, we extract if from the first post in the group
+  let postsSettings = posts[0].YAML && parseYaml(posts[0].YAML);
+
 
 </script>
 
@@ -145,9 +160,9 @@
       }
     }
 
-    &+.Post-item {
-      @apply mt-8;
-    }
+    // &+.Post-item {
+    //   @apply mt-8;
+    // }
   }
   // .Post-content {
   //   text-decoration: none !important;
