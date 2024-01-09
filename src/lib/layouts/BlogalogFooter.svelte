@@ -54,7 +54,7 @@
   if (blogData?.blog?.['site-data']?.['Footer']?.YAML) {
     settings = safeParse(blogData?.blog?.['site-data']?.['Footer']?.YAML)
     // settings = YAML.parse(tmp)
-    pageStyles = generatePageStyles(settings.page, {type:'string'}) || null
+    pageStyles = generatePageStyles(settings?.page, {type:'string'}) || null
   }
 
   export let clientHeight;
@@ -64,8 +64,8 @@
 <!-- extract this into its own reusable component -->
 
 <footer bind:clientHeight={clientHeight} 
-  class="Component-Footer | "
-    style={pageStyles + "; " + settings?.footer?.container?.style|| 'text-center mt-2 bg-slate-50'}
+  class="Component-Footer | {settings?.footer?.container?.class || ''} "
+  style={pageStyles + "; " + settings?.footer?.container?.style}
   >
   <div class="Component-Footer-Main
     { 

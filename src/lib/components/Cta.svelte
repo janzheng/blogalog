@@ -5,7 +5,10 @@
     <!-- <div class="Cta-Markdown-Name {settings?.component?.title?.class || ' headline leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->
     
     {#if page.Content}
-      <div class="Component-Cta-Content {settings?.component?.content?.class||''}">
+      <div 
+        class="Component-Cta-Content {settings?.component?.content?.class||''}"
+        style="{ settings?.component?.content?.style || ''}"
+        >
         <!-- somehow md.render doesn't work here; maybe bc text idk lol (build club headline bug; maybe a break after <b>?) -->
         <!-- ??? {@html md.render(page.Content||'')} ??? -->
         {@html marked(page.Content||'')}

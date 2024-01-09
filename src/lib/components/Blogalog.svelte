@@ -19,7 +19,7 @@
 </svelte:head>
 
 <!-- blogPath: {blogData.blogPath} | {$page?.data?.pathSegments} -->
-<div class="Blogalog-Container"
+<div class="Blogalog-Container {settings?.project?.class||''}"
   style="{blogalogStyleString+";"||''} {heightOfFooter ? `min-height: calc(100vh - ${heightOfFooter + 20}px);` : ''}"
   id="main"
   tabindex="-1"

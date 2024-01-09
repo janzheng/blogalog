@@ -104,6 +104,12 @@ $fontSans: 'Inter', sans-serif;
     @extend ._link-reset;
   }
 
+  .notion-img-rounded {
+    img {
+      @apply rounded-xl;
+    }
+  }
+
   // special landing page CTA styles
   .notion-cta {
     a:first-of-type {
@@ -615,6 +621,39 @@ $fontSans: 'Inter', sans-serif;
   @include sharedStyles;
 }
 
+
+
+// special project styles
+.Builderclub {
+  .headline {
+    h1 {
+      @apply leading-none tracking-normal text-5xl mb-4 font-bold;
+      color: var(--color-title, var(--color-base));
+      font-family: var(--font-title, $fontSans);
+    }
+
+    h2 {
+      @apply leading-none tracking-normal text-4xl mb-4 font-bold;
+      color: var(--color-title, var(--color-base));
+      font-family: var(--font-title, $fontSans);
+
+      &.--extra {
+        @apply text-4xl mb-2 tracking-tight;
+      }
+
+      &+h3 {
+        padding-top: 0;
+      }
+    }
+
+    h3 {
+      @apply text-3xl tracking-normal leading-12 mb-2;
+      color: var(--color-title, var(--color-base));
+      font-family: var(--font-title, $fontSans);
+    }
+  }
+
+}
 
 
 
