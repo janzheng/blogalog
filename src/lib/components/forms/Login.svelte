@@ -1,6 +1,6 @@
 <script >
   import YAML from 'yaml'
-  import { safeParse } from '$lib/helpers.js';
+  import { parseYaml } from '$lib/helpers.js';
   import { userData } from '$lib/stores.js';
   import { superForm } from 'sveltekit-superforms/client';
   import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
@@ -14,7 +14,7 @@
 
   let settings;
   if(row.YAML) {
-    settings = safeParse(row.YAML)
+    settings = parseYaml(row.YAML)
     loading = settings?.form?.messages?.loading || loading;
     success = settings?.form?.messages?.success || success;
     cta = settings?.form?.messages?.cta || cta;

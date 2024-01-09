@@ -74,7 +74,7 @@
 	import { onMount } from 'svelte';
   import { dev, browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
-  import { safeParse, getNotionImageLink, generatePageStyles, slideUp } from '$lib/helpers.js'
+  import { parseYaml, getNotionImageLink, generatePageStyles, slideUp } from '$lib/helpers.js'
   // import { niceDate } from '$plasmid/utils/date'
   
   // import YAML from 'yaml'
@@ -152,7 +152,7 @@
   if (settings) {
 
     // settings.cssVars — css variables are set into the document itself
-    settings = safeParse(settings);
+    settings = parseYaml(settings);
 
     // settings.page — page display settings
     if(settings && settings.page) {

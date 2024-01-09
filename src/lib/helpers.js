@@ -35,7 +35,7 @@ export const compareVersions = (version1, version2) => {
 
 
 import YAML from 'yaml';
-export const safeParse = (yaml, trace) => {
+export const parseYaml = (yaml, trace) => {
   try {
     return YAML.parse(yaml)
   } catch (e) {

@@ -3,7 +3,7 @@
 <script>
   import Notion from '@yawnxyz/sveltekit-notion';
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
-  import { safeParse, getNotionImageLink } from '$lib/helpers.js'
+  import { parseYaml, getNotionImageLink } from '$lib/helpers.js'
   // import YAML from 'yaml'
 
   import { userData } from '$lib/stores.js'
@@ -27,7 +27,7 @@
 
   let settings = {};
   if(row?.YAML) {
-    settings = safeParse(row?.YAML)
+    settings = parseYaml(row?.YAML)
 
     if(settings?.component) {
       componentClasses = settings?.component?.class;

@@ -9,7 +9,7 @@
   import Notion from '@yawnxyz/sveltekit-notion';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
   import { marked } from "marked";
-  import { safeParse, generatePageStyles } from '$lib/helpers.js'
+  import { parseYaml, generatePageStyles } from '$lib/helpers.js'
 
   import { getContext } from 'svelte';
 
@@ -52,7 +52,7 @@
   let settings = blogData?.settings
   let pageStyles
   if (blogData?.blog?.['site-data']?.['Footer']?.YAML) {
-    settings = safeParse(blogData?.blog?.['site-data']?.['Footer']?.YAML)
+    settings = parseYaml(blogData?.blog?.['site-data']?.['Footer']?.YAML)
     // settings = YAML.parse(tmp)
     pageStyles = generatePageStyles(settings?.page, {type:'string'}) || null
   }

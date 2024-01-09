@@ -45,9 +45,9 @@
       {/if}
     {:else if schema?.[key]?.type === 'markdown'}
       <!-- <div class="Item-type-markdown pfix Item-{key} | {schema?.[key]?.class||''}">{@html marked(item[key]||'')}</div> -->
-  <div class="Item-type-markdown pfix Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html marked(fixMarkdownLinks(item[key]||''))}</div>
+      <div class="Item-type-markdown pfix Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html marked(fixMarkdownLinks(item[key]||''))}</div>
     {:else}
-      <div class="Item-type-default Item-{key} | {schema?.[key]?.class||''}">{item[key]||''}</div>
+      <div class="Item-type-default Item-{key} | {schema?.[key]?.class||''}">{@html item[key]}</div>
     {/if}
   {/if}
 {/if}
@@ -61,6 +61,7 @@
   import { marked } from 'marked';
   // import YAML from 'yaml'
   import { getNotionImageLink } from '$lib/helpers.js'
+  // import { md } from "$plasmid/utils/markdownit/strip.js";
   // import { fetchPost } from "$plasmid/utils/fetch-helpers";
   // import Modal, {getModal} from '$lib/components/Modal.svelte';
   // import Loader from '$plasmid/components/icons/loader.svelte';

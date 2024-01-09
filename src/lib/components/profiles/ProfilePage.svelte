@@ -51,8 +51,8 @@
 
     <!-- {#each sitePages as page} -->
     {#each pageOrder as row}
-      {@const settings = row?.YAML && safeParse(row?.YAML, row) || null}
-      <!-- {@const settings = row?.YAML && safeParse(row?.YAML) || null} -->
+      {@const settings = row?.YAML && parseYaml(row?.YAML, row) || null}
+      <!-- {@const settings = row?.YAML && parseYaml(row?.YAML) || null} -->
       {@const rowPageStyles = (settings?.page && generatePageStyles(settings.page, {type: 'string'})) || ''}
       {#if row.Name && row.Hide == true}
         <!-- do nothing if hidden -->
@@ -160,7 +160,7 @@
   import { getContext } from 'svelte';
   import { marked } from 'marked';
   
-  import { safeParse, getNotionImageLink, generatePageStyles } from '$lib/helpers.js'
+  import { parseYaml, getNotionImageLink, generatePageStyles } from '$lib/helpers.js'
   import { userData } from '$lib/stores.js'
   // import { plainRenderer } from '$plasmid/utils/marked';
   

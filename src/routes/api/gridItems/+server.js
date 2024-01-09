@@ -19,7 +19,7 @@ import { json } from '@sveltejs/kit';
 import { cachet } from '$plasmid/utils/cachet'
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
 import { parseMetadata, keyRemap } from '$plasmid/utils/helpers';
-import { safeParse } from '$lib/helpers';
+import { parseYaml } from '$lib/helpers';
 
 // import YAML from 'yaml'
 
@@ -222,7 +222,7 @@ export const POST = async ({ request }) => {
 
     // settings = parseMetadata(settings)
     if (typeof settings === 'string')
-      settings = safeParse(settings)
+      settings = parseYaml(settings)
     else if (!settings)
       settings = {}
 

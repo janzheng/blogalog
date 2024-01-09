@@ -498,7 +498,7 @@ $fontSans: 'Inter', sans-serif;
   }
 
   .Btn-outline {
-    @apply border-[var(--color-primary)] hover:border-[var(--color-primary-hover)] text-[var(--color-primary)] bg-transparent;
+    @apply border-[var(--color-primary)] hover:border-[var(--color-primary-hover)] text-[var(--color-primary-text)] bg-transparent;
   }
 
   .Btn-textbg {
