@@ -12,7 +12,7 @@
   let title = data.head?.title
   let counter = 0
   // let message = `Refresh data for: ${title} | ${blogPath}`;
-  let message = `Refresh project: [${blogPath}]`;
+  let message = `Refresh [${blogPath}]`;
 
   async function fetchData() {
     isLoading = true;
@@ -91,19 +91,16 @@
   {:else if isDone}
     <div class="Refresher-done">
       <button class="Btn-solid" on:click={fetchData}>
-        Refresh Page
+        {message}
       </button>
-      {#if message}
-        <div class="inline-block pl-6 font-2xl inline-block">{message}</div>
-      {/if}
     </div>
   {:else}
     <button class="Btn-solid" on:click={fetchData}>
-      Refresh Page
+      {message}
     </button>
-      {#if message}
-        <div class="inline-block pl-6 font-2xl inline-block">{message}</div>
-      {/if}
+    <!-- {#if message}
+      <div class="inline-block pl-6 font-2xl inline-block">{message}</div>
+    {/if} -->
   {/if}
 </div>
 
