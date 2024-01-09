@@ -25,7 +25,6 @@
 </svelte:head>
 
 <div class="PagePath PageContent | mb-16">
-
   <!-- BACK LINK -->
   <div class="ProfileStack | mb-16">
     <a href="{blogPath}" style="" class="flex items-center">
@@ -37,7 +36,7 @@
     </a>
   </div>
 
-  {#if pageCover}
+  {#if pageCover && settings?.post?.hideCover != true}
     <div class="CoverImage-container | mt-4">
       <img alt="CoverImage header " src="{pageCover}" />
     </div>
@@ -52,6 +51,45 @@
   {/if}
 
 
+  {#if currentPost.AuthorName && currentPost.AuthorName !== 'undefined' }
+
+    {#if currentPost.AuthorName.includes('\n')}
+      {#each currentPost.AuthorName.split('\n') as name, index}
+        <div class="flex items-center mb-1">
+          {#if currentPost.AuthorProfile?.[index]}
+            <div class="rounded-full overflow-hidden mr-2">
+              <img class="w-8 h-8" src="{currentPost.AuthorProfile[index]?.rawUrl || currentPost.AuthorProfile[index]?.url}" alt="Author Profile" />
+            </div>
+          {/if}
+          <div>{name}</div>
+        </div>
+      {/each}
+    {:else}
+      <div class="Posts-Author | mt-1 mb-4 flex items-center">
+        {#if currentPost.AuthorProfile?.[0] }
+          <div class="rounded-full overflow-hidden mr-2">
+            <img class="w-8 h-8" src="{currentPost.AuthorProfile?.[0]?.rawUrl || currentPost.AuthorProfile?.[0]?.url}" alt="Author Profile" />
+          </div>
+        {/if}
+        {#if currentPost.AuthorName && currentPost.AuthorName !== 'undefined' }
+          <div>{currentPost.AuthorName}</div>
+        {/if}
+      </div>
+    {/if}
+  {/if}
+
+
+  {#if currentPost.Categories }
+    {#if Array.isArray(currentPost.Categories) && currentPost.Categories.length > 0}
+      {#each currentPost.Categories as cat}
+        <span class="Category text-xs py-2 px-2 text-gray-800 bg-gray-100 border-gray-100 | mr-2">{cat}</span>
+      {/each}
+    {:else}
+      <span class="Category text-xs py-2 px-2 text-gray-800 bg-gray-100 border-gray-100 | mr-2">{currentPost.Categories}</span>
+    {/if}
+  {/if}
+
+  
   {#if currentPost?.Content}
     <div class="PageContent-Content text-xl">{currentPost?.Content}</div>
   {/if}
@@ -154,7 +192,7 @@
 	// import { onMount } from 'svelte';
   import { dev, browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
-  import { getNotionImageLink } from '$lib/helpers.js'
+  import { parseYaml, getNotionImageLink } from '$lib/helpers.js'
   import { niceDate } from '$plasmid/utils/date'
   import { page } from '$app/stores';
 
@@ -169,7 +207,6 @@
   // import PostPage from '$lib/components/profiles/PostPage.svelte';
 
   import { plainRenderer } from '$plasmid/utils/marked';
-
   import { getContext } from 'svelte';
 
   let blog, profileImage, author, pageCover
@@ -192,6 +229,12 @@
   pageCover = getNotionImageLink(currentPost) || currentPost?.['Cover']
   author = blog?.['site-data'].Author?.['Content'];
   if (dev && browser) console.log('[dev][path] PostPage blogData: ', blogData, currentPost)
+
+  export let settings
+  if(currentPost?.YAML) {
+    settings = parseYaml(currentPost?.YAML)
+  }
+
 
   let sectionPosts = blog?.['site-pages'].map(item => {
     if(!item?.Section || !currentPost?.Section) return null

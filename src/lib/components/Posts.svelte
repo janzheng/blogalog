@@ -54,16 +54,30 @@
         </div>
 
         {#if post.AuthorName && post.AuthorName !== 'undefined' }
-          <div class="Posts-Author | mt-1 mb-4 flex items-center">
-            {#if post.AuthorProfile?.[0] }
-              <div class="rounded-full overflow-hidden mr-2">
-                <img class="w-8 h-8" src="{post.AuthorProfile?.[0]?.rawUrl || post.AuthorProfile?.[0]?.url}" alt="Author Profile" />
+
+          {#if post.AuthorName.includes('\n')}
+            {#each post.AuthorName.split('\n') as name, index}
+              <div class="flex items-center mb-1">
+                {#if post.AuthorProfile?.[index]}
+                  <div class="rounded-full overflow-hidden mr-2">
+                    <img class="w-8 h-8" src="{post.AuthorProfile[index]?.rawUrl || post.AuthorProfile[index]?.url}" alt="Author Profile" />
+                  </div>
+                {/if}
+                <div>{name}</div>
               </div>
-            {/if}
-            {#if post.AuthorName && post.AuthorName !== 'undefined' }
-              <div>{post.AuthorName}</div>
-            {/if}
-          </div>
+            {/each}
+          {:else}
+            <div class="Posts-Author | mt-1 mb-4 flex items-center">
+              {#if post.AuthorProfile?.[0] }
+                <div class="rounded-full overflow-hidden mr-2">
+                  <img class="w-8 h-8" src="{post.AuthorProfile?.[0]?.rawUrl || post.AuthorProfile?.[0]?.url}" alt="Author Profile" />
+                </div>
+              {/if}
+              {#if post.AuthorName && post.AuthorName !== 'undefined' }
+                <div>{post.AuthorName}</div>
+              {/if}
+            </div>
+          {/if}
         {/if}
 
         {#if post.Categories }
