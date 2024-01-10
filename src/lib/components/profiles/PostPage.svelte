@@ -25,16 +25,19 @@
 </svelte:head>
 
 <div class="PagePath PageContent | mb-16">
-  <!-- BACK LINK -->
-  <div class="ProfileStack | mb-16">
-    <a href="{blogPath}" style="" class="flex items-center">
-      {#if profileImage}
-        <div class="ProfileImage |">
-          <img class="w-16 h-16 | inline-block | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
-        </div>
-      {/if}<div class="text-lg font-medium | inline-block ml-2">{author}</div>
-    </a>
-  </div>
+
+  {#if blog?.settings?.hideProfileStack != true}
+    <!-- BACK LINK -->
+    <div class="ProfileStack | mb-16">
+      <a href="{blogPath}" style="" class="flex items-center">
+        {#if profileImage}
+          <div class="ProfileImage |">
+            <img class="w-16 h-16 | inline-block | object-cover rounded-full border-solid border-4 border-white overflow-hidden" src="{profileImage}" alt="Profile" />
+          </div>
+        {/if}<div class="text-lg font-medium | inline-block ml-2">{author}</div>
+      </a>
+    </div>
+  {/if}
 
   {#if pageCover && settings?.post?.hideCover != true}
     <div class="CoverImage-container | mt-4">

@@ -486,10 +486,11 @@ $fontSans: 'Inter', sans-serif;
   
   */
   .Btn-solid {
-    @apply bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-[var(--color-primary-text)] border-[var(--color-primary)] hover:border-[var(--color-primary-hover)];
+    @apply bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-[var(--color-primary-text)] hover:text-[var(--color-primary-text-hover)] border-[var(--color-primary)] hover:border-[var(--color-primary-hover)];
   }
 
   .Btn-link {
+    // todo: add hover text color here?
     @apply border-2 border-[var(--color-primary)] hover:border-[var(--color-primary-hover)] text-[var(--color-primary)] bg-transparent;
     &:hover {
       text-decoration: none !important;
@@ -498,7 +499,7 @@ $fontSans: 'Inter', sans-serif;
   }
 
   .Btn-outline {
-    @apply border-[var(--color-primary)] hover:border-[var(--color-primary-hover)] text-[var(--color-primary-text)] bg-transparent;
+    @apply border-[var(--color-primary)] hover:border-[var(--color-primary-hover)] text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] bg-transparent;
   }
 
   .Btn-textbg {

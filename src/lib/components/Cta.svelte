@@ -1,5 +1,5 @@
 
-<div class="Cta-wrapper hellohello {settings?.component?.wrapper?.class || 'md:grid md:grid-cols-2 gap-2 md:gap-4 lg:gap-8'}">
+<div class="Cta-wrapper {settings?.component?.wrapper?.class || 'md:grid md:grid-cols-2 gap-2 md:gap-8 lg:gap-12'}">
   <main class="Cta-main | {settings?.component?.main?.class||'flex flex-col self-center'} | {settings?.component?.reverse&&'order-2'}">
     <!-- only use Content for titles; otherwise gets super confusing -->
     <!-- <div class="Cta-Markdown-Name {settings?.component?.title?.class || ' headline leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->

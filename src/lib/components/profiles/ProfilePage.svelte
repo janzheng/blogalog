@@ -14,6 +14,13 @@
 
   <div class="Profile">
     <!-- mt-2 and mt-4 adds too much white space, unless full screen? option to add top margin? -->
+
+    {#if blogData?.menu && blogData?.menu.profile !== false}
+      <Menu />
+    {/if}
+    
+
+
     <div class="Profile-Header | {profileClass?.['header']} " class:hidden={blogData?.settings?.profile?.showHeader == false}>
       {#if coverImage}
         <div class="Profile-CoverImage-Container | {profileClass?.['coverContainer']}">
@@ -50,17 +57,17 @@
     
 
     <!-- {#each sitePages as page} -->
-    {#each pageOrder as row}
+    {#each pageOrder as row, rowIndex }
       {@const settings = row?.YAML && parseYaml(row?.YAML, row) || null}
       <!-- {@const settings = row?.YAML && parseYaml(row?.YAML) || null} -->
       {@const rowPageStyles = (settings?.page && generatePageStyles(settings.page, {type: 'string'})) || ''}
       {#if row.Name && row.Hide == true}
         <!-- do nothing if hidden -->
       {:else}
-        <div class="Profile-Row-Wrapper" style={rowPageStyles + '; ' + settings?.row?.wrapper?.style||''}>
+        <div id={'row-'+rowIndex} class="Profile-Row-Wrapper" style={rowPageStyles + '; ' + settings?.row?.wrapper?.style||''}>
           <!-- special rows outside of standard row; for formatting usually -->
           {#if row?.Type?.includes('Header')}
-            <div class="Profile-Row-Container | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | " style={settings?.row?.container?.style||''}>
+            <div id={'row-'+rowIndex} class="Profile-Row-Container --header | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | " style={settings?.row?.container?.style||''}>
               <div class="Profile-Row--Header | {settings?.row?.class || ''} ">
                 <div class="Profile-Row-Header-Title title {settings?.row?.headerClass || ' font-sans leading-tight text-lg mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
               </div>
@@ -159,6 +166,7 @@
   // import { page } from '$app/stores';
   import { getContext } from 'svelte';
   import { marked } from 'marked';
+  // import { scrollToAnchor } from '$plasmid/utils/scrollto'
   
   import { parseYaml, getNotionImageLink, generatePageStyles } from '$lib/helpers.js'
   import { userData } from '$lib/stores.js'
@@ -166,6 +174,7 @@
   
   import Notion from '@yawnxyz/sveltekit-notion';
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  import Menu from '$lib/components/Menu.svelte';
   import RenderComponent from '$lib/components/RenderComponent.svelte';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
   // import Login from '$lib/components/forms/Login.svelte';
@@ -268,6 +277,8 @@
 
   // profileClass['header'] = "content-notion-wide mt-0 mb-2 rounded-sm overflow-hidden"
   // profileClass['coverImage'] = "w-full object-center object-contain scale-25"
+
+
 </script>
 
 

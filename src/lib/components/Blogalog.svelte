@@ -18,12 +18,19 @@
   {/if}
 </svelte:head>
 
+
 <!-- blogPath: {blogData.blogPath} | {$page?.data?.pathSegments} -->
 <div class="Blogalog-Container {settings?.project?.class||''}"
   style="{blogalogStyleString+";"||''} {heightOfFooter ? `min-height: calc(100vh - ${heightOfFooter + 20}px);` : ''}"
   id="main"
   tabindex="-1"
   >
+
+  {#if blogData?.menu && blogData?.menu?.global}
+    <Menu />
+  {/if}
+
+
   <!-- blogPath: {blogData?.blogPath} [{$page?.data?.pathSegments?.[0]}] ||| postPath: {$page.data?.path} -->
 
   <!-- LANDING PAGE // PROFILE PAGE
@@ -76,6 +83,8 @@
   import { PUBLIC_BLOGMODE } from '$env/static/public';
   import { parseYaml, getNotionImageLink, generatePageStyles, slideUp } from '$lib/helpers.js'
   // import { niceDate } from '$plasmid/utils/date'
+
+  import Menu from '$lib/components/Menu.svelte';
   
   // import YAML from 'yaml'
   import { componentTypes } from '$lib/componentTypes.js';
@@ -165,6 +174,69 @@
     blogData['settings'] = settings // <---- most components will use this 
     blogData['blogalogPageStyles'] = pageStylesString // for referencing
   }
+
+  if (blogData.blog?.['site-data']?.Menu) {
+    let testmenu = `
+
+global: false
+
+container:
+  class: p-2
+
+mobile:
+  show: true
+  hamburger: true
+  # text: 
+    # class: text-green-600
+    # content: Mobile Text
+  icon:
+    src: https://f2.phage.directory/blogalog/pickaxe-framed.png
+    alt: logo
+    img:
+      class: max-h-8
+  page:
+    'color-primary-text': 'red'
+    'color-primary-text-hover': 'purple'
+  links:
+    items:
+      - text: Shipyard
+        link: "#row-4"
+        class: link-custom font-bold text-xl no-underline text-slate-800 hover:text-blue-600
+      - text: Projects
+        link: "#row-7"
+        class: link-custom font-bold text-xl no-underline text-slate-800 hover:text-blue-600
+      - text: Join Us!
+        link: "https://airtable.com/app8eQNdrRqlHBvSi/shr8C5KGPvBqPWkL2"
+        class: link-custom rounded-full ease-in-out transition bg-blue-700 hover:bg-blue-600 text-white hover:text-yellow-200 px-4 py-2
+
+
+desktop:
+  show: true
+  icon:
+    src: https://f2.phage.directory/blogalog/pickaxe-framed.png
+    alt: logo
+    img:
+      class: max-h-8
+  link:
+    class: link-custom text-lg no-underline text-slate-800 hover:text-blue-600
+  links:
+    items:
+      - text: Shipyard
+        link: "#row-4"
+        class: link-custom font-bold text-xl no-underline text-slate-800 hover:text-blue-600
+      - text: Projects
+        link: "#row-7"
+        class: link-custom font-bold text-xl no-underline text-slate-800 hover:text-blue-600
+      - text: Join Us!
+        link: "https://airtable.com/app8eQNdrRqlHBvSi/shr8C5KGPvBqPWkL2"
+        class: link-custom rounded-full ease-in-out transition bg-blue-700 hover:bg-blue-600 text-white hover:text-yellow-200 px-4 py-2
+
+    `
+    blogData['menu'] = parseYaml(testmenu) // site menu
+    // blogData['menu'] = parseYaml(blogData.blog?.['site-data']?.Menu?.YAML) // site menu
+  }
+
+
   setContext('blogData', blogData);
 
   // onMount(() => {
@@ -210,6 +282,11 @@
  
 
 <style lang="scss" global>
+
+  html {
+    // creates smooth scrolling w/o js
+    scroll-behavior: smooth;
+  }
 
   // required for "slide up" animation to work
   .slideup, .slideupContainer > * {
