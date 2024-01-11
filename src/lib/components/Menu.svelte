@@ -57,7 +57,10 @@
           {#each blogData?.menu?.desktop?.links?.items as link}
             <!-- <a class="Menu-Link { twMerge(blogData?.menu?.desktop?.link?.class || '', link?.class || '')} " href="{link.link}">{link.text}</a> -->
             <!-- {JSON.stringify(link)} {link?.activeClass} -->
-            <a class="Menu-Link { twMerge(blogData?.menu?.desktop?.link?.class || '', link?.class || '', $page.url.pathname.startsWith(link.link) ? (blogData?.menu?.desktop?.active?.class + ' ' + link?.activeClass) : '')} " href="{link.link}">{link.text}</a>
+            <a class="Menu-Link { twMerge(blogData?.menu?.desktop?.link?.class || '', link?.class || '', $page.url.pathname.startsWith(link.link) ? (blogData?.menu?.desktop?.active?.class + ' ' + link?.activeClass) : '')} " 
+              href="{link.link.startsWith('/') ? `${blogData.blogPath == '/' ? '' : blogData.blogPath}${link.link}` : link.link}">
+              {link.text}
+            </a>
           {/each}
         </div>
       </div>
@@ -121,7 +124,10 @@
           <div transition:slide="{{delay: blogData?.menu.mobile?.delay || 0, duration: blogData?.menu.mobile?.duration || 400, axis: blogData?.menu.mobile?.axis || 'y' }}" class="Menu-Mobile--links { blogData?.menu.mobile?.button?.class || 'absolute px-4 pb-2 -ml-2 -mr-4 w-full mt-2 bg-white divide-y divide-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'}">
             {#each blogData?.menu?.mobile?.links?.items as link}
               <!-- <a href="{link.link}" class="Menu-Mobile--link { twMerge(blogData?.menu?.mobile?.link?.class || 'text-center | block px-4 py-4 text-lg text-slate-700 hover:bg-gray-100', link?.class || '')} ">{link.text}</a> -->
-              <a href="{link.link}" class="Menu-Mobile--link { twMerge(blogData?.menu?.mobile?.link?.class || 'text-center | block px-4 py-4 text-lg text-slate-700 hover:bg-slate-100', link?.class || '', $page.url.pathname.startsWith(link.link) ? blogData?.menu?.mobile?.active?.class + ' ' + link?.activeClass : '')} ">{link.text}</a>
+              <a class="Menu-Mobile--link { twMerge(blogData?.menu?.mobile?.link?.class || 'text-center | block px-4 py-4 text-lg text-slate-700 hover:bg-slate-100', link?.class || '', $page.url.pathname.startsWith(link.link) ? blogData?.menu?.mobile?.active?.class + ' ' + link?.activeClass : '')} "
+                href="{link.link.startsWith('/') ? `${blogData.blogPath == '/' ? '' : blogData.blogPath}${link.link}` : link.link}">
+                {link.text}
+              </a>
             {/each}
           </div>
         {/if}
