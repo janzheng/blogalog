@@ -1,6 +1,8 @@
 
 /* 
 
+loads a page for griditems
+
 */
 
 import { PUBLIC_PROJECT_NAME, PUBLIC_CACHET_TTR, PUBLIC_CACHET_TTL, PUBLIC_ENDOCYTOSIS_URL } from '$env/static/public';

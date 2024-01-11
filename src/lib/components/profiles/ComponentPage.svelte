@@ -5,7 +5,6 @@
     <title>{marked(blogData.pageContent?.Name || '', {renderer: plainRenderer()})}</title>
   {/if}
   {#if blogData.pageContent['Type'] == 'Component'} 
-    <!-- temp hack -->
     <title>{blogData.head.title}</title>
   {/if}
 </svelte:head>
@@ -23,8 +22,6 @@
     </a>
   </div>
   <RenderComponent row={pageContent} />
-  <!-- deprecated -->
-  <!-- <Member id={pageContent.Content} settings={pageContent.YAML + `\nfilter: ${$page.data.subPath}`} search={$page.data.subPath} /> -->
 </div>
 
 
@@ -36,21 +33,19 @@
   import { getNotionImageLink } from '$lib/helpers.js'
   
   import RenderComponent from '$lib/components/RenderComponent.svelte';
-  // import { componentTypes } from '$lib/componentTypes.js';
   import { plainRenderer } from '$plasmid/utils/marked';
 
   // import { page } from '$app/stores'
 
   let blogData = getContext('blogData');
-  let blogPath, blog, pageContent, profileImage, author, pageCover
+  let blogPath, pageContent, profileImage, author, pageCover
 
-  $: if(blogData) {
+  if(blogData) {
     blogPath = blogData?.pathSegments?.length>1 ? `/${blogData?.pathSegments[0]}` : "/"
-    blog = blogData.blog; // await streamed blog, and set it here
-    pageContent = blogData.pageContent
-    profileImage = getNotionImageLink(blog?.['site-data']?.['ProfileImage'])
+    pageContent = blogData?.pageContent
+    profileImage = getNotionImageLink(blogData?.blog?.['site-data']?.['ProfileImage'])
     pageCover = getNotionImageLink(pageContent) || pageContent?.['Cover']
-    author = blog?.['site-data'].Author?.['Content'];
+    author = blogData?.blog?.['site-data'].Author?.['Content'];
     if (dev && browser) console.log('[dev][path] pageContent: ', blogData, pageContent)
   }
   

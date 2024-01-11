@@ -15,7 +15,7 @@
   <div class="Profile">
     <!-- mt-2 and mt-4 adds too much white space, unless full screen? option to add top margin? -->
 
-    {#if blogData?.menu && blogData?.menu.profile !== false}
+    {#if blogData?.menu && blogData?.menu.profile !== false && blogData?.menu.global !== true}
       <Menu />
     {/if}
     
@@ -158,16 +158,15 @@
 
 
 
-
-
 <script>
   // import YAML from 'yaml'
   // import { browser, dev } from '$app/environment';
-  // import { page } from '$app/stores';
+  import { page } from '$app/stores';
   import { getContext } from 'svelte';
   import { marked } from 'marked';
   // import { scrollToAnchor } from '$plasmid/utils/scrollto'
   
+  import Blogalog from '$lib/components/Blogalog.svelte';
   import { parseYaml, getNotionImageLink, generatePageStyles } from '$lib/helpers.js'
   import { userData } from '$lib/stores.js'
   // import { plainRenderer } from '$plasmid/utils/marked';
@@ -178,7 +177,6 @@
   import RenderComponent from '$lib/components/RenderComponent.svelte';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
   // import Login from '$lib/components/forms/Login.svelte';
-  // import MemberList from '$lib/components/MemberList.svelte';
   // import GridItems from '$lib/components/GridItems.svelte';
   // import Expander from '$lib/components/Expander.svelte';
   import { componentTypes } from '$lib/componentTypes.js';
@@ -193,7 +191,7 @@
     breaks: true,
   });
 
-  let blogData = getContext('blogData');
+  export let blogData = getContext('blogData');
 
   let blog = blogData?.blog;
   let profileImage = getNotionImageLink(blog?.['site-data']?.['ProfileImage']);

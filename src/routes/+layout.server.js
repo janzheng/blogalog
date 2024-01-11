@@ -8,6 +8,7 @@ import { loadBlogalogFromPath } from '$lib/blogalog'
 
 // import builderClubInit from '$lib/data/builderclubinit.js';
 
+// import { loadContent } from '$lib/load-helpers.js';
 
 
 function removePrefixFromHostname(url) {
@@ -23,10 +24,10 @@ function removePrefixFromHostname(url) {
 async function initContent(head, hostname) {
   console.log('[+layout.server/initContent] initializing:', PUBLIC_BLOGMODE, 'host:', hostname)
   let blog, config, mode, blogalogPages
-  if (PUBLIC_BLOGMODE == 'blogalog') {
-    let blogalog = await loadBlogalogFromPath({hostname});
+  // if (PUBLIC_BLOGMODE == 'blogalog') {
+    let blogalog = await loadBlogalogFromPath({ hostname });
 
-    if(blogalog) {
+    if (blogalog) {
       ({ head, blog, blogalogPages } = blogalog);
     } else {
       // NOTE: don't do this if on a subpath; or maybe just don't do this at all?
@@ -37,20 +38,21 @@ async function initContent(head, hostname) {
       // if (blogalog) ({ _head, cytosis } = blogalog);
     }
 
-    if(!blogalog) {
+    if (!blogalog) {
       // this happens on preview paths, where the hostname is not the same as the blogalog
       // this will load the "preview" mode which is normally blogalog (Set on "pages")
       blogalog = await loadBlogalogFromPath({ hostname: "preview" });
       ({ head, blog, blogalogPages } = blogalog);
     }
-  }
+  // }
 
   return { blog, head, blogalogPages }
 }
 
-async function loadContent(url, params, locals, head, hostname, seo) {
+async function loadContent(url, params, head, hostname) {
   // let {cytosis, _head} = await initContent(head)
-  console.log(`\n<-- +layout.server.js / load ${hostname} -->\n`)
+  // console.log(`\n<-- +layout.server.js / loading... ${url} -->\n`, url, params, head, hostname)
+  console.log(`\n<-- +layout.server.js / loading... ${url} -->\n`)
   let blog, blogalogPages
   ({ blog, head, blogalogPages } = await initContent(head, hostname)); // don't cachet here; leave cachet strategy to blogalogloader or other loaders
 
@@ -63,13 +65,27 @@ async function loadContent(url, params, locals, head, hostname, seo) {
 
     head: head,
     // seo: seo, // need to generalize this more
-    user: locals?.user,
+    // user: locals?.user,
     blog,
     blogalogPages,
   };
   console.log(`\n</-- +layout.server.js / finished ${hostname} -->\n`)
   return returnObj;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const load = async ({ url, params, setHeaders, locals}) => {
   // return {}
@@ -79,16 +95,16 @@ export const load = async ({ url, params, setHeaders, locals}) => {
   // hostname = "www.404site.com"
   // hostname = "www.jess.bio"
   // hostname = "atif.phage.directory"
-  // hostname = "pgh.phage.directory"
+  hostname = "pgh.phage.directory"
   // hostname = "ivom.phage.directory"
   
   try {
-    let result = await loadContent(url, params, locals, head, hostname, seo);
+    let result = await loadContent(url, params, head, hostname);
 
     if(!result.blog) {
       // if there isn't a page here, we just load standard blogalog
       hostname = "www.blogalog.net"
-      result = await loadContent(url, params, locals, head, hostname, seo);
+      result = await loadContent(url, params, head, hostname);
     }
 
     return result;

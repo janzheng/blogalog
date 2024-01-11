@@ -14,7 +14,6 @@
   import Expander from '$lib/components/Expander.svelte';
   import Markdown from '$lib/components/Markdown.svelte';
   import Cta from '$lib/components/Cta.svelte';
-  // import MemberList from '$lib/components/MemberList.svelte';
 	// import SocialBox from '$plasmid/components/SocialBox2.svelte'
 
 	import Twitter from '$plasmid/components/TwitterTimeline.svelte'

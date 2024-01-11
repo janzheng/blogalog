@@ -17,7 +17,7 @@ export async function GET({ url, params }) {
   try {
     let path = params.path;
     let pageDataId = url.searchParams.get('pageDataId');
-    console.log("PATH::::", path, pageDataId)
+    // console.log("PATH::::", path, pageDataId)
     let hostname = url?.hostname;
 
     let slug = `${PUBLIC_PROJECT_NAME}-${path}`

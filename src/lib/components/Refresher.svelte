@@ -1,18 +1,22 @@
 <script>
   import { PUBLIC_PROJECT_NAME, PUBLIC_FUZZYKEY_URL } from '$env/static/public';
+  import { goto } from '$app/navigation';
 
   // import { onMount } from 'svelte';
   import { browser, dev } from '$app/environment';
   import Loader from '$plasmid/components/icons/loader.svelte';
+
+  export let doReload = true
   
   export let data;
-  let blogPath = data.path
+  let blogPath = data.blog.slug
   let isLoading = false;
   let isDone = false;
   let title = data.head?.title
   let counter = 0
   // let message = `Refresh data for: ${title} | ${blogPath}`;
   let message = `Refresh [${blogPath}]`;
+
 
   async function fetchData() {
     isLoading = true;
@@ -32,9 +36,9 @@
     // }, 15000);
   }
 
-  $: if (browser && dev) {
-    console.log('[dev] Page Data:', data)
-  }
+  // $: if (browser && dev) {
+  //   console.log('[dev] Page Data:', data)
+  // }
 
 
 
@@ -60,6 +64,9 @@
         clearInterval(intervalId);
         clearInterval(timeCounter);
         message = `Refresh successful for [${blogPath}]`;
+
+        if (doReload && browser)
+          goto(window.location.href); // refresh
       }
     }, 3000);
 

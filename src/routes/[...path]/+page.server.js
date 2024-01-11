@@ -1,16 +1,16 @@
 import { error } from '@sveltejs/kit'
 // import { head, seo } from '$lib/config.js'
-import { PUBLIC_MULTIBLOG } from '$env/static/public';
+// import { PUBLIC_MULTIBLOG } from '$env/static/public';
 
 import { loadBlogalogFromPath  } from '$lib/blogalog';
 
 import { z } from 'zod';
 // used for the Email.svelte form, but need to be refactored out
-import { message, superValidate } from 'sveltekit-superforms/server';
-const schema = z.object({
-  notion: z.string(),
-  email: z.string().email()//.default("stripe@example.com")
-});
+// import { message, superValidate } from 'sveltekit-superforms/server';
+// const schema = z.object({
+//   notion: z.string(),
+//   email: z.string().email()//.default("stripe@example.com")
+// });
 
 
 // import builderClub from '$lib/data/builderclub.js';
@@ -27,7 +27,8 @@ export const load = async (params) => {
     let path = params.params.path, subPath;
     let pathSegments = params.params.path.split('/')
     let head, blog, isBlogalogHome, blogalogPages;
-    let pageContent
+    let pageContent;
+    let pageGroup; // collections of paths that combine site data, e.g. main, post, and grid, under various path slugs, etc.
 
     console.log('[path/page.server.js/path/load] path array:', pathSegments)
 
@@ -45,12 +46,14 @@ export const load = async (params) => {
       blog = parentData?.blog
       blogalogPages = parentData?.blogalogPages
       pageContent = blog?.['site-pages']?.find(item => item.Path === path || item.Path === pathSegments?.[pathSegments?.length - 1]);
+      pageGroup = blog?.['site-pages']?.filter(item => item.PageGroups?.includes(path) || item.PageGroups?.includes(pathSegments?.[pathSegments?.length - 1]));
     }
     // console.log('---> parentData?', typeof parentData)
 
     // pages with 'Slug' that are allowed to be multi-blog
     let multiBlogSlugs = ['blogalog']
 
+    // subpath routing, e.g. localhost:3055/ivom or 3055/ivom/something
     if (!pageContent && parentData && multiBlogSlugs.includes(parentData.blog?.slug)) {
       // if we want to enable "blogalog routing"
       // this loads blogs as SUB PATHS
@@ -63,15 +66,17 @@ export const load = async (params) => {
       }
 
       if (pathSegments.length > 1) { // load a leaf blog instead of base blog
+        // check for item.Path absolute paths — e.g. post paths (/blog-post) or component paths 
         pageContent = blog?.['site-pages']?.find(item => item.Path === path || item.Path === pathSegments?.[pathSegments?.length - 1]);
-
-
+        pageGroup = blog?.['site-pages']?.filter(item => item.PageGroups?.includes(path) || item.PageGroups?.includes(pathSegments?.[pathSegments?.length - 1]));
         let depth = 2
+        // console.log("PATH CHECK >>> ", pathSegments)  
         if (pathSegments.length > depth) { // deep path
           let index = depth-1
           pageContent = blog?.['site-pages']?.find(item => item.Path === path || item.Path === pathSegments?.[index]);
+          pageGroup = blog?.['site-pages']?.find(item => item.PageGroups?.includes(path) || item.PageGroups?.includes(pathSegments?.[pathSegments?.length - 1]));
           subPath = pathSegments?.[depth]
-          console.log("DEEP PATH --**", pathSegments, subPath)  
+          console.log("DEEP PATH ++++", pathSegments, subPath)  
         }
         path = pathSegments[1]; // set the home path to the first one, e.g. jessbio only when in multiblog
         isBlogalogHome = false
@@ -96,8 +101,10 @@ export const load = async (params) => {
     obj['isBlogalogHome'] = isBlogalogHome || false;
     if (head) obj['head'] = head;
     if (pageContent) obj['pageContent'] = pageContent;
+    if (pageGroup) obj['pageGroup'] = pageGroup;
+    console.log('*****----- PAGE GROUP', pageGroup)
 
-    if(!pageContent) {
+    if(!pageContent && !pageGroup) {
       // console.error('[path/page] Page Content not Found!', JSON.stringify(cytosis, 0, 2))
       console.error('[path/page] Page Content not Found!')
       throw error(404, 'Page Not Found');

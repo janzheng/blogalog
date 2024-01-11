@@ -1,19 +1,18 @@
 
 
 <svelte:head>
-  {#if $page?.data.pageContent}
-    <title>{marked($page?.data.pageContent?.Name || '', {renderer: plainRenderer()})}</title>
+  {#if $page?.data?.pageContent}
+    <title>{marked($page?.data?.pageContent?.Name || '', {renderer: plainRenderer()})}</title>
   {/if}
-  {#if $page?.data.pageContent['Type'] == 'Component'} 
+  {#if $page?.data?.pageContent?.['Type'] == 'Component'} 
     <!-- temp hack -->
-    <title>{$page?.data.head.title}</title>
+    <title>{$page?.data?.head.title}</title>
   {/if}
 </svelte:head>
 
-
 <div class="Path">
   {#key $page.data?.path || null }
-    <Blogalog bind:blogData page={page}/>
+    <Blogalog page={page}/>
   {/key}
 </div>
 
@@ -26,7 +25,6 @@
   import { page } from '$app/stores'
   
   import Blogalog from '$lib/components/Blogalog.svelte';
-  export let blogData
 </script>
 
  

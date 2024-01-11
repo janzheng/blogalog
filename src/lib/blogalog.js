@@ -540,3 +540,16 @@ export const loadBlogalogFromPath = async ({
   console.log('[loadBlogalogFromPath] done...')
   return { blog, cytosis: blog, head, blogalogPages, isBlogalogHome }
 }
+
+
+export const buildBlogalogsFromPageId = async(pageId) => {
+  let blogData = await loadBlogalogFromPageId({ pageId: pageId })
+  let blog = {
+    slug: blogData.slug,
+    pageId: blogData.pageId,
+    blog: buildBlogPage(blogData, 0),
+    head: buildBlogHead(blogData),
+  }
+
+  return blog
+}
