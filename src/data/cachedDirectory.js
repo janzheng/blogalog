@@ -146,7 +146,6 @@ export default [
     "Status": "Scratch",
     "Slug": "pdprofile",
     "Style": "Profile",
-    "URLs": "jess.bio, jessica.sacher.ca, phage.ca, www.jess.bio, www.phage.ca",
     "Name": "PD Profile Example"
   },
   {
@@ -155,7 +154,6 @@ export default [
     "Status": "Scratch",
     "Slug": "kai",
     "Style": "Profile",
-    "URLs": "janzheng.com, www.janzheng.com",
     "Name": "Kai Blog"
   },
   {
@@ -165,7 +163,7 @@ export default [
     "Slug": "build_old",
     "Style": "Profile",
     "URLs": "thebuilder.club",
-    "Name": "The Builders Club"
+    "Name": "[old] Builders Club"
   },
   {
     "id": "a67a0b8d-a330-4e57-8e47-9cf50ed11e4f",
@@ -265,7 +263,7 @@ export default [
   },
   {
     "id": "576b284c-bda9-4767-aee2-b37a6cdf3436",
-    "Pagedata ID": "6df90623084949509ff2ee29d24749a3",
+    "Pagedata ID": "9adc9748551744f7add0d33b30edd0e8",
     "Status": "Scratch",
     "Slug": "phaves",
     "Style": "Profile",
@@ -281,4 +279,5 @@ export default [
     "Name": "Kurt Sacher Consulting"
   }
 ] 
+
 

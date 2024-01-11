@@ -105,7 +105,7 @@
   // import { page } from '$app/stores'
 
   // set &dev==true in the URL for devtastic goodness
-  export let isDev = dev || $page.url.searchParams.get('dev') === 'true';
+  export let isDev = dev || $page.url.searchParams.get('refresh') === 'true';
   
 
   export let isHomepage = $page?.data?.isBlogalogHome;
