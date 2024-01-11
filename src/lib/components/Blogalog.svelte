@@ -67,7 +67,7 @@
   {/if}
 </div>
 
-{#if dev}
+{#if isDev}
 <!-- refresh / reload mechanism for faster building -->
   <div class="Refresher-float bottom-float">
     <Refresher data={$page?.data} />
@@ -103,6 +103,10 @@
 
   export let page;
   // import { page } from '$app/stores'
+
+  // set &dev==true in the URL for devtastic goodness
+  export let isDev = dev || $page.url.searchParams.get('dev') === 'true';
+  
 
   export let isHomepage = $page?.data?.isBlogalogHome;
 
