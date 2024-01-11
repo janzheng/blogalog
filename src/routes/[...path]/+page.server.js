@@ -102,7 +102,6 @@ export const load = async (params) => {
     if (head) obj['head'] = head;
     if (pageContent) obj['pageContent'] = pageContent;
     if (pageGroup) obj['pageGroup'] = pageGroup;
-    console.log('*****----- PAGE GROUP', pageGroup)
 
     if(!pageContent && !pageGroup) {
       // console.error('[path/page] Page Content not Found!', JSON.stringify(cytosis, 0, 2))

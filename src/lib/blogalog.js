@@ -111,6 +111,9 @@ export const buildBlogPage = (blogDataArr, index) => {
   let blog = blogDataArr[index]?.value
   blog['pageDataId'] = blogDataArr[index]?.pageId // this is what's reported from blogalog page directory, used for self-updating
   blog['slug'] = blogDataArr[index]?.slug // this is what's reported from blogalog page directory, used for self-updating
+  
+  if (blogDataArr[index]?.crossPages)
+    blog['crossPages'] = blogDataArr[index]?.crossPages // this is what's reported from blogalog page directory, used for self-updating
 
   // sometimes this trips up and loads the base blogalog page instead of the leaf page (esp. on localhost)
   if (blog?.['site-pagedata']?.length > 0) {
@@ -218,6 +221,54 @@ export const buildBlogHead = (blog) => {
   Partial Loaders / Assemblers
 
 */
+
+export const loadPageId = async (pageId) => {
+  // loads a single notion page; for cross-post loading
+  // this can get SLOW so use it sparingly
+  let config = {
+    "sources": [
+      {
+        "name": "page",
+        "type": "cfnotion-pages",
+        "path": `/page/${pageId}`,
+      },
+    ]
+  }
+
+  console.log('>>> [loadPageId] loading:', pageId, config)
+
+
+  let finalData = await cachet(`${PUBLIC_PROJECT_NAME}-id-${pageId}`, async () => {
+    // console.log('[blogalog] Loading Endo:', `${PUBLIC_PROJECT_NAME}-${slug}`)
+    let data = await endoloader(config, {
+      key: `${PUBLIC_PROJECT_NAME}-id-${pageId}`,
+      url: PUBLIC_ENDOCYTOSIS_URL,
+    })
+    /* v1 -> v2 data refactor notes (temp)
+      - data needs .metadata for cachet
+    */
+    //  console.log('***bananas***', data)
+    return data
+  },
+    {
+      // skipCache: true,
+      // setFuzzy: false,
+      ttl: PUBLIC_CACHET_TTL ? Number(PUBLIC_CACHET_TTL) : 3600 * 24 * 90, // default 90d cache
+      ttr: PUBLIC_CACHET_TTR ? Number(PUBLIC_CACHET_TTR) : 3600,
+      bgFn: () => {
+        // cacheClear(`${PUBLIC_PROJECT_NAME}-${slug}`)÷
+        // console.log('[blogalog] << Reloading Endo >> ', `${PUBLIC_PROJECT_NAME}-${slug}`)
+        endoloader(config, { url: PUBLIC_ENDOCYTOSIS_URL, key: `${PUBLIC_PROJECT_NAME}-id-${pageId}` });
+      }
+    })
+
+  const getPageBlockValues = (page) => {
+    // pages data wrapped in {id: id.value}, and we want to just get the value itself
+    return Object.values(page).map((el) => el.value);
+  }
+  // console.log('>>> [loadPageId] result:', getPageBlockValues(finalData?.value?.page))
+  return getPageBlockValues(finalData?.value?.page)
+}
 
 
 /* 
@@ -347,7 +398,9 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
     /* v1 -> v2 data refactor notes (temp)
       - data needs .metadata for cachet
     */
-  //  console.log('***bananas***', data)
+  //  let _data = cleanNotionPageData(data)
+  //  _data['pageId'] = pageId
+  //  _data['slug'] = slug
     return data
   },
     {
@@ -362,11 +415,24 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
       }
     })
 
-    // TODO: continue refactoring INSIDE endoloader, not here; move this into endoloader 
+
+
+  // TODO: continue refactoring INSIDE endoloader, not here; move this into endoloader 
   // console.log('----*** loadBlogalogFromPageId finalData refactor test:', finalData)
   finalData = cleanNotionPageData(finalData);
   finalData['pageId'] = pageId;
   finalData['slug'] = slug;
+  finalData['crossPages'] = {}
+
+  // load cross posts (post content that can be pulled in from other pages; 
+  // the post description still has to be added to the cross post (for flexibility)
+  await Promise.all(finalData.value['site-pagedata'].map(async (page) => {
+    if (page.CrossPageId) {
+      let blocks = await loadPageId(page.CrossPageId);
+      finalData['crossPages'] = { ...finalData['crossPages'], [page.CrossPageId]: blocks };
+    }
+  }));
+
   // this is for caching the data:
   // console.log(`[loadBlogalogFromPageId] ---> Slug: ${slug} Data:\n---\n`,JSON.stringify(finalData),`\n---\n`)
   return finalData

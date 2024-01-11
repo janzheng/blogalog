@@ -69,7 +69,6 @@ export const POST = async ({ request }) => {
       return Object.values(page).map((el) => el.value);
     }
 
-    
     return hjson({ success: true, pageBlocks: getPageBlockValues(page) })
   }
 

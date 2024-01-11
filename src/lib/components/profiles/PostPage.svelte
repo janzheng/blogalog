@@ -101,9 +101,9 @@
     <div class="PageContent-Link my-4">Project Link: <a href="{currentPost?.Link}">{currentPost?.Link}</a></div>
   {/if}
   
-  {#if currentPost?.pageBlocks}
+  {#if pageBlocks}
     <div class="PageContent-Blocks post | my-4">
-      <Notion classes="notion" loud={true} blocks={currentPost?.pageBlocks} ></Notion>
+      <Notion classes="notion" loud={true} blocks={pageBlocks} ></Notion>
     </div>
   {/if} 
 
@@ -232,6 +232,7 @@
   pageCover = getNotionImageLink(currentPost) || currentPost?.['Cover']
   author = blog?.['site-data'].Author?.['Content'];
   if (dev && browser) console.log('[dev][path] PostPage blogData: ', blogData, currentPost)
+  let pageBlocks = blogData.blog?.crossPages[currentPost?.CrossPageId] || currentPost?.pageBlocks
 
   export let settings
   if(currentPost?.YAML) {
