@@ -8,8 +8,13 @@
   // import YAML from 'yaml'
   import Notion from '@yawnxyz/sveltekit-notion';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
-  import { marked } from "marked";
   import { parseYaml, generatePageStyles } from '$lib/helpers.js'
+  
+  import { marked } from "marked";
+  import MarkdownIt from 'markdown-it';
+  import markdownItAttrs from 'markdown-it-attrs';
+  const md = new MarkdownIt();
+  md.use(markdownItAttrs);
 
   import { getContext } from 'svelte';
 
@@ -81,7 +86,8 @@
     <div class="Component-Footer-Content-Container | {settings?.footer?.contentContainer?.class||'pfix pl-2 md:pl-0'} ">
       {#if content}
         <div class="Component-Footer-Content | {settings?.footer?.content?.class||'my-2'}">
-          {@html marked(content)}
+          <!-- {@html marked(content)} -->
+          {@html md.render(content||'')}
         </div>
       {/if}
 
@@ -103,10 +109,10 @@
   {#if settings?.footer?.bottom}
     <div class="Component-Footer-Bottom | {settings?.footer?.bottom?.container?.class||'content-notion-wide | p-4 | flex flex-row gap-2'}">
       <div class="Component-Footer-Bottom-Left {settings?.footer?.bottom?.left?.class||'grow'}">
-        {@html marked(settings?.footer?.bottom?.left?.markdown||'')}
+        {@html md.render(settings?.footer?.bottom?.left?.markdown||'')}
       </div>
       <div class="Component-Footer-Bottom-Right {settings?.footer?.bottom?.right?.class||'self-end'}">
-        {@html marked(settings?.footer?.bottom?.right?.markdown||'')}
+        {@html md.render(settings?.footer?.bottom?.right?.markdown||'')}
       </div>
     </div>
   {/if}

@@ -58,6 +58,7 @@
 
   // Client API:
   export const { form, enhance, errors, constraints } = superForm(data.form, {
+    taintedMessage: null, // don't alert the user when switching away
     onError: ({ result }) => {
       console.log('Form error', result)
       message = result.error.message;
@@ -93,7 +94,7 @@
 
 </script>
 
-<div class="Component-Login-Form {classes}">
+<div class="Component-DataEntry-Form {classes}">
   <form method="POST" action="/api/actions/?/dataEntry" use:enhance >
     {#each settings?.form?.schema as field (field.name)}
       <label for={field.name}>{field.label}</label>

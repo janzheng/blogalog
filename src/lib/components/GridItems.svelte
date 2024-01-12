@@ -299,7 +299,7 @@
   {#if (settings?.loaders?.itemList !== true && settings?.loaders?.notion !== false) || (settings?.loaders?.itemList == true && settings?.loaders?.notion == true)}
     {#if isLoading}
       <div class="GridItems-loading {settings?.component?.loadingContainer?.class||'text-center'}">
-        <div class="GridItems-loading-title h2 title {settings?.component?.loading?.class||' '}" style="padding-top:0"><Loader /> {settings?.loading || "Loading"}</div>
+        <div class="GridItems-loading-title h2 font-title {settings?.component?.loading?.class||' '}" style="padding-top:0"><Loader /> {settings?.loading || "Loading"}</div>
       </div>
     {:else}
       {#if items.length > 0 && settings}
@@ -377,7 +377,7 @@
 
       {:else}
         <!-- <h2 style="padding-top:0">No items found</h2> -->
-        <div class="h2 title {settings?.component?.notFound?.class||'text-center'}" style="padding-top:0">No items found</div>
+        <div class="h2 font-title {settings?.component?.notFound?.class||'text-center'}" style="padding-top:0">No items found</div>
       {/if}
     {/if}
   {/if}

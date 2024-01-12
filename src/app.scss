@@ -84,7 +84,7 @@ $fontSans: 'Inter', sans-serif;
 
 @mixin notionStyles {
   .notion {
-    font-family: var(--font-title, $fontSans) !important;
+    font-family: var(--font-paragraph, $fontSans) !important;
     color: var(--color-base);
     ol > li { list-style-type: decimal; }
     ul > li { list-style-type: disc; }
@@ -190,8 +190,16 @@ $fontSans: 'Inter', sans-serif;
     }
 
     summary {
-      @apply cursor-pointer py-1 mt-0 relative;
+      font-family: var(--font-title, $fontSans) !important;
+      @apply cursor-pointer py-2 mt-0 relative;
       @apply transition-all;
+    }
+
+    &.--summary-xl summary {
+      // larger summary / FAQ question text
+      &, * {
+        @apply text-xl;
+      }
     }
 
     summary+div {
@@ -418,6 +426,13 @@ $fontSans: 'Inter', sans-serif;
   .title {
     color: var(--color-title, var(--color-base));
   }
+  .font-title {
+    color: var(--font-title);
+  }
+  .font-paragraph {
+    color: var(--font-paragraph);
+  }
+
   // Add any other styles you want
 
   a, ._link { 

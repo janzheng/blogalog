@@ -34,7 +34,7 @@
         <div class="Profile-Header-ProfileImage-Box | {profileClass?.['profileImageBox']} z-20 |">
           <img class="Profile-Header-ProfileImage | {profileClass?.['profileImage']} | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
           <div class="Profile-Header-ShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36">
-            {#if author}<div class="Profile-Header-Author title | {profileClass?.['author']} ">{author || ''}</div>{/if}
+            {#if author}<div class="Profile-Header-Author font-title | {profileClass?.['author']} ">{author || ''}</div>{/if}
             {#if socialLinks}
               <div class="Profile-Header-SocialBox-Container | text-2xl mb-4">
                 <SocialBox {email} socialText={socialLinks} />
@@ -67,9 +67,9 @@
         <div id={'row-'+rowIndex} class="Profile-Row-Wrapper" style={rowPageStyles + '; ' + settings?.row?.wrapper?.style||''}>
           <!-- special rows outside of standard row; for formatting usually -->
           {#if row?.Type?.includes('Header')}
-            <div id={'row-'+rowIndex} class="Profile-Row-Container --header | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | " style={settings?.row?.container?.style||''}>
+            <div id={'row-'+rowIndex} class="Profile-Row-Container | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | " style={settings?.row?.container?.style||''}>
               <div class="Profile-Row--Header | {settings?.row?.class || ''} ">
-                <div class="Profile-Row-Header-Title title {settings?.row?.headerClass || ' font-sans leading-tight text-lg mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
+                <div class="Profile-Row-Header-Title font-title {settings?.row?.headerClass || ' font-sans leading-tight text-lg mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
               </div>
             </div>
           {:else}
@@ -85,10 +85,12 @@
                   <div class="Profile-Row | {settings?.row?.class || profileClass?.defaultRow} ">
                     {#if (!row?.Type.includes("#noheader") && !row.Attributes?.includes("noheader")) && row.Name !=='undefined'}
                       <!-- used to be h2 -->
-                      <div class="Profile-Row--Header title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
+                      <div class="Profile-Row--Header font-title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
                     {/if}
                     {#if row.Content}
-                      {@html md.render(row.Content || '')}
+                      <div class="Profile-Row--Content {settings?.row?.content?.class || ''}">
+                        {@html md.render(row.Content || '')}
+                      </div>
                     {/if}
                     {#if row.pageBlocks && row.pageBlocks.length > 0}
                       <div class="Profile-Row--Blocks {settings?.row?.blocks?.class || 'notion-collapse'}">

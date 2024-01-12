@@ -55,7 +55,7 @@
   {#if row?.Type?.includes('Header')}
     <div id={'row-'+rowIndex} class="Profile-Row-Container --header | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | " style={settings?.row?.container?.style||''}>
       <div class="Profile-Row--Header | {settings?.row?.class || ''} ">
-        <div class="Profile-Row-Header-Title title {settings?.row?.headerClass || ' font-sans leading-tight text-lg mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
+        <div class="Profile-Row-Header-Title font-title {settings?.row?.headerClass || ' font-sans leading-tight text-lg mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
       </div>
     </div>
   {:else}
@@ -71,7 +71,7 @@
           <div class="Profile-Row | {settings?.row?.class || profileClass?.defaultRow} ">
             {#if (!row?.Type.includes("#noheader") && !row.Attributes?.includes("noheader")) && row.Name !=='undefined'}
               <!-- used to be h2 -->
-              <div class="Profile-Row--Header title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
+              <div class="Profile-Row--Header font-title {settings?.row?.header?.class || ' font-sans leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{row.Name}</div>
             {/if}
             {#if row.Content}
               {@html md.render(row.Content || '')}
