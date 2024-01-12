@@ -50,7 +50,7 @@
   
 </script>
 
-<div id={'row-'+rowIndex} class="Profile-Row-Wrapper" style={rowPageStyles + '; ' + settings?.row?.wrapper?.style||''}>
+<div id={'row-'+rowIndex} class="Profile-Row-Wrapper | {settings?.row?.wrapper?.class || ''}" style={rowPageStyles + '; ' + settings?.row?.wrapper?.style||''}>
   <!-- special rows outside of standard row; for formatting usually -->
   {#if row?.Type?.includes('Header')}
     <div id={'row-'+rowIndex} class="Profile-Row-Container --header | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | " style={settings?.row?.container?.style||''}>

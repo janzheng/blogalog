@@ -141,6 +141,23 @@ export default [
     "Name": "Phage Bioinformatics"
   },
   {
+    "id": "f1741b71-29d3-41c6-a370-c04c5d286ec0",
+    "Pagedata ID": "33312b6460934dbf966fec9edbbe8def",
+    "Status": "Live",
+    "Slug": "swyripa",
+    "Style": "Landing Page",
+    "URLs": "swyripaconsulting.com, www.swyripaconsulting.com",
+    "Name": "Lis Swyripa Consulting"
+  },
+  {
+    "id": "1f4f5337-542c-494d-b9fc-c3df880ef728",
+    "Pagedata ID": "2f159331e5b34d499c1b5b7b3683ba16",
+    "Status": "Live",
+    "Slug": "loveday",
+    "Style": "Landing Page",
+    "Name": "Loveday Dog Days"
+  },
+  {
     "id": "62c7bff5-09b3-49f1-8b55-e309074b67b3",
     "Pagedata ID": "82ce58a0ab824e998f64902ed2202297",
     "Status": "Scratch",
@@ -222,28 +239,12 @@ export default [
     "Name": "Trends.co 2.0"
   },
   {
-    "id": "f1741b71-29d3-41c6-a370-c04c5d286ec0",
-    "Pagedata ID": "33312b6460934dbf966fec9edbbe8def",
-    "Status": "Scratch",
-    "Slug": "swyripa",
-    "Style": "Landing Page",
-    "Name": "Swyripa Consulting"
-  },
-  {
     "id": "e5750b34-6d9c-4e51-8b4e-a8da1442f488",
     "Pagedata ID": "0ddb62b1fd6c4e5cb37dc05f7765e1ce",
     "Status": "Scratch",
     "Slug": "phaus",
     "Style": "Landing Page",
     "Name": "Phage Australia"
-  },
-  {
-    "id": "1f4f5337-542c-494d-b9fc-c3df880ef728",
-    "Pagedata ID": "af7c9b67966b46868270744824ce4877",
-    "Status": "Scratch",
-    "Slug": "loveday",
-    "Style": "Landing Page",
-    "Name": "Loveday Dog Days"
   },
   {
     "id": "46eb5646-a622-4c29-8c7f-d0948595d2ba",
