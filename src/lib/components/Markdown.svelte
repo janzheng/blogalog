@@ -21,7 +21,7 @@
   import markdownItAttrs from 'markdown-it-attrs';
 
   import { browser } from '$app/environment';
-  const md = new MarkdownIt();
+  const md = new MarkdownIt({ breaks: true, html: true });
   md.use(markdownItAttrs);
 
   

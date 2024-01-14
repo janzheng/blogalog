@@ -42,7 +42,7 @@
   // use markdownit instead of marked, for attrs
   import MarkdownIt from 'markdown-it';
   import markdownItAttrs from 'markdown-it-attrs';
-  const md = new MarkdownIt();
+  const md = new MarkdownIt({ breaks: true, html: true });
   md.use(markdownItAttrs);
 
 

@@ -443,6 +443,7 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
   - this can load multiple blogs based on the path/host configuration
 */
 export const loadBlogalogData = async ({ blogalogPages, blogPath, hostname, loadAll }) => {
+  if (!blogalogPages) return null
   // map through all blogalog pages to find the correct blog, or get ALL of them if loadAll is true
   let blogArray = await Promise.all(blogalogPages.map(async (blog) => {
     if (loadAll == false && !(

@@ -205,6 +205,7 @@ export const cleanNotionPageData = (page) => {
   
   // these are the notion-db records for each site, e.g. each row of site like Settings or Main
   let sitePageData = page?.value?.['site-pagedata']?.map(page => {
+    if(!page) return null
     delete page.id;
     delete page.format;
     delete page['Created By'];

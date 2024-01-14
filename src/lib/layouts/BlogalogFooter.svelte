@@ -13,7 +13,7 @@
   import { marked } from "marked";
   import MarkdownIt from 'markdown-it';
   import markdownItAttrs from 'markdown-it-attrs';
-  const md = new MarkdownIt();
+  const md = new MarkdownIt({ breaks: true, html: true });
   md.use(markdownItAttrs);
 
   import { getContext } from 'svelte';
@@ -81,6 +81,7 @@
     {settings?.footer?.container?.sideBySide && 'footer-sidebyside notion-row-columnflex notion-sturdy-columnheaders'} 
     "
   >
+
     <!-- this is usually on the LEFT side of the Content Blocks / massive links list -->
     <!-- this is normally flush to the block containers; on xs, add padding to align to text -->
     <div class="Component-Footer-Content-Container | {settings?.footer?.contentContainer?.class||'pfix pl-2 md:pl-0'} ">
@@ -112,6 +113,7 @@
         {@html md.render(settings?.footer?.bottom?.left?.markdown||'')}
       </div>
       <div class="Component-Footer-Bottom-Right {settings?.footer?.bottom?.right?.class||'self-end'}">
+        ????? {settings?.footer?.bottom?.right?.markdown}
         {@html md.render(settings?.footer?.bottom?.right?.markdown||'')}
       </div>
     </div>

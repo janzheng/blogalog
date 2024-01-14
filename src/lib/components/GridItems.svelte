@@ -21,9 +21,7 @@
 
   import MarkdownIt from 'markdown-it';
   import markdownItAttrs from 'markdown-it-attrs';
-  const md = new MarkdownIt({
-    breaks: true
-  });
+  const md = new MarkdownIt({ breaks: true, html: true });
   md.use(markdownItAttrs);
 
   export let row, databaseId, items=[], settings=null, isLoading=true, isLoadingMore=null, pageBlocks=null, startCursor=null;

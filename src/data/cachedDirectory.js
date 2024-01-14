@@ -8,6 +8,31 @@ export default [
     "Name": "Glean"
   },
   {
+    "id": "1f4f5337-542c-494d-b9fc-c3df880ef728",
+    "Pagedata ID": "2f159331e5b34d499c1b5b7b3683ba16",
+    "Status": "Live",
+    "Slug": "loveday",
+    "Style": "Landing Page",
+    "Name": "Loveday Dog Days"
+  },
+  {
+    "id": "f1741b71-29d3-41c6-a370-c04c5d286ec0",
+    "Pagedata ID": "33312b6460934dbf966fec9edbbe8def",
+    "Status": "Live",
+    "Slug": "swyripa",
+    "Style": "Landing Page",
+    "URLs": "swyripaconsulting.com, www.swyripaconsulting.com",
+    "Name": "Lis Swyripa Consulting"
+  },
+  {
+    "id": "a67a0b8d-a330-4e57-8e47-9cf50ed11e4f",
+    "Pagedata ID": "8027dcfdf2df4e7d98ef2b0660c585eb",
+    "Status": "Scratch",
+    "Slug": "build",
+    "Style": "Landing Page",
+    "Name": "Builder Club v2"
+  },
+  {
     "id": "bc1b9d83-c82d-48e3-bed9-8e05ad55e942",
     "Pagedata ID": "dff5d33fc8de49c6b57e9dee74c51e8c",
     "Status": "Live",
@@ -141,21 +166,12 @@ export default [
     "Name": "Phage Bioinformatics"
   },
   {
-    "id": "f1741b71-29d3-41c6-a370-c04c5d286ec0",
-    "Pagedata ID": "33312b6460934dbf966fec9edbbe8def",
+    "id": "36c29077-6a05-4293-9b46-41f951c6cdce",
+    "Pagedata ID": "45619614f89f4982b678e1e1a9be3686",
     "Status": "Live",
-    "Slug": "swyripa",
-    "Style": "Landing Page",
-    "URLs": "swyripaconsulting.com, www.swyripaconsulting.com",
-    "Name": "Lis Swyripa Consulting"
-  },
-  {
-    "id": "1f4f5337-542c-494d-b9fc-c3df880ef728",
-    "Pagedata ID": "2f159331e5b34d499c1b5b7b3683ba16",
-    "Status": "Live",
-    "Slug": "loveday",
-    "Style": "Landing Page",
-    "Name": "Loveday Dog Days"
+    "Slug": "kai",
+    "Style": "Profile",
+    "Name": "Kai Blog"
   },
   {
     "id": "62c7bff5-09b3-49f1-8b55-e309074b67b3",
@@ -164,31 +180,6 @@ export default [
     "Slug": "pdprofile",
     "Style": "Profile",
     "Name": "PD Profile Example"
-  },
-  {
-    "id": "36c29077-6a05-4293-9b46-41f951c6cdce",
-    "Pagedata ID": "36c290776a0542939b4641f951c6cdce",
-    "Status": "Scratch",
-    "Slug": "kai",
-    "Style": "Profile",
-    "Name": "Kai Blog"
-  },
-  {
-    "id": "4f449e16-2996-4327-a39b-f6b0dfad2f98",
-    "Pagedata ID": "ca64966eaac344fab295e28f5c0627f4",
-    "Status": "Scratch",
-    "Slug": "build_old",
-    "Style": "Profile",
-    "URLs": "thebuilder.club",
-    "Name": "[old] Builders Club"
-  },
-  {
-    "id": "a67a0b8d-a330-4e57-8e47-9cf50ed11e4f",
-    "Pagedata ID": "8027dcfdf2df4e7d98ef2b0660c585eb",
-    "Status": "Scratch",
-    "Slug": "build",
-    "Style": "Landing Page",
-    "Name": "Builder Club v2"
   },
   {
     "id": "4ebb727f-06d6-420d-82c4-41953b4af0ed",
@@ -278,7 +269,15 @@ export default [
     "Style": "Profile",
     "URLs": "kurt.sacher.ca",
     "Name": "Kurt Sacher Consulting"
+  },
+  {
+    "id": "4f449e16-2996-4327-a39b-f6b0dfad2f98",
+    "Pagedata ID": "ca64966eaac344fab295e28f5c0627f4",
+    "Status": "Deprecated",
+    "Slug": "build_old",
+    "Style": "Profile",
+    "URLs": "thebuilder.club",
+    "Name": "[old] Builders Club"
   }
 ] 
-
 
