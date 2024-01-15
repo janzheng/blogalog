@@ -426,12 +426,14 @@ export const loadBlogalogFromPageId = async ({pageId, slug}) => {
 
   // load cross posts (post content that can be pulled in from other pages; 
   // the post description still has to be added to the cross post (for flexibility)
-  await Promise.all(finalData.value['site-pagedata'].map(async (page) => {
-    if (page.CrossPageId) {
-      let blocks = await loadPageId(page.CrossPageId);
-      finalData['crossPages'] = { ...finalData['crossPages'], [page.CrossPageId]: blocks };
-    }
-  }));
+  if (finalData.value['site-pagedata']) {
+    await Promise.all(finalData.value['site-pagedata'].map(async (page) => {
+      if (page.CrossPageId) {
+        let blocks = await loadPageId(page.CrossPageId);
+        finalData['crossPages'] = { ...finalData['crossPages'], [page.CrossPageId]: blocks };
+      }
+    }));
+  }
 
   // this is for caching the data:
   // console.log(`[loadBlogalogFromPageId] ---> Slug: ${slug} Data:\n---\n`,JSON.stringify(finalData),`\n---\n`)

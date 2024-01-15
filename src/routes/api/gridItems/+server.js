@@ -51,9 +51,32 @@ function processItems(items, settings) {
     // Filter the items array
     if (filterNames) {
       let filterKey = settings?.filterKey || 'Name';
-      items = items?.filter(mem => filterNames.includes(mem[filterKey]));
+      items = items?.filter(mem => {
+        // Split the mem[filterKey] string into an array of names
+        let memValues = mem[filterKey]?.split(',')?.map(name => name.trim());
+        // Check if any of the values in mem[filterKey] are included in filterNames
+        return memValues?.some(value => filterNames.includes(value));
+      });
     }
   }
+
+  if (settings?.sort) {
+    let { column, order } = settings.sort;
+    console.log("SORTTT", column, order)
+    items = items?.sort((a, b) => {
+      let aValue = a[column]?.toLowerCase();
+      let bValue = b[column]?.toLowerCase();
+
+      if (aValue < bValue) {
+        return order === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return order === 'asc' ? 1 : -1;
+      }
+      return 0; // equal values
+    });
+  }
+  
   items = items?.map(item => {
     if (settings?.disallow) {
       settings.disallow.forEach(field => {
