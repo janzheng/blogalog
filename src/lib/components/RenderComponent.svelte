@@ -20,6 +20,8 @@
 
 
   export let row;
+  
+
   // export let loginForm=null, unlockMessage=null;
   export let componentClasses = 'bg-slate-50'
   export let componentContainerClasses = ''
@@ -46,6 +48,7 @@
   md.use(markdownItAttrs);
 
 
+
   // dynamically add classes to Lists
   // todo: open this up to other components?
   export function addClasses(node) {
@@ -63,6 +66,13 @@
     };
   }
 
+
+
+
+  import { getContext } from 'svelte';
+  export let components = getContext('components'); // custom components
+
+
 </script>
 
 
@@ -73,6 +83,7 @@
 
 
 <div class="RenderComponent | {settings?.component?.container?.class || ''} " style={settings?.component?.container?.style||''} >
+
   {#if row.Type.includes("Private") && !$userData['Email']}
     <!-- do nothing -->
   {:else if row.Type.includes("Public") && $userData['Email']}
@@ -156,23 +167,40 @@
 
     {:else if row.Name == "Markdown" || row.Type.includes("Markdown")}
       <div class="Component-Markdown | {componentClasses || ''} ">
+        {#if (!row.Type?.includes("#noheader") && !row.Attributes?.includes("noheader")) && row.Name !== "Grid" && row.Name !=='undefined'}
+          <h2 class="pt-0 mt-0">{row.Name}</h2>
+        {/if}
         <Markdown page={row} {settings} />
       </div>
     
     {:else if row.Name == "Links" || row.Type.includes("Links")}
       <div class="Component-Links | {componentClasses || ''} " use:addClasses>
-        {#if row.pageBlocks}
+        {#if row.Content}
           <div class="Component-Links-Content">
             {@html md.render(row.Content||'')}
           </div>
         {/if}
-        <div class="Component-Links-Blocks | notion-links">
-          {#if row.pageBlocks }
-            <div class="Component-Links-Blocks | {settings?.component?.blocks?.class} ">
-              <Notion blocks={row.pageBlocks} />
-            </div>
-          {/if}
-        </div>
+        {#if row.pageBlocks }
+          <div class="Component-Links-Blocks | notion-links {settings?.component?.blocks?.class || 'notion-links'}">
+            <Notion blocks={row.pageBlocks} />
+          </div>
+        {/if}
+      </div>
+
+    {:else if row.Name == "Custom" || row.Type.includes("Custom")}
+      <div class="Component-Custom | {componentClasses || ''} " use:addClasses>
+        <!-- {JSON.stringify(row.pageBlocks.length)} -->
+        {#if row.pageBlocks > 5}
+          <div class="Component-Custom-Blocks | {settings?.component?.blocks?.class} ">
+            <Notion blocks={row.pageBlocks} />
+          </div>
+        {/if}
+        {#if row.Name && components && components?.[row.Name]}
+          <!-- render custom component -->
+          <div class="Component-Custom">
+            <svelte:component this={components?.[row.Name]} />
+          </div>
+        {/if}
       </div>
 
     {:else if row.Type.includes("Twitter")}
@@ -187,9 +215,11 @@
             <Notion blocks={row.pageBlocks} />
           </div>
         {/if}
-        <a href={row.Content}>
-          <img src="{getNotionImageLink(row)}" alt="{row.Name}" />
-        </a>
+        {#if row.Content }
+          <a href={row.Content}>
+            <img src="{getNotionImageLink(row)}" alt="{row.Name}" />
+          </a>
+        {/if}
       </div>
     {/if}
   {/if}

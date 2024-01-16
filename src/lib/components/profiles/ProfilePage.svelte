@@ -15,7 +15,7 @@
   <div class="Profile">
     <!-- mt-2 and mt-4 adds too much white space, unless full screen? option to add top margin? -->
 
-    {#if blogData?.menu && blogData?.menu.profile !== false && blogData?.menu.global !== true}
+    {#if blogData?.menu && blogData?.menu.profile !== true && blogData?.menu.global !== true}
       <Menu />
     {/if}
     
@@ -28,33 +28,47 @@
         </div> 
       {/if}
       
-      <!-- profile -->
-      {#if profileImage}
-      <div class="Profile-Header-ProfileImage-Container | {profileClass?.['profileImageContainer']}  | md:min-h-[10rem] sm:min-h-[7rem] ">
-        <div class="Profile-Header-ProfileImage-Box | {profileClass?.['profileImageBox']} z-20 |">
-          <img class="Profile-Header-ProfileImage | {profileClass?.['profileImage']} | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
-          <div class="Profile-Header-ShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36">
-            {#if author}<div class="Profile-Header-Author font-title | {profileClass?.['author']} ">{author || ''}</div>{/if}
-            {#if socialLinks}
-              <div class="Profile-Header-SocialBox-Container | text-2xl mb-4">
-                <SocialBox {email} socialText={socialLinks} />
+      {#if blogData?.settings?.profile?.showProfile !== false}
+        <!-- profile -->
+        {#if profileImage}
+          <div class="Profile-Header-ProfileImage-Container | {profileClass?.['profileImageContainer']}  | md:min-h-[10rem] sm:min-h-[7rem] ">
+            <div class="Profile-Header-ProfileImage-Box | {profileClass?.['profileImageBox']} z-20 |">
+              <img class="Profile-Header-ProfileImage | {profileClass?.['profileImage']} | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
+              <div class="Profile-Header-ShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36">
+                {#if author}<div class="Profile-Header-Author font-title | {profileClass?.['author']} ">{author || ''}</div>{/if}
+                {#if socialLinks}
+                  <div class="Profile-Header-SocialBox-Container | text-2xl mb-4">
+                    <SocialBox {email} socialText={socialLinks} />
+                  </div>
+                {/if}
+                {#if shortDesc}<div class="Profile-Header-ShortDesc | text">{@html marked(shortDesc || '') }</div>{/if}
+                {#if location}<div class="Profile-Header-Location | text pfix">{@html marked(location || '') }</div>{/if}
+                <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
               </div>
-            {/if}
-            {#if shortDesc}<div class="Profile-Header-ShortDesc | text">{@html marked(shortDesc || '') }</div>{/if}
-            {#if location}<div class="Profile-Header-Location | text pfix">{@html marked(location || '') }</div>{/if}
-            <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
+            </div>
           </div>
-        </div>
-      </div>
-      {/if}
-    
-      {#if longDesc}
-        <div class="Profile-Header-LongDesc | {profileClass?.['longDesc']}">
-          {@html marked(longDesc || '')}
-        </div>
+        {/if}
+      
+        {#if longDesc}
+          <div class="Profile-Header-LongDesc | {profileClass?.['longDesc']}">
+            {@html marked(longDesc || '')}
+          </div>
+        {/if}
       {/if}
     </div>
+
+    <!-- <div class="bg-red-300 sticky top-0 relative z-50">
+      Float-y below profile thing
+    </div> -->
     
+
+    <!-- this menu floats below the header / cover, but above all the components -->
+    <!-- {#if blogData?.menu && blogData?.menu.profile == true && blogData?.menu.global !== true} -->
+      <Menu wrapperClasses="sticky top-0 relative z-50" />
+    <!-- {/if} -->
+    
+
+
 
     <!-- {#each sitePages as page} -->
     {#each pageOrder as row, rowIndex }
@@ -64,7 +78,8 @@
       {#if row.Name && row.Hide == true}
         <!-- do nothing if hidden -->
       {:else}
-        <div id={'row-'+rowIndex} class="Profile-Row-Wrapper" style={rowPageStyles + '; ' + settings?.row?.wrapper?.style||''}>
+        <span id={settings?.id || 'row-'+rowIndex} class="row-anchor {blogData.settings?.anchor?.class}"></span>
+        <div class="Profile-Row-Wrapper" style={rowPageStyles + '; ' + settings?.row?.wrapper?.style||''}>
           <!-- special rows outside of standard row; for formatting usually -->
           {#if row?.Type?.includes('Header')}
             <div id={'row-'+rowIndex} class="Profile-Row-Container | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | " style={settings?.row?.container?.style||''}>
@@ -139,7 +154,7 @@
               <!-- {:else if page?.Type?.includes('Component') && page.Hide !== true} -->
               {:else if row?.Type?.some(type => componentTypes.includes(type)) && !row?.Hide }
                 <div class="Profile-Row--Component-Container | {settings?.row?.class || profileClass?.defaultRow}">
-                  <RenderComponent {row} />
+                  <RenderComponent {row} {components} />
                 </div>
               {/if}
             </div>
@@ -193,6 +208,7 @@
     breaks: true,
   });
 
+  export let components;
   export let blogData = getContext('blogData');
 
   let blog = blogData?.blog;

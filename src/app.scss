@@ -410,7 +410,8 @@ $fontSans: 'Inter', sans-serif;
 */
 @mixin sharedStyles {
   // general styles
-  font-family: Inter, sans-serif;
+  // font-family: Inter, sans-serif;
+  font-family: var(--font-paragraph);
   font-size: 1em;
   line-height: 1.5;
   color: var(--color-base);
@@ -423,14 +424,18 @@ $fontSans: 'Inter', sans-serif;
     @extend .font-paragraph;
   }
 
+  hr {
+    @apply pb-2;
+  }
+
   .title {
     color: var(--color-title, var(--color-base));
   }
   .font-title {
-    color: var(--font-title);
+    font-family: var(--font-title);
   }
   .font-paragraph {
-    color: var(--font-paragraph);
+    font-family: var(--font-paragraph);
   }
 
   // Add any other styles you want
@@ -640,7 +645,7 @@ $fontSans: 'Inter', sans-serif;
 
 
 // special project styles
-.Builderclub {
+.Builderclub, .Smiles {
   .headline {
     h1 {
       @apply leading-none tracking-normal text-5xl mb-4 font-bold;

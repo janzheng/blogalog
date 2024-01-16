@@ -6,7 +6,12 @@
 {#if browser}
   <div class="Root | ">
     <!-- main profile page, e.g. jessbio or blogalog.net -->
-    <Blogalog isHomepage={true} {page} />
+    <Blogalog isHomepage={true} {page} 
+      components={{
+        'custom': Custom,
+        'teeth': Teeth,
+      }}>
+    </Blogalog>
   </div>
 {/if}
 
@@ -24,6 +29,10 @@
   import { dev, browser } from '$app/environment'; 
 
   import Blogalog from '$lib/components/Blogalog.svelte';
+
+  // custom components for special builds
+  import Custom from '$lib/components/Custom.svelte';
+  import Teeth from '$lib/components/Teeth.svelte'; // decatur smiles
 
   // import { browser } from '$app/environment'; 
   // // import Notion from '@yawnxyz/sveltekit-notion'

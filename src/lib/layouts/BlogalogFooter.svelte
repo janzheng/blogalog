@@ -6,7 +6,9 @@
 <script>
   // import Icon from '@iconify/svelte';
   // import YAML from 'yaml'
-  import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '@yawnxyz/sveltekit-notion';
+  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
   import { parseYaml, generatePageStyles } from '$lib/helpers.js'
   
@@ -68,8 +70,9 @@
 
 <!-- extract this into its own reusable component -->
 
+<span id="blogalog-footer" class="row-anchor _footer footer {blogData?.settings?.anchor?.class}"></span>
 <footer bind:clientHeight={clientHeight} 
-  class="Component-Footer | {settings?.footer?.container?.class || ''} "
+  class="Component-Footer | {settings?.footer?.container?.wrapper?.class || ''} "
   style={pageStyles + "; " + settings?.footer?.container?.style}
   >
   <div class="Component-Footer-Main
@@ -113,7 +116,6 @@
         {@html md.render(settings?.footer?.bottom?.left?.markdown||'')}
       </div>
       <div class="Component-Footer-Bottom-Right {settings?.footer?.bottom?.right?.class||'self-end'}">
-        ????? {settings?.footer?.bottom?.right?.markdown}
         {@html md.render(settings?.footer?.bottom?.right?.markdown||'')}
       </div>
     </div>

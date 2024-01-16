@@ -13,5 +13,6 @@ export let componentTypes = [
   'Members',
   'Grid',
   'Expander',
-  'HTML'
+  'HTML',
+  'Custom', // a slot / custom component
 ]

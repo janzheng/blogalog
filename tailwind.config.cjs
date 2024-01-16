@@ -176,7 +176,19 @@ module.exports = {
 
   // always compile these!
   // https://tailwindcss.com/docs/content-configuration#using-regular-expressions
-  // safelist: [
+  safelist: [
+    { pattern: /grid-cols-3-1/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
+    { pattern: /grid-cols-3-2/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
+    { pattern: /grid-cols-2-1/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
+    { pattern: /grid-cols-1-2/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
+    { pattern: /grid-cols-1-2-3/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
+    { pattern: /grid-cols-1-3/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
+    { pattern: /grid-cols-1-4/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
+    { pattern: /grid-cols-1-5/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
+    { pattern: /grid-cols-2-3/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
+
+
+
 
   //   // grid / flex / template / col
   //   'col-span-full',
@@ -185,7 +197,7 @@ module.exports = {
   //     variants: ['xs', 'md', 'lg', 'xl'],
   //   },
 
-    
+
 
   //   // padding
   //   {
@@ -199,7 +211,7 @@ module.exports = {
   //   },
   //   {
   //     pattern: /leading-(none|tight|snug|normal|relaxed|loose|3|4|5|6|7|8|9|10)/,
-  //     variants: ['xs', 'md', 'lg', 'xl'],
+  //     variants: ['xs', 'sm', 'md', 'lg', 'xl'],
   //   },
 
   //   // grid/flex options
@@ -230,11 +242,11 @@ module.exports = {
   //   // },
   //   {
   //     pattern: /text-(sm|base|lg|xl|2xl|3xl|4xl)/,
-  //     variants: ['xs', 'md', 'lg', 'xl'],
+  //     variants: ['xs', 'sm', 'md', 'lg', 'xl'],
   //   },
   //   {
   //     pattern: /(w|h|max-h|max-w|mx|my|mt|mr|mb|ml|px|py|pt|pr|pb|pl)-(2|3|4|6|8|10|12|14|20|24|32|36|40|48|60|64|72|80|96|1\/3|2\/3|1\/4|1\/2|full|screen|min|max|fit|auto)/,
-  //     variants: ['xs', 'md', 'lg', 'xl', 'odd', 'even', 'first', 'last'],
+  //     variants: ['xs', 'sm', 'md', 'lg', 'xl', 'odd', 'even', 'first', 'last'],
   //   },
   //   {
   //     pattern: /(scale|scale-x|scale-y)-(0|10|25|50|75|90|95|100|105|110|125|150)/,
@@ -334,7 +346,7 @@ module.exports = {
   //     pattern: /border-(white|black|slate|gray|zinc|neutral|stone|red|yellow|green|emerald|sky|blue|indigo|purple|pink)-(50|100|200|300|400|500|600|700|800|900)/,
   //     variants: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
   //   },
-  // ],
+  ],
 }
 
 

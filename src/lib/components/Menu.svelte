@@ -10,6 +10,7 @@
 
 
 	import { slide } from 'svelte/transition';
+  export let wrapperClasses
   let isOpen = false;
 
 </script>
@@ -18,7 +19,7 @@
 
 {#if blogData?.menu}
 <!-- the wrapper is only really used when the container is position fixed and you want some margin / buffer -->
-  <div class="Menu-wrapper | {blogData?.menu?.wrapper?.class || ''} ">
+  <div class="Menu-wrapper | {blogData?.menu?.wrapper?.class || ''} | {wrapperClasses}">
     <div class="Menu-container | {blogData?.menu?.container?.class || ''} "
     >
       {#if blogData?.menu?.desktop?.show}
@@ -55,7 +56,7 @@
 
 
 
-          <div class="Menu-Links | {blogData?.menu?.links?.class || 'grow flex gap-6 items-center justify-end' }">
+          <div class="Menu-Links | {blogData?.menu?.desktop?.links?.class || 'grow flex gap-6 items-center justify-end' }">
             {#each blogData?.menu?.desktop?.links?.items as link}
               <!-- <a class="Menu-Link { twMerge(blogData?.menu?.desktop?.link?.class || '', link?.class || '')} " href="{link.link}">{link.text}</a> -->
               <!-- {JSON.stringify(link)} {link?.activeClass} -->

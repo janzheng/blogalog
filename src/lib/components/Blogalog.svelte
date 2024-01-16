@@ -9,15 +9,19 @@
   {/if}
 
 
-  {#if pageFonts && pageFonts.length > 0}
+  {#if googleFonts && googleFonts.length > 0}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    {#each pageFonts as font}
+    {#each googleFonts as font}
       <link href="https://fonts.googleapis.com/css2?family={font}" rel="stylesheet">
     {/each}
   {/if}
-</svelte:head>
 
+  {#if cdnFonts && cdnFonts.length > 0}
+    <!-- prevent postcss from messing with this -->
+    {@html `<`+`style>${cdnFontSource}</style>`}
+  {/if}
+</svelte:head>
 
 <!-- blogPath: {blogData.blogPath} | {$page?.data?.pathSegments} -->
 <div class="Blogalog-Container {settings?.project?.class||''}"
@@ -107,7 +111,6 @@
   // set &dev==true in the URL for devtastic goodness
   export let isDev = dev || $page.url.searchParams.get('refresh') === 'true';
   
-
   export let isHomepage = $page?.data?.isBlogalogHome;
 
   slideUp(onMount); // for elements that slide up; apply [.slideupContainer] to direct parent container
@@ -127,7 +130,7 @@
     blog: $page?.data?.blog, // await streamed blog, and set it here
     profileImage: getNotionImageLink($page?.data?.blog?.['site-data']?.['ProfileImage']),
     pageCover: getNotionImageLink($page?.data?.pageContent) || $page?.data?.pageContent?.['Cover'],
-    author: $page?.data?.blog?.['site-data'].Author?.['Content'],
+    author: $page?.data?.blog?.['site-data']?.Author?.['Content'],
     srcLayout: true, // for tracking/provenance
   }
   if($page?.data?.pathSegments?.length>=1) {
@@ -165,8 +168,8 @@
   settings = blogData.blog?.['site-data']?.Settings?.['YAML'];
   
   let pageStyles, pageStylesString = '', blogalogStyleString='';
-  let pageFonts = '';
-
+  let googleFonts = '';
+  let cdnFonts, cdnFontSource;
 
   if (settings) {
 
@@ -178,7 +181,8 @@
       // pageStyles = generatePageStyles(settings.page);
       pageStylesString = generatePageStyles(settings.page, {type: 'string'});
       blogalogStyleString = pageStylesString; // causes FOUC
-      pageFonts = settings.page.fonts;
+      googleFonts = settings.page.fonts;
+      cdnFonts = settings.page.cdnFonts;
     }
 
     blogData['settings'] = settings // <---- most components will use this 
@@ -188,9 +192,41 @@
   if (blogData.blog?.['site-data']?.Menu) {
     blogData['menu'] = parseYaml(blogData.blog?.['site-data']?.Menu?.YAML) // site menu
   }
+  
+
+
+  cdnFonts = [
+    {
+      name: 'BigJohn',
+      eot: 'https://f2.phage.directory/blogalog/BigJohn.eot',
+      woff: 'https://f2.phage.directory/blogalog/BigJohn.woff',
+      ttf: 'https://f2.phage.directory/blogalog/BigJohn.ttf'
+    },
+    // More font objects...
+  ];
+
+  cdnFontSource = '';
+  if (cdnFonts && cdnFonts.length > 0) {
+    cdnFontSource = cdnFonts.map(font => `
+      @font-face {
+        font-family: '${font.name}';
+        src: url('${font.eot}');
+        src: url('${font.eot}?#iefix') format('embedded-opentype'),
+          url('${font.woff}') format('woff'),
+          url('${font.ttf}') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+    `).join('');
+  }
+
 
 
   setContext('blogData', blogData);
+
+
+  export let components
+  setContext('components', components);
 
   // onMount(() => {
   //   if (settings && browser && pageStyles) {

@@ -284,7 +284,7 @@
   {#if itemList && settings?.loaders?.itemList !== false}
     <div class="Component-GridItems-List-Container {settings?.component?.list?.container?.class||' '}">
       {#each itemList as item}
-        <div class="Component-GridItems-List-Item {settings?.component?.list?.item?.class||' '}">
+        <div class="Component-GridItems-List-Item | {item.class || settings?.component?.list?.item?.class || ' '}">
           {#each getOrderedKeys(item) as key}
             <GridItemRow {item} {key} {itemKey} schema={settings?.schema} />
           {/each}

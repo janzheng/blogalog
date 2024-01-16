@@ -12,7 +12,11 @@
 
 <div class="Path">
   {#key $page.data?.path || null }
-    <Blogalog page={page}/>
+    <Blogalog page={page} 
+      components={{
+        'custom': Custom,
+        'teeth': Teeth,
+      }} />
   {/key}
 </div>
 
@@ -25,6 +29,9 @@
   import { page } from '$app/stores'
   
   import Blogalog from '$lib/components/Blogalog.svelte';
+
+  import Custom from '$lib/components/Custom.svelte';
+  import Teeth from '$lib/components/Teeth.svelte'; // decatur smiles
 </script>
 
  

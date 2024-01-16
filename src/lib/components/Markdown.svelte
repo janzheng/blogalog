@@ -1,5 +1,4 @@
 <main  class="Component-Markdown-main | {settings?.component?.content?.class || 'flex flex-col self-center'} {settings?.component?.reverse&&'order-2'} ">
-  <div class="Profile-Title Component-Markdown-Name font-title {settings?.row?.header?.class || ' leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div>
   <div class="Component-Markdown-Content">
     {@html md.render(page.Content||'')}
   </div>
@@ -45,9 +44,6 @@
       });
     }
   }
-
-
-  $: console.log('markdown: ?! page.pageBlocks:', page.Content, page.pageBlocks)
 
 </script>
 

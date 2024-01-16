@@ -45,7 +45,8 @@
       {/if}
     {:else if schema?.[key]?.type === 'markdown'}
       <!-- <div class="Item-type-markdown pfix Item-{key} | {schema?.[key]?.class||''}">{@html marked(item[key]||'')}</div> -->
-      <div class="Item-type-markdown pfix Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html marked(fixMarkdownLinks(item[key]||''))}</div>
+      <!-- <div class="Item-type-markdown pfix Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html marked(fixMarkdownLinks(item[key]||''))}</div> -->
+      <div class="Item-type-markdown pfix Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html md.render(fixMarkdownLinks(item[key]||''))}</div>
     {:else}
       <div class="Item-type-default Item-{key} | {schema?.[key]?.class||''}">{@html item[key]}</div>
     {/if}
@@ -65,6 +66,19 @@
   // import { fetchPost } from "$plasmid/utils/fetch-helpers";
   // import Modal, {getModal} from '$lib/components/Modal.svelte';
   // import Loader from '$plasmid/components/icons/loader.svelte';
+
+
+  marked.setOptions({
+    gfm: true,
+    breaks: true,
+    smartypants: true,
+  });
+
+
+  import MarkdownIt from 'markdown-it';
+  import markdownItAttrs from 'markdown-it-attrs';
+  const md = new MarkdownIt({ breaks: true, html: true });
+  md.use(markdownItAttrs);
 
   export let item, key, schema, itemKey="Name";
 

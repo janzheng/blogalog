@@ -1,4 +1,5 @@
 <!-- <div class="notion-render"> -->
+
 {#if Object.keys(components).includes(block.type)}
   <svelte:component
     this={components[block.type]}
@@ -69,6 +70,7 @@
       column_list: ColumnList,
       divider: Divider,
       embed: Embed,
+      maps: Embed,
       pdf: Embed,
       file: Embed,
       header: Header,

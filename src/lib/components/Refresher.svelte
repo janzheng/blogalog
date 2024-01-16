@@ -65,8 +65,10 @@
         clearInterval(timeCounter);
         message = `Refresh successful for [${blogPath}]`;
 
-        if (doReload && browser)
-          goto(window.location.href); // refresh
+        if (doReload && browser) {
+          // goto(window.location.href); // refresh
+          location.reload();
+        }
       }
     }, 3000);
 

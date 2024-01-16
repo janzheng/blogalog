@@ -75,6 +75,9 @@
 
 </script>
 
+
+
+
 {#if false}
   <slot />
 {/if}
@@ -96,6 +99,7 @@
 
 
  -->
+
 
   <figure
     id={`_block-${block.id}`}

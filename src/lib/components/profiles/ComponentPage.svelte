@@ -10,6 +10,9 @@
 </svelte:head>
 
 
+
+
+
 <div class="PagePath PageContent PageComponent">
   <div class="ProfileStack | mb-4">
     <a href={blogPath} style="" class="flex items-center">
@@ -39,7 +42,7 @@
 
   let blogData = getContext('blogData');
   let blogPath, pageContent, profileImage, author, pageCover
-
+  
   if(blogData) {
     blogPath = blogData?.pathSegments?.length>1 ? `/${blogData?.pathSegments[0]}` : "/"
     pageContent = blogData?.pageContent
