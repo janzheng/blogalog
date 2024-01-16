@@ -14,7 +14,10 @@ export async function GET({ url }) {
 
     // clear local cache!
     cacheClear();
-    await deleteBlogCache(`${PUBLIC_PROJECT_NAME}-${"blogalog_config"}`);
+
+    // this deletes it, but causes the public site to go down while the site is refreshing
+    // don't delete the config cache
+    // await deleteBlogCache(`${PUBLIC_PROJECT_NAME}-${"blogalog_config"}`);
 
     console.time('[api/reload] Total reload time');
     let hostname = url?.hostname;
@@ -31,7 +34,7 @@ export async function GET({ url }) {
     if(blogalogPages && blogalogPages.length > 0) {
       blogList = await Promise.all(blogalogPages.map(async blog => {
         let slug = `${PUBLIC_PROJECT_NAME}-${blog.Slug}`
-        await deleteBlogCache(slug);
+        // await deleteBlogCache(slug); // this brings the site down
         await reloadBlog(blog);
         return slug;
       }));
