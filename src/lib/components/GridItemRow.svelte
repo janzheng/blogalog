@@ -6,15 +6,15 @@
   {#if schema?.[key]}
     <!-- key:{key} | {item[key]} | {schema?.[key]?.type} | {schema?.[key]?.class} -->
     {#if schema?.[key]?.type === 'image' && item[key]?.[0]?.rawUrl || item[key]?.[0]?.url}
-      <div class="Item-type-image Item-{key} | {schema?.[key]?.classContainer || 'mb-1'}">
+      <div class="Item-type-image Item-{key} | {schema?.[key]?.classContainer || 'mb-1'}" style={schema?.[key]?.style||''}>
         <img class="{schema?.[key]?.class || 'rounded-full w-24 h-24 bg-slate-100'}" src={getNotionImageLink(item[key]?.[0])} alt="{item?.[itemKey]}" />
       </div>
     {:else if schema?.[key]?.type === 'html'}
-      <div class="Item-type-html Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html item[key]||''}</div>
+      <div class="Item-type-html Item-{key} | mb-1 {schema?.[key]?.class||''}" style={schema?.[key]?.style||''}>{@html item[key]||''}</div>
     {:else if schema?.[key]?.type === 'createdBy' || schema?.[key]?.type === 'lastEditedBy'}
       {#if item[key] && item[key].length > 0}
         {#each item[key] as user}
-          <div class="Item-byline Item-{key} | mt-2 mb-2 {schema?.[key]?.classContainer||''}">
+          <div class="Item-byline Item-{key} | mt-2 mb-2 {schema?.[key]?.classContainer||''}" >
             {#if user?.profilePhoto}
               <img class="Item-byline-profilePhoto mr-2 inline-block | {schema?.[key]?.class||'rounded-full w-8 h-8'} " src={getNotionImageLink(user?.profilePhoto)} alt="{user?.fullName}" />
             {/if}
@@ -23,7 +23,7 @@
         {/each}
       {/if}
     {:else if schema?.[key]?.type === 'link'}
-      <div class="Item-link Item-{key} |  mb-1 {schema?.[key]?.class||''}">
+      <div class="Item-link Item-{key} |  mb-1 {schema?.[key]?.class||''}" style={schema?.[key]?.style||''}>
         {#if schema?.[key]?.onlyShowOrigin}
           <a class="Item-link-href--origin" href="{item[key]}">{item[key]?.split('/')[2]}</a>
         {:else}
@@ -33,11 +33,11 @@
     {:else if schema?.[key]?.type === 'tag' || schema?.[key]?.type === 'tags'}
       {#if typeof item[key] === 'string'}
         <!-- single tag; select -->
-        <div class="Item-type-tag Item-{key} | mb-1 {schema?.[key]?.class||''}">
+        <div class="Item-type-tag Item-{key} | mb-1 {schema?.[key]?.class||''}" style={schema?.[key]?.style||''}>
           <span class="{schema?.[key]?.tagClass || 'bg-zinc-200/50 text-xs rounded-md text-slate-800 px-2 py-1 mr-1 mb-1'}">{item[key]}</span>
         </div>
       {:else if Array.isArray(item[key])}
-        <div class="Item-type-tag tag-array Item-{key} | mb-1 {schema?.[key]?.class||''}">
+        <div class="Item-type-tag tag-array Item-{key} | mb-1 {schema?.[key]?.class||''}" style={schema?.[key]?.style||''}>
           {#each item[key].map(tag => tag.trim()) as tag}
             <span class="{schema?.[key]?.tagClass ||  'bg-zinc-200/50 text-xs rounded-md text-slate-800 px-2 py-1 mr-1 mb-1'}">{tag}</span>
           {/each}
@@ -46,9 +46,11 @@
     {:else if schema?.[key]?.type === 'markdown'}
       <!-- <div class="Item-type-markdown pfix Item-{key} | {schema?.[key]?.class||''}">{@html marked(item[key]||'')}</div> -->
       <!-- <div class="Item-type-markdown pfix Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html marked(fixMarkdownLinks(item[key]||''))}</div> -->
-      <div class="Item-type-markdown pfix Item-{key} | mb-1 {schema?.[key]?.class||''}">{@html md.render(fixMarkdownLinks(item[key]||''))}</div>
+      <div class="Item-type-markdown pfix Item-{key} | mb-1 {schema?.[key]?.class||''}" style={schema?.[key]?.style||''}>
+        {@html md.render(fixMarkdownLinks(item[key]||''))}
+      </div>
     {:else}
-      <div class="Item-type-default Item-{key} | {schema?.[key]?.class||''}">{@html item[key]}</div>
+      <div class="Item-type-default Item-{key} | {schema?.[key]?.class||''}" style={schema?.[key]?.style||''}>{@html item[key]}</div>
     {/if}
   {/if}
 {/if}

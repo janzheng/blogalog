@@ -62,7 +62,6 @@ function processItems(items, settings) {
 
   if (settings?.sort) {
     let { column, order } = settings.sort;
-    console.log("SORTTT", column, order)
     items = items?.sort((a, b) => {
       let aValue = a[column]?.toLowerCase();
       let bValue = b[column]?.toLowerCase();
