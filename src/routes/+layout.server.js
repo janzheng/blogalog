@@ -88,7 +88,6 @@ async function loadContent(url, params, head, hostname) {
 
 
 export const load = async ({ url, params, setHeaders, locals}) => {
-  // return {}
   let hostname = url?.hostname
   // "act" as another base domain for testing
   // hostname = "www.blogalog.net"
@@ -110,7 +109,10 @@ export const load = async ({ url, params, setHeaders, locals}) => {
     return result;
   }
   catch (err) {
-    console.error(err)
+    console.error('[layout error]', err)
+
+    // errors are ok (offline dev)
+    return {}
     throw errorjson(500, err)
   }
 }

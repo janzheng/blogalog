@@ -1,0 +1,686 @@
+{
+  "$schema": "file:///Users/janzheng/Desktop/Projects/resume-json-test/resume-schema-2.json",
+  "meta": {
+    "version": "v1.0.0",
+    "lastModified": "2023-2-7T15:53:00",
+    "sections": [
+      {
+        "name": "work",
+        "label": "Experience"
+      },
+      {
+        "name": "writings",
+        "label": "Blogs & editorials"
+      },
+      {
+        "name": "roles",
+        "label": "Board & Advisory roles"
+      }
+    ]
+  },
+  "basics": {
+    "name": "Jessica Sacher, PhD",
+    "label": "Microbiology & Biotechnology PhD · Postdoctoral Research Scientist · Co-founder of Phage Directory",
+    "image": "https://f2.phage.directory/blogalog/jess2023pic-sm.jpeg",
+    "email": "jessica.c.sacher@gmail.com",
+    "summary": "Building systems to translate research into impact, exploring tech x bio, writing about the journey.",
+    "about": "Much longer about section",
+    "location": {
+      "address": "",
+      "postalCode": "",
+      "city": "San Francisco",
+      "region": "CA"
+    },
+    "interests": [
+      "phage", "microbiology", "biotechnology", "bioinformatics", "biology", "systems biology", "biomedical informatics"
+    ],
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "Jessica Sacher",
+        "url": "https://www.linkedin.com/in/jessica-sacher"
+      },
+      {
+        "network": "Twitter",
+        "username": "JessicaSacher",
+        "url": "https://twitter.com/JessicaSacher"
+      },
+      {
+        "network": "ORCID",
+        "username": "0000-0003-0297-9550",
+        "url": "http://orcid.org/0000-0003-0297-9550"
+      },
+      {
+        "network": "ResearchGate",
+        "username": "Jessica Sacher",
+        "url": "https://www.researchgate.net/profile/Jessica_Sacher"
+      },
+      {
+        "network": "Google Scholar",
+        "username": "r3PIVU8AAAAJ",
+        "url": "https://scholar.google.com/citations?user=r3PIVU8AAAAJ&hl=en",
+        "hIndex": 11,
+        "citations": 460,
+        "profileUrl": "https://scholar.google.com/citations?hl=en&tzom=-600&user=uAh-ESAAAAAJ",
+        "dateChecked": "November 2023"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Phage Australia",
+      "position": "Research Scientist",
+      "image": "https://www.phageaustralia.org/phaus_icon.png",
+      "startDate": "2022-02",
+      "location": "Westmead Institute for Medical Research, Sydney, Australia",
+      "description": "Part of the team launching Phage Australia, focusing on producing safe personalized phages for patients.",
+      "highlights": [
+        "Produced 17 phage batches for 14 patients across 5 hospitals, with successful treatments in the STAMP clinical trial."
+      ],
+      "media": [
+        {
+          "title": "Creating systems to safely scale phage therapy, from Phage Directory to Phage Australia",
+          "date": "2023",
+          "platform": "ALARM Conference, ICBRAR Conference, Evergreen International Phage Conference",
+          "url": "https://www.canva.com",
+          "summary": "Talk on scaling phage therapy systems."
+        },
+        {
+          "title": "Phage manufacturing challenges and progress at Phage Australia",
+          "date": "2023",
+          "platform": "BioProcessing Network conferences",
+          "url": "https://www.bioprocessingnetwork.org.au",
+          "summary": "Discussion on phage manufacturing challenges."
+        }
+      ]
+    },
+    {
+      "name": "Phage Directory LLC",
+      "position": "Co-founder, Head of Community & Science",
+      "website": "https://phage.directory/",
+      "startDate": "2017-11",
+      "endDate": "present",
+      "location": "Atlanta, Georgia",
+      "summary": "Leading efforts to accelerate access to phages for research and therapy through collaboration, digital platforms, and community building.",
+      "highlights": [
+        "Developed an online database to connect researchers, labs, and organizations.",
+        "Coordinated over 50 urgent phage sourcing efforts for compassionate use, with successful patient treatments.",
+        "Collaborated internationally to create a universal phage management and data platform.",
+        "Founded Capsid & Tail, growing it to a 1400+ subscriber base and managing a series of virtual research seminars.",
+        "Published research and reviews on phage sourcing and was invited to speak at several international conferences."
+      ]
+    },
+    {
+      "name": "University of Alberta",
+      "position": "Graduate Research & Teaching Assistant",
+      "location": "Edmonton, Canada",
+      "startDate": "2012",
+      "endDate": "2018",
+      "summary": "Engaged in multiple research projects focusing on Campylobacter jejuni and phage interactions, developed teaching materials, and supervised students.",
+      "highlights": [
+        "Investigated growth inhibition by a phage glycan binding protein",
+        "Developed a phage receptor binding protein identification assay",
+        "Characterized novel Campylobacter phage DNA modifications",
+        "Received two teaching awards"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Alberta",
+      "area": "Microbiology and Biotechnology",
+      "location": "Canada",
+      "studyType": "PhD",
+      "startDate": "2012-09",
+      "endDate": "2018-06",
+      "thesis": {
+        "title": "Insights into the role of the flagellar glycosylation system in Campylobacter jejuni phage-host interactions",
+        "url": "https://era.library.ualberta.ca/items/f66f0764-1808-4be0-90b4-051929ad1be9"
+      },
+      "advisor": "Dr. Christine M. Szymanski"
+    },
+    {
+      "institution": "University of Alberta",
+      "area": "Microbiology",
+      "location": "Canada",
+      "studyType": "Bachelor of Science (BSc)",
+      "startDate": "2007-09",
+      "endDate": "2012-04"
+    }
+  ],
+  "publications": [
+    {
+      "name": "Attitudes to phage therapy among Australian infectious diseases physicians",
+      "publisher": "medRxiv",
+      "releaseDate": "2023",
+      "url": "https://doi.org/10.1101/2023.07.03.23292153",
+      "summary": "Preprint on attitudes towards phage therapy in Australia.",
+      "doi": "10.1101/2023.07.03.23292153"
+    },
+    {
+      "name": "Data to Power Precision Phage Therapy: A Look at the Phage Directory–Phage Australia Partnership",
+      "publisher": "PHAGE: Therapy, Applications, and Research",
+      "releaseDate": "2022",
+      "url": "https://doi.org/10.1089/phage.2022.29030.jcs",
+      "summary": "Discussion on the partnership between Phage Directory and Phage Australia for precision phage therapy.",
+      "doi": "10.1089/phage.2022.29030.jcs"
+    },
+    {
+      "name": "inPhocus: “State of Phage” Survey Highlights Widespread Diverse Phage Isolation and Research in 40+ Countries",
+      "publisher": "PHAGE: Therapy, Applications, and Research",
+      "releaseDate": "2021",
+      "url": "https://doi.org/10.1089/phage.2021.29023.jcs",
+      "summary": "Survey results highlighting global phage research and isolation efforts.",
+      "doi": "10.1089/phage.2021.29023.jcs"
+    },
+    {
+      "name": "Reduced Infection Efficiency of Phage NCTC 12673 on Non-Motile Campylobacter jejuni Strains Is Related to Oxidative Stress",
+      "publisher": "Viruses",
+      "releaseDate": "2021",
+      "url": "https://doi.org/10.3390/v13101955",
+      "summary": "Study on the infection efficiency of Phage NCTC 12673 and its relation to oxidative stress in Campylobacter jejuni.",
+      "doi": "10.3390/v13101955",
+      "citation": "Editor’s Choice"
+    },
+    {
+      "name": "Phage Biobank: Present Challenges and Future Perspectives",
+      "publisher": "Current Opinion in Biotechnology",
+      "releaseDate": "2021",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/33581425/",
+      "summary": "Overview of current challenges and future perspectives for phage biobanks.",
+      "doi": "10.1016/j.copbio.2020.12.018"
+    },
+    {
+      "name": "Binding of phage-encoded FlaGrab to motile Campylobacter jejuni flagella inhibits growth, downregulates energy metabolism, and requires specific flagellar glycans",
+      "publisher": "Frontiers in Microbiology",
+      "releaseDate": "2020",
+      "url": "https://www.frontiersin.org/articles/10.3389/fmicb.2020.00397/full",
+      "summary": "Study on the interaction between phage-encoded FlaGrab and Campylobacter jejuni flagella, detailing the impact on bacterial growth and energy metabolism.",
+      "doi": "10.3389/fmicb.2020.00397"
+    },
+    {
+      "name": "PHAGE Futures Congress Meeting Summary Washington, DC January 29 to 30, 2020",
+      "publisher": "PHAGE",
+      "releaseDate": "2020",
+      "url": "https://www.liebertpub.com/doi/10.1089/phage.2020.29006.fre",
+      "summary": "Summary of the PHAGE Futures Congress, highlighting key discussions and insights from the event.",
+      "doi": "10.1089/phage.2020.29006.fre"
+    },
+    {
+      "name": "Deoxyinosine and 7-deaza-2-deoxyguanosine as carriers of genetic information in the DNA of Campylobacter viruses",
+      "publisher": "Journal of Virology",
+      "releaseDate": "2019",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/31511377/",
+      "summary": "Research on unique nucleosides in Campylobacter phage DNA, exploring their roles in genetic information encoding.",
+      "doi": "10.1128/JVI.01111-19"
+    },
+    {
+      "name": "Cj1388 is a RidA homolog and is required for flagella biosynthesis and/or function in Campylobacter jejuni",
+      "publisher": "Frontiers in Microbiology",
+      "releaseDate": "2019",
+      "url": "https://www.frontiersin.org/articles/10.3389/fmicb.2019.02058/full",
+      "summary": "Identification and analysis of the Cj1388 gene in Campylobacter jejuni, discussing its necessity for flagella biosynthesis and function.",
+      "doi": "10.3389/fmicb.2019.02058"
+    },
+    {
+      "name": "Current state of compassionate phage therapy",
+      "publisher": "Viruses",
+      "releaseDate": "2019",
+      "url": "https://www.mdpi.com/1999-4915/11/4/343",
+      "summary": "Overview of the current landscape and challenges in the application of phage therapy on a compassionate basis.",
+      "doi": "10.3390/v11040343"
+    },
+    {
+      "name": "Bacterial AB5 toxins inhibit the growth of gut bacteria by targeting ganglioside-like glycoconjugates",
+      "publisher": "Nature Communications",
+      "releaseDate": "2019",
+      "url": "https://www.nature.com/articles/s41467-019-09362-z",
+      "summary": "Study on the mechanism of bacterial AB5 toxins and their effect on gut bacteria through targeting specific glycoconjugates.",
+      "doi": "10.1038/s41467-019-09362-z"
+    },
+    {
+      "name": "Sourcing Phages for Compassionate Use",
+      "publisher": "Microbiology Australia",
+      "releaseDate": "2019",
+      "url": "https://www.publish.csiro.au/MA/MA19012",
+      "summary": "Discussion on strategies for sourcing bacteriophages for use in compassionate therapy cases.",
+      "doi": "10.1071/MA19012"
+    },
+    {
+      "name": "Transcriptomic Analysis of the Campylobacter jejuni Response to T4-Like Phage NCTC 12673 Infection",
+      "publisher": "Viruses",
+      "releaseDate": "2018",
+      "url": "https://dx.doi.org/10.3390/v10060332",
+      "summary": "Analysis of the transcriptional response of Campylobacter jejuni to infection by T4-like phage NCTC 12673.",
+      "doi": "10.3390/v10060332"
+    },
+    {
+      "name": "Complete Genome Sequences of Three Campylobacter jejuni Phage-Propagating Strains",
+      "publisher": "Genome Announcements",
+      "releaseDate": "2018",
+      "url": "http://dx.doi.org/10.1128/genomeA.00514-18",
+      "summary": "Publication of the complete genome sequences for three strains of Campylobacter jejuni used in phage propagation studies.",
+      "doi": "10.1128/genomeA.00514-18"
+    },
+    {
+      "name": "Complete Genome Sequence of Campylobacter jejuni Strain 12567, a Livestock-Associated Clade Representative",
+      "publisher": "Genome Announcements",
+      "releaseDate": "2018",
+      "url": "http://doi.org/10.1128/genomeA.00513-18",
+      "summary": "Complete genome sequencing of a Campylobacter jejuni strain associated with livestock, providing insights into its genomic characteristics.",
+      "doi": "10.1128/genomeA.00513-18"
+    },
+    {
+      "name": "Development of an Assay for the Identification of Receptor Binding Proteins from Bacteriophages",
+      "publisher": "Viruses",
+      "releaseDate": "2016",
+      "url": "http://doi.org/10.3390/v8010017",
+      "summary": "Description of a new assay developed to identify bacteriophage proteins that bind to bacterial receptors.",
+      "doi": "10.3390/v8010017"
+    },
+    {
+      "name": "A Flagellar Glycan-Specific Protein Encoded by Campylobacter Phages Inhibits Host Cell Growth",
+      "publisher": "Viruses",
+      "releaseDate": "2015",
+      "url": "https://dx.doi.org/10.3390/v7122964",
+      "summary": "Research on a phage-encoded protein targeting Campylobacter flagellar glycans and its effect on bacterial growth inhibition.",
+      "doi": "10.3390/v7122964"
+    },
+    {
+      "name": "Exploring the interactions between bacteriophage-encoded glycan binding proteins and carbohydrates",
+      "publisher": "Current Opinion in Structural Biology",
+      "releaseDate": "2015",
+      "url": "https://doi.org/10.1016/j.sbi.2015.07.006",
+      "summary": "Review on the interactions between bacteriophage proteins and carbohydrates, focusing on glycan binding proteins.",
+      "doi": "10.1016/j.sbi.2015.07.006"
+    },
+    {
+      "name": "A receptor-binding protein of Campylobacter jejuni bacteriophage NCTC 12673 recognizes flagellin glycosylated with acetamidino-modified pseudaminic acid",
+      "publisher": "Molecular Microbiology",
+      "releaseDate": "2015",
+      "url": "https://doi.org/10.1111/mmi.12849",
+      "summary": "Identification and characterization of a phage receptor-binding protein that recognizes modified flagellin in Campylobacter jejuni.",
+      "doi": "10.1111/mmi.12849"
+    },
+    {
+      "name": "Phage Therapy Collaboration and Compassionate Use",
+      "publisher": "Springer, Cham",
+      "releaseDate": "2019",
+      "url": "https://link.springer.com/referenceworkentry/10.1007/978-3-319-41986-2_50",
+      "summary": "Book chapter discussing phage therapy collaboration and the compassionate use of phages in therapeutic applications.",
+      "doi": "Book Chapter - Springer"
+    }
+  ],
+  "awards": [
+    {
+      "title": "Canada Governor General’s Gold Medal",
+      "date": "2018",
+      "awarder": "University of Alberta",
+      "summary": "Awarded to the doctoral graduate with the highest academic standing university-wide."
+    },
+    {
+      "title": "Alexander Graham Bell Canada Graduate Scholarship — Doctoral (CGS-D3)",
+      "date": "2015-2018",
+      "awarder": "NSERC",
+      "summary": "A prestigious scholarship awarded for doctoral studies."
+    },
+    {
+      "title": "President’s Doctoral Prize of Distinction",
+      "date": "2015, 2016, 2017",
+      "awarder": "University of Alberta",
+      "summary": "Recognizes outstanding doctoral level achievement."
+    },
+    {
+      "title": "Alberta Innovates Technology Futures Top-Up Award",
+      "date": "2013",
+      "awarder": "Alberta Innovates",
+      "summary": "Provided for innovative research contributions."
+    },
+    {
+      "title": "NSERC Postgraduate Scholarship — Master’s (PGS-M)",
+      "date": "2013",
+      "awarder": "NSERC",
+      "summary": "Scholarship for Master’s level research studies."
+    }
+  ],
+  "talks": [
+    {
+      "title": "Creating systems to scale phage therapy",
+      "event": "Amrita Legion for Antimicrobial Resistance Management (ALARM) Conference",
+      "date": "November 2023",
+      "location": "Kollam, Kerala, India",
+      "url": "https://www.canva.com/design/DAF0XltDSdk/Bx6yULwoAmxO_YmRbLJOaQ/edit?utm_content=DAF0XltDSdk&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+    },
+    {
+      "title": "Phages for patients: Updates and challenges in therapeutic phage production at Phage Australia, Westmead",
+      "event": "Bioprocessing Network Conference",
+      "date": "October 2023",
+      "location": "Melbourne, Australia",
+      "url": "https://www.canva.com/design/DAFwvMRoLBs/lyhWCI2An4q1-1u1kjFNAA/edit?utm_content=DAFwvMRoLBs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+    },
+    {
+      "title": "Creating systems to safely scale phage therapy, from Phage Directory to Phage Australia",
+      "event": "2023 ICBRAR Conference",
+      "date": "September 2023",
+      "location": "Chennai, India",
+      "url": "https://www.canva.com/design/DAFvnoR5Wr4/Di5ZzPqwm2pymuMwsfBuBQ/edit?utm_content=DAFvnoR5Wr4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+    },
+    {
+      "title": "Creating systems to safely scale phage therapy, from Phage Directory to Phage Australia",
+      "event": "2023 Evergreen International Phage Conference",
+      "date": "August 2023",
+      "location": "Olympia, Washington, USA",
+      "url": "https://www.canva.com/design/DAFqnp078xM/3fKGhQUm4kNhp4P55puErA/edit?utm_content=DAFqnp078xM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+    },
+    {
+      "title": "Helping scale phage therapy, from Phage Directory to Phage Australia",
+      "event": "Targeting Phage Therapy Conference",
+      "date": "June 2023",
+      "location": "Paris, France",
+      "url": "https://youtu.be/4oc7oxwpvjs"
+    },
+    {
+      "title": "Bringing therapeutic phage manufacturing to Australia",
+      "event": "Bioprocessing Network Conference",
+      "date": "October 2022",
+      "location": "Sydney, Australia",
+      "url": "https://www.canva.com/design/DAFOymHhRO0/yPJZNHyoObSj1lRyZv31-A/view?utm_content=DAFOymHhRO0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+    }
+  ],
+  "writings": [
+    {
+      "title": "How our phage therapy system works at Phage Australia",
+      "datePublished": "2023-07-27",
+      "publisher": "Phage Australia",
+      "url": "https://f2.phage.directory/phage-aus-process-overview",
+      "summary": "An overview of the process at Phage Australia for scaling up personalized phage therapy, aimed at assisting other centers with the challenges of running a successful phage therapy service.",
+      "image": "https://f2.phage.directory/blogalog/phage-aus-process-overview-cover.jpg",
+      "category": "Blog Post"
+    },
+    {
+      "title": "From flask to patient: a beginner's foray into tangential flow filtration",
+      "datePublished": "2023-09-13",
+      "publisher": "Capsid & Tail",
+      "url": "https://f2.phage.directory/akta-flux-for-phages",
+      "summary": "A personal experience with starting to use the AKTA Flux for producing cleaner phages for patient treatment.",
+      "image": "https://f2.phage.directory/blogalog/akta-cover.jpg",
+      "category": "Blog Post"
+    },
+    {
+      "title": "Capsid & Tail Newsletter/Blog",
+      "publisher": "Phage Directory",
+      "date": "10/2018 - present",
+      "url": "https://phage.directory/capsid",
+      "summary": "Overseeing the publication of weekly articles covering phage news, jobs, and research. A total of 245 articles published as of November 2023."
+    },
+    {
+      "title": "Investing in the future of phage therapy",
+      "publisher": "GARDP REVIVE: Advancing Antimicrobial R&D",
+      "date": "01/2023",
+      "url": "https://revive.gardp.org/investing-in-the-future-of-phage-therapy/",
+      "summary": "An invited viewpoint on the importance of investment in phage therapy for future antimicrobial resistance management."
+    },
+    {
+      "title": "A Bright Outlook for Bacteriophage Applications",
+      "publisher": "Microbiome Times",
+      "date": "01/2019",
+      "url": "http://www.microbiometimes.com/jan2019",
+      "summary": "An invited editorial discussing the potential and growing interest in bacteriophage applications across various fields."
+    },
+    {
+      "title": "Phage Directory: An origin story",
+      "publisher": "A Smaller Flea, International Society for Viruses of Microbes",
+      "date": "11/2017",
+      "url": "https://asmallerflea.org/2017/11/24/phage-directory-phage-directory-an-origin-story/",
+      "summary": "A narrative on the inception and mission of Phage Directory, aiming to connect researchers and promote phage therapy."
+    },
+    {
+      "title": "Technique: Probe Phage Genomes for Host Binding Proteins",
+      "publisher": "Addgene Blog",
+      "date": "08/2016",
+      "url": "https://blog.addgene.org/technique-probe-phage-genomes-for-host-binding-proteins",
+      "summary": "A technical piece on methodologies for identifying phage proteins that bind to host bacteria, highlighted as Editor’s Choice for September 2016."
+    }
+  ],
+  "media": [
+    {
+      "title": "The Future of Phage Therapy in Combating Antibiotic Resistance",
+      "date": "2023-08-15",
+      "url": "https://www.healthpodcasts.com/phage-therapy-future",
+      "platform": "Health Innovations Podcast",
+      "summary": "An in-depth discussion on how phage therapy presents a promising alternative to traditional antibiotics and the challenges ahead.",
+      "keywords": [
+        "phage therapy",
+        "antibiotic resistance",
+        "biomedical research"
+      ]
+    },
+    {
+      "title": "Harnessing Bacteriophages for Next-Generation Therapeutics",
+      "date": "2023-05-22",
+      "url": "https://www.biotechvideocasts.com/bacteriophages-therapeutics",
+      "platform": "Biotech Videocasts",
+      "summary": "Exploring the potential of bacteriophages in developing new therapeutic approaches, focusing on recent advancements and future prospects.",
+      "keywords": [
+        "bacteriophages",
+        "therapeutics",
+        "biotechnology"
+      ]
+    },
+    {
+      "title": "Breaking Down Barriers in Phage Therapy Adoption",
+      "date": "2023-09-10",
+      "url": "https://www.globalhealthnews.com/phage-therapy-adoption",
+      "platform": "Global Health News",
+      "summary": "A panel discussion on the regulatory, logistical, and scientific hurdles in the widespread adoption of phage therapy.",
+      "keywords": [
+        "phage therapy",
+        "regulatory challenges",
+        "healthcare innovation"
+      ]
+    }
+  ],
+  "interests": [
+    { "name": "Wildlife" },
+    { "name": "Wildlife" },
+    {
+      "name": "Wildlife",
+      "keywords": [
+        "Ferrets",
+        "Unicorns"
+      ]
+    },
+    {
+      "name": "Wildlife",
+      "keywords": [
+        "Ferrets",
+        "Unicorns"
+      ]
+    },
+    {
+      "name": "Wildlife",
+      "keywords": [
+        "Ferrets",
+        "Unicorns"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Laboratory Techniques",
+      "description": "Advanced techniques and methodologies used in microbiology and biotechnology laboratories.",
+      "group": "Laboratory Skills",
+      "subskills": [
+        {
+          "name": "Isolation",
+          "description": "Isolating bacteriophages from environmental samples.",
+          "details": [
+            "Direct plating method",
+            "Enrichment culture technique"
+          ],
+          "keywords": [
+            "environmental sampling",
+            "host bacteria"
+          ]
+        },
+        {
+          "name": "Propagation",
+          "description": "Increasing phage quantities for research or therapeutic use.",
+          "details": [
+            "Liquid culture propagation",
+            "Solid medium overlay technique"
+          ],
+          "keywords": [
+            "liquid culture",
+            "solid medium"
+          ]
+        }
+      ],
+      "keywords": [
+        "bacteriophages",
+        "cultivation",
+        "characterization"
+      ]
+    },
+    {
+      "name": "Biotechnological Applications",
+      "description": "Application of phages in biotechnology and medicine.",
+      "group": "Applied Phage Science",
+      "subskills": [
+        {
+          "name": "Phage Selection",
+          "description": "Selecting appropriate phages for therapeutic applications.",
+          "details": [
+            "Host range determination",
+            "In vitro efficacy testing"
+          ],
+          "keywords": [
+            "host range",
+            "efficacy testing"
+          ]
+        },
+        {
+          "name": "Clinical Application",
+          "description": "Application of phages in clinical settings.",
+          "details": [
+            "Preparation of phage cocktails",
+            "Administration routes"
+          ],
+          "keywords": [
+            "phage cocktails",
+            "administration"
+          ]
+        },
+        {
+          "name": "Genetic Modification",
+          "description": "Modifying phage genomes for enhanced specificity or efficiency.",
+          "details": [
+            "CRISPR-Cas systems",
+            "Phage display technology"
+          ],
+          "keywords": [
+            "CRISPR",
+            "phage display"
+          ]
+        }
+      ],
+      "keywords": [
+        "phage therapy",
+        "bioengineering",
+        "clinical applications"
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "position": "Advisor",
+      "organization": "Tolka AI Therapeutics",
+      "url": "https://tolka.ai",
+      "startDate": "2022",
+      "endDate": "present",
+      "summary": "Advising a cystic fibrosis patient-led Mycobacterium phage therapeutics startup."
+    },
+    {
+      "position": "Private Partnership Officer (Elected)",
+      "organization": "International Society for Viruses of Microorganisms (ISVM)",
+      "url": "http://www.isvm.org/",
+      "startDate": "2019",
+      "endDate": "2023",
+      "summary": "Managed strategic partnerships between the ISVM and private entities."
+    },
+    {
+      "position": "Scientific Advisory Board Member",
+      "organization": "Phage Futures Europe 2019 & Phage Futures Congress 2020",
+      "url": "https://phage-futures.com/events/phage-futures-2020",
+      "startDate": "2019",
+      "endDate": "2020",
+      "summary": "Contributed to speaker selection, poster evaluation, and session moderation."
+    }
+  ],
+  "projects": [
+    {
+      "name": "Accelerated Generative Agents",
+      "description": "Parallelizing generative agents simulations using CUDA.",
+      "keywords": [
+        "Python"
+      ],
+      "url": "https://example.com"
+    },
+    {
+      "name": "Characterizing Diode Pumped Solid State Lasers",
+      "description": "Characterizing Si3N4 waveguide chips for use as optical frequency reference in satellites using SQL.",
+      "keywords": [
+        "Python",
+        "SQL"
+      ],
+      "url": "https://example.com"
+    },
+    {
+      "name": "Groups and Symmetry of Rubik's Cubes",
+      "description": "Analysis of the Rubik's Cube toy from a Group Theoretic perspective.",
+      "keywords": [
+        "Group Theory"
+      ],
+      "url": "https://example.com"
+    },
+    {
+      "name": "ML for Pulsar Identification",
+      "description": "Application of machine learning methods to identify and categorize radio pulsar signal candidates using Python.",
+      "keywords": [
+        "Python"
+      ],
+      "url": "https://example.com"
+    },
+    {
+      "name": "Image Captioning Metrics Evaluations",
+      "description": "Evaluating the applicability and limitations of reference-based metrics for image captioning for blind and low vision technology users.",
+      "keywords": [
+        "Python"
+      ],
+      "url": "https://example.com"
+    },
+    {
+      "name": "LIDETECT",
+      "description": "Developing an Antagonistic Turing Test game and a case study of deception in AI chatbots. Developing an Antagonistic Turing Test game and a case study of deception in AI chatbots. Developing an Antagonistic Turing Test game and a case study of deception in AI chatbots.",
+      "highlights": [
+        "First highlight",
+        "Second highlight",
+        "Third thing I did"
+      ],
+      "image": "https://f2.phage.directory/blogalog/jess2023pic-sm.jpeg",
+      "keywords": [
+        "Next.JS",
+        "React"
+      ],
+      "startDate": "2021-01-01",
+      "endDate": "2022-01-31",
+      "url": "https://example.com",
+      "roles": [
+        "Software eng",
+        "Ops"
+      ],
+      "entity": "Turing Company",
+      "type": "Contributor"
+    }
+  ]
+}

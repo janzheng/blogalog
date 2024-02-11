@@ -17,7 +17,7 @@
 	import '$src/app.scss'
   // import '@fontsource/inter';
   import '@fontsource/inter/400.css';
-  import '@fontsource/inter/600.css';
+  import '@fontsource/inter/500.css';
   import '@fontsource/inter/700.css';
 
   // does this work over tw safelist? which one's smaller + faster?
