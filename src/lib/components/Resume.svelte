@@ -8,7 +8,8 @@
   import { JSONEditor } from 'svelte-jsoneditor'
 
   export let mode = 'preview';
-  export let state = 'edit'; // 'view', 'json'
+  // export let state = 'split'; // 'view', 'json'
+  export let state = 'view'; // 'view', 'json'
 
   export let resume, content;
 
@@ -30,7 +31,7 @@
   let startX, startWidth;
   let panelWidth = 700; // Initial width of the panel
   onMount(() => {
-    panelWidth = window.innerWidth / 2 + 300; // Set to half of the window width
+    panelWidth = window.innerWidth / 2; // Set to half of the window width
   });
 
   function initDrag(e) {
@@ -56,14 +57,15 @@
   <div class="preview-controls | my-1 mx-1">
     <div class="preview-mode | flex gap-0 | text-sm">
       <button class="button | {state == 'json' ? 'active' : ''} border-l-2 border-y-2 rounded-s-xl" on:click="{() => state = 'json'}">JSON</button>
-      <button class="button | {state == 'edit' ? 'active' : ''} border-y-2" on:click="{() => state = 'edit'}">Split</button>
+      <button class="button | {state == 'split' ? 'active' : ''} border-y-2" on:click="{() => state = 'split'}">Split</button>
       <button class="button | {state == 'view' ? 'active' : ''} border-r-2 border-y-2 rounded-e-xl" on:click="{() => state = 'view'}">View</button>
     </div>
   </div>
 {/if}
+
 <div class="flex gap-4">
-  {#if mode == 'preview' && (state == 'json' || state == 'edit')}
-    <div class="view-json | h-screen sticky top-0" style="width: {panelWidth}px;">
+  {#if mode == 'preview' && (state == 'json' || state == 'split')}
+    <div class="view-json | h-screen sticky top-0" style={`width: ${state=='split' && (panelWidth+"px")};`}>
       {#if content}
         <JSONEditor {content} mode="text" onChange="{handleChange}" />
       {/if}
@@ -71,15 +73,15 @@
     <div class="handlebar" on:mousedown={initDrag}></div>
   {/if}
   
-  {#if mode != 'preview' || (mode == 'preview' && (state == 'view' || state == 'edit'))}
-    <div class="view-resume">
+  {#if mode != 'preview' || (mode == 'preview' && (state == 'view' || state == 'split'))}
+    <div class="view-resume flex-1">
       {#if resume}
         <div class="resume | container mx-auto p-4">
       
           <!-- basic profile information -->
           <div class="basics | ">
             <!-- <div class="grid grid-cols-1-4 gap-2"> -->
-            <div class="flex gap-4">
+            <div class="sm:flex gap-4">
               <div class="">
                 <img src={resume.basics?.image} alt="Jessica Sacher" class="rounded-full w-24 h-24 md:w-32 md:h-32 mb-4 object-cover" />
               </div>
@@ -106,7 +108,7 @@
                     {/each}
                   </div>  -->
                   <div class="socialbox mb-2 ">
-                    <SocialBox classes="block" showFullLinks={true} iconClass="text-xl" linkClass="flex items-center mb-2 text-blue-500 hover:text-blue-700" email={resume.basics?.email} socialText={resume.basics?.profiles.map(p => p.url + '\n').join('')} />
+                    <SocialBox classes="block" showFullLinks={true} iconClass="text-xl" linkClass="flex items-center mb-2 hover:text-blue-700 hover:underline" email={resume.basics?.email} socialText={resume.basics?.profiles.map(p => p.url + '\n').join('')} />
                   </div>
                 </div>
               </div>
@@ -364,7 +366,7 @@
                   <div class="item talk-item | text-sm">
                     <div class="talk-details | ">
                       {#if talk.url}
-                        <a href="{talk.url}" class="block sub-title" target="_blank" rel="noopener noreferrer">{talk.title}</a>
+                        <a href="{talk.url}" class="item-link block sub-title" target="_blank" rel="noopener noreferrer">{talk.title}</a>
                       {:else}
                         <div class="sub-title">{talk.title}</div>
                       {/if}
@@ -396,7 +398,7 @@
                       {/if}
                       <div class="desc-container">
                         {#if writing.url}
-                          <a href="{writing.url}" class="name block text-base">{writing.title}</a>
+                          <a href="{writing.url}" class="item-link name block text-base">{writing.title}</a>
                         {:else}
                           <div class="name block text-base">{writing.title}</div>
                         {/if}
@@ -433,7 +435,7 @@
                   <div class="item media-item">
                     <div class="media-details | text-sm">
                       {#if mediaItem.url}
-                        <a href="{mediaItem.url}" class="sub-title block">{mediaItem.title}</a>
+                        <a href="{mediaItem.url}" class="item-link sub-title block">{mediaItem.title}</a>
                       {:else}
                         <div class="sub-title">{mediaItem.title}</div>
                       {/if}
@@ -492,7 +494,7 @@
                   <div class="item roles-item | mb-4 ">
                     <div class="role-details | text-sm">
                       {#if role.url}
-                        <a href="{role.url}" class="organization block text-base">{role.organization}</a>
+                        <a href="{role.url}" class="item-link organization block text-base">{role.organization}</a>
                       {:else}
                         <div class="organization text-base">{role.organization}</div>
                       {/if}
@@ -522,7 +524,7 @@
               <div class="title | ">
                 {resume.meta?.sections?.find(s => s.name === "projects")?.label || "Projects"}
               </div>
-              <div class="items | grid grid-cols-2 gap-4">
+              <div class="items items-cols">
                 {#each resume.projects as item}
                   <div class="item project-item | text-sm">
                     <div class="image-container {item.image && 'flex gap-2'}">
@@ -533,7 +535,7 @@
                       {/if}
                       <div class="desc-container">
                         {#if item.url}
-                          <a href="{item.url}" class="name block text-base">{item.name}</a>
+                          <a href="{item.url}" class="item-link name block text-base">{item.name}</a>
                         {:else}
                           <div class="name text-base">{item.name}</div>
                         {/if}
@@ -585,6 +587,10 @@
 
 <style lang="scss">
 
+  .resume {
+    @apply text-slate-800;
+  }
+
   ._tag {
     @apply text-xs py-1 px-2 bg-slate-100 text-slate-700 rounded-sm mr-1 mb-1;
   }
@@ -605,12 +611,19 @@
 
 
 
+
   .section {
     @apply mt-8;
     
     a {
       @apply text-blue-700 hover:text-blue-900 hover:underline;
+
+      &.item-link {
+        // too much blue! 
+        @apply text-black hover:text-slate-800;
+      }
     }
+
 
     .item {
       & > div { // single attribute
