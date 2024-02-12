@@ -1,13 +1,14 @@
 
 
 <script>
-  import { onMount } from 'svelte';
+  import { page } from '$app/stores';
+  import { onMount, tick } from 'svelte';
   import Icon from '@iconify/svelte';
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
 
   import { JSONEditor } from 'svelte-jsoneditor'
 
-  export let mode = 'preview';
+  export let mode; //  = 'preview';
   // export let state = 'split'; // 'view', 'json'
   export let state = 'view'; // 'view', 'json'
 
@@ -16,7 +17,16 @@
   // if(resume) {
     content = {json: resume}
   // }
+
+
+  // Accessing a URL parameter named 'preview'
+  let preview = $page.url.searchParams.get('preview');
+  if(preview === 'true') {
+    mode = 'preview'
+  }
+
   
+  // content / json change
   function handleChange(updatedContent, previousContent, { contentErrors, patchResult }) {
     // content is an object { json: unknown } | { text: string }
     console.log('onChange: ', { updatedContent, previousContent, contentErrors, patchResult })
@@ -27,7 +37,7 @@
 
 
 
-  // graddable
+  // grabbable handles
   let startX, startWidth;
   let panelWidth = 700; // Initial width of the panel
   onMount(() => {
@@ -51,21 +61,27 @@
     document.removeEventListener('mouseup', stopDrag, false);
   }
 
+
+
+
 </script>
 
+
 {#if mode=='preview'}
-  <div class="preview-controls | my-1 mx-1">
-    <div class="preview-mode | flex gap-0 | text-sm">
+  <div class="preview-controls | my-1 mx-1 || print:hidden">
+    <div class="preview-mode | flex gap-0 | text-sm justify-center items-baseline">
       <button class="button | {state == 'json' ? 'active' : ''} border-l-2 border-y-2 rounded-s-xl" on:click="{() => state = 'json'}">JSON</button>
       <button class="button | {state == 'split' ? 'active' : ''} border-y-2" on:click="{() => state = 'split'}">Split</button>
       <button class="button | {state == 'view' ? 'active' : ''} border-r-2 border-y-2 rounded-e-xl" on:click="{() => state = 'view'}">View</button>
+      <button class="button | ml-4" on:click="{() => window.print()}">Print</button> 
+      <div class="text-xs text-slate-500">for best print results, use settings: "margins: minimum" with no headers/footers</div>
     </div>
   </div>
 {/if}
 
 <div class="flex gap-4">
   {#if mode == 'preview' && (state == 'json' || state == 'split')}
-    <div class="view-json | h-screen sticky top-0" style={`width: ${state=='split' && (panelWidth+"px")};`}>
+    <div class="view-json | h-screen sticky top-0 || print:hidden" style={`width: ${state=='split' && (panelWidth+"px")};`}>
       {#if content}
         <JSONEditor {content} mode="text" onChange="{handleChange}" />
       {/if}
@@ -74,9 +90,9 @@
   {/if}
   
   {#if mode != 'preview' || (mode == 'preview' && (state == 'view' || state == 'split'))}
-    <div class="view-resume flex-1">
+    <div class="view-resume flex-1" >
       {#if resume}
-        <div class="resume | container mx-auto p-4">
+        <div class="resume | container mx-auto p-4" >
       
           <!-- basic profile information -->
           <div class="basics | ">
@@ -527,7 +543,7 @@
               <div class="items items-cols">
                 {#each resume.projects as item}
                   <div class="item project-item | text-sm">
-                    <div class="image-container {item.image && 'flex gap-2'}">
+                    <div class="image-container">
                       {#if item.image}
                         <div class="image pr-2">
                           <img class="rounded-sm w-16 h-16 object-cover" src="{item.image}" alt="{item.name}"/>
@@ -589,6 +605,16 @@
 
   .resume {
     @apply text-slate-800;
+    
+    // print styles
+    @media print {
+      * {
+        font-size: 0.8rem;
+      }
+      .text-sm {
+        @apply text-xs;
+      }
+    }
   }
 
   ._tag {
