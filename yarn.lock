@@ -1699,6 +1699,11 @@
     node-gyp-build "^4.2.2"
     resolve-from "^5.0.0"
 
+"@yawnxyz/sheetlog@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@yawnxyz/sheetlog/-/sheetlog-0.0.8.tgz#833e123d6dbd2522cdd7896fa2dee170135a002f"
+  integrity sha512-xAcw2JFHTB49UTO0s4pJw4k09EOdnKsLjj47QMByAuJnWRFJO0ZAKUtiWe1Lpl49V2Nu7fj+EnmGxfwXzh/Tew==
+
 "@yawnxyz/sveltekit-notion@^0.0.552":
   version "0.0.552"
   resolved "https://registry.yarnpkg.com/@yawnxyz/sveltekit-notion/-/sveltekit-notion-0.0.552.tgz#25b8f8a0d85fefc7cbd55b7b3b510f6ccb505403"
@@ -4032,6 +4037,11 @@ sourcemap-codec@^1.4.8:
   version "1.4.8"
   resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
+
+sqids@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/sqids/-/sqids-0.3.0.tgz#969eabe54a362682e44cb73fce2bfea84e504dec"
+  integrity sha512-lOQK1ucVg+W6n3FhRwwSeUijxe93b51Bfz5PMRMihVf1iVkl82ePQG7V5vwrhzB11v0NtsR25PSZRGiSomJaJw==
 
 stable@^0.1.8:
   version "0.1.8"

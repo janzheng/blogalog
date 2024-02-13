@@ -1,6 +1,8 @@
 
 
 <script>
+import { PUBLIC_SHEET_URL } from '$env/static/public';
+
   import { page } from '$app/stores';
   import { onMount, tick } from 'svelte';
   import Icon from '@iconify/svelte';
@@ -74,6 +76,14 @@
     document.removeEventListener('mouseup', stopDrag, false);
   }
 
+  import sheet, { Sheet } from '@yawnxyz/sheetlog';
+  function saveResume() {
+    sheet.setup({ sheetUrl: PUBLIC_SHEET_URL });
+    sheet.log({ sheet: "Logs", Id: "test save id"});
+
+    console.log('saveResume:', resume)
+  }
+
 
 
 
@@ -86,6 +96,7 @@
       <button class="button | {state == 'json' ? 'active' : ''} border-l-2 border-y-2 rounded-s-xl" on:click="{() => state = 'json'}">JSON</button>
       <button class="button | {state == 'split' ? 'active' : ''} border-y-2" on:click="{() => state = 'split'}">Split</button>
       <button class="button | {state == 'view' ? 'active' : ''} border-r-2 border-y-2 rounded-e-xl" on:click="{() => state = 'view'}">View</button>
+      <button class="button | ml-4" on:click="{() => saveResume()}">Save</button> 
       <button class="button | ml-4" on:click="{() => window.print()}">Print</button> 
       <div class="text-xs text-slate-500">for best print results, use settings: "margins: minimum" with no headers/footers</div>
     </div>
