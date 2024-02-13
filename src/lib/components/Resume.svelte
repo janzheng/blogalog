@@ -92,14 +92,16 @@
   </div>
 {/if}
 
-<div class="flex gap-4">
+<div class="flex gap-4 px-4">
   {#if mode == 'preview' && (state == 'json' || state == 'split')}
-    <div class="view-json | h-screen sticky top-0 || print:hidden" style={`width: ${state=='split' && (panelWidth+"px")};`}>
+    <div class="view-json | h-screen sticky top-0 || print:hidden " 
+      style={`width: ${state=='split' && (panelWidth+"px") || '100%'};`}
+      >
       {#if content}
         <JSONEditor {content} mode="text" onChange="{handleChange}" />
       {/if}
     </div>
-    <div class="handlebar" on:mousedown={initDrag}></div>
+    <div class="handlebar {state!=='split' && 'hidden'}" on:mousedown={initDrag}></div>
   {/if}
   
   {#if mode != 'preview' || (mode == 'preview' && (state == 'view' || state == 'split'))}
@@ -112,7 +114,7 @@
             <!-- <div class="grid grid-cols-1-4 gap-2"> -->
             <div class="sm:flex gap-4">
               <div class="">
-                <img src={resume.basics?.image} alt="Jessica Sacher" class="rounded-full w-24 h-24 md:w-32 md:h-32 mb-4 object-cover" />
+                <img src={resume.basics?.image} alt="Jessica Sacher" class="rounded-full min-w-24 w-24 h-24 md:w-32 md:h-32 mb-4 object-cover" />
               </div>
               <div class="flex flex-col flex-1">
                 <h1 class="text-xl font-medium">{resume.basics?.name}</h1>
