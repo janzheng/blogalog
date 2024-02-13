@@ -4173,11 +4173,6 @@ svelte-jsoneditor@^0.21.5:
     svelte-simple-modal "^1.6.1"
     vanilla-picker "^2.12.2"
 
-svelte-local-storage-store@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/svelte-local-storage-store/-/svelte-local-storage-store-0.4.0.tgz#965e342582555b606102045e86662d6c5864e1e6"
-  integrity sha512-ctPykTt4S3BE5bF0mfV0jKiUR1qlmqLvnAkQvYHLeb9wRyO1MdIFDVI23X+TZEFleATHkTaOpYZswIvf3b2tWA==
-
 svelte-persisted-store@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/svelte-persisted-store/-/svelte-persisted-store-0.7.0.tgz#7c29ab092d0ef12c370bde899cfa22772d229680"

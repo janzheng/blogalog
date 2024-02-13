@@ -12,11 +12,22 @@
   // export let state = 'split'; // 'view', 'json'
   export let state = 'view'; // 'view', 'json'
 
+  // import { writable } from 'svelte/store'
   export let resume, content;
+  import { persisted } from 'svelte-persisted-store'
+  export const resumeText = persisted('resumeText', '') 
+  
+  if($resumeText) {
+    resume = JSON.parse($resumeText)
+  }
 
-  // if(resume) {
+  if(resume) {
     content = {json: resume}
-  // }
+    $resumeText = JSON.stringify(resume, null, 2)
+  }
+
+
+
 
 
   // Accessing a URL parameter named 'preview'
@@ -33,6 +44,8 @@
     content = updatedContent
     resume = content.json || JSON.parse(content.text)
     console.log('new resume:', content)
+
+    $resumeText = content.text || JSON.stringify(resume, null, 2)
   }
 
 
@@ -545,7 +558,7 @@
                   <div class="item project-item | text-sm">
                     <div class="image-container">
                       {#if item.image}
-                        <div class="image pr-2">
+                        <div class="image pr-2 pb-2">
                           <img class="rounded-sm w-16 h-16 object-cover" src="{item.image}" alt="{item.name}"/>
                         </div>
                       {/if}
