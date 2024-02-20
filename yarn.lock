@@ -1699,10 +1699,10 @@
     node-gyp-build "^4.2.2"
     resolve-from "^5.0.0"
 
-"@yawnxyz/sheetlog@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@yawnxyz/sheetlog/-/sheetlog-0.0.8.tgz#833e123d6dbd2522cdd7896fa2dee170135a002f"
-  integrity sha512-xAcw2JFHTB49UTO0s4pJw4k09EOdnKsLjj47QMByAuJnWRFJO0ZAKUtiWe1Lpl49V2Nu7fj+EnmGxfwXzh/Tew==
+"@yawnxyz/sheetlog@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@yawnxyz/sheetlog/-/sheetlog-0.0.11.tgz#c4f84a7c753c2966e5642b0ac290ca131f06842f"
+  integrity sha512-OCEBI0XmmJPBvZVM+ag/T7+29HqiT2GtGQ+3PUtx9w6gp1i/ZFCKupx6s2RkUUK0Aw+veE5m1Zla6J2FF7pMLQ==
 
 "@yawnxyz/sveltekit-notion@^0.0.552":
   version "0.0.552"
