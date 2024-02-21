@@ -12,17 +12,22 @@
 
   let message;
   export let mode; //  = 'preview';
-  export let state = 'split'; // 'view', 'json'
-  // export let state = 'view'; // 'view', 'json'
+  // export let state = 'split'; // 'view', 'json'
+  export let state = 'view'; // 'view', 'json'
 
-  // import { writable } from 'svelte/store'
-  export let resume, content;
+  export let resume = {}, content;
+  import { writable } from 'svelte/store'
+
+  import sheet, { Sheet } from '@yawnxyz/sheetlog';
   import { persisted } from 'svelte-persisted-store'
-  export let resumeText = persisted('resumeText', '');
+  // export let resumeText = persisted('resumeText', '');
+  export let resumeText = writable('');
+  /* Persistence is actually really annoying; you want to refresh to undo mistakes but they stick around
+  */
+
+
   export let isLoading = true;
   
-  import sheet, { Sheet } from '@yawnxyz/sheetlog';
-
   // import { nanoid } from 'nanoid'
   export let id = $page.url.searchParams.get('id');
 
@@ -41,7 +46,7 @@
     // if id is given, we try to load it from the src instead of just memory
     if(id) {
       let result = await sheet.find("Id", id);
-      if(result) {
+      if(result && result.data?.ResumeText) {
         resume = JSON.parse(result.data?.ResumeText)
         console.log('[saved resume]:', resume)
       }
@@ -56,6 +61,7 @@
   }
 
   if($resumeText) {
+    // console.log('[resumeText]:', $resumeText)
     resume = JSON.parse($resumeText)
   }
 
@@ -107,14 +113,16 @@
       console.error(message)
       return; 
     }
+    message = "saving"
 
-    let saveObj = { Id: id, Resume: resumeText}
+    let saveObj = { Id: id, Resume: $resumeText}
     await sheet.update(saveObj, {
       "id": id,
       "idColumn": "Id",
     });
 
     console.log('saveResume:', saveObj)
+    message = "saved!"
   }
 
 
@@ -170,7 +178,9 @@
                 <!-- <div class="grid grid-cols-1-4 gap-2"> -->
                 <div class="sm:flex gap-4">
                   <div class="">
-                    <img src={resume.basics?.image} alt="Jessica Sacher" class="rounded-full min-w-24 w-24 h-24 md:w-32 md:h-32 mb-4 object-cover" />
+                    {#if resume.basics?.image}
+                      <img src={resume.basics?.image} alt="{resume.basics?.name}" class="rounded-full min-w-24 w-24 h-24 md:min-w-32 md:w-32 md:h-32 mb-4 object-cover" />
+                    {/if}
                   </div>
                   <div class="flex flex-col flex-1">
                     <h1 class="text-xl font-medium">{resume.basics?.name}</h1>
@@ -240,7 +250,7 @@
                         </div>
                         <div class="work-details right | text-sm | {work.image && ''}">
                           <div class="work-primary">
-                            {#if work.name}<div class="name text-base font-medium">{work.name}</div>{/if}
+                            {#if work.name}<div class="name sub-title font-medium">{work.name}</div>{/if}
                             {#if work.position}<div class="position">{work.position}</div>{/if}
                           </div>
                           <div class="work-secondary | text-slate-500 antialiased">
@@ -311,7 +321,7 @@
                           <div class="border-l-2 border-slate-100 flex-1"></div>
                         </div>
                         <div class="right education-details | text-sm">
-                          {#if education.institution}<div class="institution text-base font-medium">{education.institution}</div>{/if}
+                          {#if education.institution}<div class="institution sub-title font-medium">{education.institution}</div>{/if}
                           {#if education.area}
                             <span class="area">{education.area}</span>
                             {#if education.studyType}· <span class="studyType">{education.studyType}</span>{/if}
@@ -348,7 +358,7 @@
                     {#each resume.skills as skill}
                       <div class="item skill | mb-4">
                         {#if skill.name}
-                          <div class="name text-base font-medium">{skill.name}
+                          <div class="name sub-title font-medium">{skill.name}
                             {#if skill.level}<span class="level text-sm text-slate-500">{skill.level}</span>{/if}
                           </div>
                         {/if}
@@ -442,6 +452,29 @@
                   </div>
                 </div>
               {/if}
+
+              {#if resume.certificates}
+                <div class="section certificates">
+                  <div class="title | ">
+                    {resume.meta?.sections?.find(s => s.name === "certificates")?.label || "Certificates"}
+                  </div>
+                  <div class="items items-cols">
+                    {#each resume.certificates as certificate}
+                      <div class="item certificates-item | mb-4 ">
+                        <div class="certificate-details | text-sm">
+                          <div class="name sub-title">{certificate.name}</div>
+                          {#if certificate.url}
+                            <a href="{certificate.url}" class="item-link ">{certificate.issuer}</a>
+                          {:else}
+                            <span class="issuer sub-title text-slate-500">{certificate.issuer}</span>
+                          {/if}
+                          {#if certificate.date}<span class="date text-slate-500"> · {certificate.date}</span>{/if}
+                        </div>
+                      </div>
+                    {/each}
+                  </div>
+                </div>
+              {/if}
           
               {#if resume.talks}
                 <div class="section talks">
@@ -467,7 +500,6 @@
                   </div>
                 </div>
               {/if}
-          
           
               {#if resume.writings}
                 <div class="section writings | ">
@@ -570,6 +602,77 @@
                   </div>
                 </div>
               {/if}
+
+              {#if resume.languages}
+                <div class="section languages">
+                  <div class="title | ">
+                    {resume.meta?.sections?.find(s => s.name === "languages")?.label || "Languages"}
+                  </div>
+                  <div class="items flex gap-12">
+                    {#each resume.languages as language}
+                      <div class="item language-item | mb-4 ">
+                        <div class="language-details | text-sm">
+                          <div class="language | sub-title">{language.language}</div>
+                          <div class="fluency">{language.fluency}</div>
+                        </div>
+                      </div>
+                    {/each}
+                  </div>
+                </div>
+              {/if}
+
+              {#if resume.volunteer}
+                <div class="section volunteer">
+                  <div class="title | ">
+                    {resume.meta?.sections?.find(s => s.name === "volunteer")?.label || "Volunteer Experience"}
+                  </div>
+                  <div class="items {resume.volunteer.length > 1 ? 'items-cols' : ''} ">
+                    {#each resume.volunteer as experience}
+                      <div class="item volunteer-item | mb-4 ">
+                        <div class="experience-details | text-sm">
+                          {#if experience.url}
+                            <a href="{experience.url}" class="item-link organization block text-base">{experience.organization}</a>
+                          {:else}
+                            <div class="organization text-base">{experience.organization}</div>
+                          {/if}
+                          <div class="position">{experience.position}</div>
+                          {#if experience.startDate}
+                            <div class="dates | _slate">
+                              <span class="startDate">{experience.startDate}</span>{#if experience.endDate}&ensp;&ndash;&ensp;<span class="endDate">{experience.endDate}</span>{/if}
+                            </div>
+                          {/if}
+                          {#if experience.summary}<div class="summary">{experience.summary}</div>{/if}
+                          {#if experience.highlights}
+                            <div class="highlights">
+                              {#each experience.highlights as highlight}
+                                <div class="highlight">{highlight}</div>
+                              {/each}
+                            </div>
+                          {/if}
+                        </div>
+                      </div>
+                    {/each}
+                  </div>
+                </div>
+              {/if}
+
+              {#if resume.references}
+                <div class="section references">
+                  <div class="title | ">
+                    {resume.meta?.sections?.find(s => s.name === "references")?.label || "References"}
+                  </div>
+                  <div class="items {resume.references.length > 1 ? 'items-cols' : ''}">
+                    {#each resume.references as reference}
+                      <div class="item references-item | mb-4 ">
+                        <div class="reference-details | text-sm">
+                          <div class="name sub-title">{reference.name}</div>
+                          <div class="reference">{reference.reference}</div>
+                        </div>
+                      </div>
+                    {/each}
+                  </div>
+                </div>
+              {/if}
           
               {#if resume.roles}
                 <div class="section roles">
@@ -581,9 +684,9 @@
                       <div class="item roles-item | mb-4 ">
                         <div class="role-details | text-sm">
                           {#if role.url}
-                            <a href="{role.url}" class="item-link organization block text-base">{role.organization}</a>
+                            <a href="{role.url}" class="item-link organization block sub-title">{role.organization}</a>
                           {:else}
-                            <div class="organization text-base">{role.organization}</div>
+                            <div class="organization sub-title">{role.organization}</div>
                           {/if}
                           <div class="position">{role.position}</div>
                           {#if role.startDate}
@@ -622,9 +725,9 @@
                           {/if}
                           <div class="desc-container">
                             {#if item.url}
-                              <a href="{item.url}" class="item-link name block text-base">{item.name}</a>
+                              <a href="{item.url}" class="item-link name block sub-title">{item.name}</a>
                             {:else}
-                              <div class="name text-base">{item.name}</div>
+                              <div class="name sub-title">{item.name}</div>
                             {/if}
                             {#if item.startDate}
                               <div class="dates | _slate">
@@ -656,8 +759,7 @@
               {/if}
           
             </div>
-          
-          
+
           
           {:else}
             No resume found at {id}
@@ -742,7 +844,7 @@
 
     .item {
       & > div { // single attribute
-        @apply mt-1;
+        @apply mt-2;
       }
     }
 

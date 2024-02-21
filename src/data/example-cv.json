@@ -1,0 +1,253 @@
+{
+  "$schema": "file:///Users/janzheng/Desktop/Projects/resume-json-test/resume-schema-2.json",
+  "meta": {
+    "version": "v1.0.0",
+    "lastModified": "2024-02-20T10:00:00",
+    "sections": [
+      {
+        "name": "work",
+        "label": "Experience"
+      },
+      {
+        "name": "writings",
+        "label": "Blogs & editorials"
+      },
+      {
+        "name": "roles",
+        "label": "Board & Advisory roles"
+      }
+    ]
+  },
+  "basics": {
+    "name": "123 Alex Johnson, PhD",
+    "label": "Data Science & Machine Learning Expert · Consultant · Speaker",
+    "image": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcT7vvF2NeNJe7oTFwv-kksx1SDDeoPNPhwSAAuCGTeuFLGLCrZ6Nsk61vzpevdxGNIPksh-6qjGtZoNd6s",
+    "email": "alex.johnson@example.com",
+    "summary": "Experienced data scientist with a passion for turning data into actionable insights and pioneering machine learning solutions.",
+    "about": "I have over a decade of experience in data science, specializing in machine learning and artificial intelligence. My work spans from developing sophisticated algorithms for big data analysis to consulting on data-driven strategies for diverse industries.",
+    "location": {
+      "city": "New York",
+      "region": "NY"
+    },
+    "interests": [
+      "data science",
+      "machine learning",
+      "artificial intelligence",
+      "big data",
+      "analytics"
+    ],
+    "notes": [
+      "Open to remote work opportunities",
+      "Holds an active Top Secret security clearance"
+    ],
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "AlexJohnson",
+        "url": "https://www.linkedin.com/in/alexjohnson"
+      },
+      {
+        "network": "Twitter",
+        "username": "DataSciAlex",
+        "url": "https://twitter.com/DataSciAlex"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "DataWorks Solutions",
+      "position": "Senior Data Scientist",
+      "startDate": "2019-04",
+      "location": "New York, NY",
+      "description": "Leading a team of data scientists in developing predictive models for financial services.",
+      "highlights": [
+        "Developed an award-winning fraud detection system."
+      ]
+    },
+    {
+      "name": "TechInnovate Consulting",
+      "position": "Data Science Consultant",
+      "startDate": "2015-08",
+      "endDate": "2019-03",
+      "location": "San Francisco, CA",
+      "summary": "Provided data science consultancy services to tech startups, focusing on machine learning and AI.",
+      "highlights": [
+        "Helped a fintech startup increase their predictive accuracy by 20%."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Technology",
+      "area": "Data Science",
+      "location": "San Francisco, CA",
+      "studyType": "PhD",
+      "startDate": "2010-09",
+      "endDate": "2014-06",
+      "thesis": {
+        "title": "Predictive Modeling Techniques for Big Data",
+        "url": "https://example.com/thesis"
+      }
+    },
+    {
+      "institution": "University of Science",
+      "area": "Computer Science",
+      "location": "Boston, MA",
+      "studyType": "Bachelor of Science (BSc)",
+      "startDate": "2006-09",
+      "endDate": "2010-05"
+    }
+  ],
+  "publications": [
+    {
+      "name": "Advances in Machine Learning Algorithms",
+      "publisher": "Journal of AI Research",
+      "releaseDate": "2022",
+      "url": "https://doi.org/10.1000/jair.2022.111",
+      "summary": "A comprehensive review of the latest advancements in machine learning algorithms.",
+      "doi": "10.1000/jair.2022.111"
+    }
+  ],
+  "awards": [
+    {
+      "title": "Innovator of the Year",
+      "date": "2021",
+      "awarder": "TechWorld Awards",
+      "summary": "Recognized for outstanding contributions to the field of data science."
+    }
+  ],
+  "talks": [
+    {
+      "title": "The Future of Machine Learning",
+      "event": "Global Tech Summit",
+      "date": "2023-03",
+      "location": "Las Vegas, NV",
+      "url": "https://example.com/talk"
+    }
+  ],
+  "writings": [
+    {
+      "title": "Demystifying Data Science",
+      "datePublished": "2023-01-15",
+      "publisher": "Data Science Blog",
+      "url": "https://example.com/blog/demystifying-data-science",
+      "summary": "An article breaking down complex data science concepts into understandable insights.",
+      "category": "Blog Post"
+    }
+  ],
+  "media": [
+    {
+      "title": "Interview with a Data Scientist",
+      "date": "2023-02-10",
+      "url": "https://www.mediacast.com/alex-johnson-interview",
+      "platform": "MediaCast",
+      "summary": "A deep dive into the challenges and rewards of being a data scientist today.",
+      "keywords": [
+        "data science",
+        "career",
+        "interview"
+      ]
+    }
+  ],
+  "interests": [
+    {
+      "name": "Machine Learning",
+      "keywords": [
+        "Deep Learning",
+        "Natural Language Processing"
+      ]
+    },
+    {
+      "name": "Outdoor Activities",
+      "keywords": [
+        "Hiking",
+        "Cycling"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Machine Learning",
+      "description": "Expertise in developing and deploying machine learning models.",
+      "group": "Technical Skills",
+      "subskills": [
+        {
+          "name": "Deep Learning",
+          "description": "Designing and training deep neural networks.",
+          "details": [
+            "Convolutional Neural Networks",
+            "Recurrent Neural Networks"
+          ],
+          "keywords": [
+            "TensorFlow",
+            "PyTorch"
+          ]
+        }
+      ],
+      "keywords": [
+        "Python",
+        "R",
+        "SQL"
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "position": "Board Member",
+      "organization": "AI for Good Foundation",
+      "url": "https://aiforgood.org",
+      "startDate": "2020",
+      "endDate": "present",
+      "summary": "Guiding AI projects to address global challenges."
+    }
+  ],
+  "projects": [
+    {
+      "name": "AI-driven Market Analysis Tool",
+      "description": "Developed an AI tool for real-time market trend analysis.",
+      "keywords": [
+        "AI",
+        "Market Analysis"
+      ],
+      "url": "https://example.com/market-tool"
+    }
+  ],
+  "volunteer": [
+    {
+      "organization": "Code for Good",
+      "position": "Lead Developer",
+      "url": "https://codeforgood.org",
+      "startDate": "2021-01",
+      "endDate": "present",
+      "summary": "Volunteering to develop open-source projects for non-profits.",
+      "highlights": [
+        "Developed a web-based donation platform increasing charitable funding by 150%",
+        "Mentored junior developers, strengthening the organization's technical skills and output"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Native speaker"
+    },
+    {
+      "language": "Spanish",
+      "fluency": "Conversational"
+    }
+  ],
+  "certificates": [
+    {
+      "name": "Certified Kubernetes Administrator (CKA)",
+      "date": "2022-05",
+      "url": "https://example.com/certifications/cka",
+      "issuer": "CNCF"
+    }
+  ],
+  "references": [
+    {
+      "name": "John Doe",
+      "reference": "Alex possesses strong technical skills and the ability to solve complex data problems under tight deadlines. It was a joy to have them as a resource on our data analytics project at Daystrom Solutions."
+    }
+  ]
+}
