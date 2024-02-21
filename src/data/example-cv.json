@@ -19,23 +19,19 @@
     ]
   },
   "basics": {
-    "name": "123 Alex Johnson, PhD",
+    "name": "Alex Johnson",
+    "title": "PhD",
     "label": "Data Science & Machine Learning Expert · Consultant · Speaker",
     "image": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcT7vvF2NeNJe7oTFwv-kksx1SDDeoPNPhwSAAuCGTeuFLGLCrZ6Nsk61vzpevdxGNIPksh-6qjGtZoNd6s",
     "email": "alex.johnson@example.com",
+    "phone": "+1 (555) 555-5555",
+    "url": "https://www.linkedin.com/in/alexjohnson",
     "summary": "Experienced data scientist with a passion for turning data into actionable insights and pioneering machine learning solutions.",
     "about": "I have over a decade of experience in data science, specializing in machine learning and artificial intelligence. My work spans from developing sophisticated algorithms for big data analysis to consulting on data-driven strategies for diverse industries.",
     "location": {
       "city": "New York",
       "region": "NY"
     },
-    "interests": [
-      "data science",
-      "machine learning",
-      "artificial intelligence",
-      "big data",
-      "analytics"
-    ],
     "notes": [
       "Open to remote work opportunities",
       "Holds an active Top Secret security clearance"

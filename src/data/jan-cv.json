@@ -1,0 +1,26 @@
+{
+  "basics": {
+    "name": "Jan Zheng",
+    "label": "Product Designer & Developer",
+    "email": "hello@janzheng.com",
+    "website": "http://janzheng.com",
+    "summary": "A product designer who combines code, user research, and lean startup methods to tackle complex issues and difficult projects. Fluent in design and development technologies with a strong foundation in user-centered design, UX strategy, and front-end development.",
+    "location": {
+      "city": "Atlanta",
+      "region": "GA",
+      "countryCode": "US"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "janzh",
+        "url": "http://linkedin.com/in/janzh"
+      },
+      {
+        "network": "Twitter",
+        "username": "yawnxyz",
+        "url": "http://twitter.com/yawnxyz"
+      }
+    ]
+  }
+}

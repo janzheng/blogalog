@@ -12,21 +12,20 @@
 
   let message;
   export let mode; //  = 'preview';
-  // export let state = 'split'; // 'view', 'json'
-  export let state = 'view'; // 'view', 'json'
+  export let state = 'split'; // 'view', 'json'
+  // export let state = 'view'; // 'view', 'json'
 
-  export let resume = {}, content;
-  import { writable } from 'svelte/store'
+  export let resumeJson = {};
+  import { writable, derived } from 'svelte/store'
 
   import sheet, { Sheet } from '@yawnxyz/sheetlog';
   import { persisted } from 'svelte-persisted-store'
-  // export let resumeText = persisted('resumeText', '');
+  export let savedResumeText = persisted('resumeText', '');
   export let resumeText = writable('');
-  /* Persistence is actually really annoying; you want to refresh to undo mistakes but they stick around
-  */
-
-
-  export let isLoading = true;
+  let resumeTextWrapper = derived(resumeText, store => ({text: store}));
+  let socialEmail="", socialText="";
+  
+  export let isLoading = true, hasUnsaved = false;
   
   // import { nanoid } from 'nanoid'
   export let id = $page.url.searchParams.get('id');
@@ -40,30 +39,60 @@
   // grabbable handles
   let startX, startWidth;
   let panelWidth = 700; // Initial width of the panel
+
+
+  function handleSaveShortcut(event) {
+    if (event.metaKey && event.key === 's') {
+      event.preventDefault(); // Prevent the default browser save action
+      saveResume();
+    }
+  }
+
+
   onMount(async () => {
+    window.addEventListener('keydown', handleSaveShortcut);
+    
     panelWidth = window.innerWidth / 2; // Set to half of the window width
+    isLoading = true;
+
+    if($savedResumeText) {
+      $resumeText = $savedResumeText
+      resumeJson = JSON.parse($resumeText)
+      isLoading = false;
+      return
+    }
 
     // if id is given, we try to load it from the src instead of just memory
     if(id) {
-      let result = await sheet.find("Id", id);
-      if(result && result.data?.ResumeText) {
-        resume = JSON.parse(result.data?.ResumeText)
-        console.log('[saved resume]:', resume)
+      try {
+        let result = await sheet.find("Id", id);
+        if(result && result.data?.Resume) {
+          resumeJson = JSON.parse(result.data?.Resume)
+          $resumeText = JSON.stringify(resumeJson, null, 2)
+          console.log('[loaded resume]:', resumeJson)
+        }
+      } catch(e) {
+        console.error('[resume] error / not loaded', e, resumeJson)
       }
     }
 
     isLoading = false;
+    return () => {
+      window.removeEventListener('keydown', handleSaveShortcut);
+    };
   });
 
-  if(resume) {
-    content = {json: resume}
-    $resumeText = JSON.stringify(resume, null, 2)
+  $: if($resumeText) {
+    try {
+      resumeJson = JSON.parse($resumeText)
+      console.log('resumeJson:::', resumeJson)
+      socialEmail = resumeJson.basics?.email;
+      socialText = resumeJson.basics?.profiles.map(p => p.url + '\n').join('');
+    } catch(e) {
+      console.error('[resumeText] error:', e)
+    }
   }
 
-  if($resumeText) {
-    // console.log('[resumeText]:', $resumeText)
-    resume = JSON.parse($resumeText)
-  }
 
 
 
@@ -76,13 +105,14 @@
   
   // content / json change
   function handleChange(updatedContent, previousContent, { contentErrors, patchResult }) {
-    // content is an object { json: unknown } | { text: string }
-    console.log('onChange: ', { updatedContent, previousContent, contentErrors, patchResult })
-    content = updatedContent
-    resume = content.json || JSON.parse(content.text)
-    console.log('new resume:', content)
+    console.log('[handleChange]: ', { updatedContent, previousContent, contentErrors, patchResult })
 
-    $resumeText = content.text || JSON.stringify(resume, null, 2)
+    $resumeText = updatedContent.text || JSON.stringify(updatedContent.json, null, 2);
+    resumeJson = JSON.parse($resumeText);
+    hasUnsaved = true;
+    message = "unsaved changes";
+    socialEmail = resumeJson.basics?.email;
+    socialText = resumeJson.basics?.profiles.map(p => p.url + '\n').join('');
   }
 
 
@@ -116,15 +146,19 @@
     message = "saving"
 
     let saveObj = { Id: id, Resume: $resumeText}
-    await sheet.update(saveObj, {
+    $savedResumeText = $resumeText
+
+    let results = await sheet.update(saveObj, {
       "id": id,
       "idColumn": "Id",
     });
 
-    console.log('saveResume:', saveObj)
+    // could fetch + diff, but would take up an action (and be slower)
+    // SOMETIMES GOOGLE SHEETS DOESN'T SEEM TO SAVE? (or update the sheets interface?)
+    console.log('saveResume:', saveObj, 'results', results)
     message = "saved!"
+    hasUnsaved = false // super naive impl
   }
-
 
 
 
@@ -132,9 +166,10 @@
 
 
 <div class='Resume'>
-
   {#if isLoading}
-    <p>Loading...</p>
+    <div class="text-center h-screen w-screen flex flex-row items-center justify-center | text-3xl text-slate-300 serif">
+      Loading...
+    </div>
   {:else}
 
     {#if mode=='preview'}
@@ -161,16 +196,16 @@
         <div class="view-json | h-screen sticky top-0 || print:hidden " 
           style={`width: ${state=='split' && (panelWidth+"px") || '100%'};`}
           >
-          {#if content}
-            <JSONEditor {content} mode="text" onChange="{handleChange}" />
-          {/if}
+          <!-- {#if resumeJson.json} -->
+            <JSONEditor content={$resumeTextWrapper} mode="text" onChange="{handleChange}" />
+          <!-- {/if} -->
         </div>
         <div class="handlebar {state!=='split' && 'hidden'}" on:mousedown={initDrag}></div>
       {/if}
       
       {#if mode != 'preview' || (mode == 'preview' && (state == 'view' || state == 'split'))}
         <div class="view-resume flex-1" >
-          {#if resume}
+          {#if resumeJson}
             <div class="resume | container mx-auto p-4" >
           
               <!-- basic profile information -->
@@ -178,21 +213,25 @@
                 <!-- <div class="grid grid-cols-1-4 gap-2"> -->
                 <div class="sm:flex gap-4">
                   <div class="">
-                    {#if resume.basics?.image}
-                      <img src={resume.basics?.image} alt="{resume.basics?.name}" class="rounded-full min-w-24 w-24 h-24 md:min-w-32 md:w-32 md:h-32 mb-4 object-cover" />
+                    {#if resumeJson.basics?.image}
+                      <img src={resumeJson.basics?.image} alt="{resumeJson.basics?.name}" class="rounded-full min-w-24 w-24 h-24 md:min-w-32 md:w-32 md:h-32 mb-4 object-cover" />
                     {/if}
                   </div>
                   <div class="flex flex-col flex-1">
-                    <h1 class="text-xl font-medium">{resume.basics?.name}</h1>
-                    <div class="basics-summary mb-2">{resume.basics?.summary}</div>
+                    <div class="flex flex-col flex-1">
+                      <h1 class="text-xl font-medium pb-1">
+                        {resumeJson.basics?.name}{resumeJson.basics?.title ? `, ${resumeJson.basics.title}` : ''}
+                      </h1>
+                    </div>
+                    <div class="basics-summary mb-2">{resumeJson.basics?.summary}</div>
           
                     <div class="basics-primary text-sm text-slate-500">
-                      <p class="">{resume.basics?.label}</p>
+                      <p class="">{resumeJson.basics?.label}</p>
                       <p class="text-sm">
-                        {#if resume.basics?.location?.address}{resume.basics.location.address}{#if resume.basics.location.city || resume.basics.location.region || resume.basics.location.countryCode}, {/if}{/if}
-                        {#if resume.basics?.location?.city}{resume.basics.location.city}{#if resume.basics.location.region || resume.basics.location.countryCode}, {/if}{/if}
-                        {#if resume.basics?.location?.region}{resume.basics.location.region}{#if resume.basics.location.countryCode}, {/if}{/if}
-                        {resume.basics?.location?.countryCode||''}
+                        {#if resumeJson.basics?.location?.address}{resumeJson.basics.location.address}{#if resumeJson.basics.location.city || resumeJson.basics.location.region || resumeJson.basics.location.countryCode}, {/if}{/if}
+                        {#if resumeJson.basics?.location?.city}{resumeJson.basics.location.city}{#if resumeJson.basics.location.region || resumeJson.basics.location.countryCode}, {/if}{/if}
+                        {#if resumeJson.basics?.location?.region}{resumeJson.basics.location.region}{#if resumeJson.basics.location.countryCode}, {/if}{/if}
+                        {resumeJson.basics?.location?.countryCode||''}
                       </p>
                     </div>
                     <div class="basics-secondary text-sm mt-4">
@@ -204,33 +243,49 @@
                           </a>
                         {/each}
                       </div>  -->
-                      <div class="socialbox mb-2 ">
-                        <SocialBox classes="block" showFullLinks={true} iconClass="text-xl" linkClass="flex items-center mb-2 hover:text-blue-700 hover:underline" email={resume.basics?.email} socialText={resume.basics?.profiles.map(p => p.url + '\n').join('')} />
-                      </div>
+                      {#if socialEmail || socialText}
+                        <div class="socialbox mb-2 ">
+                          <!-- <SocialBox classes="block" showFullLinks={true} iconClass="text-xl" linkClass="flex items-center mb-2 hover:text-blue-700 hover:underline" email={resumeJson.basics?.email} socialText={resumeJson.basics?.profiles.map(p => p.url + '\n').join('')} /> -->
+                          <SocialBox classes="block" showFullLinks={true} iconClass="text-xl" linkClass="flex items-center mb-2 hover:text-blue-700 hover:underline" email={socialEmail} socialText={socialText}  />
+                        </div>
+                      {/if}
                     </div>
                   </div>
                 </div>
               </div>
           
-              {#if resume.basics?.about}
+              {#if resumeJson.basics?.about}
                 <div class="section about">
                   <div class="title">
-                    {resume.meta?.sections?.find(s => s.name === "about")?.label || "About"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "about")?.label || "About"}
                   </div>
-                  {#if resume.basics?.about}
-                    <p class="text-sm">{resume.basics?.about}</p>
+                  {#if resumeJson.basics?.about}
+                    <p class="text-sm">{resumeJson.basics?.about}</p>
                   {/if}
+                </div>
+              {/if}
+              {#if resumeJson.basics?.notes}
+                <div class="mt-2 notes">
+                  <!-- don't show header for notes -->
+                  <!-- <div class="title">
+                    Notes
+                  </div> -->
+                  <ul>
+                    {#each resumeJson.basics?.notes as note (note)}
+                      <li class="text-sm">{note}</li>
+                    {/each}
+                  </ul>
                 </div>
               {/if}
           
               <!-- work -->
-              {#if resume.work}
+              {#if resumeJson.work}
                 <div class="section work">
                   <div class="title">
-                    {resume.meta?.sections?.find(s => s.name === "work")?.label || "Work Experience"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "work")?.label || "Work Experience"}
                   </div>
                   <div class="items">
-                    {#each resume.work as work}
+                    {#each resumeJson.work as work}
                       <div class="item work-item | mb-4 | flex gap-2">
                         <div class="work-logo left | flex flex-col justify-center items-center">
                           {#if work.image}
@@ -295,20 +350,20 @@
                 </div>
               {/if}
           
-              {#if resume.education}
+              {#if resumeJson.education}
                 <div class="section education">
                   <div class="title">
-                    {resume.meta?.sections?.find(s => s.name === "education")?.label || "Education"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "education")?.label || "Education"}
                   </div>
                   <div class="items">
-                    {#each resume.education as education}
+                    {#each resumeJson.education as education}
                       <div class="item education-item | mb-4 | flex gap-2">
           
                         <div class="left | flex flex-col justify-center items-center">
-                          {#if resume.image}
+                          {#if resumeJson.image}
                             <div class="w-16 h-16">
                               <!-- div wrapper forces width -->
-                              <img src="{resume.image}" alt="{resume.name}" class="work-image w-16 h-16 object-contain">
+                              <img src="{resumeJson.image}" alt="{resumeJson.name}" class="work-image w-16 h-16 object-contain">
                             </div>  
                           {:else}
                             <div class="w-12 h-12 m-2 flex justify-center items-center">
@@ -349,13 +404,13 @@
                 </div>
               {/if}
           
-              {#if resume.skills}
+              {#if resumeJson.skills}
                 <div class="section skills">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "skills")?.label || "Skills"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "skills")?.label || "Skills"}
                   </div>
                   <div class="items | text-sm ">
-                    {#each resume.skills as skill}
+                    {#each resumeJson.skills as skill}
                       <div class="item skill | mb-4">
                         {#if skill.name}
                           <div class="name sub-title font-medium">{skill.name}
@@ -402,13 +457,13 @@
                 </div>
               {/if}
           
-              {#if resume.publications}
+              {#if resumeJson.publications}
                 <div class="section publications">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "publications")?.label || "Publications"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "publications")?.label || "Publications"}
                   </div>
                   <div class="items | items-cols">
-                    {#each resume.publications as publication}
+                    {#each resumeJson.publications as publication}
                       <div class="item publication-item">
                         <div class="publication-details | text-sm">
                           <div class="name sub-title">{publication.name}</div>
@@ -431,13 +486,13 @@
                 </div>
               {/if}
           
-              {#if resume.awards}
+              {#if resumeJson.awards}
                 <div class="section awards">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "awards")?.label || "Awards & Honors"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "awards")?.label || "Awards & Honors"}
                   </div>
                   <div class="items items-cols">
-                    {#each resume.awards as award}
+                    {#each resumeJson.awards as award}
                       <div class="item award-item | text-sm">
                         <div class="award-details">
                           <div class="award-title sub-title">{award.title}</div>
@@ -453,13 +508,13 @@
                 </div>
               {/if}
 
-              {#if resume.certificates}
+              {#if resumeJson.certificates}
                 <div class="section certificates">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "certificates")?.label || "Certificates"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "certificates")?.label || "Certificates"}
                   </div>
                   <div class="items items-cols">
-                    {#each resume.certificates as certificate}
+                    {#each resumeJson.certificates as certificate}
                       <div class="item certificates-item | mb-4 ">
                         <div class="certificate-details | text-sm">
                           <div class="name sub-title">{certificate.name}</div>
@@ -476,13 +531,13 @@
                 </div>
               {/if}
           
-              {#if resume.talks}
+              {#if resumeJson.talks}
                 <div class="section talks">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "talks")?.label || "Talks & Presentations"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "talks")?.label || "Talks & Presentations"}
                   </div>
                   <div class="items items-cols">
-                    {#each resume.talks as talk}
+                    {#each resumeJson.talks as talk}
                       <div class="item talk-item | text-sm">
                         <div class="talk-details | ">
                           {#if talk.url}
@@ -501,13 +556,13 @@
                 </div>
               {/if}
           
-              {#if resume.writings}
+              {#if resumeJson.writings}
                 <div class="section writings | ">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "writings")?.label || "Writings"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "writings")?.label || "Writings"}
                   </div>
                   <div class="items items-cols">
-                    {#each resume.writings as writing}
+                    {#each resumeJson.writings as writing}
                       <div class="item writings-item | text-sm">
                         <div class="image-container ">
                           {#if writing.image}
@@ -544,13 +599,13 @@
                 </div>
               {/if}
           
-              {#if resume.media}
+              {#if resumeJson.media}
                 <div class="section media">
                   <div class="title | ">
                     Media Appearances
                   </div>
                   <div class="items items-cols">
-                    {#each resume.media as mediaItem}
+                    {#each resumeJson.media as mediaItem}
                       <div class="item media-item">
                         <div class="media-details | text-sm">
                           {#if mediaItem.url}
@@ -580,15 +635,15 @@
                 </div>
               {/if}
           
-              {#if resume.interests}
+              {#if resumeJson.interests}
                 <div class="section interests">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "interests")?.label || "Interests"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "interests")?.label || "Interests"}
                   </div>
                   <div class="items">
-                    {#each resume.interests as interest, i}
+                    {#each resumeJson.interests as interest, i}
                       <div class="item interest-item | mb-4 | {interest.keywords?'block':'inline-block'}">
-                        <span class="name text-base">{interest.name}{#if !interest.keywords && i < resume.interests.length - 1},&nbsp;{/if}
+                        <span class="name text-base">{interest.name}{#if !interest.keywords && i < resumeJson.interests.length - 1},&nbsp;{/if}
                         </span>
                         {#if interest.keywords}
                           <div class="keywords">
@@ -603,13 +658,13 @@
                 </div>
               {/if}
 
-              {#if resume.languages}
+              {#if resumeJson.languages}
                 <div class="section languages">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "languages")?.label || "Languages"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "languages")?.label || "Languages"}
                   </div>
                   <div class="items flex gap-12">
-                    {#each resume.languages as language}
+                    {#each resumeJson.languages as language}
                       <div class="item language-item | mb-4 ">
                         <div class="language-details | text-sm">
                           <div class="language | sub-title">{language.language}</div>
@@ -621,13 +676,13 @@
                 </div>
               {/if}
 
-              {#if resume.volunteer}
+              {#if resumeJson.volunteer}
                 <div class="section volunteer">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "volunteer")?.label || "Volunteer Experience"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "volunteer")?.label || "Volunteer Experience"}
                   </div>
-                  <div class="items {resume.volunteer.length > 1 ? 'items-cols' : ''} ">
-                    {#each resume.volunteer as experience}
+                  <div class="items {resumeJson.volunteer.length > 1 ? 'items-cols' : ''} ">
+                    {#each resumeJson.volunteer as experience}
                       <div class="item volunteer-item | mb-4 ">
                         <div class="experience-details | text-sm">
                           {#if experience.url}
@@ -656,13 +711,13 @@
                 </div>
               {/if}
 
-              {#if resume.references}
+              {#if resumeJson.references}
                 <div class="section references">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "references")?.label || "References"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "references")?.label || "References"}
                   </div>
-                  <div class="items {resume.references.length > 1 ? 'items-cols' : ''}">
-                    {#each resume.references as reference}
+                  <div class="items {resumeJson.references.length > 1 ? 'items-cols' : ''}">
+                    {#each resumeJson.references as reference}
                       <div class="item references-item | mb-4 ">
                         <div class="reference-details | text-sm">
                           <div class="name sub-title">{reference.name}</div>
@@ -674,13 +729,13 @@
                 </div>
               {/if}
           
-              {#if resume.roles}
+              {#if resumeJson.roles}
                 <div class="section roles">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "roles")?.label || "Roles"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "roles")?.label || "Roles"}
                   </div>
                   <div class="items items-cols">
-                    {#each resume.roles as role}
+                    {#each resumeJson.roles as role}
                       <div class="item roles-item | mb-4 ">
                         <div class="role-details | text-sm">
                           {#if role.url}
@@ -709,13 +764,13 @@
                 </div>
               {/if}
           
-              {#if resume.projects}
+              {#if resumeJson.projects}
                 <div class="section projects | ">
                   <div class="title | ">
-                    {resume.meta?.sections?.find(s => s.name === "projects")?.label || "Projects"}
+                    {resumeJson.meta?.sections?.find(s => s.name === "projects")?.label || "Projects"}
                   </div>
                   <div class="items items-cols">
-                    {#each resume.projects as item}
+                    {#each resumeJson.projects as item}
                       <div class="item project-item | text-sm">
                         <div class="image-container">
                           {#if item.image}
