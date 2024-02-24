@@ -227,7 +227,7 @@
   let showSectionPosts = true
 
   blog = blogData?.blog; // await streamed blog, and set it here
-  let currentPost = blog?.['site-pages'].find(item => item.Path === postPath)
+  let currentPost = blog?.['site-pages'].find(item => item.Path === postPath) || {}
   profileImage = getNotionImageLink(blog?.['site-data']?.['ProfileImage'])
   pageCover = getNotionImageLink(currentPost) || currentPost?.['Cover']
   author = blog?.['site-data'].Author?.['Content'];

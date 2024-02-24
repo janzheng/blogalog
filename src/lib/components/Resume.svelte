@@ -138,26 +138,31 @@
 
 
   async function saveResume() {
-    if(!id) {
-      message = "Please enter an id!"
-      console.error(message)
-      return; 
+    try {
+      if(!id) {
+        message = "Please enter an id!"
+        console.error(message)
+        return; 
+      }
+      message = "saving"
+  
+      let saveObj = { Id: id, Resume: $resumeText}
+      $savedResumeText = $resumeText
+  
+      let results = await sheet.update(saveObj, {
+        "id": id,
+        "idColumn": "Id",
+      });
+  
+      // could fetch + diff, but would take up an action (and be slower)
+      // SOMETIMES GOOGLE SHEETS DOESN'T SEEM TO SAVE? (or update the sheets interface?)
+      console.log('saveResume:', saveObj, 'results', results)
+      message = "saved!"
+      hasUnsaved = false // super naive impl
+
+    } catch(e) {
+      console.error('error saving resume')
     }
-    message = "saving"
-
-    let saveObj = { Id: id, Resume: $resumeText}
-    $savedResumeText = $resumeText
-
-    let results = await sheet.update(saveObj, {
-      "id": id,
-      "idColumn": "Id",
-    });
-
-    // could fetch + diff, but would take up an action (and be slower)
-    // SOMETIMES GOOGLE SHEETS DOESN'T SEEM TO SAVE? (or update the sheets interface?)
-    console.log('saveResume:', saveObj, 'results', results)
-    message = "saved!"
-    hasUnsaved = false // super naive impl
   }
 
 

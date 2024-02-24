@@ -95,7 +95,7 @@ export const actions = {
 
       // console.log('value::::', form?.data?.Email, req.url.hostname)
 
-      // for this to work, make sure there's a Secrets key and secret Notion db w/ Whimsy API connected
+      // for this to work, make sure there's a "Secret" key and secret Notion db w/ Whimsy API connected
       // that will relay the key to the real db w/ the API
       let page = await getDbPage(req, form?.data?.notion, {
         property: "Email",

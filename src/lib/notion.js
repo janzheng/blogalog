@@ -13,6 +13,9 @@ const notion = new Client({ auth: NOTION_API });
 // this lets you keep the secrets DB non-public 
 export const getDbId = async (req, dbName ='notion-db-id') => {
   // loads the blogalog based on the current request / url
+  // if localhost testing for custom forms, this'll use localhost, so forms might not work
+  // make sure you set localhost in Page Directory to what you're building on
+  // or it'll load the secrets from whatever's set as localhost (probably blogalog homepage)
   let blogalog = await loadBlogalog({req})
   if (!blogalog || !blogalog.siteData) throw new Error(`Blogalog Not found for ${dbName}`)
 
@@ -20,7 +23,7 @@ export const getDbId = async (req, dbName ='notion-db-id') => {
   if (blogalog.secrets?.[dbName]) {
     // database relay; get the database id from the secret database page
     let relayDbId = blogalog.secrets?.[dbName]?.['Content']
-    console
+    console.log('relayDbIdrelayDbIdrelayDbId', relayDbId, )
     const response = await notion.databases.query({
       database_id: relayDbId,
       filter: {
@@ -34,6 +37,8 @@ export const getDbId = async (req, dbName ='notion-db-id') => {
   } else {
     dbid = blogalog.siteData[dbName]?.['Content'];
   }
+
+  console.log('&&&&&&&&&& [getDbId]:', dbid, blogalog.secrets, dbName)
   return dbid;
 }
 

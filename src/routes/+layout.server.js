@@ -96,6 +96,7 @@ export const load = async ({ url, params, setHeaders, locals}) => {
   // hostname = "atif.phage.directory"
   // hostname = "pgh.phage.directory"
   // hostname = "ivom.phage.directory"
+  hostname = "swyripaconsulting.com"
   
   try {
     let result = await loadContent(url, params, head, hostname);
