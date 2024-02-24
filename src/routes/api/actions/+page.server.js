@@ -59,7 +59,7 @@ export const actions = {
         }
       }
 
-      console.log('DATA ENTRYYY', req.url.hostname, form?.data, entries, data)
+      // console.log('DATA ENTRYYY', req.url.hostname, form?.data, entries, data)
       let page = await addPage(req, form?.data?.notion, { data })
 
       // let user = notionObjToFlatJson(record);
@@ -106,7 +106,7 @@ export const actions = {
 
       let record = page?.results[0];
 
-      console.log('page?.results:::', page?.results, form?.data?.Email)
+      // console.log('page?.results:::', page?.results, form?.data?.Email)
 
       if (!record) {
         return message(form, `Email doesn't exist`, { status: 400 });

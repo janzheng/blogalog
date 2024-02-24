@@ -111,7 +111,6 @@
   // set &dev==true in the URL for devtastic goodness
   export let isDev = dev || $page.url.searchParams.get('refresh') === 'true';
 
-  console.log('isDevisDevisDevisDevisDev ', isDev);
   
   export let isHomepage = $page?.data?.isBlogalogHome;
 

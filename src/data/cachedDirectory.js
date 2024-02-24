@@ -21,7 +21,7 @@ export default [
     "Status": "Live",
     "Slug": "swyripa",
     "Style": "Landing Page",
-    "URLs": "swyripaconsulting.com, www.swyripaconsulting.com",
+    "URLs": "swyripa.com, swyripa.ca, swyripaconsulting.com, www.swyripaconsulting.com",
     "Name": "Lis Swyripa Consulting"
   },
   {

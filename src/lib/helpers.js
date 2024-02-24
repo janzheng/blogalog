@@ -123,7 +123,10 @@ export function generatePageStyles(settingsPage, settings={}) {
     '--slideup-distance',
     '--slideup-duration',
     '--font-title',
-    '--font-paragraph',
+    '--input-border-color',
+    '--input-focus-border-color',
+    '--input-bg-color',
+    '--input-hover-border-color'
   ];
 
   const pageStyles = acceptedKeys.reduce((acc, key) => {
