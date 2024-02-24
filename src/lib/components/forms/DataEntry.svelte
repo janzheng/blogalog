@@ -114,7 +114,7 @@
         />
       {:else}
         <input
-          class="py-2 px-4 mb-4 border-4 border-red-500"
+          class="py-2 px-4 mb-4 border-2"
           type={field.type}
           name={field.name}
           placeholder={field.placeholder}
