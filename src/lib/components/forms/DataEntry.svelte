@@ -95,45 +95,47 @@
 </script>
 
 <div class="Component-DataEntry-Form {classes}">
-  <form method="POST" action="/api/actions/?/dataEntry" use:enhance >
-    {#each settings?.form?.schema as field (field.name)}
-      <label for={field.name}>{field.label}</label>
-      {#if field.description}
-        <div class="text-sm text-gray-500 mb-2">{field.description}</div>
-      {/if}
-      {#if field.textarea}
-        <TextAreaAuto 
-          id={field.name} 
-          name={field.name}
-          classes={"AddComments-comments-textarea p-4 mt-1 block w-full mb-4"}
-          placeholder={field.placeholder}
-          aria-invalid={$errors[field.name] ? 'true' : undefined}
-          bind:value={$form[field.name]}  
-          minRows={5}
-          required={field.required}
-        />
-      {:else}
-        <input
-          class="py-2 px-4 mb-4 border-2"
-          type={field.type}
-          name={field.name}
-          placeholder={field.placeholder}
-          aria-invalid={$errors[field.name] ? 'true' : undefined}
-          value={$form[field.name]||''}
-          on:input={(e) => $form[field.name] = e.target.value}
-          {...$constraints[field.name]}
-          required={field.required}
-        />
-      {/if}
-      {#if $errors[field.name]}<div class="invalid mb-4">{$errors[field.name]}</div>{/if}
-    {/each}
-    <div>
-      <button class="Btn-outline mt-2">{cta}</button>
-      {#if message}
-        <span class="pl-2">{message}</span>
-      {/if}
-    </div>
-  </form>
+  {#if settings?.form}
+    <form method="POST" action="/api/actions/?/dataEntry" use:enhance >
+      {#each settings?.form?.schema as field (field.name)}
+        <label for={field.name}>{field.label}</label>
+        {#if field.description}
+          <div class="text-sm text-gray-500 mb-2">{field.description}</div>
+        {/if}
+        {#if field.textarea}
+          <TextAreaAuto 
+            id={field.name} 
+            name={field.name}
+            classes={"AddComments-comments-textarea p-4 mt-1 block w-full mb-4"}
+            placeholder={field.placeholder}
+            aria-invalid={$errors[field.name] ? 'true' : undefined}
+            bind:value={$form[field.name]}  
+            minRows={5}
+            required={field.required}
+          />
+        {:else}
+          <input
+            class="py-2 px-4 mb-4 border-2"
+            type={field.type}
+            name={field.name}
+            placeholder={field.placeholder}
+            aria-invalid={$errors[field.name] ? 'true' : undefined}
+            value={$form[field.name]||''}
+            on:input={(e) => $form[field.name] = e.target.value}
+            {...$constraints[field.name]}
+            required={field.required}
+          />
+        {/if}
+        {#if $errors[field.name]}<div class="invalid mb-4">{$errors[field.name]}</div>{/if}
+      {/each}
+      <div>
+        <button class="Btn-outline mt-2">{cta}</button>
+        {#if message}
+          <span class="pl-2">{message}</span>
+        {/if}
+      </div>
+    </form>
+  {/if}
 
   {#if showDebug}
     <div class="Debug mt-2">

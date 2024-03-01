@@ -196,9 +196,33 @@
 </script>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <svelte:head>
   <!-- <title>{`${resumeJson?.basics?.name} | biosketch` || 'Resume not found!'}</title> -->
-  <title>{`${resumeJson?.basics?.name} | ${id}` || 'Resume not found!'}</title>
+  <!-- <title>{`${resumeJson?.basics?.name} | ${id}` || 'Resume not found!'}</title> -->
+  <title>{`${id}` || 'Resume not found!'}</title>
 </svelte:head>
 
 <div class='Resume'>
@@ -242,7 +266,7 @@
       {#if mode != 'preview' || (mode == 'preview' && (state == 'view' || state == 'split'))}
         <div class="view-resume flex-1" >
           {#if resumeJson}
-            <div class="resume | container mx-auto p-4 | {resumeJson?.meta?.classes}" >
+            <div class="resume | container mx-auto | {resumeJson?.meta?.classes}" >
           
               <!-- basic profile information -->
               <div class="basics | ">
@@ -254,23 +278,22 @@
                     {/if}
                   </div>
                   <div class="flex flex-col flex-1">
-                    <div class="flex flex-col flex-1">
-                      <h1 class="text-xl font-medium pb-1">
+                      <h1 class="text-md font-medium mb-1">
                         {resumeJson.basics?.name}{resumeJson.basics?.title ? `, ${resumeJson.basics.title}` : ''}
                       </h1>
-                    </div>
-                    <div class="basics-summary mb-2">{resumeJson.basics?.summary}</div>
+                    <div class="basics-summary text-sm mb-1">{resumeJson.basics?.summary}</div>
           
-                    <div class="basics-primary text-sm text-slate-500">
-                      <p class="">{resumeJson.basics?.label}</p>
-                      <p class="text-sm">
-                        {#if resumeJson.basics?.location?.address}{resumeJson.basics.location.address}{#if resumeJson.basics.location.city || resumeJson.basics.location.region || resumeJson.basics.location.countryCode}, {/if}{/if}
-                        {#if resumeJson.basics?.location?.city}{resumeJson.basics.location.city}{#if resumeJson.basics.location.region || resumeJson.basics.location.countryCode}, {/if}{/if}
+                    <div class="basics-primary text-xs text-slate-500">
+                      <p class="">{resumeJson.basics?.label}
+                      <!-- </p> -->
+                      <!-- <p class="text-sm"> -->
+                        {#if resumeJson.basics?.location?.address}· {resumeJson.basics.location.address} {#if resumeJson.basics.location.city || resumeJson.basics.location.region || resumeJson.basics.location.countryCode}, {/if}{/if}
+                        {#if resumeJson.basics?.location?.city}· {resumeJson.basics.location.city}{#if resumeJson.basics.location.region || resumeJson.basics.location.countryCode}, {/if}{/if}
                         {#if resumeJson.basics?.location?.region}{resumeJson.basics.location.region}{#if resumeJson.basics.location.countryCode}, {/if}{/if}
                         {resumeJson.basics?.location?.countryCode||''}
                       </p>
                     </div>
-                    <div class="basics-secondary text-sm mt-4">
+                    <div class="basics-secondary text-sm mt-2">
                       <!-- <a href="mailto:{resume.basics?.email}" class="text-blue-500 hover:text-blue-700">{resume.basics?.email}</a> -->
                       <!-- <div class="flex mt-4">
                         {#each resume.basics?.profiles as profile}
@@ -280,8 +303,8 @@
                         {/each}
                       </div>  -->
                       {#if socialEmail || socialText}
-                        <div class="socialbox mb-2 ">
-                          <SocialBox classes="block" showFullLinks={true} iconClass="text-xl" linkClass="flex items-center mb-2 hover:text-blue-700 hover:underline" email={socialEmail} socialText={socialText}  />
+                        <div class="socialbox text-xs ">
+                          <SocialBox classes="block" showFullLinks={true} iconClass="text-xl" linkClass="flex items-center mb-0 hover:text-blue-700 hover:underline" email={socialEmail} socialText={socialText}  />
                         </div>
                       {/if}
                     </div>
@@ -323,33 +346,27 @@
                     </div>
                     <div class="items">
                       {#each resumeJson.work as work}
-                        <div class="item work-item | mb-4 | flex gap-2">
-                          <div class="work-logo left | flex flex-col justify-center items-center">
+                        <div class="item work-item | mb-2 | flex gap-2">
+                          <!-- <div class="work-logo left | flex flex-col justify-center items-center">
                             {#if work.image}
                               <div class="w-16 h-16">
-                                <!-- div wrapper forces width -->
                                 <img src="{work.image}" alt="{work.name}" class="work-image w-16 h-16 object-contain">
                               </div>
                             {:else}
                               <div class="w-12 h-12 mt-1 flex justify-center items-center">
-                                <!-- <Icon class="mt-1" icon="solar:square-academic-cap-bold" /> -->
                                 <Icon class="w-8 h-8 text-slate-400" icon="solar:buildings-outline" />
-                                <!-- <Icon class="mt-1" icon="solar:square-academic-cap-bold" /> -->
                               </div>
-                              <!-- <div class="w-2 h-2 m-7 mt-2 bg-slate-200 rounded-full"></div> -->
                             {/if}
                             <div class="border-l-2 border-slate-100 flex-1"></div>
-                          </div>
+                          </div> -->
                           <div class="work-details right | text-sm | {work.image && ''}">
                             <div class="work-primary">
-                              {#if work.name}<div class="name sub-title font-medium">{work.name}</div>{/if}
-                              {#if work.position}<div class="position">{work.position}</div>{/if}
+                              {#if work.name}<span class="name sub-title font-medium">{work.name}</span>{/if}
+                              {#if work.position}<span class="position text-xs text-slate-400">· {work.position}</span>{/if}
+                              {#if work.startDate}<span class="dates text-xs text-slate-400">· {work.startDate} - {work.endDate ? work.endDate : 'present'}</span>{/if}{#if work.location}&nbsp;· <span class="location text-slate-400">{work.location}</span>{/if}
                             </div>
-                            <div class="work-secondary | text-slate-500 antialiased">
-                              {#if work.startDate}<span class="dates">{work.startDate} - {work.endDate ? work.endDate : 'present'}</span>{/if}{#if work.location}&nbsp;· <span class="location">{work.location}</span>{/if}
-                            </div>
-                            <div class="work-body | mt-2">
-                              {#if work.description}<div class="description">{work.description}</div>{/if}
+                            <div class="work-body | text-slate-700">
+                              {#if work.description}<div class="description text-xs">{work.description}</div>{/if}
                               {#if work.highlights && work.highlights.length}
                                 <div class="highlights | mt-1">
                                   <ul>
@@ -395,35 +412,31 @@
                     </div>
                     <div class="items">
                       {#each resumeJson.education as education}
-                        <div class="item education-item | mb-4 | flex gap-2">
+                        <div class="item education-item | flex gap-2">
             
-                          <div class="left | flex flex-col justify-center items-center">
+                          <!-- <div class="left | flex flex-col justify-center items-center">
                             {#if resumeJson.image}
                               <div class="w-16 h-16">
-                                <!-- div wrapper forces width -->
                                 <img src="{resumeJson.image}" alt="{resumeJson.name}" class="work-image w-16 h-16 object-contain">
                               </div>  
                             {:else}
-                              <div class="w-12 h-12 m-2 mt-1 flex justify-center items-center">
-                                <!-- <Icon class="mt-1" icon="solar:square-academic-cap-bold" /> -->
+                              <div class="education-logo | w-12 h-12 flex justify-center items-center">
                                 <Icon class="w-8 h-8 text-slate-400" icon="solar:square-academic-cap-outline" />
-                                <!-- <Icon class="mt-1" icon="solar:square-academic-cap-bold" /> -->
                               </div>
-                              <!-- <div class="w-2 h-2 m-7 mt-2 bg-slate-200 rounded-full"></div> -->
                             {/if}
                             <div class="border-l-2 border-slate-100 flex-1"></div>
-                          </div>
-                          <div class="right education-details | text-sm">
+                          </div> -->
+                          <div class="right education-details | text-xs">
                             {#if education.institution}<div class="institution sub-title font-medium">{education.institution}</div>{/if}
                             {#if education.area}
                               <span class="area">{education.area}</span>
                               {#if education.studyType}· <span class="studyType">{education.studyType}</span>{/if}
                             {/if}
                             {#if education.startDate && education.endDate}
-                              <div class="education-dates | text-slate-500">
+                              <span class="education-dates | text-slate-500">
                                 <span class="dates">{education.startDate} - {education.endDate}</span>
                                 {#if education.location} · <span class="location">{education.location}</span>{/if}
-                              </div>
+                              </span>
                             {/if}
                             <div class="education-higher | mt-2">
                               {#if education.thesis}
@@ -436,7 +449,7 @@
                               {#if education.advisor}<div class="advisor">Advisor: {education.advisor}</div>{/if}
                             </div>
                           </div>
-                        </div>
+                        </div> 
                       {/each}
                     </div>
                   </div>
@@ -444,19 +457,19 @@
 
                 <!-- skills -->
                 {#if key=='skills' && resumeJson[key]}
-                  <div class="section skills">
+                  <div class="section skills | ">
                     <div class="title {resumeJson.meta?.sections?.find(s => s.name === key)?.titleClass}">
                       {resumeJson.meta?.sections?.find(s => s.name === key)?.label || "Skills"}
                     </div>
                     <div class="items | text-sm ">
                       {#each resumeJson.skills as skill}
-                        <div class="item skill | mb-8">
+                        <div class="item skill | mb-2">
                           {#if skill.name}
                             <div class="name sub-title font-bold text-slate-700 antialiased">{skill.name}
                               {#if skill.level}<span class="level text-sm text-slate-500">{skill.level}</span>{/if}
                             </div>
                           {/if}
-                          {#if skill.description}<div class="description">{skill.description}</div>{/if}
+                          {#if skill.description}<div class="description | text-xs mb-1">{skill.description}</div>{/if}
                           {#if skill.keywords && skill.keywords.length}
                             <div class="keywords | mt-1">
                               {#each skill.keywords as keyword}
@@ -915,7 +928,7 @@
     }
 
     ._tag {
-      @apply text-xs py-1 px-2 bg-slate-100 text-slate-700 rounded-sm mr-1 mb-1;
+      @apply text-xs py-0.5 px-2 bg-slate-100 text-slate-700 rounded-sm mr-1 mb-1;
     }
     ._slate {
       @apply text-slate-500;
@@ -926,8 +939,7 @@
       @apply print:text-base print:mb-0;
     }
     .sub-title {
-      @apply text-base;
-      @apply print:text-sm;
+      @apply text-sm;
     }
 
     .items-cols {
@@ -952,7 +964,7 @@
 
       .item {
         & > div { // single attribute
-          @apply mt-2 print:mt-0;
+          @apply mt-1 print:mt-0;
         }
       }
 
