@@ -282,7 +282,7 @@
                       </div>  -->
                       {#if socialEmail || socialText}
                         <div class="socialbox mb-2 ">
-                          <SocialBox classes="block" showFullLinks={true} iconClass="text-xl" linkClass="flex items-center mb-2 hover:text-blue-700 hover:underline" email={socialEmail} socialText={socialText}  />
+                          <SocialBox classes="block" showFullLinks={true} iconClass="text-xl min-w-6 text-center" linkClass="flex items-center mb-2 hover:text-blue-700 hover:underline" email={socialEmail} socialText={socialText}  />
                         </div>
                       {/if}
                     </div>
