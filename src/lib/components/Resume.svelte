@@ -198,7 +198,8 @@
 
 <svelte:head>
   <!-- <title>{`${resumeJson?.basics?.name} | biosketch` || 'Resume not found!'}</title> -->
-  <title>{`${resumeJson?.basics?.name} | ${id}` || 'Resume not found!'}</title>
+  <!-- <title>{`${resumeJson?.basics?.name} | ${id}` || 'Resume not found!'}</title> -->
+  <title>{`${id}` || 'Resume not found!'}</title>
 </svelte:head>
 
 <div class='Resume'>

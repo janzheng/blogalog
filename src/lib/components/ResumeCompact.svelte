@@ -266,7 +266,7 @@
       {#if mode != 'preview' || (mode == 'preview' && (state == 'view' || state == 'split'))}
         <div class="view-resume flex-1" >
           {#if resumeJson}
-            <div class="resume | container mx-auto | {resumeJson?.meta?.classes}" >
+            <div class="resume | container mx-auto py-2 | {resumeJson?.meta?.classes}" >
           
               <!-- basic profile information -->
               <div class="basics | ">
@@ -1032,7 +1032,7 @@
       }
     }
     .section {
-      @apply mt-3;
+      @apply mt-4;
     }
   }
 

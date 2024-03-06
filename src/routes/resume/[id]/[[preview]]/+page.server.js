@@ -9,10 +9,6 @@ sheet.setup({
   sheet: "Resumes"
 });
 
-console.log('whatwhatwhat', sheet, PUBLIC_SHEET_URL)
-
-
-
 export const load = async ({ url, params }) => {
 
   let id = params.id || url.searchParams.get('id');
@@ -22,12 +18,11 @@ export const load = async ({ url, params }) => {
 
   try {
     if(id) {
-      console.log('&&#$*%&#$*%&#$%&* loading from sheet', id, PUBLIC_SHEET_URL, sheet)
       let result = await sheet.find("Id", id);
-      if (result?.data?.ResumeText) {
-        resume = JSON.parse(result.data?.ResumeText);
+      if (result?.data?.Resume) {
+        resume = JSON.parse(result.data?.Resume);
       } else {
-        throw new Error("No results found for id: " + id);
+        throw new Error("[server] No results found for id: " + id);
       }
     }
     return {
