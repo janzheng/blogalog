@@ -50,7 +50,7 @@
               <!-- <div class="Post-main {postsSettings?.post?.main?.class || ' flex justify-between gap-4'} | {(post.Cover || post.Files) && "md:grid md:grid-cols-1-3"}"> -->
               <div class="Post-main {postsSettings?.post?.main?.class || ' flex justify-between gap-4'}">
                 {#if post.Cover || post.Files}
-                  <div class="Cover-image-container | pb-2 max-w-sm">
+                  <div class="Cover-image-container | {postsSettings?.post?.main?.cover?.class || ' pb-2 max-w-sm'}">
                     <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
                   </div>
                 {/if}
@@ -91,17 +91,19 @@
               {/if}
             </div>
           {/if}
-        {/if}
+        {/if} 
 
         {#if post.Categories }
-          {#if Array.isArray(post.Categories) && post.Categories.length > 0}
-            <!-- {#each post.Categories.split(",").map(cat => cat.trim()) as cat} -->
-            {#each post.Categories as cat}
-              <span class="Category text-xs py-2 px-2 text-gray-800 bg-gray-100 border-gray-100 | mr-2">{cat}</span>
-            {/each}
-          {:else}
-            <span class="Category text-xs py-2 px-2 text-gray-800 bg-gray-100 border-gray-100 | mr-2">{post.Categories}</span>
-          {/if}
+          <div class="Category-container | { postsSettings?.post?.category?.container?.class || '-mt-2'}">
+            {#if Array.isArray(post.Categories) && post.Categories.length > 0}
+              <!-- {#each post.Categories.split(",").map(cat => cat.trim()) as cat} -->
+              {#each post.Categories as cat}
+                <span class="Category { postsSettings?.post?.category?.class || 'text-xs py-2 px-2 text-gray-800 bg-gray-100 border-gray-100 | mr-2'} ">{cat}</span>
+              {/each}
+            {:else}
+              <span class="Category { postsSettings?.post?.category?.class || 'text-xs py-2 px-2 text-gray-800 bg-gray-100 border-gray-100 | mr-2'}">{post.Categories}</span>
+            {/if}
+          </div>
         {/if}
 
       </div>
@@ -129,7 +131,9 @@
   }
 
   // for all posts settings / classes, we extract if from the first post in the group
-  let postsSettings = posts[0].YAML && parseYaml(posts[0].YAML);
+  let settings = blogData?.settings
+  let postsSettings = posts[0].YAML && parseYaml(posts[0].YAML) || settings;
+
 
 
 </script>

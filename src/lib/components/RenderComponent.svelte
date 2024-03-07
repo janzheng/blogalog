@@ -14,7 +14,7 @@
   import Expander from '$lib/components/Expander.svelte';
   import Markdown from '$lib/components/Markdown.svelte';
   import Cta from '$lib/components/Cta.svelte';
-	// import SocialBox from '$plasmid/components/SocialBox2.svelte'
+	import SocialBox from '$plasmid/components/SocialBox2.svelte'
 
 	import Twitter from '$plasmid/components/TwitterTimeline.svelte'
 
@@ -127,6 +127,11 @@
 
     {:else if row.Name == "Members" || row.Type.includes("Members")}
       <div class="Component-Members | {componentClasses || ''} ">
+      </div>
+
+    {:else if row.Name == "Socials" || row.Type.includes("Socials")}
+      <div class="Component-Socials | {componentClasses || ''} ">
+        <SocialBox email={$userData['Email']} socialText={row.Content} />
       </div>
 
     {:else if row.Name == "Grid" || row.Type.includes("Grid")}

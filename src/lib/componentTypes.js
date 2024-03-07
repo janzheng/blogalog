@@ -1,6 +1,7 @@
 export let componentTypes = [
   'Component',
   'Markdown',
+  'Socials',
   'CTA',
   'Twitter',
   'Links',

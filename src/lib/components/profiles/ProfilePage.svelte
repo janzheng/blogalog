@@ -33,16 +33,16 @@
         {#if profileImage}
           <div class="Profile-Header-ProfileImage-Container | {profileClass?.['profileImageContainer']}  | md:min-h-[10rem] sm:min-h-[7rem] ">
             <div class="Profile-Header-ProfileImage-Box | {profileClass?.['profileImageBox']} z-20 |">
-              <img class="Profile-Header-ProfileImage | {profileClass?.['profileImage']} | absolute {coverImage ? ' -top-12' : ''}" src="{profileImage}" alt="Profile" />
-              <div class="Profile-Header-ShortDesc | pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36">
+              <img class="Profile-Header-ProfileImage | {profileClass?.['profileImage']} |  {coverImage ? profileClass?.['profileCoverImage'] : ''}" src="{profileImage}" alt="Profile" />
+              <div class="Profile-Header-ShortDesc | {profileClass?.['profileShortDesc']}">
                 {#if author}<div class="Profile-Header-Author font-title | {profileClass?.['author']} ">{author || ''}</div>{/if}
                 {#if socialLinks}
-                  <div class="Profile-Header-SocialBox-Container | text-2xl mb-4">
+                  <div class="Profile-Header-SocialBox-Container | {profileClass?.['profileSocials']} ">
                     <SocialBox {email} socialText={socialLinks} />
                   </div>
                 {/if}
-                {#if shortDesc}<div class="Profile-Header-ShortDesc | text">{@html marked(shortDesc || '') }</div>{/if}
-                {#if location}<div class="Profile-Header-Location | text pfix">{@html marked(location || '') }</div>{/if}
+                {#if shortDesc}<div class="Profile-Header-ShortDescPara | text | {profileClass?.['profileShortDescPara']} ">{@html marked(shortDesc || '') }</div>{/if}
+                {#if location}<div class="Profile-Header-Location | text pfix | {profileClass?.['profileShortDescLoc']}">{@html marked(location || '') }</div>{/if}
                 <!-- <div class="text">{siteDesc?.substring(0, 50) || ''}{#if siteDesc?.length > 50}...{/if}</div> -->
               </div>
             </div>
@@ -199,6 +199,8 @@
   import { componentTypes } from '$lib/componentTypes.js';
   import Posts from '$lib/components/Posts.svelte';
 
+  import { buildPageOrder } from './'
+
   import MarkdownIt from 'markdown-it';
   import markdownItAttrs from 'markdown-it-attrs';
   const md = new MarkdownIt({ breaks: true, html: true });
@@ -218,13 +220,9 @@
   let shortDesc = blog?.['site-data']?.ShortDescription?.['Content'];
   let longDesc = blog?.['site-data']?.LongDescription?.['Content'];
   let location = blog?.['site-data']?.Location?.['Content'];
-  let socialDescription = blog?.['site-data']?.SocialDescription?.['Content'];
-  let mainPageBlocks = blog?.['site-pages']?.find(page => page?.Type?.includes("Main"))?.pageBlocks;
   let email = blog?.['site-data']?.Email?.['Content'];
   let socialLinks = blog?.['site-data']?.SocialLinks?.['Content'];
   let sitePages = blog?.['site-pages'];
-  // let blogpath = blogData?.pathSegments ? `/${blogData?.path}/` : "/";
-  // let blogPath = blogData?.blogPath + '/';
 
   let sitePageByType = {}, sitePageTypes = [];
   blog?.['site-pages']?.forEach(page => {
@@ -237,38 +235,7 @@
   sitePageTypes = [...new Set(sitePageTypes)]; 
 
   // build a Page Order where different sections are grouped together and placed where the first instance of that section appears
-  let pageOrder = [], sections = [];
-  function buildPageOrer() {
-    // build the sections list
-    sitePages?.forEach(page => {
-      if (page?.Type) {
-        const Section = page.Section;
-        if(Section && Section.length > 0 && Section !== ' ') {
-          // console.log('Section -->', `[${Section}]`)
-          const sectionExists = sections.find(section => section.Section === Section);
-          if (sectionExists) {
-            sectionExists.pages.push(page);
-          } else {
-            const newSection = { Section: Section, SectionDescription: page.SectionDescription, pages: [page] };
-            sections.push(newSection);
-          }
-        }
-      }
-    });
-    // build the pageOrder list
-    sitePages?.forEach(page => {
-      pageOrder.push(page);
-      if (page.Section && !pageOrder.find(pageOrderPage => pageOrderPage.Group === page.Section)) {
-        const section = sections.find(section => section.Section === page.Section);
-        if (section) {
-          const newObject = { Name: section.Section, Group: section.Section, Type: ['Group'], Pages: section.pages, SectionDescription: section.SectionDescription };
-          pageOrder.push(newObject);
-        }
-      }
-    });
-    pageOrder = pageOrder.filter(item => (!item.Section || item.Section == ' '));
-    // console.log('pageOrder:', pageOrder, sections);
-  } buildPageOrer();
+  let pageOrder = buildPageOrder({sitePages});
 
   
 
@@ -282,19 +249,18 @@
     profileClass.profileImageContainer = profileClass.profileImageContainer || 'relative bg-slate-50';
     profileClass.profileImageBox = profileClass.profileImageBox             || 'px-4 pt-4 | relative md:relative';
     profileClass.profileImage = profileClass.profileImage                   || 'w-32 h-32 bg-white object-cover rounded-full border-solid border-4 border-white overflow-hidden';
+    profileClass.profileCoverImage = profileClass.profileCoverImage         || 'absolute -top-12';
+    profileClass.profileShortDesc = profileClass.profileShortDesc           || 'pt-20 sm:pt-0 sm:inline-block sm:relative sm:py-2 sm:ml-36';
+    profileClass.profileShortDescPara = profileClass.profileShortDescPara   || ' ';
+    profileClass.profileShortDescLoc = profileClass.profileShortDescLoc     || ' ';
     profileClass.author = profileClass.author                               || 'text-2xl sm:text-4xl font-bold py-2';
     profileClass.longDesc = profileClass.longDesc                           || 'p-4 bg-slate-50 content-notion-wide';
+    profileClass.profileSocials = profileClass.profileSocials                     || 'text-2xl mb-4';
     
     profileClass.defaultRowContainer = profileClass.defaultRowContainer     || 'mb-2 content-notion-wide';
     profileClass.defaultRow = profileClass.defaultRow                       || 'p-4 bg-slate-50 | ';
-
-    // console.log('>>> profileClass:', profileClass)
   }
-
-  // profileClass['header'] = "content-notion-wide mt-0 mb-2 rounded-sm overflow-hidden"
-  // profileClass['coverImage'] = "w-full object-center object-contain scale-25"
-
-
+  
 </script>
 
 

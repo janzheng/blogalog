@@ -123,10 +123,14 @@
 </footer>
 
 {#if !settings?.footer?.hidePromo}
-  <div class="Content-Blogalog | text-sm py-4 text-center bg-slate-50">
-    Get your own <a href="https://blogalog.net"> website</a> for your <a href="https://blogalog.net">blog, CV, research lab, or side project.</a>
-    {#if settings?.footer?.showPhageDirectory}
-      <br>A <a href="https://phage.directory">Phage Directory project.</a>
+  <div class="Content-Blogalog | {settings?.footer?.promoClass||'text-sm py-4 text-center bg-slate-50' }">
+    {#if settings?.footer?.promoText}
+      {@html md.render(settings?.footer?.promoText || ``)}
+    {:else}
+      Get your own <a href="https://blogalog.net"> website</a> for your <a href="https://blogalog.net">blog, CV, research lab, or side project.</a>
+      {#if settings?.footer?.showPhageDirectory}
+        <br>A <a href="https://phage.directory">Phage Directory project.</a>
+      {/if}
     {/if}
   </div>
 {/if}
