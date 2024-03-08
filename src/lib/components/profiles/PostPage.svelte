@@ -94,11 +94,11 @@
 
   
   {#if currentPost?.Content}
-    <div class="PageContent-Content text-xl">{currentPost?.Content}</div>
+    <div class="PageContent-Content text-xl">{@html md.render(currentPost?.Content)}</div>
   {/if}
 
   {#if currentPost?.Link}
-    <div class="PageContent-Link my-4">Project Link: <a href="{currentPost?.Link}">{currentPost?.Link}</a></div>
+    <div class="PageContent-Link my-4"><a href="{currentPost?.Link}">{currentPost?.Link}</a></div>
   {/if}
   
   {#if pageBlocks}
@@ -211,6 +211,8 @@
 
   import { plainRenderer } from '$plasmid/utils/marked';
   import { getContext } from 'svelte';
+
+  import { md } from '$plasmid/utils/markdownit'
 
   let blog, profileImage, author, pageCover
   let blogData = getContext('blogData'); // blogData will have slightly out of date content like path
