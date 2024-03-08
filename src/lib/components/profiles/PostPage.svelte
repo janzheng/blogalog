@@ -50,7 +50,7 @@
   {/if}
 
   {#if currentPost?.Name}
-    <h1 class="PageContent-Name mb-0 pfix" style="padding-top: 0; padding-bottom: 0;">{@html marked(currentPost?.Name || '')}</h1>
+    <h1 class="PageContent-Name {settings?.post?.page?.title?.class || 'mb-0 pfix'}" style="padding-top: 0; padding-bottom: 0;">{@html md.strip(md.render(currentPost?.Name||''))}</h1>
   {/if}
 
 
@@ -239,6 +239,11 @@
   export let settings
   if(currentPost?.YAML) {
     settings = parseYaml(currentPost?.YAML)
+  } else {
+    if(blogData.blog?.['site-data']?.Settings?.['YAML']) {
+      settings = parseYaml(blogData.blog?.['site-data']?.Settings?.['YAML']);
+
+    }
   }
 
 

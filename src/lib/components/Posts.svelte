@@ -37,7 +37,7 @@
                   <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
                 </div>
               {/if}
-              <span class="Post-name { postsSettings?.post?.name?.class || 'font-title text-2xl pfix'}">{@html marked(post.Name)}</span>
+              <span class="Post-name { postsSettings?.post?.name?.class || 'font-title text-2xl pfix'}">{@html md.strip(md.render(post.Name))}</span>
               {#if post.Date}
                 <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
               {/if}
@@ -55,10 +55,10 @@
                   </div>
                 {/if}
                 <div>
-                  <span class="Post-name { postsSettings?.post?.name?.class || 'font-title text-2xl pfix'}">{@html marked(post.Name||'')}</span>
                   {#if post?.Date}
                     <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
                   {/if}
+                  <span class="Post-name { postsSettings?.post?.name?.class || 'font-title text-2xl pfix'}">{@html md.strip(md.render(post.Name))}</span>
                   {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
                 </div>
               </div>
@@ -115,6 +115,7 @@
 <script>
   import { getContext } from 'svelte';
   import { marked } from 'marked';
+  import { md } from '$plasmid/utils/markdownit'
   import { parseYaml, getNotionImageLink } from '$lib/helpers.js';
   import { niceDate } from '$plasmid/utils/date';
 
