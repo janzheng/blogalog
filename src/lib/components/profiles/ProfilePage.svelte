@@ -35,6 +35,14 @@
             <div class="Profile-Header-ProfileImage-Box | {profileClass?.['profileImageBox']} z-20 |">
               <img class="Profile-Header-ProfileImage | {profileClass?.['profileImage']} |  {coverImage ? profileClass?.['profileCoverImage'] : ''}" src="{profileImage}" alt="Profile" />
               <div class="Profile-Header-ShortDesc | {profileClass?.['profileShortDesc']}">
+
+                {#if profileClass?.['isAvailable']}
+                  <div class="{profileClass?.isAvailable?.wrapper?.class || 'pl-[2px] flex items-center'}">
+                    <div class="{profileClass?.isAvailable?.class || 'w-3 h-3 bg-green-500 rounded-full mr-2 animate-fast-pulse'}"></div>
+                    <span>{profileClass?.isAvailable?.text || 'Available for work'}</span>
+                  </div>
+                {/if}
+                
                 {#if author}<div class="Profile-Header-Author font-title | {profileClass?.['author']} ">{author || ''}</div>{/if}
                 {#if socialLinks}
                   <div class="Profile-Header-SocialBox-Container | {profileClass?.['profileSocials']} ">
@@ -309,6 +317,31 @@
         @apply pt-1; // tiny padding for first header keeps it tighter
       }
     }
+  }
+
+
+
+
+  @keyframes fast-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+      background-color: #4caf50;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.5;
+      background-color: #81c784;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+      background-color: #4caf50;
+    }
+  }
+
+  .animate-fast-pulse {
+    animation: fast-pulse 1.4s infinite;
   }
 
 </style>

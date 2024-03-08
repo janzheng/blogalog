@@ -20,7 +20,6 @@
 
 
   export let row;
-  
 
   // export let loginForm=null, unlockMessage=null;
   export let componentClasses = 'bg-slate-50'
@@ -131,7 +130,8 @@
 
     {:else if row.Name == "Socials" || row.Type.includes("Socials")}
       <div class="Component-Socials | {componentClasses || ''} ">
-        <SocialBox email={$userData['Email']} socialText={row.Content} />
+        
+        <SocialBox socialText={row.Content} />
       </div>
 
     {:else if row.Name == "Grid" || row.Type.includes("Grid")}
