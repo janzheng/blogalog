@@ -39,7 +39,7 @@
               {/if}
               <span class="Post-name { postsSettings?.post?.name?.class || 'font-title text-2xl pfix'}">{@html md.strip(md.render(post.Name))}</span>
               {#if post.Date}
-                <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
+                <span class="Post-date text block text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
               {/if}
               {#if post.Content}<div class="Post-content text pfix mt-1 mb-2 text-base">{@html marked(post.Content || '')}</div>{/if}
             
@@ -49,14 +49,14 @@
               <!-- this will mess with a lot of blog posts -->
               <!-- <div class="Post-main {postsSettings?.post?.main?.class || ' flex justify-between gap-4'} | {(post.Cover || post.Files) && "md:grid md:grid-cols-1-3"}"> -->
               <div class="Post-main {postsSettings?.post?.main?.class || ' flex justify-between gap-4'}">
-                {#if post.Cover || post.Files}
+                {#if postsSettings?.post?.main?.cover?.hide != true && (post.Cover || post.Files)}
                   <div class="Cover-image-container | {postsSettings?.post?.main?.cover?.class || ' pb-2 max-w-sm'}">
                     <img class="Cover-image" src="{getCover(post)}" alt="Cover"/>
                   </div>
                 {/if}
                 <div>
                   {#if post?.Date}
-                    <span class="Post-date text text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
+                    <span class="Post-date text block text-base text-sm pfix">{niceDate(post.Date?.start_date)}</span>
                   {/if}
                   <span class="Post-name { postsSettings?.post?.name?.class || 'font-title text-2xl pfix'}">{@html md.strip(md.render(post.Name))}</span>
                   {#if post.Content}<div class="Post-content text pt-1 text-base">{@html marked(post.Content || '')}</div>{/if}
