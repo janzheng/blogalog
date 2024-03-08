@@ -445,7 +445,10 @@ $fontSans: 'Inter', sans-serif;
       @apply no-underline cursor-pointer;
       color: var(--color-link, var(--color-base));
       &:hover { 
-        @apply underline; color: var(--color-link-hover, var(--color-base));
+        // @apply underline;
+        text-decoration: var(--link-hover-decoration, underline);
+        text-decoration-thickness: var(--link-hover-decoration-thickness, auto);
+        color: var(--color-link-hover, var(--color-base));
       };
     }
   }

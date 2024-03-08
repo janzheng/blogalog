@@ -41,6 +41,9 @@
   --font-title: 'Inter', -apple-system, sans-serif;
   --font-paragraph: 'Inter', -apple-system, sans-serif;
 
+  --link-hover-decoration: underline;
+  --link-hover-decoration-thickness: auto;
+
 
   font-size: 1rem; // make base font slightly larger for everything
   line-height: 1rem * 1.52; // make base font slightly larger for everything

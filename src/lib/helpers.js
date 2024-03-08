@@ -120,6 +120,8 @@ export function generatePageStyles(settingsPage, settings={}) {
     '--color-primary-ring-active',
     '--color-primary-text',
     '--color-primary-text-hover',
+    '--link-hover-decoration',
+    '--link-hover-decoration-thickness',
     '--slideup-distance',
     '--slideup-duration',
     '--font-title',

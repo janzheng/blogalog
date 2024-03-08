@@ -159,7 +159,9 @@
 
       &:hover {
         .Post-name {
-          text-decoration: underline;
+          // text-decoration: underline;
+          text-decoration: var(--link-hover-decoration, underline);
+          text-decoration-thickness: var(--link-hover-decoration-thickness, auto);
         }
       }
     }
