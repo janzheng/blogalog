@@ -32,6 +32,6 @@ export function buildPageOrder({ sitePages, pageOrder=[], sections=[] }={}) {
     }
   });
   pageOrder = pageOrder.filter(item => (!item.Section || item.Section == ' '));
-  console.log('pageOrder 1:', pageOrder, 'sections:', sections);
+  // console.log('pageOrder 1:', pageOrder, 'sections:', sections);
   return pageOrder
 } 
