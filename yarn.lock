@@ -1276,6 +1276,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-5.0.16.tgz#b858508cdb56dcbbf3166903122851e2fbd16b50"
   integrity sha512-qF0aH5UiZvCmneX5orJbVRoc2VTyLTV3X/7laMp03Qt28L+B9tFlZODOGUL64wDWc69YVdi1LeJB0cIgd51lvw==
 
+"@fontsource/nanum-myeongjo@^5.0.17":
+  version "5.0.17"
+  resolved "https://registry.yarnpkg.com/@fontsource/nanum-myeongjo/-/nanum-myeongjo-5.0.17.tgz#cdb017602bf7a2d6f094cf4b85665b21cc152987"
+  integrity sha512-kuTSPv0hgfurmZTPqDR3xtAM4IoKlBRgOwa9iuzFFvMje8w3ErS9kIApq32DObEhLJNoIg/DXPHIFOysFrdybg==
+
 "@fortawesome/fontawesome-common-types@6.5.1":
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.5.1.tgz#fdb1ec4952b689f5f7aa0bffe46180bb35490032"
