@@ -17,6 +17,7 @@
 module.exports = {
 
   // add this section
+  // content: ["./src/**/*.{html,js,svelte,svx,ts}"],
   content: [
     // note: use single * (not **) for much faster tw hmr, but paths>2 won't be scanned
     // try not to scan /plasmid... it's a ton
@@ -24,12 +25,13 @@ module.exports = {
     // './node_modules/tw-elements/dist/js/**/*.js',
     // './src/**/*.html',
     // './node_modules/plasmid/**/*.{svelte,md}',
+    './node_modules/yawnxyz/playground/dist/**/*.svelte',
     './src/lib/**/*.svelte',
-    './src/routes/**/*.svelte',
+    './src/routes/**/*.{svelte,svx}',
     // './src/*/*.svelte',
     // './src/**/*.md',
   ],
-  darkMode: 'media', // or true or 'media' or 'class'
+  // darkMode: 'media', // or true or 'media' or 'class'
   theme: {
     screens: {
       'sm': '640px',
@@ -104,13 +106,48 @@ module.exports = {
         'extra-loose': '4',
         '12': '2.1rem',
       },
+      colors: {
+        border: "hsl(var(--border) / <alpha-value>)",
+        input: "hsl(var(--input) / <alpha-value>)",
+        ring: "hsl(var(--ring) / <alpha-value>)",
+        background: "hsl(var(--background) / <alpha-value>)",
+        foreground: "hsl(var(--foreground) / <alpha-value>)",
+        primary: {
+          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+          foreground: "hsl(var(--primary-foreground) / <alpha-value>)"
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
+          foreground: "hsl(var(--secondary-foreground) / <alpha-value>)"
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
+          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)"
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted) / <alpha-value>)",
+          foreground: "hsl(var(--muted-foreground) / <alpha-value>)"
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent) / <alpha-value>)",
+          foreground: "hsl(var(--accent-foreground) / <alpha-value>)"
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover) / <alpha-value>)",
+          foreground: "hsl(var(--popover-foreground) / <alpha-value>)"
+        }, 
+        card: {
+          DEFAULT: "hsl(var(--card) / <alpha-value>)",
+          foreground: "hsl(var(--card-foreground) / <alpha-value>)"
+        }
+      },
       // colors: { // for a17t and for color-neutral-400 etc.
       //   neutral: colors.slate,
       //   positive: colors.green,
       //   urge: colors.violet,
       //   warning: colors.yellow,
       //   info: colors.blue,
-      //   critical: colors.red,
+      //   critical: colors.red, 
       // }
     },
     fontFamily: {
@@ -181,7 +218,7 @@ module.exports = {
     { pattern: /grid-cols-3-2/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
     { pattern: /grid-cols-2-1/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
     { pattern: /grid-cols-1-2/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
-    { pattern: /grid-cols-1-2-3/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
+    // { pattern: /grid-cols-1-2-3/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
     { pattern: /grid-cols-1-3/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
     { pattern: /grid-cols-1-4/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
     { pattern: /grid-cols-1-5/, variants: ['xs', 'sm', 'md', 'lg', 'xl'], },
@@ -259,7 +296,7 @@ module.exports = {
   //     variants: ['responsive', 'hover', 'focus'],
   //   },
     
-  //   'block', 'flex', 'inline-block',
+    // 'block', 'flex', 'inline-block', 'inline-flex',
   //   'no-underline',
   //   'hover:no-underline',
 

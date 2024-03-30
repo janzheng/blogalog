@@ -4,8 +4,9 @@ import adapter_vercel from '@sveltejs/adapter-vercel'
 // import adapter_static from '@sveltejs/adapter-static'
 // import adapter_node from '@sveltejs/adapter-node'
 import preprocess from 'svelte-preprocess'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
-// import { mdsvex } from 'mdsvex'
+import { mdsvex } from 'mdsvex'
 // import remarkAttr from 'remark-attr'
 // import rehypeSlug from 'rehype-slug'
 // import autoprefixer from 'autoprefixer'
@@ -20,8 +21,14 @@ dotenvconf()
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-  extensions: ['.svelte', '.svx', '.md', '.mdoc', '.markdoc'], // adding .md here screws up vite meta glob import
+  extensions: ['.svelte', '.svx'], // adding .md here screws up vite meta glob import
   preprocess: [
+    mdsvex({
+      extensions: ['.svx'],
+    }),
+    // vitePreprocess({
+    //   postcss: true,
+    // }), // this breaks mdsvex w/ custom tailwinds!
     preprocess({
       postcss: true,
     }),

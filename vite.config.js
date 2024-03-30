@@ -13,11 +13,11 @@ console.log('Use Local?:', process.env.PUBLIC_LOCAL)
 const config = {
   plugins: [
     sveltekit({
-      extensions: ['.svelte'],
+      extensions: ['.svelte', '.svx'],
     }),
   ],
   ssr: {
-    // noExternal: ['prismjs', 'prism-svelte'],
+    noExternal: ['prismjs', 'prism-svelte'],
   },
   // css: {
   //   preprocessorOptions: {

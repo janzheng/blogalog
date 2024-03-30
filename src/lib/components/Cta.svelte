@@ -1,16 +1,11 @@
 
 <div class="Cta-wrapper {settings?.component?.wrapper?.class || 'md:grid md:grid-cols-2 gap-2 md:gap-8 lg:gap-12'}">
   <main class="Cta-main | {settings?.component?.main?.class||'flex flex-col self-center'} | {settings?.component?.reverse&&'order-2'}">
-    <!-- only use Content for titles; otherwise gets super confusing -->
-    <!-- <div class="Cta-Markdown-Name {settings?.component?.title?.class || ' headline leading-tight text-2xl mb-2 font-bold pt-0 mt-0'}">{page.Name}</div> -->
-    
     {#if page.Content}
       <div 
         class="Component-Cta-Content {settings?.component?.content?.class||''}"
         style="{ settings?.component?.content?.style || ''}"
         >
-        <!-- somehow md.render doesn't work here; maybe bc text idk lol (build club headline bug; maybe a break after <b>?) -->
-        <!-- ??? {@html md.render(page.Content||'')} ??? -->
         {@html marked(page.Content||'')}
       </div>
     {/if}
@@ -49,8 +44,8 @@
 <script>
   import Notion from '@yawnxyz/sveltekit-notion';
 
-  import MarkdownIt from 'markdown-it';
-  import markdownItAttrs from 'markdown-it-attrs';
+  // import MarkdownIt from 'markdown-it';
+  // import markdownItAttrs from 'markdown-it-attrs';
   // const md = new MarkdownIt({ breaks: true, html: true });
   // md.use(markdownItAttrs);
 
@@ -61,7 +56,21 @@
 
   export let page, settings
   page.Content = page?.Content?.replace(/\\n/g, '\n');
-  
+
+  settings.component = {
+    ...settings.component,
+    // "h5": "leading-snug text-lg uppercase tracking-widest mb-2 text-slate-500",
+    // "h1": "font-title text-green-900 leading-wide lg:leading-tight text-6xl mb-1 font-extrabold tracking-normal",
+    // "h4": "text-2xl mb-2 font-sans tracking-wide",
+  }
+
+  const customRenderer = new marked.Renderer();
+  customRenderer.heading = (text, level) => {
+    const className = settings?.component?.[`h${level}`] || '';
+    return `<h${level} class="${className}">${text}</h${level}>`;
+  };
+
+  marked.use({ renderer: customRenderer });
 </script>
 
 

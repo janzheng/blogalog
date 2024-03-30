@@ -42,6 +42,13 @@
     profileClass.defaultRowContainer = profileClass.defaultRowContainer     || 'mb-2 content-notion-wide';
     profileClass.defaultRow = profileClass.defaultRow                       || 'p-4 bg-slate-50 | ';
 
+    profileClass.h1 = profileClass.h1 || 'text-red-500 text-4xl font-bold mb-4';
+    profileClass.h2 = profileClass.h2 || 'text-red-500 text-3xl font-bold mb-3';
+    profileClass.h3 = profileClass.h3 || 'text-red-500 text-2xl font-bold mb-2';
+    profileClass.h4 = profileClass.h4 || 'text-red-500 text-2xl font-bold mb-2';
+    profileClass.h5 = profileClass.h5 || 'text-red-500 text-2xl font-bold mb-2';
+    profileClass.h6 = profileClass.h6 || 'text-red-500 text-2xl font-bold mb-2';
+  
     // console.log('>>> profileClass:', profileClass)
   }
 

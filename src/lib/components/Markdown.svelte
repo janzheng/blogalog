@@ -20,10 +20,19 @@
   import markdownItAttrs from 'markdown-it-attrs';
 
   import { browser } from '$app/environment';
+  
   const md = new MarkdownIt({ breaks: true, html: true });
   md.use(markdownItAttrs);
 
-  
+  md.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+    const level = token.tag;
+    const className = settings?.component?.[`${level}`] || '';
+    token.attrJoin('class', className);
+    console.log('Heading open rule triggered::', token, level, className, settings?.component);
+    return self.renderToken(tokens, idx, options);
+  };
+
   export let page, isOpen=false, settings;
   let asideContainer;
 

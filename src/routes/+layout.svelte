@@ -20,11 +20,11 @@
   import '@fontsource/inter/500.css';
   import '@fontsource/inter/700.css';
 
-  import '@fontsource/nanum-myeongjo/400.css';
-  import '@fontsource/nanum-myeongjo/700.css';
+  // import '@fontsource/nanum-myeongjo/400.css';
+  // import '@fontsource/nanum-myeongjo/700.css';
 
-  // does this work over tw safelist? which one's smaller + faster?
   import twcdn from '$lib/twcdn';
+  // does this work over tw safelist? which one's smaller + faster?
   
 
   // export let data;

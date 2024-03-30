@@ -46,7 +46,12 @@
   {/if}
 
   {#if currentPost?.Date}
-    <div class="PageContent-Date mb-1 mt-16">{niceDate(currentPost?.Date.start_date)}</div>
+    <div class="PageContent-Date mb-1 mt-16">
+      {niceDate(currentPost?.Date.start_date)}
+      {#if currentPost?.LastEdited?.start_date && dayjs(currentPost?.LastEdited?.start_date).isAfter(dayjs(currentPost?.Date.start_date))}
+        — edited: {niceDate(currentPost?.LastEdited?.start_date)}
+      {/if}
+    </div>
   {/if}
 
   {#if currentPost?.Name}
@@ -123,7 +128,7 @@
           {:else}
             <div class="border-2 border-slate-200 text-slate-300 cursor-default h-full w-full | rounded-md p-2 block mb-2">
               <div class="text-xs pb-1 uppercase font-semibold tracking-wider">Prev</div>
-              <div class="text-lg pb-1">No post</div>
+              <div class="text-lg pb-1">No more posts!</div>
             </div>
           {/if}
         </div>
@@ -137,7 +142,7 @@
           {:else}
             <div class="border-2 border-slate-200 text-slate-300 cursor-default h-full w-full | rounded-md p-2 block mb-2">
               <div class="text-xs pb-1 uppercase font-semibold tracking-wider">Prev</div>
-              <div class="text-lg pb-1">No post</div>
+              <div class="text-lg pb-1">No more posts!</div>
             </div>
           {/if}
         </div>
@@ -213,6 +218,7 @@
   import { getContext } from 'svelte';
 
   import { md } from '$plasmid/utils/markdownit'
+  import dayjs from 'dayjs'
 
   let blog, profileImage, author, pageCover
   let blogData = getContext('blogData'); // blogData will have slightly out of date content like path
@@ -258,10 +264,8 @@
   let prevPost = sectionPosts?.[currentPostIndex-1];
   let nextPost = sectionPosts?.[currentPostIndex+1];
   // console.log('123 &*&*&*&&*&** sectionPages / blogData', blog['site-pages'], sectionPosts, prevPost, nextPost);
-
-
   // needs to catch both /base/project/post vs. /project/post and go one step up
-
+  // console.log('currentPost:', currentPost)
 </script>
 
 

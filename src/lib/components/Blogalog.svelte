@@ -109,7 +109,7 @@
   // import { page } from '$app/stores'
 
   // set &dev==true in the URL for devtastic goodness
-  export let isDev = dev || $page.url.searchParams.get('refresh') === 'true';
+  export let isDev = dev || $page.url.searchParams.get('refresh') === 'true' || $page.url.searchParams.get('preview') === 'true';
 
   
   export let isHomepage = $page?.data?.isBlogalogHome;
@@ -196,13 +196,14 @@
   
 
 
+  // this can be slow as it loads external resources
   cdnFonts = [
-    {
-      name: 'BigJohn',
-      eot: 'https://f2.phage.directory/blogalog/BigJohn.eot',
-      woff: 'https://f2.phage.directory/blogalog/BigJohn.woff',
-      ttf: 'https://f2.phage.directory/blogalog/BigJohn.ttf'
-    },
+    // {
+    //   name: 'BigJohn',
+    //   eot: 'https://f2.phage.directory/blogalog/BigJohn.eot',
+    //   woff: 'https://f2.phage.directory/blogalog/BigJohn.woff',
+    //   ttf: 'https://f2.phage.directory/blogalog/BigJohn.ttf'
+    // },
     // More font objects...
   ];
 

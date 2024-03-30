@@ -24,6 +24,15 @@
   const md = new MarkdownIt({ breaks: true, html: true });
   md.use(markdownItAttrs);
 
+  md.renderer.rules.heading = (tokens, idx, options, env, self) => {
+    const text = tokens[idx].content;
+    const level = tokens[idx].tag.length;
+    const className = settings?.component?.[`h${level}`] || '';
+    return `<h${level} class="${className}">${text}</h${level}>`;
+  };
+  
+
+
   export let row, databaseId, items=[], settings=null, isLoading=true, isLoadingMore=null, pageBlocks=null, startCursor=null;
   export let itemKey = 'Name';
   export let itemList = [];

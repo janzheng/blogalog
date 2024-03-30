@@ -8,7 +8,7 @@
 
   import { parseYaml } from '$lib/helpers';
   import { page } from '$app/stores';
-  export let data = $page.data, showDebug = false, classes="radius-xs border-red-10 bg-slate-50";
+  export let data = $page.data, showDebug = false, classes="radius-xs border-red-10";
   export let cta="Submit", loading="Please wait...", success="Data Submitted!";
   export let formData = {}; // used in bind; don't erase!
 
@@ -128,8 +128,8 @@
         {/if}
         {#if $errors[field.name]}<div class="invalid mb-4">{$errors[field.name]}</div>{/if}
       {/each}
-      <div>
-        <button class="Btn-outline mt-2">{cta}</button>
+      <div class="{settings?.form?.cta?.container?.class}">
+        <button class="{settings?.form?.cta?.class||'Btn-outline mt-2'}">{cta}</button>
         {#if message}
           <span class="pl-2">{message}</span>
         {/if}

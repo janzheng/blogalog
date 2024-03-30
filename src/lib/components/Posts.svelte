@@ -133,7 +133,7 @@
 
   // for all posts settings / classes, we extract if from the first post in the group
   let settings = blogData?.settings
-  let postsSettings = posts[0].YAML && parseYaml(posts[0].YAML) || settings;
+  let postsSettings = posts && posts.length > 0 && posts[0].YAML && parseYaml(posts[0].YAML) || settings;
 
 
 
