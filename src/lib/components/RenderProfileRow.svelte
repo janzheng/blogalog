@@ -5,7 +5,7 @@
 
   import { componentTypes } from '$lib/componentTypes.js';
   import { userData } from '$lib/stores.js'
-  import { parseYaml, getNotionImageLink, generatePageStyles } from '$lib/helpers.js'
+  import { parseYaml, getNotionImageLink, generatePageStyles, applyCustomStyles } from '$lib/helpers.js'
 
   import RenderComponent from '$lib/components/RenderComponent.svelte';
   import Posts from '$lib/components/Posts.svelte';
@@ -84,7 +84,7 @@
               {@html md.render(row.Content || '')}
             {/if}
             {#if row.pageBlocks && row.pageBlocks.length > 0}
-              <div class="Profile-Row--Blocks {settings?.row?.blocks?.class || 'notion-collapse'}">
+              <div class="Profile-Row--Blocks {settings?.row?.blocks?.class || 'notion-collapse'}" use:applyCustomStyles={settings?.styles}>
                 <Notion 
                   blocks={row.pageBlocks} 
                   settings={{

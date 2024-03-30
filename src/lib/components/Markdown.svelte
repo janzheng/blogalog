@@ -5,7 +5,7 @@
 </main>
 <aside bind:this={asideContainer} class="Component-Markdown-aside | {settings?.component?.reverse&&'order-1'} ">
   {#if page.pageBlocks}
-    <div class="Component-Markdown-Blocks {settings?.component?.blocks?.class||'notion-soft'}">
+    <div class="Component-Markdown-Blocks {settings?.component?.blocks?.class||'notion-soft'}" use:applyCustomStyles={settings?.styles}>
       <Notion blocks={page.pageBlocks} />
     </div>
   {/if}
@@ -15,6 +15,7 @@
 
 <script>
   import Notion from '@yawnxyz/sveltekit-notion';
+  import { applyCustomStyles } from '$lib/helpers.js'
 
   import MarkdownIt from 'markdown-it';
   import markdownItAttrs from 'markdown-it-attrs';

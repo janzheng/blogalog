@@ -22,7 +22,7 @@
       {/if}
     </div>
     {#if page.pageBlocks}
-      <div class:isOpen class="Component-Expander-blocks pt-4 | {!isOpen && "hidden"}">
+      <div class:isOpen class="Component-Expander-blocks pt-4 | {!isOpen && "hidden"}" use:applyCustomStyles={settings?.styles}>
         <Notion blocks={page.pageBlocks} />
       </div>
     {/if}
@@ -30,7 +30,7 @@
     <details>
       <summary class="Component-Expander-summary cursor-pointer pb-0">{@html md.render(page.Content||'')}</summary>
       {#if page.pageBlocks}
-        <div class="Component-Expander-blocks pl-4 pt-2">
+        <div class="Component-Expander-blocks pl-4 pt-2" use:applyCustomStyles={settings?.styles}>
           <Notion blocks={page.pageBlocks} />
         </div>
       {/if}
@@ -47,6 +47,8 @@
 
   import MarkdownIt from 'markdown-it';
   import markdownItAttrs from 'markdown-it-attrs';
+  import { applyCustomStyles } from '$lib/helpers.js'
+
   const md = new MarkdownIt({ breaks: true, html: true });
   md.use(markdownItAttrs);
 

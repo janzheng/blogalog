@@ -6,11 +6,11 @@
 <script>
   // import Icon from '@iconify/svelte';
   // import YAML from 'yaml'
-  // import Notion from '@yawnxyz/sveltekit-notion';
-  import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
+  import Notion from '@yawnxyz/sveltekit-notion';
+  // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
 
 	import SocialBox from '$plasmid/components/SocialBox2.svelte'
-  import { parseYaml, generatePageStyles } from '$lib/helpers.js'
+  import { parseYaml, generatePageStyles, applyCustomStyles } from '$lib/helpers.js'
   
   import { marked } from "marked";
   import MarkdownIt from 'markdown-it';
@@ -27,6 +27,8 @@
   let content = blogData?.blog?.['site-data']?.['Footer']?.Content;
   let pageBlocks = blogData?.blog?.['site-data']?.['Footer']?.pageBlocks;
 
+
+  
 //   let tmp = `
 // page:
 //   'color-primary': '#3b82f6'
@@ -57,10 +59,10 @@
 //       `
 
   let settings = blogData?.settings
+
   let pageStyles
   if (blogData?.blog?.['site-data']?.['Footer']?.YAML) {
     settings = parseYaml(blogData?.blog?.['site-data']?.['Footer']?.YAML)
-    // settings = YAML.parse(tmp)
     pageStyles = generatePageStyles(settings?.page, {type:'string'}) || null
   }
 
@@ -104,7 +106,7 @@
 
     <!-- usually rendered as a massive links list -->
     {#if pageBlocks }
-      <div class="Component-Footer-Blocks  {settings?.footer?.blocks?.class||''}">
+      <div class="Component-Footer-Blocks  {settings?.footer?.blocks?.class||''}" use:applyCustomStyles={settings?.styles}>
         <Notion blocks={pageBlocks} />
       </div>
     {/if}

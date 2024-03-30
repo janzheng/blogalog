@@ -107,7 +107,7 @@
   {/if}
   
   {#if pageBlocks}
-    <div class="PageContent-Blocks post | my-4">
+    <div class="PageContent-Blocks post | my-4" use:applyCustomStyles={settings?.styles}>
       <Notion classes="notion" loud={true} blocks={pageBlocks} ></Notion>
     </div>
   {/if} 
@@ -200,7 +200,7 @@
 	// import { onMount } from 'svelte';
   import { dev, browser } from '$app/environment'; 
   import { PUBLIC_BLOGMODE } from '$env/static/public';
-  import { parseYaml, getNotionImageLink } from '$lib/helpers.js'
+  import { applyCustomStyles, parseYaml, getNotionImageLink } from '$lib/helpers.js'
   import { niceDate } from '$plasmid/utils/date'
   import { page } from '$app/stores';
 

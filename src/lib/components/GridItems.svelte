@@ -10,7 +10,7 @@
   import { onMount } from 'svelte';
   import { browser, dev } from '$app/environment';
   // import { marked } from 'marked';
-  import { slideUp } from '$lib/helpers.js'
+  import { slideUp, applyCustomStyles } from '$lib/helpers.js'
   import Notion from '@yawnxyz/sveltekit-notion';
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
   import { fetchPost } from "$plasmid/utils/fetch-helpers";
@@ -359,7 +359,9 @@
                     {/each}
                     {#if settings.modal.loadNotionPage}
                       {#if pageBlocks}
-                        <Notion blocks={pageBlocks} />
+                        <div class="pageBlocks" use:applyCustomStyles={settings?.styles}>
+                          <Notion blocks={pageBlocks} />
+                        </div>
                       {:else}
                         Loading content...
                       {/if}

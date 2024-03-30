@@ -30,7 +30,7 @@
   </main>
   {#if page.pageBlocks}
     <aside class="Cta-aside {settings?.component?.aside?.class||''} {settings?.component?.reverse&&'order-1'}">
-      <div class="Component-Cta-Blocks {settings?.component?.blocks?.class||'notion-soft'}">
+      <div class="Component-Cta-Blocks {settings?.component?.blocks?.class||'notion-soft'}" use:applyCustomStyles={settings?.styles}>
         <Notion blocks={page.pageBlocks} />
       </div>
     </aside>
@@ -43,6 +43,8 @@
 
 <script>
   import Notion from '@yawnxyz/sveltekit-notion';
+  import { applyCustomStyles } from '$lib/helpers.js'
+  
 
   // import MarkdownIt from 'markdown-it';
   // import markdownItAttrs from 'markdown-it-attrs';

@@ -11,7 +11,9 @@
 
 -->
 {#if Notion && blockId}
-  <Notion classes={''} loadingMsg={'Loading stream...'} loadingClasses={'font-serif text-2xl text-evg-green-dark'} id={blockId} api={PUBLIC_NOTION_API_URL}/>
+  <div class="LiveNotion" use:applyCustomStyles={settings?.styles} use:applyCustomStyles={settings?.styles}>
+    <Notion classes={''} loadingMsg={'Loading stream...'} loadingClasses={'font-serif text-2xl text-evg-green-dark'} id={blockId} api={PUBLIC_NOTION_API_URL}/>
+  </div>
 {/if}
 
 
@@ -20,7 +22,18 @@
   import { browser } from '$app/environment';
   import { PUBLIC_NOTION_API_URL } from '$env/static/public';
   import { _content } from '$plasmid/modules/content/store.js'
+  import { parseYaml, applyCustomStyles } from '$lib/helpers.js'
 
+  export let settings
+  if(currentPost?.YAML) {
+    settings = parseYaml(currentPost?.YAML)
+  } else {
+    if(blogData.blog?.['site-data']?.Settings?.['YAML']) {
+      settings = parseYaml(blogData.blog?.['site-data']?.Settings?.['YAML']);
+    }
+  }
+
+  
   // will break prismjs
   // import Notion from '@yawnxyz/sveltekit-notion'
   let Notion // needs to be dynamically imported on use, client-side

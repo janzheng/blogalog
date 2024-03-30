@@ -116,7 +116,7 @@
                       </div>
                     {/if}
                     {#if row.pageBlocks && row.pageBlocks.length > 0}
-                      <div class="Profile-Row--Blocks {settings?.row?.blocks?.class || 'notion-collapse'}">
+                      <div class="Profile-Row--Blocks {settings?.row?.blocks?.class || 'notion-collapse'}" use:applyCustomStyles={settings?.styles}>
                         <Notion 
                           blocks={row.pageBlocks} 
                           settings={{
@@ -192,7 +192,7 @@
   // import { scrollToAnchor } from '$plasmid/utils/scrollto'
   
   import Blogalog from '$lib/components/Blogalog.svelte';
-  import { parseYaml, getNotionImageLink, generatePageStyles } from '$lib/helpers.js'
+  import { parseYaml, getNotionImageLink, generatePageStyles, applyCustomStyles } from '$lib/helpers.js'
   import { userData } from '$lib/stores.js'
   // import { plainRenderer } from '$plasmid/utils/marked';
   

@@ -3,7 +3,7 @@
 <script>
   import Notion from '@yawnxyz/sveltekit-notion';
   // import Notion from '$lib/components/sveltekit-notion/src/Notion.svelte'
-  import { parseYaml, getNotionImageLink } from '$lib/helpers.js'
+  import { parseYaml, getNotionImageLink, applyCustomStyles } from '$lib/helpers.js'
   // import YAML from 'yaml'
 
   import { userData } from '$lib/stores.js'
@@ -104,7 +104,7 @@
           </div>
         {:else}
           {#if row.pageBlocks }
-            <div class="Component-Login-Blocks | {settings?.component?.blocks?.class} ">
+            <div class="Component-Login-Blocks | {settings?.component?.blocks?.class}" use:applyCustomStyles={settings?.styles}>
               <Notion blocks={row.pageBlocks} />
             </div>
           {/if}
@@ -117,7 +117,7 @@
           <h2 class="pt-0 mt-0">{row.Name}</h2>
         {/if}
         {#if row.pageBlocks }
-          <div class="Component-DataEntry-Blocks | {settings?.component?.blocks?.class} ">
+          <div class="Component-DataEntry-Blocks | {settings?.component?.blocks?.class} " use:applyCustomStyles={settings?.styles}>
             <Notion blocks={row.pageBlocks} />
           </div>
         {/if}
@@ -141,7 +141,7 @@
             <h2 class="pt-0 mt-0">{row.Name}</h2>
           {/if}
           {#if row.pageBlocks }
-            <div class="Component-Grid-Blocks | {settings?.component?.blocks?.class} ">
+            <div class="Component-Grid-Blocks | {settings?.component?.blocks?.class} " use:applyCustomStyles={settings?.styles}>
               <Notion blocks={row.pageBlocks} />
             </div>
           {/if}
@@ -186,7 +186,7 @@
           </div>
         {/if}
         {#if row.pageBlocks }
-          <div class="Component-Links-Blocks | notion-links {settings?.component?.blocks?.class || 'notion-links'}">
+          <div class="Component-Links-Blocks | notion-links {settings?.component?.blocks?.class || 'notion-links'}" use:applyCustomStyles={settings?.styles}>
             <Notion blocks={row.pageBlocks} />
           </div>
         {/if}
@@ -196,7 +196,7 @@
       <div class="Component-Custom | {componentClasses || ''} " use:addClasses>
         <!-- {JSON.stringify(row.pageBlocks.length)} -->
         {#if row.pageBlocks > 5}
-          <div class="Component-Custom-Blocks | {settings?.component?.blocks?.class} ">
+          <div class="Component-Custom-Blocks | {settings?.component?.blocks?.class} " use:applyCustomStyles={settings?.styles}>
             <Notion blocks={row.pageBlocks} />
           </div>
         {/if}
@@ -216,7 +216,7 @@
     {:else if row.Name == "Banner" || row.Type.includes("Banner")}
       <div class="Component-Banner | {componentClasses || ''} ">
         {#if row.pageBlocks }
-          <div class="Component-Banner-Blocks | {settings?.component?.blocks?.class} ">
+          <div class="Component-Banner-Blocks | {settings?.component?.blocks?.class} " use:applyCustomStyles={settings?.styles}>
             <Notion blocks={row.pageBlocks} />
           </div>
         {/if}

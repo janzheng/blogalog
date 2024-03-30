@@ -268,6 +268,26 @@ export const cleanNotionPageData = (page) => {
 
 
 
+/* usage: wrap this around a div to apply custom tailwind styles to elements
+  settings = {
+    styles: {
+      'p': 'text-4xl font-bold color-red-500',
+      'a': 'text-blue-500'
+    }
+  }
+  <div use:applyCustomStyles={settings?.styles}>
+    <Notion blocks={pageBlocks} />
+  </div
+*/
+export function applyCustomStyles(node, styleSettings) {
+  if (!styleSettings) return
+  Object.entries(styleSettings).forEach(([tag, style]) => {
+    node.querySelectorAll(tag).forEach(element => {
+      element.classList.add(...style.split(' '));
+    });
+  });
+}
+
 
 
 
