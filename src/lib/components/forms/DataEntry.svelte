@@ -64,7 +64,6 @@
       message = result.error.message;
     },
     onUpdated: ({ form, page }) => {
-      console.log('updated!!! form?!', form)
       if (form.valid) {
         message = success;
       } else {
@@ -76,7 +75,11 @@
       formData.set('notion', row.Content); // use page.Content as the notionId
       if(settings?.form?.schema)
         formData.set('schema', JSON.stringify(settings?.form?.schema)); 
-      // console.log('Form data:', Object.fromEntries(formData.entries()));
+
+      if(settings?.form?.notify)
+        formData.set('notify', JSON.stringify(settings?.form?.notify)); 
+
+      console.log('Form data:', Object.fromEntries(formData.entries()));
       message = loading;
     }
   });
@@ -131,7 +134,7 @@
       <div class="{settings?.form?.cta?.container?.class}">
         <button class="{settings?.form?.cta?.class||'Btn-outline mt-2'}">{cta}</button>
         {#if message}
-          <span class="pl-2">{message}</span>
+          <span class="message {settings?.form?.cta?.message?.class||'pl-2'}">{message}</span>
         {/if}
       </div>
     </form>

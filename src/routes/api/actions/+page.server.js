@@ -2,6 +2,7 @@
 
 import { fail } from '@sveltejs/kit';
 
+import { mailto } from "$plasmid/utils/mailer2"
 import { z } from 'zod';
 import { endo, endoloader } from '$plasmid/modules/cytosis2';
 import { addPage, getDbPage, notionObjToFlatJson } from '$lib/notion.js'
@@ -12,7 +13,8 @@ const schema = z.object({
   hostname: z.string(),
 
   // Use this to constrain to certain field Names / types in forms
-  schema: z.string().optional(),
+  schema: z.any().optional(),
+  notify: z.any().optional(),
   Name: z.string().optional(),
   Email: z.string().email().optional(),
   // Banana: z.string().optional(),
@@ -27,6 +29,7 @@ const schema = z.object({
 export const actions = {
 
   // flexible data entry 
+  // KEEP IN MIND: this ONLY WORKS for pure domains, not blogalog.net/domain-name
   dataEntry: async (req) => {
     const formData = await req.request.formData();
     const entries = Object.fromEntries(formData);
@@ -59,8 +62,28 @@ export const actions = {
         }
       }
 
-      // console.log('DATA ENTRYYY', req.url.hostname, form?.data, entries, data)
       let page = await addPage(req, form?.data?.notion, { data })
+
+      // succes!
+      if (form?.data?.notify) {
+        let formNotify = JSON.parse(form?.data?.notify)
+        // console.log('******** notification settings:', formNotify)
+
+        let { hostname, notion, schema, notify, __superform_id, ...cleanData } = data;
+        let text = formNotify.text + '\n\n';
+        for (let [key, value] of Object.entries(cleanData)) {
+          text += `${key}: ${value}\n`;
+        }
+        await mailto({
+          subject: formNotify.subject,
+          fromName: formNotify.fromName,
+          fromEmail: formNotify.fromEmail,
+          to: formNotify.to,
+          text: text,
+          html: text.replace(/\n/g, '<br>'),
+        })
+
+      }
 
       // let user = notionObjToFlatJson(record);
       // return { form, page }

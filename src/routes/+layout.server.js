@@ -90,13 +90,15 @@ async function loadContent(url, params, head, hostname) {
 export const load = async ({ url, params, setHeaders, locals}) => {
   let hostname = url?.hostname
   // "act" as another base domain for testing
-  // hostname = "www.blogalog.net"
-  // hostname = "www.404site.com"
-  // hostname = "www.jess.bio"
-  // hostname = "atif.phage.directory"
-  // hostname = "pgh.phage.directory"
-  // hostname = "ivom.phage.directory"
-  // hostname = "swyripaconsulting.com"
+  if (import.meta.env.DEV) {
+    // hostname = "www.blogalog.net"
+    // hostname = "www.404site.com"
+    // hostname = "www.jess.bio"
+    // hostname = "atif.phage.directory"
+    // hostname = "pgh.phage.directory"
+    // hostname = "ivom.phage.directory"
+    // hostname = "swyripa.com"
+  }
   
   try {
     let result = await loadContent(url, params, head, hostname);
