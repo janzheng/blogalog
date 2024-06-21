@@ -166,7 +166,7 @@
       </div>
 
     {:else if row.Name == "HTML" || row.Type.includes("HTML")}
-      <div class="Component-HTML |{componentClasses || ''} ">
+      <div class="Component-HTML | {componentClasses || ''} ">
         {@html row.Content}
       </div>
 
