@@ -19,7 +19,7 @@
 
 {#if blogData?.menu}
 <!-- the wrapper is only really used when the container is position fixed and you want some margin / buffer -->
-  <div class="Menu-wrapper | {blogData?.menu?.wrapper?.class || ''} | {wrapperClasses}">
+  <div class="Menu-wrapper | {blogData?.menu?.wrapper?.class || ''} | {wrapperClasses || ''}">
     <div class="Menu-container | {blogData?.menu?.container?.class || ''} "
     >
       {#if blogData?.menu?.desktop?.show}

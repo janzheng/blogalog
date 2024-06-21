@@ -71,9 +71,9 @@
     
 
     <!-- this menu floats below the header / cover, but above all the components -->
-    <!-- {#if blogData?.menu && blogData?.menu.profile == true && blogData?.menu.global !== true} -->
+    {#if blogData?.menu && blogData?.menu.profile == true && blogData?.menu.global !== true}
       <Menu wrapperClasses="sticky top-0 relative z-50" />
-    <!-- {/if} -->
+    {/if}
     
 
 
