@@ -559,33 +559,41 @@ $fontSans: 'Inter', sans-serif;
 
   // 
   // 
-  :not(.headline, .unstyled)> {
+  // :not(.headline, .unstyled)> { // > is for only direct children
+  :not(.headline, .unstyled) { // target all children
     h1, .h1 {
-      @apply leading-tight text-3xl lg:leading-tight mb-4 font-bold;
+      @apply leading-tight lg:leading-tight mb-4 font-bold;
+      font-size: var(--notion-h2, theme('fontSize.3xl'));
       color: var(--color-title, var(--color-base));
     }
     h2, .h2 {
-      @apply leading-tight text-2xl mb-2 font-bold;
+      @apply leading-tight mb-2 font-bold;
+      font-size: var(--notion-h3, theme('fontSize.2xl'));
       color: var(--color-title, var(--color-base));
       &.--extra {
-        @apply text-4xl mb-2 tracking-tight;
+        @apply mb-2 tracking-tight;
+        font-size: var(--notion-h3-extra, theme('fontSize.4xl'));
       }
       &+h3 {padding-top: 0;}
     }
     h3, .h3 {
-      @apply text-xl leading-12 mb-2 text-slate-800;
+      @apply leading-12 mb-2 text-slate-800;
+      font-size: var(--notion-h4, theme('fontSize.xl'));
       color: var(--color-title, var(--color-base));
     }
     h4, .h4 {
-      @apply text-lg mb-2;
+      @apply mb-2;
+      font-size: var(--notion-h5, theme('fontSize.lg'));
       color: var(--color-title, var(--color-base));
     }
     h5, .h5 {
-      @apply leading-snug text-xs uppercase tracking-widest mb-2 text-slate-500;
+      @apply leading-snug uppercase tracking-widest mb-2 text-slate-500;
+      font-size: var(--notion-h6, theme('fontSize.xs'));
       color: var(--color-title, var(--color-base));
     }
     h6, .h6 {
-      @apply text-xs tracking-wide uppercase mb-2;
+      @apply tracking-wide uppercase mb-2;
+      font-size: var(--notion-h6, theme('fontSize.xs'));
       color: var(--color-title, var(--color-base));
     }
   }

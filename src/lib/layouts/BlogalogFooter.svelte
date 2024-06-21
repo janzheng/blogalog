@@ -106,7 +106,9 @@
 
     <!-- usually rendered as a massive links list -->
     {#if pageBlocks }
-      <div class="Component-Footer-Blocks  {settings?.footer?.blocks?.class||''}" use:applyCustomStyles={settings?.styles}>
+      <div class="Component-Footer-Blocks notion-container {settings?.footer?.blocks?.class||''}" 
+        style={settings?.style||''}
+        use:applyCustomStyles={settings?.styles}>
         <Notion blocks={pageBlocks} />
       </div>
     {/if}

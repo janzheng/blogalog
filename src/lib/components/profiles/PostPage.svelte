@@ -107,7 +107,9 @@
   {/if}
   
   {#if pageBlocks}
-    <div class="PageContent-Blocks post | my-4" use:applyCustomStyles={settings?.styles}>
+    <div class="PageContent-Blocks post notion-container | my-4" 
+      style={settings?.style||''}
+      use:applyCustomStyles={settings?.styles}>
       <Notion classes="notion" loud={true} blocks={pageBlocks} ></Notion>
     </div>
   {/if} 

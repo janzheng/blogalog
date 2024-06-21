@@ -57,7 +57,7 @@
   
 </script>
 
-<div id={'row-'+rowIndex} class="Profile-Row-Wrapper | {settings?.row?.wrapper?.class || ''}" style={rowPageStyles + '; ' + settings?.row?.wrapper?.style||''}>
+<div id={'row-'+rowIndex||0} class="Profile-Row-Wrapper | {settings?.row?.wrapper?.class || ''}" style={rowPageStyles||'' + '; ' + settings?.row?.wrapper?.style||''}>
   <!-- special rows outside of standard row; for formatting usually -->
   {#if row?.Type?.includes('Header')}
     <div id={'row-'+rowIndex} class="Profile-Row-Container --header | {settings?.row?.container?.class || 'mt-2 mb-0 content-notion-wide'} | overflow-hidden | " style={settings?.row?.container?.style||''}>
@@ -84,8 +84,10 @@
               {@html md.render(row.Content || '')}
             {/if}
             {#if row.pageBlocks && row.pageBlocks.length > 0}
-              <div class="Profile-Row--Blocks {settings?.row?.blocks?.class || 'notion-collapse'}" use:applyCustomStyles={settings?.styles}>
-                <Notion 
+              <div class="Profile-Row--Blocks notion-container {settings?.row?.blocks?.class || 'notion-collapse'}" 
+                style={settings?.row?.blocks?.style||''}
+                use:applyCustomStyles={settings?.styles}>
+                <Notion
                   blocks={row.pageBlocks} 
                   settings={{
                     video: {

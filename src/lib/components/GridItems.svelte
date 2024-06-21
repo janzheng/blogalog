@@ -359,7 +359,9 @@
                     {/each}
                     {#if settings.modal.loadNotionPage}
                       {#if pageBlocks}
-                        <div class="pageBlocks" use:applyCustomStyles={settings?.styles}>
+                        <div class="pageBlocks notion-container" 
+                          style={settings?.style||''}
+                          use:applyCustomStyles={settings?.styles}>
                           <Notion blocks={pageBlocks} />
                         </div>
                       {:else}

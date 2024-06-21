@@ -22,7 +22,9 @@
       {/if}
     </div>
     {#if page.pageBlocks}
-      <div class:isOpen class="Component-Expander-blocks pt-4 | {!isOpen && "hidden"}" use:applyCustomStyles={settings?.styles}>
+      <div class:isOpen class="Component-Expander-blocks notion-container pt-4 | {!isOpen && "hidden"}" 
+        style={settings?.style||''}
+        use:applyCustomStyles={settings?.styles}>
         <Notion blocks={page.pageBlocks} />
       </div>
     {/if}
@@ -30,7 +32,9 @@
     <details>
       <summary class="Component-Expander-summary cursor-pointer pb-0">{@html md.render(page.Content||'')}</summary>
       {#if page.pageBlocks}
-        <div class="Component-Expander-blocks pl-4 pt-2" use:applyCustomStyles={settings?.styles}>
+        <div class="Component-Expander-blocks notion-container pl-4 pt-2"
+          style={settings?.style||''} 
+          use:applyCustomStyles={settings?.styles}>
           <Notion blocks={page.pageBlocks} />
         </div>
       {/if}

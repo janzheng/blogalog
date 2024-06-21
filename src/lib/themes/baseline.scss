@@ -50,14 +50,6 @@
   // font-size: 0.875rem; // 14px; good for dashboards
   // background-color: var(--color-evergreen);
 
-  .notion-page {
-    --notion-h1-weight: 500;
-    --notion-h2-weight: 500;
-    --notion-h3-weight: 400;
-    --notion-h3: 1.26rem;
-
-    --notion-p-padding: var(--notion-8px) var(--notion-2px);
-  }
 
   b {
     font-weight: 600;
@@ -81,6 +73,14 @@
   /* --font-mono: 'Fira Mono', monospace; */
   --font-mono: monospace;
 
+}
+.notion-container {
+  --notion-h1-weight: 500;
+  --notion-h2-weight: 500;
+  --notion-h3-weight: 400;
+  --notion-h3: 1.26rem;
+
+  --notion-p-padding: var(--notion-8px) var(--notion-2px);
 }
 
 

@@ -30,7 +30,9 @@
   </main>
   {#if page.pageBlocks}
     <aside class="Cta-aside {settings?.component?.aside?.class||''} {settings?.component?.reverse&&'order-1'}">
-      <div class="Component-Cta-Blocks {settings?.component?.blocks?.class||'notion-soft'}" use:applyCustomStyles={settings?.styles}>
+      <div class="Component-Cta-Blocks notion-container {settings?.component?.blocks?.class||'notion-soft'}" 
+        style={settings?.style||''}  
+        use:applyCustomStyles={settings?.styles}>
         <Notion blocks={page.pageBlocks} />
       </div>
     </aside>

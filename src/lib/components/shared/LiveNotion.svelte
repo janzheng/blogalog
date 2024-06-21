@@ -11,7 +11,9 @@
 
 -->
 {#if Notion && blockId}
-  <div class="LiveNotion" use:applyCustomStyles={settings?.styles} use:applyCustomStyles={settings?.styles}>
+  <div class="LiveNotion notion-container" 
+    style={settings?.style||''}
+    use:applyCustomStyles={settings?.styles} use:applyCustomStyles={settings?.styles}>
     <Notion classes={''} loadingMsg={'Loading stream...'} loadingClasses={'font-serif text-2xl text-evg-green-dark'} id={blockId} api={PUBLIC_NOTION_API_URL}/>
   </div>
 {/if}

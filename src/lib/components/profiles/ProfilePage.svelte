@@ -116,7 +116,9 @@
                       </div>
                     {/if}
                     {#if row.pageBlocks && row.pageBlocks.length > 0}
-                      <div class="Profile-Row--Blocks {settings?.row?.blocks?.class || 'notion-collapse'}" use:applyCustomStyles={settings?.styles}>
+                      <div class="Profile-Row--Blocks notion-container {settings?.row?.blocks?.class || 'notion-collapse'}" 
+                        style={settings?.style||''}
+                        use:applyCustomStyles={settings?.styles}>
                         <Notion 
                           blocks={row.pageBlocks} 
                           settings={{

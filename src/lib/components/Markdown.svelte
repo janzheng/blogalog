@@ -5,7 +5,9 @@
 </main>
 <aside bind:this={asideContainer} class="Component-Markdown-aside | {settings?.component?.reverse&&'order-1'} ">
   {#if page.pageBlocks}
-    <div class="Component-Markdown-Blocks {settings?.component?.blocks?.class||'notion-soft'}" use:applyCustomStyles={settings?.styles}>
+    <div class="Component-Markdown-Blocks notion-container {settings?.component?.blocks?.class||'notion-soft'}" 
+      style={settings?.style||''}  
+      use:applyCustomStyles={settings?.styles}>
       <Notion blocks={page.pageBlocks} />
     </div>
   {/if}
