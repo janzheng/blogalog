@@ -124,6 +124,7 @@ export function generatePageStyles(settingsPage, settings={}) {
     '--link-hover-decoration-thickness',
     '--slideup-distance',
     '--slideup-duration',
+    '--notion-base',
     '--font-title',
     '--input-border-color',
     '--input-focus-border-color',
