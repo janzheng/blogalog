@@ -36,7 +36,13 @@
               <img class="Profile-Header-ProfileImage | {profileClass?.['profileImage']} |  {coverImage ? profileClass?.['profileCoverImage'] : ''}" src="{profileImage}" alt="Profile" />
               <div class="Profile-Header-ShortDesc | {profileClass?.['profileShortDesc']}">
 
-                {#if profileClass?.['isAvailable']}
+                {#if profileClass?.['isAvailable'] && profileClass?.['isAvailable']?.show !== false}
+                <!-- 
+                  isAvailable:
+                    text: Available for special projects
+                    wrapper:
+                      class: pl-[2px] flex items-center pt-4 pb-3 mt-48 sm:mt-8
+                -->
                   <div class="{profileClass?.isAvailable?.wrapper?.class || 'pl-[2px] flex items-center'}">
                     <div class="{profileClass?.isAvailable?.class || 'w-3 h-3 bg-green-500 rounded-full mr-2 animate-fast-pulse'}"></div>
                     <span>{profileClass?.isAvailable?.text || 'Available for work'}</span>

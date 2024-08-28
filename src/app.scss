@@ -425,6 +425,9 @@ $fontSans: 'Inter', sans-serif;
     color: var(--color-base);
     @extend .font-paragraph;
   }
+  p~ul, p~ol { // makes lists after paragraphs closer to paragraphs, and more padding at end of para+list blogs
+    @apply -mt-2 mb-8;
+  }
 
   hr {
     @apply pb-2;
