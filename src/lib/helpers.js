@@ -258,6 +258,7 @@ export const cleanNotionPageData = (page) => {
       delete page.pageBlocks
     } else {
       page.pageBlocks = page.pageBlocks?.map(block => {
+        if(!block) return null
         const keys = ['id', 'collection_id', 'parent_id', 'format', 'properties', 'type', 'content'];
         // const keys = ['id', 'collection_id', 'parent_id', 'format', 'properties', 'type', 'content'];
         // const keys = ['id', 'collection_id', 'parent_id', 'properties', 'type', 'content', 'alive', 'copied_from', 'created_by_id', 'created_by_table', 'created_time', 'format', 'last_edited_by_id', 'last_edited_by_table', 'last_edited_time', 'parent_table', 'space_id', 'version'];

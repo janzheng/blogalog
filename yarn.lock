@@ -1803,10 +1803,10 @@
   resolved "https://registry.yarnpkg.com/@yawnxyz/sheetlog/-/sheetlog-0.0.11.tgz#c4f84a7c753c2966e5642b0ac290ca131f06842f"
   integrity sha512-OCEBI0XmmJPBvZVM+ag/T7+29HqiT2GtGQ+3PUtx9w6gp1i/ZFCKupx6s2RkUUK0Aw+veE5m1Zla6J2FF7pMLQ==
 
-"@yawnxyz/sveltekit-notion@^0.0.552":
-  version "0.0.552"
-  resolved "https://registry.yarnpkg.com/@yawnxyz/sveltekit-notion/-/sveltekit-notion-0.0.552.tgz#25b8f8a0d85fefc7cbd55b7b3b510f6ccb505403"
-  integrity sha512-ai4D1+euCEqwAmp/YpG+AcL7VRlcoIfFdvAXHqWscFRvkCnvQ6FH19e7Q0g3TxEK+uOqYdXCEUE33mpj8O957g==
+"@yawnxyz/sveltekit-notion@^0.0.554":
+  version "0.0.554"
+  resolved "https://registry.yarnpkg.com/@yawnxyz/sveltekit-notion/-/sveltekit-notion-0.0.554.tgz#1e340e681261ce4cb662be2401cd711ffc10bd1b"
+  integrity sha512-q3Hh9i3BrNuSLlKo+XfdbjY8C+hh+Mjog+63oEld2eLMFeORpljxrbnx4zsCVLRqXNYsvguh/bEIrMS1yYJpuA==
 
 abbrev@1:
   version "1.1.1"
