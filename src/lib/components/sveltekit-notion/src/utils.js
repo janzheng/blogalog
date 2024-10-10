@@ -1,4 +1,4 @@
-export const search = (block, blocks) => blocks.find(el => el.id == block)
+export const search = (block, blocks) => blocks.find(el => el?.id == block)
 
 export const isTopLevel = (block, blocks) =>
     block.type !== search(block.parent_id, blocks).type
@@ -26,7 +26,7 @@ export const groupBlockContent = blocks => {
     let index = -1
 
     blocks.forEach(block => {
-        if (block.content) {
+        if (block?.content) {
             block.content.forEach(blockId => {
                 const subblock = search(blockId, blocks)
                 if (subblock) {

@@ -38,7 +38,7 @@
     "@tailwindcss/typography": "^0.5.0",
     "@yawnxyz/playground": "^0.0.8",
     "@yawnxyz/sheetlog": "^0.0.11",
-    "@yawnxyz/sveltekit-notion": "^0.0.554",
+    "@yawnxyz/sveltekit-notion": "^0.0.555",
     "async-sema": "^3.1.1",
     "autoprefixer": "^10.4.8",
     "chrono-node": "^2.7.5",
